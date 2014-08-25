@@ -63,7 +63,14 @@ cmp2 = BRepIO.load("/tmp/hoge.brep");
 p cmp2.shapetype
 
 ex = Exp.new cmp2, ShapeType::EDGE
-ex.to_a.each do |s|
-  p ShapeType::to_s(s.shapetype)
+
+while ex.more
+  s = ex.current
+  p "depth:" + ex.depth.to_s + " type:" + ShapeType::to_s(s.shapetype)
+  ex.next()
 end
+
+#ex.to_a.each do |s|
+#  p ShapeType::to_s(s.shapetype)
+#end
 
