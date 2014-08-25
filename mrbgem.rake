@@ -1,8 +1,20 @@
 MRuby::Gem::Specification.new('mruby-siren') do |spec|
+
+  # General spec
   spec.license = 'MIT'
   spec.author  = 'dyama'
   spec.summary = 'Easy 3D Geometry and Topology engine.'
-    #-L/opt/occ671/lib -I/opt/occ671/inc \
+
+  # define path
+  use_oce = true
+  occlibpath = '/opt/occ671/lib'
+  occincpath = '/opt/occ671/inc'
+  if use_oce
+    occlibpath = '/opt/oce/lib'
+    occincpath = '/opt/oce/include/oce'
+  end
+
+  # Linker option
   spec.linker.libraries << [
     'tbb',
     'TKernel',
@@ -14,12 +26,11 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
     'TKG3d',
     'TKG2d'
   ]
-  spec.linker.library_paths << [
-    '/opt/oce/lib'
-  ]
+  spec.linker.library_paths << [ occlibpath ]
+
+  # Compiler option
   spec.cxx.flags << "\
-    -Wno-unused-function -Wno-unused-variable \
-    -L/opt/oce/lib -I/opt/oce/include/oce \
+    -L" << occlibpath << " -I" << occincpath << " \
     -ltbb \
     -lTKernel \
     -lTKMath \
