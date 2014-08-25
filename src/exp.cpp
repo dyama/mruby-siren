@@ -49,7 +49,7 @@ mrb_method(exp_to_a)
 
   mrb_value res = mrb_ary_new(mrb);
 
-  for (exp->Clear(); exp->More(); exp->Next()) {
+  for (exp->ReInit(); exp->More(); exp->Next()) {
     TopoDS_Shape* s = new TopoDS_Shape();
     *s = exp->Current();
     mrb_value item = mrb_siren_shape_new(mrb, s);
