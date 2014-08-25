@@ -6,6 +6,7 @@ bool mrb_siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "vertex",   mrb_method_name(build_vertex),   ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "line",     mrb_method_name(build_line),     ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "compound", mrb_method_name(build_compound), ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "polyline", mrb_method_name(build_polyline), ARGS_REQ(1));
   return true;
 }
 
@@ -36,6 +37,25 @@ mrb_method(build_line)
 
   TopoDS_Shape* shape = new TopoDS_Shape();
   *shape = BRepBuilderAPI_MakeEdge(gp_Pnt(s->X(), s->Y(), s->Z()), gp_Pnt(t->X(), t->Y(), t->Z()));
+
+  return mrb_siren_shape_new(mrb, shape);
+}
+
+mrb_method(build_polyline)
+{
+  mrb_value ary;
+  int argc = mrb_get_args(mrb, "A", &ary);
+
+  BRepBuilderAPI_MakePolygon poly;
+
+  for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
+    mrb_value item = mrb_ary_ref(mrb, ary, i);
+    gp_Vec* v = static_cast<gp_Vec*>(mrb_get_datatype(mrb, item, mrb_siren_get_vec_type()));
+    poly.Add(gp_Pnt(v->X(), v->Y(), v->Z()));
+  }
+
+  TopoDS_Shape* shape = new TopoDS_Shape();
+  *shape = poly.Wire();
 
   return mrb_siren_shape_new(mrb, shape);
 }

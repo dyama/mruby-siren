@@ -31,6 +31,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   # Compiler option
   spec.cxx.flags << "\
     -L" << occlibpath << " -I" << occincpath << " \
+    -Wno-unused-function -Wno-unused-variable \
     -ltbb \
     -lTKernel \
     -lTKMath \

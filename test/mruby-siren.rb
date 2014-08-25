@@ -10,10 +10,17 @@ a = Build.line(sp, tp)
 
 b = Build.vertex(1, 2, 3)
 
-c = Build.compound([a, b])
+pts = []
+pts.push Vec.new 1, 2, 3
+pts.push Vec.new 3, 3, 3
+pts.push Vec.new 2, 1, 3
 
-BRepIO.save(c, "/tmp/hoge.brep")
+c = Build.polyline pts
 
-cc = BRepIO.load("/tmp/hoge.brep");
-p cc.shapetype
+cmp = Build.compound([a, b, c])
+
+BRepIO.save(cmp, "/tmp/hoge.brep")
+
+cmp2 = BRepIO.load("/tmp/hoge.brep");
+p cmp2.shapetype
 
