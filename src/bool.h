@@ -3,6 +3,6 @@
 
 #include "siren.h"
 
-
+bool siren_bool_install(mrb_state* mrb, struct RClass* rclass);
 
 #endif
