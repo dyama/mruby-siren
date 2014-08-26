@@ -32,8 +32,8 @@ mrb_method(build_line)
   mrb_value sp, tp;
   int argc = mrb_get_args(mrb, "oo", &sp, &tp);
 
-  gp_Vec* s = static_cast<gp_Vec*>(mrb_get_datatype(mrb, sp, mrb_siren_get_vec_type()));
-  gp_Vec* t = static_cast<gp_Vec*>(mrb_get_datatype(mrb, tp, mrb_siren_get_vec_type()));
+  gp_Vec* s = mrb_siren_get_vec(mrb, sp);
+  gp_Vec* t = mrb_siren_get_vec(mrb, tp);
 
   TopoDS_Shape* shape = new TopoDS_Shape();
   *shape = BRepBuilderAPI_MakeEdge(gp_Pnt(s->X(), s->Y(), s->Z()), gp_Pnt(t->X(), t->Y(), t->Z()));
@@ -50,7 +50,7 @@ mrb_method(build_polyline)
 
   for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
     mrb_value item = mrb_ary_ref(mrb, ary, i);
-    gp_Vec* v = static_cast<gp_Vec*>(mrb_get_datatype(mrb, item, mrb_siren_get_vec_type()));
+    gp_Vec* v = mrb_siren_get_vec(mrb, item);
     poly.Add(gp_Pnt(v->X(), v->Y(), v->Z()));
   }
 

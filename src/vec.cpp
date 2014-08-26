@@ -43,34 +43,34 @@ void mrb_siren_vec_final(mrb_state* mrb, void* p)
 
 mrb_method(vec_to_s)
 {
-  gp_Vec* vec = static_cast<gp_Vec*>(mrb_get_datatype(mrb, self, mrb_siren_get_vec_type()));
+  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
   return mrb_str_new_cstr(mrb, "#Vec<>");
 }
 
 mrb_method(vec_x)
 {
-  gp_Vec* vec = static_cast<gp_Vec*>(mrb_get_datatype(mrb, self, mrb_siren_get_vec_type()));
+  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
   Standard_Real val = vec->X();
   return mrb_float_value(mrb, (float)val);
 }
 
 mrb_method(vec_y)
 {
-  gp_Vec* vec = static_cast<gp_Vec*>(mrb_get_datatype(mrb, self, mrb_siren_get_vec_type()));
+  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
   Standard_Real val = vec->Y();
   return mrb_float_value(mrb, (float)val);
 }
 
 mrb_method(vec_z)
 {
-  gp_Vec* vec = static_cast<gp_Vec*>(mrb_get_datatype(mrb, self, mrb_siren_get_vec_type()));
+  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
   Standard_Real val = vec->Z();
   return mrb_float_value(mrb, (float)val);
 }
 
 mrb_method(vec_to_a)
 {
-  gp_Vec* vec = static_cast<gp_Vec*>(mrb_get_datatype(mrb, self, mrb_siren_get_vec_type()));
+  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
   mrb_value res[3];
   res[0] = mrb_float_value(mrb, (float)vec->X());
   res[1] = mrb_float_value(mrb, (float)vec->Y());
@@ -83,3 +83,7 @@ mrb_method(vec_to_xyz)
   return mrb_method_name(vec_to_a)(mrb, self);
 }
 
+gp_Vec* mrb_siren_get_vec(mrb_state* mrb, mrb_value obj)
+{
+  return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, mrb_siren_get_vec_type()));
+}
