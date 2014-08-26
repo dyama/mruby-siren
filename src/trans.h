@@ -6,6 +6,8 @@
 #include "vec.h"
 
 #include <gp_Ax1.hxx>
+#include <gp_Ax2.hxx>
+#include <gp_Ax3.hxx>
 #include <gp_Trsf.hxx>
 
 bool mrb_siren_trans_install(mrb_state* mrb, struct RClass* rclass);
