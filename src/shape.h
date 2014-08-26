@@ -13,4 +13,6 @@ mrb_method(shape_to_s);
 mrb_method(shape_is_null);
 mrb_method(shape_shapetype);
 
+TopoDS_Shape* mrb_siren_get_shape(mrb_state* mrb, mrb_value obj);
+
 #endif

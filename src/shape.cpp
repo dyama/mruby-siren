@@ -43,23 +43,25 @@ void mrb_siren_shape_final(mrb_state* mrb, void* p)
 
 mrb_method(shape_to_s)
 {
-  void* p = mrb_get_datatype(mrb, self, mrb_siren_get_shape_type());
-  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(p);
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, self);
   return mrb_str_new_cstr(mrb, "#Shape<>");
 }
 
 mrb_method(shape_is_null)
 {
-  void* p = mrb_get_datatype(mrb, self, mrb_siren_get_shape_type());
-  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(p);
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, self);
   return shape->IsNull() ? mrb_true_value() : mrb_false_value();
 }
 
 mrb_method(shape_shapetype)
 {
-  void* p = mrb_get_datatype(mrb, self, mrb_siren_get_shape_type());
-  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(p);
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, self);
   int type = (int)shape->ShapeType();
   return mrb_fixnum_value(type);
+}
+
+TopoDS_Shape* mrb_siren_get_shape(mrb_state* mrb, mrb_value obj)
+{
+  return static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, mrb_siren_get_shape_type()));
 }
 

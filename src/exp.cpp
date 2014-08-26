@@ -29,7 +29,7 @@ mrb_method(exp_init)
   mrb_int type;
   int argc = mrb_get_args(mrb, "oi", &obj, &type);
 
-  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, mrb_siren_get_shape_type()));
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, obj);
   TopExp_Explorer* exp = new TopExp_Explorer(*shape, (TopAbs_ShapeEnum)type);
 
   DATA_PTR(self) = exp;
@@ -66,7 +66,7 @@ mrb_method(exp_init2)
   int argc = mrb_get_args(mrb, "oi", &obj, &type);
 
   TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, mrb_siren_get_shape_type()));
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   exp->Init(*shape, (TopAbs_ShapeEnum)type);
 
   return mrb_nil_value();
@@ -74,44 +74,49 @@ mrb_method(exp_init2)
 
 mrb_method(exp_reinit)
 {
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   exp->ReInit();
   return mrb_nil_value();
 }
 
 mrb_method(exp_depth)
 {
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   Standard_Integer n = exp->Depth();
   return mrb_fixnum_value(n);
 }
 
 mrb_method(exp_clear)
 {
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   exp->Clear();
   return mrb_nil_value();
 }
 
 mrb_method(exp_more)
 {
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   Standard_Boolean res = exp->More();
   return res ? mrb_true_value() : mrb_false_value();
 }
 
 mrb_method(exp_next)
 {
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   exp->Next();
   return mrb_nil_value();
 }
 
 mrb_method(exp_current)
 {
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   TopoDS_Shape* s = new TopoDS_Shape();
   *s = exp->Current();
   return mrb_siren_shape_new(mrb, s);
+}
+
+TopExp_Explorer* mrb_siren_get_exp(mrb_state* mrb, mrb_value obj)
+{
+  return static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, obj, mrb_siren_get_exp_type()));
 }
 

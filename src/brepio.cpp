@@ -14,8 +14,7 @@ mrb_method(brepio_save)
   mrb_value path;
   int argc = mrb_get_args(mrb, "oS", &target, &path);
 
-  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, target, mrb_siren_get_shape_type()));
-
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, target);
   BRepTools::Write(*shape, (Standard_CString)RSTRING_PTR(path));
 
   return mrb_nil_value();

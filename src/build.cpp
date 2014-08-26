@@ -16,7 +16,7 @@ mrb_method(build_vertex)
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
 
   mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Shape"));
-  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, res, mrb_siren_get_shape_type()));
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, res);
 
   Standard_Real xx = (Standard_Real)x;
   Standard_Real yy = (Standard_Real)y;
@@ -70,8 +70,7 @@ mrb_method(build_compound)
   B.MakeCompound(*comp);
 
   for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
-    mrb_value item = mrb_ary_ref(mrb, ary, i);
-    TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, item, mrb_siren_get_shape_type()));
+    TopoDS_Shape* shape = mrb_siren_get_shape(mrb, mrb_ary_ref(mrb, ary, i));
     B.Add(*comp, *shape);
   }
 
