@@ -1,5 +1,12 @@
 #include "shape.h"
 
+mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
+{
+  mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Shape"));
+  DATA_PTR(res) = static_cast<void*>(const_cast<TopoDS_Shape*>(shape));
+  return res;
+}
+
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Shape", mrb->object_class);
