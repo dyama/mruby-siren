@@ -3,7 +3,7 @@
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
 {
   mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Shape"));
-  DATA_PTR(res) = static_cast<void*>(const_cast<TopoDS_Shape*>(shape));
+  DATA_PTR(res) = const_cast<TopoDS_Shape*>(shape);
   return res;
 }
 
@@ -11,11 +11,11 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Shape", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", mrb_method_name(shape_init),      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_s",       mrb_method_name(shape_to_s),      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "null?",      mrb_method_name(shape_is_null),   ARGS_NONE());
-  mrb_define_method(mrb, rclass, "shapetype",  mrb_method_name(shape_shapetype), ARGS_NONE());
-  mrb_define_method(mrb, rclass, "location",   mrb_method_name(shape_location), ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize", siren_shape_init,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_s",       siren_shape_to_s,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "null?",      siren_shape_is_null,   ARGS_NONE());
+  mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype, ARGS_NONE());
+  mrb_define_method(mrb, rclass, "location",   siren_shape_location, ARGS_NONE());
 
   // mrb_define_method(mrb, rclass, "copy", mrb_method_dummy, ARGS_NONE());
   // mrb_define_method(mrb, rclass, "translate", mrb_method_dummy, ARGS_NONE());
@@ -30,7 +30,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   return true;
 }
 
-mrb_method(shape_init)
+mrb_value siren_shape_init(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = new TopoDS_Shape();
   DATA_PTR(self) = shape;
@@ -44,26 +44,26 @@ void siren_shape_final(mrb_state* mrb, void* p)
   s->Nullify();
 }
 
-mrb_method(shape_to_s)
+mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   return mrb_str_new_cstr(mrb, "#Shape<>");
 }
 
-mrb_method(shape_is_null)
+mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   return shape->IsNull() ? mrb_true_value() : mrb_false_value();
 }
 
-mrb_method(shape_shapetype)
+mrb_value siren_shape_shapetype(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   int type = (int)shape->ShapeType();
   return mrb_fixnum_value(type);
 }
 
-mrb_method(shape_location)
+mrb_value siren_shape_location(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   gp_XYZ pos = shape->Location().Transformation().TranslationPart();

@@ -9,12 +9,12 @@ static struct mrb_data_type siren_vec_type = { "Vec", siren_vec_final };
 gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj);
 mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z);
 
-mrb_method(vec_init);
-mrb_method(vec_to_s);
-mrb_method(vec_x);
-mrb_method(vec_y);
-mrb_method(vec_z);
-mrb_method(vec_to_a);
-mrb_method(vec_to_xyz);
+mrb_value siren_vec_init(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_x(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_y(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_z(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_to_a(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_to_xyz(mrb_state* mrb, mrb_value self);
 
 #endif

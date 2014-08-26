@@ -13,25 +13,25 @@
 
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass);
 
-mrb_method(build_vertex);
+mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self);
 
-mrb_method(build_line);
+mrb_value siren_build_line(mrb_state* mrb, mrb_value self);
 
-mrb_method(build_polyline);
-// mrb_method(build_curve);
-// mrb_method(build_beziercurve);
-// mrb_method(build_nurbscurve);
+mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self);
+// mrb_value siren_build_curve(mrb_state* mrb, mrb_value self);
+// mrb_value siren_build_beziercurve(mrb_state* mrb, mrb_value self);
+// mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self);
 
-// mrb_method(build_wire);
+// mrb_value siren_build_wire(mrb_state* mrb, mrb_value self);
 
-// mrb_method(build_rectangle);
-// mrb_method(build_polygon);
-// mrb_method(build_beziersurf);
-// mrb_method(build_nurbssurf);
+// mrb_value siren_build_rectangle(mrb_state* mrb, mrb_value self);
+// mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self);
+// mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self);
+// mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self);
 //
-// mrb_method(build_shell);
-// mrb_method(build_solid);
+// mrb_value siren_build_shell(mrb_state* mrb, mrb_value self);
+// mrb_value siren_build_solid(mrb_state* mrb, mrb_value self);
 
-mrb_method(build_compound);
+mrb_value siren_build_compound(mrb_state* mrb, mrb_value self);
 
 #endif

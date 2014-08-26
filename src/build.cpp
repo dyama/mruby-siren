@@ -3,14 +3,14 @@
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Build");
-  mrb_define_class_method(mrb, rclass, "vertex",   mrb_method_name(build_vertex),   ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "line",     mrb_method_name(build_line),     ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "compound", mrb_method_name(build_compound), ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "polyline", mrb_method_name(build_polyline), ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "vertex",   siren_build_vertex,   ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "line",     siren_build_line,     ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "polyline", siren_build_polyline, ARGS_REQ(1));
   return true;
 }
 
-mrb_method(build_vertex)
+mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
 {
   mrb_float x, y, z;
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
@@ -27,7 +27,7 @@ mrb_method(build_vertex)
   return res;
 }
 
-mrb_method(build_line)
+mrb_value siren_build_line(mrb_state* mrb, mrb_value self)
 {
   mrb_value sp, tp;
   int argc = mrb_get_args(mrb, "oo", &sp, &tp);
@@ -41,7 +41,7 @@ mrb_method(build_line)
   return siren_shape_new(mrb, shape);
 }
 
-mrb_method(build_polyline)
+mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self)
 {
   mrb_value ary;
   int argc = mrb_get_args(mrb, "A", &ary);
@@ -60,7 +60,7 @@ mrb_method(build_polyline)
   return siren_shape_new(mrb, shape);
 }
 
-mrb_method(build_compound)
+mrb_value siren_build_compound(mrb_state* mrb, mrb_value self)
 {
   mrb_value ary;
   int argc = mrb_get_args(mrb, "A", &ary);

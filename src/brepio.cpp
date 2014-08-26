@@ -3,12 +3,12 @@
 bool siren_brepio_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "BRepIO");
-  mrb_define_class_method(mrb, rclass, "save", mrb_method_name(brepio_save), ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "load", mrb_method_name(brepio_load), ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "save", siren_brepio_save, ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "load", siren_brepio_load, ARGS_REQ(1));
   return true;
 }
 
-mrb_method(brepio_save)
+mrb_value siren_brepio_save(mrb_state* mrb, mrb_value self)
 {
   mrb_value target; 
   mrb_value path;
@@ -20,7 +20,7 @@ mrb_method(brepio_save)
   return mrb_nil_value();
 }
 
-mrb_method(brepio_load)
+mrb_value siren_brepio_load(mrb_state* mrb, mrb_value self)
 {
   mrb_value path;
   int argc = mrb_get_args(mrb, "S", &path);

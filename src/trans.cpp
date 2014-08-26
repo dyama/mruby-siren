@@ -4,21 +4,21 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Trans", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", mrb_method_name(trans_init), ARGS_NONE());
-  mrb_define_method(mrb, rclass, "set_translation"   , mrb_method_name(trans_set_translation),    ARGS_NONE());
-  mrb_define_method(mrb, rclass, "set_rotation"      , mrb_method_name(trans_set_rotation),       ARGS_NONE());
-  mrb_define_method(mrb, rclass, "set_scale"         , mrb_method_name(trans_set_scale),          ARGS_NONE());
-  mrb_define_method(mrb, rclass, "scalef"            , mrb_method_name(trans_scalef),             ARGS_NONE());
-  mrb_define_method(mrb, rclass, "set_scalef"        , mrb_method_name(trans_set_scalef),         ARGS_NONE());
-  mrb_define_method(mrb, rclass, "set_mirror"        , mrb_method_name(trans_set_mirror),         ARGS_NONE());
-  mrb_define_method(mrb, rclass, "multiply"          , mrb_method_name(trans_multiply),           ARGS_NONE());
-  mrb_define_method(mrb, rclass, "multiplied"        , mrb_method_name(trans_multiplied),         ARGS_NONE());
-  mrb_define_method(mrb, rclass, "set_transfomation1", mrb_method_name(trans_set_transfomation1), ARGS_NONE());
-  mrb_define_method(mrb, rclass, "set_transfomation2", mrb_method_name(trans_set_transfomation2), ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize", siren_trans_init, ARGS_NONE());
+  mrb_define_method(mrb, rclass, "set_translation"   , siren_trans_set_translation,    ARGS_NONE());
+  mrb_define_method(mrb, rclass, "set_rotation"      , siren_trans_set_rotation,       ARGS_NONE());
+  mrb_define_method(mrb, rclass, "set_scale"         , siren_trans_set_scale,          ARGS_NONE());
+  mrb_define_method(mrb, rclass, "scalef"            , siren_trans_scalef,             ARGS_NONE());
+  mrb_define_method(mrb, rclass, "set_scalef"        , siren_trans_set_scalef,         ARGS_NONE());
+  mrb_define_method(mrb, rclass, "set_mirror"        , siren_trans_set_mirror,         ARGS_NONE());
+  mrb_define_method(mrb, rclass, "multiply"          , siren_trans_multiply,           ARGS_NONE());
+  mrb_define_method(mrb, rclass, "multiplied"        , siren_trans_multiplied,         ARGS_NONE());
+  mrb_define_method(mrb, rclass, "set_transfomation1", siren_trans_set_transfomation1, ARGS_NONE());
+  mrb_define_method(mrb, rclass, "set_transfomation2", siren_trans_set_transfomation2, ARGS_NONE());
   return true;
 }
 
-mrb_method(trans_init)
+mrb_value siren_trans_init(mrb_state* mrb, mrb_value self)
 {
   gp_Trsf* trans = new gp_Trsf();
   DATA_PTR(self) = trans;
@@ -32,7 +32,7 @@ void siren_trans_final(mrb_state* mrb, void* p)
   delete t;
 }
 
-mrb_method(trans_set_translation)
+mrb_value siren_trans_set_translation(mrb_state* mrb, mrb_value self)
 {
   mrb_value v;
   int argc = mrb_get_args(mrb, "o", &v);
@@ -42,7 +42,7 @@ mrb_method(trans_set_translation)
   return mrb_nil_value();
 }
 
-mrb_method(trans_set_rotation)
+mrb_value siren_trans_set_rotation(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
   mrb_float angle;
@@ -55,7 +55,7 @@ mrb_method(trans_set_rotation)
   return mrb_nil_value();
 }
 
-mrb_method(trans_set_scale)
+mrb_value siren_trans_set_scale(mrb_state* mrb, mrb_value self)
 {
   mrb_value op;
   mrb_float factor;
@@ -66,14 +66,14 @@ mrb_method(trans_set_scale)
   return mrb_nil_value();
 }
 
-mrb_method(trans_scalef)
+mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self)
 {
   gp_Trsf* trans  = siren_trans_get(mrb, self);
   Standard_Real f = trans->ScaleFactor();
   return mrb_float_value(mrb, f);
 }
 
-mrb_method(trans_set_scalef)
+mrb_value siren_trans_set_scalef(mrb_state* mrb, mrb_value self)
 {
   mrb_float f;
   int argc = mrb_get_args(mrb, "f", &f);
@@ -82,7 +82,7 @@ mrb_method(trans_set_scalef)
   return mrb_nil_value();
 }
 
-mrb_method(trans_set_mirror)
+mrb_value siren_trans_set_mirror(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
   int argc = mrb_get_args(mrb, "oo", &op, &norm);
@@ -93,7 +93,7 @@ mrb_method(trans_set_mirror)
   return mrb_nil_value();
 }
 
-mrb_method(trans_multiply)
+mrb_value siren_trans_multiply(mrb_state* mrb, mrb_value self)
 {
   mrb_value other;
   int argc = mrb_get_args(mrb, "o", &other);
@@ -103,7 +103,7 @@ mrb_method(trans_multiply)
   return mrb_nil_value();
 }
 
-mrb_method(trans_multiplied)
+mrb_value siren_trans_multiplied(mrb_state* mrb, mrb_value self)
 {
   mrb_value other;
   int argc = mrb_get_args(mrb, "o", &other);
@@ -115,7 +115,7 @@ mrb_method(trans_multiplied)
   return res;
 }
 
-mrb_method(trans_set_transfomation1)
+mrb_value siren_trans_set_transfomation1(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, zv, xv;
   int argc = mrb_get_args(mrb, "ooo", &op, &zv, &xv);
@@ -127,7 +127,7 @@ mrb_method(trans_set_transfomation1)
   return mrb_nil_value();
 }
 
-mrb_method(trans_set_transfomation2)
+mrb_value siren_trans_set_transfomation2(mrb_state* mrb, mrb_value self)
 {
   mrb_value op1, zv1, xv1;
   mrb_value op2, zv2, xv2;

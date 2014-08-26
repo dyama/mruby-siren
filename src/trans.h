@@ -15,17 +15,17 @@ void siren_trans_final(mrb_state* mrb, void* p);
 static struct mrb_data_type siren_trans_type = { "Trans", siren_trans_final };
 gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj);
 
-mrb_method(trans_init);
+mrb_value siren_trans_init(mrb_state* mrb, mrb_value self);
 
-mrb_method(trans_set_translation);
-mrb_method(trans_set_rotation);
-mrb_method(trans_set_scale);
-mrb_method(trans_scalef);
-mrb_method(trans_set_scalef);
-mrb_method(trans_set_mirror);
-mrb_method(trans_multiply);
-mrb_method(trans_multiplied);
-mrb_method(trans_set_transfomation1);
-mrb_method(trans_set_transfomation2);
+mrb_value siren_trans_set_translation(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_set_rotation(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_set_scale(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_set_scalef(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_set_mirror(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_multiply(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_multiplied(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_set_transfomation1(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_set_transfomation2(mrb_state* mrb, mrb_value self);
 
 #endif

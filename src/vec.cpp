@@ -13,17 +13,17 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", mrb_method_name(vec_init),   ARGS_NONE() | ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "to_s",       mrb_method_name(vec_to_s),   ARGS_NONE());
-  mrb_define_method(mrb, rclass, "x",          mrb_method_name(vec_x),      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "y",          mrb_method_name(vec_y),      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "z",          mrb_method_name(vec_z),      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_a",       mrb_method_name(vec_to_a),   ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_xyz",     mrb_method_name(vec_to_xyz), ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize", siren_vec_init,   ARGS_NONE() | ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "to_s",       siren_vec_to_s,   ARGS_NONE());
+  mrb_define_method(mrb, rclass, "x",          siren_vec_x,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "y",          siren_vec_y,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "z",          siren_vec_z,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_a",       siren_vec_to_a,   ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_xyz",     siren_vec_to_xyz, ARGS_NONE());
   return true;
 }
 
-mrb_method(vec_init)
+mrb_value siren_vec_init(mrb_state* mrb, mrb_value self)
 {
   mrb_float x, y, z;
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
@@ -45,34 +45,34 @@ void siren_vec_final(mrb_state* mrb, void* p)
   delete v;
 }
 
-mrb_method(vec_to_s)
+mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   return mrb_str_new_cstr(mrb, "#Vec<>");
 }
 
-mrb_method(vec_x)
+mrb_value siren_vec_x(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->X();
   return mrb_float_value(mrb, (float)val);
 }
 
-mrb_method(vec_y)
+mrb_value siren_vec_y(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->Y();
   return mrb_float_value(mrb, (float)val);
 }
 
-mrb_method(vec_z)
+mrb_value siren_vec_z(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->Z();
   return mrb_float_value(mrb, (float)val);
 }
 
-mrb_method(vec_to_a)
+mrb_value siren_vec_to_a(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   mrb_value res[3];
@@ -82,9 +82,9 @@ mrb_method(vec_to_a)
   return mrb_ary_new_from_values(mrb, 3, res);
 }
 
-mrb_method(vec_to_xyz)
+mrb_value siren_vec_to_xyz(mrb_state* mrb, mrb_value self)
 {
-  return mrb_method_name(vec_to_a)(mrb, self);
+  return siren_vec_to_a(mrb, self);
 }
 
 gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj)

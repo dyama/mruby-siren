@@ -23,14 +23,10 @@
 
 #include <gp_Pnt.hxx>
 
-// define
-#define mrb_method_name(NAME) siren_##NAME
-#define mrb_method(NAME) mrb_value mrb_method_name(NAME)(mrb_state* mrb, mrb_value self)
-
 #include "common.h"
 
-// Dummy
-static mrb_value mrb_method_dummy(mrb_state* mrb, mrb_value self)
+// Dummy method
+inline mrb_value mrb_method_dummy(mrb_state* mrb, mrb_value self)
 {
   return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
 }
