@@ -8,6 +8,7 @@
 #include "trans.h"
 #include "prim.h"
 #include "bool.h"
+#include "iges.h"
 
 extern "C" {
 
@@ -22,6 +23,7 @@ extern "C" {
     struct RClass* _trans  = NULL;
     struct RClass* _prim   = NULL;
     struct RClass* _bool   = NULL;
+    struct RClass* _iges   = NULL;
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
     siren_vec_install(mrb, _vec);
@@ -30,6 +32,7 @@ extern "C" {
     siren_trans_install(mrb, _trans);
     siren_prim_install(mrb, _prim);
     siren_bool_install(mrb, _bool);
+    siren_iges_install(mrb, _iges);
     return;
   }
 
