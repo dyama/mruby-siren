@@ -1,10 +1,5 @@
 #include "exp.h"
 
-mrb_data_type* mrb_siren_get_exp_type(void)
-{
-  return &mrb_siren_exp_type;
-}
-
 bool mrb_siren_exp_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Exp", mrb->object_class);
@@ -33,7 +28,7 @@ mrb_method(exp_init)
   TopExp_Explorer* exp = new TopExp_Explorer(*shape, (TopAbs_ShapeEnum)type);
 
   DATA_PTR(self) = exp;
-  DATA_TYPE(self) = mrb_siren_get_exp_type();
+  DATA_TYPE(self) = &mrb_siren_exp_type;
   return self;
 }
 
@@ -45,8 +40,7 @@ void mrb_siren_exp_final(mrb_state* mrb, void* p)
 
 mrb_method(exp_to_a)
 {
-  TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, self, mrb_siren_get_exp_type()));
-
+  TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   mrb_value res = mrb_ary_new(mrb);
 
   for (exp->ReInit(); exp->More(); exp->Next()) {
@@ -65,7 +59,7 @@ mrb_method(exp_init2)
   mrb_int type;
   int argc = mrb_get_args(mrb, "oi", &obj, &type);
 
-  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, mrb_siren_get_shape_type()));
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, obj);
   TopExp_Explorer* exp = mrb_siren_get_exp(mrb, self);
   exp->Init(*shape, (TopAbs_ShapeEnum)type);
 
@@ -117,6 +111,6 @@ mrb_method(exp_current)
 
 TopExp_Explorer* mrb_siren_get_exp(mrb_state* mrb, mrb_value obj)
 {
-  return static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, obj, mrb_siren_get_exp_type()));
+  return static_cast<TopExp_Explorer*>(mrb_get_datatype(mrb, obj, &mrb_siren_exp_type));
 }
 

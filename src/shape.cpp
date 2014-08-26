@@ -1,10 +1,5 @@
 #include "shape.h"
 
-mrb_data_type* mrb_siren_get_shape_type(void)
-{
-  return &mrb_siren_shape_type;
-}
-
 bool mrb_siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Shape", mrb->object_class);
@@ -31,7 +26,7 @@ mrb_method(shape_init)
 {
   TopoDS_Shape* shape = new TopoDS_Shape();
   DATA_PTR(self) = shape;
-  DATA_TYPE(self) = mrb_siren_get_shape_type();
+  DATA_TYPE(self) = &mrb_siren_shape_type;
   return self;
 }
 
@@ -62,6 +57,6 @@ mrb_method(shape_shapetype)
 
 TopoDS_Shape* mrb_siren_get_shape(mrb_state* mrb, mrb_value obj)
 {
-  return static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, mrb_siren_get_shape_type()));
+  return static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, &mrb_siren_shape_type));
 }
 

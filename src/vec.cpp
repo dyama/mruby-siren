@@ -1,10 +1,5 @@
 #include "vec.h"
 
-mrb_data_type* mrb_siren_get_vec_type(void)
-{
-  return &mrb_siren_vec_type;
-}
-
 bool mrb_siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
@@ -31,7 +26,7 @@ mrb_method(vec_init)
     vec = new gp_Vec(0., 0., 0.);
 
   DATA_PTR(self) = vec;
-  DATA_TYPE(self) = mrb_siren_get_vec_type();
+  DATA_TYPE(self) = &mrb_siren_vec_type;
   return self;
 }
 
@@ -85,5 +80,5 @@ mrb_method(vec_to_xyz)
 
 gp_Vec* mrb_siren_get_vec(mrb_state* mrb, mrb_value obj)
 {
-  return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, mrb_siren_get_vec_type()));
+  return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, &mrb_siren_vec_type));
 }

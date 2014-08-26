@@ -10,6 +10,8 @@
 
 bool mrb_siren_trans_install(mrb_state* mrb, struct RClass* rclass);
 void mrb_siren_trans_final(mrb_state* mrb, void* p);
+static struct mrb_data_type mrb_siren_trans_type = { "Trans", mrb_siren_trans_final };
+gp_Trsf* mrb_siren_get_trans(mrb_state* mrb, mrb_value obj);
 
 mrb_method(trans_init);
 
@@ -23,10 +25,5 @@ mrb_method(trans_multiply);
 mrb_method(trans_multiplied);
 mrb_method(trans_set_transfomation1);
 mrb_method(trans_set_transfomation2);
-
-static struct mrb_data_type mrb_siren_trans_type = { "Trans", mrb_siren_trans_final };
-mrb_data_type* mrb_siren_get_trans_type(void);
-
-gp_Trsf* mrb_siren_get_trans(mrb_state* mrb, mrb_value obj);
 
 #endif

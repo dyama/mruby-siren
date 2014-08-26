@@ -1,10 +1,5 @@
 #include "trans.h"
 
-mrb_data_type* mrb_siren_get_trans_type(void)
-{
-  return &mrb_siren_trans_type;
-}
-
 bool mrb_siren_trans_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Trans", mrb->object_class);
@@ -27,7 +22,7 @@ mrb_method(trans_init)
 {
   gp_Trsf* trans = new gp_Trsf();
   DATA_PTR(self) = trans;
-  DATA_TYPE(self) = mrb_siren_get_trans_type();
+  DATA_TYPE(self) = &mrb_siren_trans_type;
   return self;
 }
 
@@ -105,5 +100,5 @@ mrb_method(trans_set_transfomation2)
 
 gp_Trsf* mrb_siren_get_trans(mrb_state* mrb, mrb_value obj)
 {
-  return static_cast<gp_Trsf*>(mrb_get_datatype(mrb, obj, mrb_siren_get_trans_type()));
+  return static_cast<gp_Trsf*>(mrb_get_datatype(mrb, obj, &mrb_siren_trans_type));
 }
