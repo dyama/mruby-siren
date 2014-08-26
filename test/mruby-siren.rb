@@ -38,5 +38,7 @@ else
   end
 end
 
-t = Trans.new
-p t
+p "------------"
+a = Build.vertex(3, 4, 5);
+p a.location.to_a
+

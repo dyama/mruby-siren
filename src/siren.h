@@ -32,7 +32,7 @@
 // Dummy
 static mrb_value mrb_method_dummy(mrb_state* mrb, mrb_value self)
 {
-  return mrb_nil_value();
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
 }
 
 #endif

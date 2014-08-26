@@ -8,6 +8,7 @@ bool mrb_siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "to_s",       mrb_method_name(shape_to_s),      ARGS_NONE());
   mrb_define_method(mrb, rclass, "null?",      mrb_method_name(shape_is_null),   ARGS_NONE());
   mrb_define_method(mrb, rclass, "shapetype",  mrb_method_name(shape_shapetype), ARGS_NONE());
+  mrb_define_method(mrb, rclass, "location",   mrb_method_name(shape_location), ARGS_NONE());
 
   // mrb_define_method(mrb, rclass, "copy", mrb_method_dummy, ARGS_NONE());
   // mrb_define_method(mrb, rclass, "translate", mrb_method_dummy, ARGS_NONE());
@@ -53,6 +54,17 @@ mrb_method(shape_shapetype)
   TopoDS_Shape* shape = mrb_siren_get_shape(mrb, self);
   int type = (int)shape->ShapeType();
   return mrb_fixnum_value(type);
+}
+
+mrb_method(shape_location)
+{
+  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, self);
+  gp_XYZ pos = shape->Location().Transformation().TranslationPart();
+  mrb_value args[3];
+  args[0] = mrb_float_value(mrb, pos.X());
+  args[1] = mrb_float_value(mrb, pos.Y());
+  args[2] = mrb_float_value(mrb, pos.Z());
+  return mrb_class_new_instance(mrb, 3, args, mrb_class_get(mrb, "Vec"));
 }
 
 TopoDS_Shape* mrb_siren_get_shape(mrb_state* mrb, mrb_value obj)

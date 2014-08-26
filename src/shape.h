@@ -12,5 +12,6 @@ mrb_method(shape_init);
 mrb_method(shape_to_s);
 mrb_method(shape_is_null);
 mrb_method(shape_shapetype);
+mrb_method(shape_location);
 
 #endif
