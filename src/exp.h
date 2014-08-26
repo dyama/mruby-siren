@@ -6,10 +6,10 @@
 #include <TopAbs_ShapeEnum.hxx>
 #include <TopExp_Explorer.hxx>
 
-bool mrb_siren_exp_install(mrb_state* mrb, struct RClass* rclass);
-void mrb_siren_exp_final(mrb_state* mrb, void* p);
-static struct mrb_data_type mrb_siren_exp_type = { "Exp", mrb_siren_exp_final };
-TopExp_Explorer* mrb_siren_get_exp(mrb_state* mrb, mrb_value obj);
+bool siren_exp_install(mrb_state* mrb, struct RClass* rclass);
+void siren_exp_final(mrb_state* mrb, void* p);
+static struct mrb_data_type siren_exp_type = { "Exp", siren_exp_final };
+TopExp_Explorer* siren_exp_get(mrb_state* mrb, mrb_value obj);
 
 mrb_method(exp_init);
 mrb_method(exp_to_a);

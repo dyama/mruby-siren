@@ -1,6 +1,6 @@
 #include "vec.h"
 
-bool mrb_siren_vec_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
@@ -26,11 +26,11 @@ mrb_method(vec_init)
     vec = new gp_Vec(0., 0., 0.);
 
   DATA_PTR(self) = vec;
-  DATA_TYPE(self) = &mrb_siren_vec_type;
+  DATA_TYPE(self) = &siren_vec_type;
   return self;
 }
 
-void mrb_siren_vec_final(mrb_state* mrb, void* p)
+void siren_vec_final(mrb_state* mrb, void* p)
 {
   gp_Vec* v = static_cast<gp_Vec*>(p);
   delete v;
@@ -38,34 +38,34 @@ void mrb_siren_vec_final(mrb_state* mrb, void* p)
 
 mrb_method(vec_to_s)
 {
-  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
+  gp_Vec* vec = siren_vec_get(mrb, self);
   return mrb_str_new_cstr(mrb, "#Vec<>");
 }
 
 mrb_method(vec_x)
 {
-  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
+  gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->X();
   return mrb_float_value(mrb, (float)val);
 }
 
 mrb_method(vec_y)
 {
-  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
+  gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->Y();
   return mrb_float_value(mrb, (float)val);
 }
 
 mrb_method(vec_z)
 {
-  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
+  gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->Z();
   return mrb_float_value(mrb, (float)val);
 }
 
 mrb_method(vec_to_a)
 {
-  gp_Vec* vec = mrb_siren_get_vec(mrb, self);
+  gp_Vec* vec = siren_vec_get(mrb, self);
   mrb_value res[3];
   res[0] = mrb_float_value(mrb, (float)vec->X());
   res[1] = mrb_float_value(mrb, (float)vec->Y());
@@ -78,7 +78,7 @@ mrb_method(vec_to_xyz)
   return mrb_method_name(vec_to_a)(mrb, self);
 }
 
-gp_Vec* mrb_siren_get_vec(mrb_state* mrb, mrb_value obj)
+gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj)
 {
-  return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, &mrb_siren_vec_type));
+  return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, &siren_vec_type));
 }

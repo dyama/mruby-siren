@@ -69,7 +69,7 @@ inline double to_double(const mrb_value& value)
 //   return mrb_ary_new_from_values(mrb, 3, res);
 // }
 
-inline mrb_value mrb_siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
+inline mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
 {
   mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Shape"));
   DATA_PTR(res) = static_cast<void*>(const_cast<TopoDS_Shape*>(shape));

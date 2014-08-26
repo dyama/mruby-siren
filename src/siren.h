@@ -24,7 +24,7 @@
 #include <gp_Pnt.hxx>
 
 // define
-#define mrb_method_name(NAME) mrb_siren_##NAME
+#define mrb_method_name(NAME) siren_##NAME
 #define mrb_method(NAME) mrb_value mrb_method_name(NAME)(mrb_state* mrb, mrb_value self)
 
 #include "common.h"

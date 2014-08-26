@@ -10,10 +10,10 @@
 #include <gp_Ax3.hxx>
 #include <gp_Trsf.hxx>
 
-bool mrb_siren_trans_install(mrb_state* mrb, struct RClass* rclass);
-void mrb_siren_trans_final(mrb_state* mrb, void* p);
-static struct mrb_data_type mrb_siren_trans_type = { "Trans", mrb_siren_trans_final };
-gp_Trsf* mrb_siren_get_trans(mrb_state* mrb, mrb_value obj);
+bool siren_trans_install(mrb_state* mrb, struct RClass* rclass);
+void siren_trans_final(mrb_state* mrb, void* p);
+static struct mrb_data_type siren_trans_type = { "Trans", siren_trans_final };
+gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj);
 
 mrb_method(trans_init);
 

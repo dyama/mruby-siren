@@ -1,6 +1,6 @@
 #include "brepio.h"
 
-bool mrb_siren_brepio_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_brepio_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "BRepIO");
   mrb_define_class_method(mrb, rclass, "save", mrb_method_name(brepio_save), ARGS_REQ(2));
@@ -14,7 +14,7 @@ mrb_method(brepio_save)
   mrb_value path;
   int argc = mrb_get_args(mrb, "oS", &target, &path);
 
-  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, target);
+  TopoDS_Shape* shape = siren_shape_get(mrb, target);
   BRepTools::Write(*shape, (Standard_CString)RSTRING_PTR(path));
 
   return mrb_nil_value();
@@ -29,6 +29,6 @@ mrb_method(brepio_load)
   TopoDS_Shape* shape = new TopoDS_Shape();
   BRepTools::Read(*shape, (Standard_CString)RSTRING_PTR(path), B);
 
-  return mrb_siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, shape);
 }
 

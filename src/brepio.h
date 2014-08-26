@@ -8,7 +8,7 @@
 #include <BRepTools.hxx>
 #include <BRep_Builder.hxx>
 
-bool mrb_siren_brepio_install(mrb_state* mrb, struct RClass* rclass);
+bool siren_brepio_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_method(brepio_save);
 mrb_method(brepio_load);

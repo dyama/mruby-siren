@@ -1,6 +1,6 @@
 #include "build.h"
 
-bool mrb_siren_build_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Build");
   mrb_define_class_method(mrb, rclass, "vertex",   mrb_method_name(build_vertex),   ARGS_REQ(3));
@@ -16,7 +16,7 @@ mrb_method(build_vertex)
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
 
   mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Shape"));
-  TopoDS_Shape* shape = mrb_siren_get_shape(mrb, res);
+  TopoDS_Shape* shape = siren_shape_get(mrb, res);
 
   Standard_Real xx = (Standard_Real)x;
   Standard_Real yy = (Standard_Real)y;
@@ -32,13 +32,13 @@ mrb_method(build_line)
   mrb_value sp, tp;
   int argc = mrb_get_args(mrb, "oo", &sp, &tp);
 
-  gp_Vec* s = mrb_siren_get_vec(mrb, sp);
-  gp_Vec* t = mrb_siren_get_vec(mrb, tp);
+  gp_Vec* s = siren_vec_get(mrb, sp);
+  gp_Vec* t = siren_vec_get(mrb, tp);
 
   TopoDS_Shape* shape = new TopoDS_Shape();
   *shape = BRepBuilderAPI_MakeEdge(gp_Pnt(s->X(), s->Y(), s->Z()), gp_Pnt(t->X(), t->Y(), t->Z()));
 
-  return mrb_siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, shape);
 }
 
 mrb_method(build_polyline)
@@ -50,14 +50,14 @@ mrb_method(build_polyline)
 
   for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
     mrb_value item = mrb_ary_ref(mrb, ary, i);
-    gp_Vec* v = mrb_siren_get_vec(mrb, item);
+    gp_Vec* v = siren_vec_get(mrb, item);
     poly.Add(gp_Pnt(v->X(), v->Y(), v->Z()));
   }
 
   TopoDS_Shape* shape = new TopoDS_Shape();
   *shape = poly.Wire();
 
-  return mrb_siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, shape);
 }
 
 mrb_method(build_compound)
@@ -70,10 +70,10 @@ mrb_method(build_compound)
   B.MakeCompound(*comp);
 
   for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
-    TopoDS_Shape* shape = mrb_siren_get_shape(mrb, mrb_ary_ref(mrb, ary, i));
+    TopoDS_Shape* shape = siren_shape_get(mrb, mrb_ary_ref(mrb, ary, i));
     B.Add(*comp, *shape);
   }
 
-  return mrb_siren_shape_new(mrb, comp);
+  return siren_shape_new(mrb, comp);
 }
 

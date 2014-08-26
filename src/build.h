@@ -11,7 +11,7 @@
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakePolygon.hxx>
 
-bool mrb_siren_build_install(mrb_state* mrb, struct RClass* rclass);
+bool siren_build_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_method(build_vertex);
 

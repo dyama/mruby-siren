@@ -14,12 +14,12 @@ extern "C" {
   {
     struct RClass* _shape = NULL, *_build = NULL, *_vec = NULL, *_exp = NULL, *_brepio = NULL,
       *_trans = NULL;
-    mrb_siren_shape_install(mrb, _shape);
-    mrb_siren_build_install(mrb, _build);
-    mrb_siren_vec_install(mrb, _vec);
-    mrb_siren_exp_install(mrb, _exp);
-    mrb_siren_brepio_install(mrb, _brepio);
-    mrb_siren_trans_install(mrb, _trans);
+    siren_shape_install(mrb, _shape);
+    siren_build_install(mrb, _build);
+    siren_vec_install(mrb, _vec);
+    siren_exp_install(mrb, _exp);
+    siren_brepio_install(mrb, _brepio);
+    siren_trans_install(mrb, _trans);
     return;
   }
 

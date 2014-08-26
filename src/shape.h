@@ -3,10 +3,10 @@
 
 #include "siren.h"
 
-void mrb_siren_shape_final(mrb_state* mrb, void* p);
-bool mrb_siren_shape_install(mrb_state* mrb, struct RClass* rclass);
-static struct mrb_data_type mrb_siren_shape_type = { "Shape", mrb_siren_shape_final };
-TopoDS_Shape* mrb_siren_get_shape(mrb_state* mrb, mrb_value obj);
+void siren_shape_final(mrb_state* mrb, void* p);
+bool siren_shape_install(mrb_state* mrb, struct RClass* rclass);
+static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };
+TopoDS_Shape* siren_shape_get(mrb_state* mrb, mrb_value obj);
 
 mrb_method(shape_init);
 mrb_method(shape_to_s);

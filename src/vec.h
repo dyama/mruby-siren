@@ -3,10 +3,10 @@
 
 #include "siren.h"
 
-bool mrb_siren_vec_install(mrb_state* mrb, struct RClass* rclass);
-void mrb_siren_vec_final(mrb_state* mrb, void* p);
-static struct mrb_data_type mrb_siren_vec_type = { "Vec", mrb_siren_vec_final };
-gp_Vec* mrb_siren_get_vec(mrb_state* mrb, mrb_value obj);
+bool siren_vec_install(mrb_state* mrb, struct RClass* rclass);
+void siren_vec_final(mrb_state* mrb, void* p);
+static struct mrb_data_type siren_vec_type = { "Vec", siren_vec_final };
+gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj);
 
 mrb_method(vec_init);
 mrb_method(vec_to_s);
