@@ -37,3 +37,6 @@ else
     p "type:" + ShapeType::to_s(s.shapetype)
   end
 end
+
+t = Trans.new
+p t
