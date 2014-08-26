@@ -1,4 +1,6 @@
-#!mruby
+##
+# Shape type module
+#
 
 module ShapeType
 

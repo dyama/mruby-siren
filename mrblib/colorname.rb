@@ -1,4 +1,6 @@
-#!mrby
+##
+# Color name module
+#
 
 module ColorName
   BLACK                 =    0

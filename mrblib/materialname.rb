@@ -1,4 +1,6 @@
-#!mruby
+##
+# Material name module
+#
 
 module MaterialName
   ASS           =  0  # 真鍮

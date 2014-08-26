@@ -1,4 +1,6 @@
-#!mruby
+##
+# Orientation type module
+#
 
 module OrientType
   Xpos           =  0
