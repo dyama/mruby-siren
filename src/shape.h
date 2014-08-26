@@ -2,6 +2,7 @@
 #define _SHAPE_H_
 
 #include "siren.h"
+#include "vec.h"
 
 void siren_shape_final(mrb_state* mrb, void* p);
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass);

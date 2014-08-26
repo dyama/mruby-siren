@@ -67,11 +67,7 @@ mrb_method(shape_location)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   gp_XYZ pos = shape->Location().Transformation().TranslationPart();
-  mrb_value args[3];
-  args[0] = mrb_float_value(mrb, pos.X());
-  args[1] = mrb_float_value(mrb, pos.Y());
-  args[2] = mrb_float_value(mrb, pos.Z());
-  return mrb_class_new_instance(mrb, 3, args, mrb_class_get(mrb, "Vec"));
+  return siren_vec_new(mrb, pos.X(), pos.Y(), pos.Z());
 }
 
 TopoDS_Shape* siren_shape_get(mrb_state* mrb, mrb_value obj)

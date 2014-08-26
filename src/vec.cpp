@@ -1,5 +1,14 @@
 #include "vec.h"
 
+mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z)
+{
+  mrb_value args[3];
+  args[0] = mrb_float_value(mrb, x);
+  args[1] = mrb_float_value(mrb, y);
+  args[2] = mrb_float_value(mrb, z);
+  return mrb_class_new_instance(mrb, 3, args, mrb_class_get(mrb, "Vec"));
+}
+
 bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
