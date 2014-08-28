@@ -19,9 +19,14 @@ c = Build.polyline pts
 
 cmp = Build.compound([a, b, c])
 
-BRepIO.save(cmp, "/tmp/hoge.brep")
-
-cmp2 = BRepIO.load("/tmp/hoge.brep");
+cmp2 = nil
+if true
+  BRepIO.save(cmp, "/tmp/hoge.brep")
+  cmp2 = BRepIO.load("/tmp/hoge.brep");
+else
+  IGES.save([cmp], "/tmp/hoge.iges")
+  cmp2 = IGES.load("/tmp/hoge.iges", true);
+end
 p cmp2.shapetype
 
 ex = Exp.new cmp2, ShapeType::EDGE
