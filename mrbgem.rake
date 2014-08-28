@@ -14,126 +14,48 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
     occincpath = '/opt/oce/include/oce'
   end
 
+  # OCCT dependencies
+  # Check http://dev.opencascade.org/doc/refman/html/index.html
+  thirdPartyLibs =
+    [ 'tbb' ]
+  foundationClasses =
+    [ 'TKernel', 'TKMath' ]
+  modelingData =
+    [ 'TKG2d', 'TKG3d', 'TKGeomBase', 'TKBRep' ]
+  modelingAlgorithms =
+    [ 'TKGeomAlgo', 'TKTopAlgo', 'TKBO', 'TKPrim',
+      'TKShHealing', 'TKHLR', 'TKMesh', 'TKBool',
+      'TKXMesh', 'TKFeat', 'TKFillet', 'TKOffset' ]
+  visualization =
+    [ 'TKService', 'TKV3d', 'TKOpenGl', 'TKMeshVS',
+      'TKNIS', 'TKVoxel' ]
+  applicationFramework =
+    [ 'PTKernel', 'TKCDF', 'TKPShape', 'FWOSPlugin', 'TKLCAF',
+      'TKShapeSchema', 'TKPLCAF', 'TKCAF', 'TKBinL', 'TKTObj',
+      'TKXmlL', 'TKStdLSchema', 'TKPCAF', 'TKBin', 'TKBinTObj',
+      'TKXml', 'TKXmlTObj', 'TKStdSchema' ]
+  dataExchange =
+    [ 'TKXSBase', 'TKSTL', 'TKVRML', 'TKSTEPBase', 'TKXCAF', 'TKIGES',
+      'TKSTEP209', 'TKSTEPAttr', 'TKXCAFSchema', 'TKXmlXCAF', 'TKBinXCAF',
+      'TKXDEIGES', 'TKSTEP', 'TKXDESTEP' ]
+
+  allLibs = []
+  allLibs <<
+    thirdPartyLibs << foundationClasses << modelingData << modelingAlgorithms <<
+    visualization << applicationFramework << dataExchange
+
   # Linker option
-  spec.linker.libraries << [
-    'tbb',
-    'TKernel',
-    'TKMath',
-    'TKBRep',
-    'TKTopAlgo',
-    'TKGeomAlgo',
-    'TKGeomBase',
-    'TKG3d',
-    'TKG2d'
-  ]
   spec.linker.library_paths << [ occlibpath ]
 
+  spec.linker.libraries << allLibs
+
   # Compiler option
-  spec.cxx.flags << "\
-    -L" << occlibpath << " -I" << occincpath << " \
-    -Wno-unused-function -Wno-unused-variable \
-    -ltbb \
-    -lTKernel \
-    -lTKMath \
-    -lTKBRep \
-    -lTKGeomAlgo \
-    -lTKTopAlgo \
-    -lTKGeomBase \
-    -lTKG3d \
-    -lTKG2d"
-    # -lFWOSPlugin \
-    # -lPTKernel \
-    # -lTKAdvTools \
-    # -lTKBO \
-    # -lTKBRep \
-    # -lTKBin \
-    # -lTKBinL \
-    # -lTKBinTObj \
-    # -lTKBinXCAF \
-    # -lTKBool \
-    # -lTKCAF \
-    # -lTKCDF \
-    # -lTKFeat \
-    # -lTKFillet \
-    # -lTKG2d \
-    # -lTKG3d \
-    # -lTKGeomAlgo \
-    # -lTKGeomBase \
-    # -lTKHLR \
-    # -lTKIGES \
-    # -lTKLCAF \
-    # -lTKMath \
-    # -lTKMesh \
-    # -lTKOffset \
-    # -lTKPCAF \
-    # -lTKPLCAF \
-    # -lTKPShape \
-    # -lTKPrim \
-    # -lTKSTEP \
-    # -lTKSTEP209 \
-    # -lTKSTEPAttr \
-    # -lTKSTEPBase \
-    # -lTKSTL \
-    # -lTKService \
-    # -lTKShHealing \
-    # -lTKShapeSchema \
-    # -lTKStdLSchema \
-    # -lTKStdSchema \
-    # -lTKTObj \
-    # -lTKTopAlgo \
-    # -lTKV3d \
-    # -lFWOSPlugin \
-    # -lPTKernel \
-    # -lTKAdvTools \
-    # -lTKBO \
-    # -lTKBRep \
-    # -lTKBin \
-    # -lTKBinL \
-    # -lTKBinTObj \
-    # -lTKBinXCAF \
-    # -lTKBool \
-    # -lTKCAF \
-    # -lTKCDF \
-    # -lTKFeat \
-    # -lTKFillet \
-    # -lTKG2d \
-    # -lTKG3d \
-    # -lTKGeomAlgo \
-    # -lTKGeomBase \
-    # -lTKHLR \
-    # -lTKIGES \
-    # -lTKLCAF \
-    # -lTKMath \
-    # -lTKMesh \
-    # -lTKOffset \
-    # -lTKPCAF \
-    # -lTKPLCAF \
-    # -lTKPShape \
-    # -lTKPrim \
-    # -lTKSTEP \
-    # -lTKSTEP209 \
-    # -lTKSTEPAttr \
-    # -lTKSTEPBase \
-    # -lTKSTL \
-    # -lTKService \
-    # -lTKShHealing \
-    # -lTKShapeSchema \
-    # -lTKStdLSchema \
-    # -lTKStdSchema \
-    # -lTKTObj \
-    # -lTKTopAlgo \
-    # -lTKV3d \
-    # -lTKVRML \
-    # -lTKXCAF \
-    # -lTKXCAFSchema \
-    # -lTKXDEIGES \
-    # -lTKXDESTEP \
-    # -lTKXMesh \
-    # -lTKXSBase \
-    # -lTKXml \
-    # -lTKXmlL \
-    # -lTKXmlTObj \
-    # -lTKXmlXCAF \
-    # -lTKernel"
+  spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath <<
+    "-Wno-unused-function -Wno-unused-variable"
+
+  allLibs.each do |libname|
+    spec.cxx.flags << " -l" << libname
+  end
+
 end
 
