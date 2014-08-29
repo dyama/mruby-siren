@@ -5,8 +5,10 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_module(mrb, "Build");
   mrb_define_class_method(mrb, rclass, "vertex",   siren_build_vertex,   ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "line",     siren_build_line,     ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "polyline", siren_build_polyline, ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "curve",    siren_build_curve,    ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "polygon",  siren_build_polygon,  ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
   return true;
 }
 
@@ -98,6 +100,33 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* shape = new TopoDS_Shape();
   *shape = BRepBuilderAPI_MakeEdge(geSpl);
+
+  return siren_shape_new(mrb, shape);
+}
+
+mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
+{
+  mrb_value pts;
+  int argc = mrb_get_args(mrb, "A", &pts);
+
+  BRepBuilderAPI_MakePolygon mp;
+
+  for (int i=0; i<mrb_ary_len(mrb, pts); i++) {
+    gp_Vec* v = siren_vec_get(mrb, mrb_ary_ref(mrb, pts, i));
+    mp.Add(gp_Pnt(v->X(), v->Y(), v->Z()));
+  }
+
+  mp.Close();
+  BRepBuilderAPI_MakeFace mf(mp.Wire(), true);
+  mf.Build();
+
+  if (!mf.IsDone()) {
+    static const char m[] = "Failed to make a polygon.";
+    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+  }
+
+  TopoDS_Shape* shape = new TopoDS_Shape();
+  *shape = mf.Shape();
 
   return siren_shape_new(mrb, shape);
 }
