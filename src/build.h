@@ -11,6 +11,11 @@
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakePolygon.hxx>
 
+#include <GeomAPI_Interpolate.hxx> // curve
+#include <TColgp_Array1OfVec.hxx>
+#include <TColgp_HArray1OfPnt.hxx>
+#include <TColStd_HArray1OfBoolean.hxx>
+
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self);
@@ -18,7 +23,7 @@ mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self);
 mrb_value siren_build_line(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self);
-// mrb_value siren_build_curve(mrb_state* mrb, mrb_value self);
+mrb_value siren_build_curve(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_beziercurve(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self);
 
