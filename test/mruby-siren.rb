@@ -47,7 +47,6 @@ p "------------"
 a = Build.vertex(3, 4, 5);
 p a.location.to_a
 
-p Prim
-p Bool
-p IGES
+b = Prim.box [10, 10, 10]
+s = Prim.sphere 5
 

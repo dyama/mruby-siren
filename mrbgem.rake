@@ -1,3 +1,7 @@
+##
+# mruby-siren rake file
+#
+
 MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   # General spec
@@ -27,13 +31,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
       'TKShHealing', 'TKHLR', 'TKMesh', 'TKBool',
       'TKXMesh', 'TKFeat', 'TKFillet', 'TKOffset' ]
   visualization = []
-  #  [ 'TKService', 'TKV3d', 'TKOpenGl', 'TKMeshVS',
-  #    'TKNIS', 'TKVoxel' ]
   applicationFramework = []
-  #  [ 'PTKernel', 'TKCDF', 'TKPShape', 'FWOSPlugin', 'TKLCAF',
-  #    'TKShapeSchema', 'TKPLCAF', 'TKCAF', 'TKBinL', 'TKTObj',
-  #    'TKXmlL', 'TKStdLSchema', 'TKPCAF', 'TKBin', 'TKBinTObj',
-  #    'TKXml', 'TKXmlTObj', 'TKStdSchema' ]
   dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES' ]
 
   # thirdPartyLibs =
