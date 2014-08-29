@@ -7,6 +7,7 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "line",     siren_build_line,     ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "polyline", siren_build_polyline, ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "curve",    siren_build_curve,    ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "plane",    siren_build_plane,    ARGS_REQ(7));
   mrb_define_class_method(mrb, rclass, "polygon",  siren_build_polygon,  ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
   return true;
@@ -100,6 +101,29 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* shape = new TopoDS_Shape();
   *shape = BRepBuilderAPI_MakeEdge(geSpl);
+
+  return siren_shape_new(mrb, shape);
+}
+
+mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
+{
+  mrb_value pos, norm, vdir;
+  mrb_float umin, umax, vmin, vmax;
+  int argc = mrb_get_args(mrb, "oooffff", &pos, &norm, &vdir, &umin, &umax, &vmin, &vmax);
+
+  gp_Vec* p = siren_vec_get(mrb, pos);
+  gp_Vec* n = siren_vec_get(mrb, norm);
+  gp_Vec* d = siren_vec_get(mrb, vdir);
+
+  gp_Pnt _pos(p->X(), p->Y(), p->Z());
+  gp_Dir _norm(n->X(), n->Y(), n->Z());
+  gp_Dir _vdir(d->X(), d->Y(), d->Z());
+  gp_Ax3 ax(_pos, _norm, _vdir);
+  gp_Pln _pln(ax);
+
+  TopoDS_Shape* shape = new TopoDS_Shape();
+  BRepBuilderAPI_MakeFace face(_pln, (Standard_Real)umin, (Standard_Real)umax, (Standard_Real)vmin, (Standard_Real)vmax);
+  *shape = face.Shape();
 
   return siren_shape_new(mrb, shape);
 }

@@ -17,12 +17,16 @@
 #include <TColgp_HArray1OfPnt.hxx>
 #include <TColStd_HArray1OfBoolean.hxx>
 
+#include <gp_Ax3.hxx> // plane
+#include <gp_Pln.hxx>
+
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_build_vertex   (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_line     (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_polyline (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_curve    (mrb_state* mrb, mrb_value self);
+mrb_value siren_build_plane    (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_build_beziercurve(mrb_state* mrb, mrb_value self);
