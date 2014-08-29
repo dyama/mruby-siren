@@ -105,6 +105,41 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, shape);
 }
 
+mrb_value siren_build_wire(mrb_state* mrb, mrb_value self)
+{
+  mrb_value objs;
+  int argc = mrb_get_args(mrb, "A", &objs);
+  ShapeFix_Wire sfw;
+  Handle(ShapeExtend_WireData) wd = new ShapeExtend_WireData();
+  BRepBuilderAPI_MakeWire mw;
+  ShapeFix_ShapeTolerance FTol;
+  int osize = mrb_ary_len(mrb, objs);
+  for (int i = 0; i < osize ; i++) {
+    mrb_value obj = mrb_ary_ref(mrb, objs, i);
+    TopoDS_Shape* s = siren_shape_get(mrb, obj);
+    if (s->IsNull()) {
+      continue;
+    }
+    TopExp_Explorer exp(*s, TopAbs_EDGE);
+    for (; exp.More(); exp.Next()) {
+      wd->Add(TopoDS::Edge(exp.Current()));
+    }
+  }
+  if (wd->NbEdges() == 0) {
+    return mrb_nil_value();
+  }
+  sfw.Load(wd);
+  sfw.Perform();
+  for (int i = 1; i <= sfw.NbEdges(); i ++) {
+    TopoDS_Edge e = sfw.WireData()->Edge(i);
+    FTol.SetTolerance(e, 0.01, TopAbs_VERTEX);
+    mw.Add(e);
+  }
+  TopoDS_Shape* shape = new TopoDS_Shape();
+  *shape = mw.Shape();
+  return siren_shape_new(mrb, shape);
+}
+
 mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
 {
   mrb_value pos, norm, vdir;
