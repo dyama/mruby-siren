@@ -3,8 +3,9 @@
 bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Offset");
-  mrb_define_class_method(mrb, rclass, "sweep_vec", siren_offset_sweep_vec, ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "sweep_vec",  siren_offset_sweep_vec,  ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "sweep_path", siren_offset_sweep_path, ARGS_REQ(2) | ARGS_OPT(4));
+  mrb_define_class_method(mrb, rclass, "loft",       siren_offset_loft,       ARGS_REQ(1));
   return true;
 }
 
@@ -113,5 +114,40 @@ mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
     result = siren_shape_new(mrb, shape);
   }
   return result;
+}
+
+mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self)
+{
+  mrb_value objs;
+  mrb_bool smooth, is_solid, is_ruled;
+  int argc = mrb_get_args(mrb, "A|bbb", &objs, &smooth,  &is_solid, &is_ruled);
+  int lsize = mrb_ary_len(mrb, objs);
+
+  if (lsize < 2) {
+    static const char m[] = "Number of objects must be over 2 lines.";
+    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+  }
+
+  Standard_Boolean is_sm, is_s, is_r;
+  is_sm = argc < 2 ? Standard_True : (Standard_Boolean)smooth;
+  is_s = argc < 3 ? Standard_False : (Standard_Boolean)is_solid;
+  is_r = argc < 4 ? Standard_True : (Standard_Boolean)is_ruled;
+
+  BRepOffsetAPI_ThruSections ts(is_s, is_r);
+
+  for (int i=0; i<lsize; i++) {
+    mrb_value line = mrb_ary_ref(mrb, objs, i);
+    TopoDS_Shape* shape = siren_shape_get(mrb, line);
+    TopoDS_Wire w = TopoDS::Wire(*shape);
+    ts.AddWire(w);
+  }
+
+  ts.SetSmoothing(is_sm);
+  ts.Build();
+
+  TopoDS_Shape* shape = new TopoDS_Shape();
+  *shape = ts.Shape();
+
+  return siren_shape_new(mrb, shape);
 }
 
