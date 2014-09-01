@@ -35,9 +35,9 @@ mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
 {
 
   mrb_value target, pathwire;
-  mrb_value cont, corr;
+  mrb_bool cont, corr;
   mrb_float scale_first, scale_last;
-  int argc = mrb_get_args(mrb, "oo|ooff", &target, &pathwire, &cont, &corr, &scale_first, &scale_last);
+  int argc = mrb_get_args(mrb, "oo|bbff", &target, &pathwire, &cont, &corr, &scale_first, &scale_last);
 
   TopoDS_Shape* shape_profile = siren_shape_get(mrb, target);
   TopoDS_Shape* shape_path = siren_shape_get(mrb, pathwire);
@@ -59,8 +59,8 @@ mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
 
   if (argc >= 3 && argc <= 6) {
 
-    Standard_Boolean withContact = (Standard_Boolean)mrb_test(cont);
-    Standard_Boolean withCorrection = (Standard_Boolean)mrb_test(corr);
+    Standard_Boolean withContact = (Standard_Boolean)cont;
+    Standard_Boolean withCorrection = (Standard_Boolean)corr;
 
     BRepOffsetAPI_MakePipeShell ps(path);
 
