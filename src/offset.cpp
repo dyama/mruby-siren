@@ -13,7 +13,7 @@ bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
 mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self)
 {
   mrb_value target, vec;
-  int argc = mrb_get_args(mrb, "oA", &target, &vec);
+  int argc = mrb_get_args(mrb, "oo", &target, &vec);
 
   TopoDS_Shape* profile = siren_shape_get(mrb, target);
 
