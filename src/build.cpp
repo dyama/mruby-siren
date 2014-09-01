@@ -10,6 +10,7 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "curve",    siren_build_curve,    ARGS_REQ(1) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "plane",    siren_build_plane,    ARGS_REQ(7));
   mrb_define_class_method(mrb, rclass, "polygon",  siren_build_polygon,  ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "sewing",   siren_build_sewing,   ARGS_REQ(1) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
   return true;
 }
@@ -205,6 +206,42 @@ mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
   *shape = mf.Shape();
 
   return siren_shape_new(mrb, shape);
+}
+
+mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
+{
+  mrb_value ar;
+  mrb_float tol;
+  int argc = mrb_get_args(mrb, "A|f", &ar, &tol);
+
+  BRepBuilderAPI_Sewing sewer;
+  sewer.Init();
+  if (argc == 2 && tol >= 0) {
+    sewer.SetTolerance(tol);
+  }
+
+  int psize = mrb_ary_len(mrb, ar);
+  for (int i=0; i<psize; i++) {
+    mrb_value item = mrb_ary_ref(mrb, ar, i);
+    if (!mrb_fixnum_p(item)) {
+      static const char m[] = "Incorrect argument specified.";
+      return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    }
+    TopoDS_Shape* shape = siren_shape_get(mrb, item);
+    if (shape->IsNull()) {
+      continue;
+    }
+    TopExp_Explorer ex(*shape, TopAbs_FACE);
+    for (; ex.More(); ex.Next()) {
+      sewer.Add(ex.Current());
+    }
+  }
+
+  TopoDS_Shape* result = new TopoDS_Shape();
+  sewer.Perform();
+  *result = sewer.SewedShape();
+
+  return siren_shape_new(mrb, result);
 }
 
 mrb_value siren_build_compound(mrb_state* mrb, mrb_value self)

@@ -30,6 +30,9 @@
 // copy
 #include <BRepBuilderAPI_Copy.hxx>
 
+// sewing
+#include <BRepBuilderAPI_Sewing.hxx>
+
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_build_copy     (mrb_state* mrb, mrb_value self);
@@ -49,6 +52,8 @@ mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_shell(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_solid(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_build_compound(mrb_state* mrb, mrb_value self);
 
