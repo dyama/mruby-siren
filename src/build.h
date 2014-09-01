@@ -27,7 +27,12 @@
 #include <BRepBuilderAPI_MakeWire.hxx>
 #include <ShapeFix_ShapeTolerance.hxx>
 
+// copy
+#include <BRepBuilderAPI_Copy.hxx>
+
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass);
+
+mrb_value siren_build_copy     (mrb_state* mrb, mrb_value self);
 
 mrb_value siren_build_vertex   (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_line     (mrb_state* mrb, mrb_value self);

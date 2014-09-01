@@ -3,6 +3,7 @@
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Build");
+  mrb_define_class_method(mrb, rclass, "copy",     siren_build_copy,     ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "vertex",   siren_build_vertex,   ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "line",     siren_build_line,     ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "polyline", siren_build_polyline, ARGS_REQ(1));
@@ -11,6 +12,22 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "polygon",  siren_build_polygon,  ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
   return true;
+}
+
+mrb_value siren_build_copy(mrb_state* mrb, mrb_value self)
+{
+  mrb_value target;
+  int argc = mrb_get_args(mrb, "o", &target);
+
+  TopoDS_Shape* src = siren_shape_get(mrb, target);
+
+  BRepBuilderAPI_Copy B;
+  B.Perform(*src);
+
+  TopoDS_Shape* dest = new TopoDS_Shape();
+  *dest = B.Shape();
+
+  return siren_shape_new(mrb, dest);
 }
 
 mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
