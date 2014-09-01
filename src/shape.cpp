@@ -21,10 +21,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "rotate!",    siren_shape_rotate,    ARGS_REQ(3));
   mrb_define_method(mrb, rclass, "scale!",     siren_shape_scale,     ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "mirror!",    siren_shape_mirror,    ARGS_REQ(2));
-
-  // mrb_define_method(mrb, rclass, "copy", mrb_method_dummy, ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "move!", mrb_method_dummy, ARGS_NONE());
-
+  mrb_define_method(mrb, rclass, "move!",      siren_shape_move,      ARGS_REQ(1));
   return true;
 }
 
@@ -137,6 +134,19 @@ mrb_value siren_shape_mirror(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   shape->Move(trsf);
+
+  return mrb_nil_value();
+}
+
+mrb_value siren_shape_move(mrb_state* mrb, mrb_value self)
+{
+  mrb_value trans;
+  int argc = mrb_get_args(mrb, "o", &trans);
+
+  gp_Trsf* t = siren_trans_get(mrb, trans);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  shape->Move(*t);
 
   return mrb_nil_value();
 }

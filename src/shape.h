@@ -3,6 +3,7 @@
 
 #include "siren.h"
 #include "vec.h"
+#include "trans.h"
 
 #include <gp_Ax1.hxx>
 #include <gp_Ax2.hxx>
@@ -23,6 +24,6 @@ mrb_value siren_shape_translate(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_scale(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_mirror(mrb_state* mrb, mrb_value self);
-// mrb_value siren_shape_move(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_move(mrb_state* mrb, mrb_value self);
 
 #endif
