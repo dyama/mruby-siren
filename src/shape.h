@@ -16,4 +16,6 @@ mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_shapetype(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_location(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_shape_translate(mrb_state* mrb, mrb_value self);
+
 #endif
