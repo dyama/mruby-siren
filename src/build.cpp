@@ -11,6 +11,7 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "plane",    siren_build_plane,    ARGS_REQ(7));
   mrb_define_class_method(mrb, rclass, "polygon",  siren_build_polygon,  ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "sewing",   siren_build_sewing,   ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "solid",    siren_build_solid,    ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
   return true;
 }
@@ -242,6 +243,27 @@ mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
   *result = sewer.SewedShape();
 
   return siren_shape_new(mrb, result);
+}
+
+mrb_value siren_build_solid(mrb_state* mrb, mrb_value self)
+{
+  mrb_value obj;
+  int argc = mrb_get_args(mrb, "o", &obj);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, obj);
+
+  TopoDS_Solid* solid = new TopoDS_Solid();
+  BRepBuilderAPI_MakeSolid solid_maker;
+
+  for (TopExp_Explorer ex(*shape, TopAbs_SHELL); ex.More(); ex.Next()) {
+    TopoDS_Shell shell = TopoDS::Shell(ex.Current());
+    solid_maker.Add(shell);
+  }
+  if (!solid_maker.IsDone())
+    return mrb_nil_value();
+
+  *solid = solid_maker.Solid();
+  return siren_shape_new(mrb, solid);
 }
 
 mrb_value siren_build_compound(mrb_state* mrb, mrb_value self)

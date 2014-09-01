@@ -12,6 +12,7 @@
 #include <BRepBuilderAPI_MakeWire.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
 #include <BRepBuilderAPI_MakePolygon.hxx>
+#include <BRepBuilderAPI_MakeSolid.hxx>
 
 #include <GeomAPI_Interpolate.hxx> // curve
 #include <TColgp_Array1OfVec.hxx>
@@ -51,10 +52,9 @@ mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_shell(mrb_state* mrb, mrb_value self);
-// mrb_value siren_build_solid(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self);
-
+mrb_value siren_build_solid(mrb_state* mrb, mrb_value self);
 mrb_value siren_build_compound(mrb_state* mrb, mrb_value self);
 
 #endif
