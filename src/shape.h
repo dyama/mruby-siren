@@ -20,7 +20,7 @@ mrb_value siren_shape_location(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_translate(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self);
-// mrb_value siren_shape_scale(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_scale(mrb_state* mrb, mrb_value self);
 // mrb_value siren_shape_mirror(mrb_state* mrb, mrb_value self);
 // mrb_value siren_shape_move(mrb_state* mrb, mrb_value self);
 
