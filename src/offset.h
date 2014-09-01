@@ -5,8 +5,10 @@
 #include "shape.h"
 #include "build.h"
 
+#include <BRepOffsetAPI_MakePipe.hxx>
+
 bool siren_offset_install(mrb_state* mrb, struct RClass* rclass);
 
-// mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self);
+mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self);
 
 #endif
