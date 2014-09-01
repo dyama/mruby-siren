@@ -18,10 +18,14 @@
 // loft
 #include <BRepOffsetAPI_ThruSections.hxx>
 
+// offset
+#include <Geom_OffsetSurface.hxx>
+
 bool siren_offset_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self);
 mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self);
 mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self);
+mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self);
 
 #endif

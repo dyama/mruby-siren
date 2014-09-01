@@ -5,7 +5,8 @@ bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_module(mrb, "Offset");
   mrb_define_class_method(mrb, rclass, "sweep_vec",  siren_offset_sweep_vec,  ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "sweep_path", siren_offset_sweep_path, ARGS_REQ(2) | ARGS_OPT(4));
-  mrb_define_class_method(mrb, rclass, "loft",       siren_offset_loft,       ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "loft",       siren_offset_loft,       ARGS_REQ(1) | ARGS_OPT(3));
+  mrb_define_class_method(mrb, rclass, "offset",     siren_offset_offset,     ARGS_REQ(2) | ARGS_OPT(1));
   return true;
 }
 
@@ -33,7 +34,6 @@ mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
 {
-
   mrb_value target, pathwire;
   mrb_bool cont, corr;
   mrb_float scale_first, scale_last;
@@ -149,5 +149,30 @@ mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self)
   *shape = ts.Shape();
 
   return siren_shape_new(mrb, shape);
+}
+
+mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self)
+{
+  mrb_value target;
+  mrb_float offset, tol;
+  int argc = mrb_get_args(mrb, "of|f", &target, &offset, &tol);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, target);
+
+  TopoDS_Compound* comp = new TopoDS_Compound();
+  BRep_Builder B;
+  B.MakeCompound(*comp);
+
+  TopExp_Explorer exp(*shape, TopAbs_FACE);
+
+  for (; exp.More(); exp.Next()) {
+    TopoDS_Face face = TopoDS::Face(exp.Current());
+    Handle(Geom_Surface) gs = BRep_Tool::Surface(face);
+    Handle(Geom_OffsetSurface) gos = new Geom_OffsetSurface(gs, (Standard_Real)offset);
+    TopoDS_Face newface = BRepBuilderAPI_MakeFace(gos, (Standard_Real)tol);
+    B.Add(*comp, newface);
+  }
+
+  return siren_shape_new(mrb, comp);
 }
 
