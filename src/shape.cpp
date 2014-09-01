@@ -17,13 +17,10 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype, ARGS_NONE());
   mrb_define_method(mrb, rclass, "location",   siren_shape_location,  ARGS_NONE());
 
-  mrb_define_method(mrb, rclass, "translate", siren_shape_translate,  ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "translate!", siren_shape_translate, ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "rotate!",    siren_shape_rotate,    ARGS_REQ(3));
+
   // mrb_define_method(mrb, rclass, "copy", mrb_method_dummy, ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "rotate", mrb_method_dummy, ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "scale", mrb_method_dummy, ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "move", mrb_method_dummy, ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "translate!", mrb_method_dummy, ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "rotate!", mrb_method_dummy, ARGS_NONE());
   // mrb_define_method(mrb, rclass, "scale!", mrb_method_dummy, ARGS_NONE());
   // mrb_define_method(mrb, rclass, "move!", mrb_method_dummy, ARGS_NONE());
 
@@ -83,6 +80,25 @@ mrb_value siren_shape_translate(mrb_state* mrb, mrb_value self)
   gp_Vec* _vec = siren_vec_get(mrb, vec);
   gp_Trsf trsf;
   trsf.SetTranslation(*_vec);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  shape->Move(trsf);
+
+  return mrb_nil_value();
+}
+
+mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self)
+{
+  mrb_value op, norm;
+  mrb_float ang;
+  int argc = mrb_get_args(mrb, "oof", &op, &norm, &ang);
+
+  gp_Vec* _op = siren_vec_get(mrb, op);
+  gp_Vec* _norm = siren_vec_get(mrb, norm);
+  gp_Ax1 ax(gp_Pnt(_op->X(), _op->Y(), _op->Z()), gp_Dir(_norm->X(), _norm->Y(), _norm->Z()));
+
+  gp_Trsf trsf;
+  trsf.SetRotation(ax, (Standard_Real)ang);
 
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   shape->Move(trsf);
