@@ -15,6 +15,7 @@
 #include "proj.h"
 #include "heal.h"
 #include "geom.h"
+#include "feat.h"
 
 extern "C" {
 
@@ -36,6 +37,7 @@ extern "C" {
     struct RClass* _proj   = NULL;
     struct RClass* _heal   = NULL;
     struct RClass* _geom   = NULL;
+    struct RClass* _feat   = NULL;
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
     siren_vec_install(mrb, _vec);
@@ -51,6 +53,7 @@ extern "C" {
     siren_proj_install(mrb, _algo);
     siren_heal_install(mrb, _heal);
     siren_geom_install(mrb, _geom);
+    siren_feat_install(mrb, _geom);
     return;
   }
 
