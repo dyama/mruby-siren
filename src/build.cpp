@@ -224,10 +224,6 @@ mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
   int psize = mrb_ary_len(mrb, ar);
   for (int i=0; i<psize; i++) {
     mrb_value item = mrb_ary_ref(mrb, ar, i);
-    if (!mrb_fixnum_p(item)) {
-      static const char m[] = "Incorrect argument specified.";
-      return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
-    }
     TopoDS_Shape* shape = siren_shape_get(mrb, item);
     if (shape->IsNull()) {
       continue;
