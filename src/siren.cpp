@@ -10,6 +10,7 @@
 #include "bool.h"
 #include "iges.h"
 #include "gprop.h"
+#include "offset.h"
 
 extern "C" {
 
@@ -26,6 +27,7 @@ extern "C" {
     struct RClass* _bool   = NULL;
     struct RClass* _iges   = NULL;
     struct RClass* _gprop  = NULL;
+    struct RClass* _offset = NULL;
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
     siren_vec_install(mrb, _vec);
@@ -36,6 +38,7 @@ extern "C" {
     siren_bool_install(mrb, _bool);
     siren_iges_install(mrb, _iges);
     siren_gprop_install(mrb, _gprop);
+    siren_offset_install(mrb, _offset);
     return;
   }
 
