@@ -68,7 +68,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.linker.libraries << allLibs
 
   # Compiler option
-  spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath <<
+  spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath << " " <<
     "-Wno-unused-function -Wno-unused-variable"
 
   #allLibs.each do |libname|
