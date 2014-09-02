@@ -5,6 +5,9 @@
 #include <iostream>
 #include <stdlib.h>
 
+// placement new
+#include <new>
+
 // mruby libraries
 #include "mruby.h"
 #include "mruby/array.h"

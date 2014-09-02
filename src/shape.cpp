@@ -27,7 +27,8 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 
 mrb_value siren_shape_init(mrb_state* mrb, mrb_value self)
 {
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
+  TopoDS_Shape* shape = new(p) TopoDS_Shape();
   DATA_PTR(self) = shape;
   DATA_TYPE(self) = &siren_shape_type;
   return self;
@@ -37,6 +38,7 @@ void siren_shape_final(mrb_state* mrb, void* p)
 {
   TopoDS_Shape* s = static_cast<TopoDS_Shape*>(p);
   s->Nullify();
+  mrb_free(mrb, s);
 }
 
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
