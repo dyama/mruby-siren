@@ -3,7 +3,7 @@
 # 2. Calculation hydrostatics table with solid model.
 
 ofsfile = "/tmp/TABLE.csv"
-lpp = 123.4
+lpp = 22.4
 
 no = ""
 sl = []
@@ -38,7 +38,7 @@ end
 # Make hullshape surface
 ws = Array.new
 t.each do |x, ln|
-  x = x * 22.4 / 10
+  x = x * lpp / 10
   pts = Array.new
   ln.each do |z, y|
     pts.push Vec.new(x, y, z)
