@@ -49,6 +49,6 @@ res = Offset.loft ws
 
 
 
-BRepIO.save res, "/tmp/hydro.brep"
+BRepIO.save res, "/tmp/#{no}.brep"
 puts "Done."
 

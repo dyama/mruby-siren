@@ -18,6 +18,15 @@ https://github.com/mruby/mruby
 * Open CASCADE Community Edition
 https://github.com/tpaviot/oce
 
+Required mrbgems
+----------------
+
+* mruby-io
+https://github.com/iij/mruby-io
+
+* mruby-pcre-regexp
+https://github.com/mattn/mruby-pcre-regexp
+
 How to build
 --------
 1. Install OCE libraries and headers on your system.
