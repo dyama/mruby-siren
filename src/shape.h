@@ -8,6 +8,7 @@
 #include <gp_Ax1.hxx>
 #include <gp_Ax2.hxx>
 
+TopoDS_Shape* siren_occ_shape_new(mrb_state* mrb);
 void siren_shape_final(mrb_state* mrb, void* p);
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass);
 static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };

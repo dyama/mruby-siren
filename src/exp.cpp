@@ -13,7 +13,7 @@ bool siren_exp_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "clear",      siren_exp_clear,    ARGS_NONE());
   mrb_define_method(mrb, rclass, "more",       siren_exp_more,     ARGS_NONE());
   mrb_define_method(mrb, rclass, "next",       siren_exp_next,     ARGS_NONE());
-  mrb_define_method(mrb, rclass, "current",     siren_exp_current, ARGS_NONE());
+  mrb_define_method(mrb, rclass, "current",    siren_exp_current,  ARGS_NONE());
 
   return true;
 }
@@ -25,7 +25,9 @@ mrb_value siren_exp_init(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "oi", &obj, &type);
 
   TopoDS_Shape* shape = siren_shape_get(mrb, obj);
-  TopExp_Explorer* exp = new TopExp_Explorer(*shape, (TopAbs_ShapeEnum)type);
+
+  void* p = mrb_malloc(mrb, sizeof(gp_Vec));
+  TopExp_Explorer* exp = new(p) TopExp_Explorer(*shape, (TopAbs_ShapeEnum)type);
 
   DATA_PTR(self) = exp;
   DATA_TYPE(self) = &siren_exp_type;
@@ -35,7 +37,7 @@ mrb_value siren_exp_init(mrb_state* mrb, mrb_value self)
 void siren_exp_final(mrb_state* mrb, void* p)
 {
   TopExp_Explorer* exp = static_cast<TopExp_Explorer*>(p);
-  delete exp;
+  mrb_free(mrb, exp);
 }
 
 mrb_value siren_exp_to_a(mrb_state* mrb, mrb_value self)
@@ -44,7 +46,7 @@ mrb_value siren_exp_to_a(mrb_state* mrb, mrb_value self)
   mrb_value res = mrb_ary_new(mrb);
 
   for (exp->ReInit(); exp->More(); exp->Next()) {
-    TopoDS_Shape* s = new TopoDS_Shape();
+    TopoDS_Shape* s = siren_occ_shape_new(mrb);
     *s = exp->Current();
     mrb_value item = siren_shape_new(mrb, s);
     mrb_ary_push(mrb, res, item);
@@ -104,9 +106,7 @@ mrb_value siren_exp_next(mrb_state* mrb, mrb_value self)
 mrb_value siren_exp_current(mrb_state* mrb, mrb_value self)
 {
   TopExp_Explorer* exp = siren_exp_get(mrb, self);
-  TopoDS_Shape* s = new TopoDS_Shape();
-  *s = exp->Current();
-  return siren_shape_new(mrb, s);
+  return siren_shape_new(mrb, &(exp->Current()));
 }
 
 TopExp_Explorer* siren_exp_get(mrb_state* mrb, mrb_value obj)

@@ -1,10 +1,35 @@
 #include "shape.h"
 
+/* this function copied from class.c */
+static mrb_value
+mrb_instance_alloc(mrb_state *mrb, mrb_value cv)
+{
+  struct RClass *c = mrb_class_ptr(cv);
+  struct RObject *o;
+  enum mrb_vtype ttype = MRB_INSTANCE_TT(c);
+
+  if (c->tt == MRB_TT_SCLASS)
+    mrb_raise(mrb, E_TYPE_ERROR, "can't create instance of singleton class");
+
+  if (ttype == 0) ttype = MRB_TT_OBJECT;
+  o = (struct RObject*)mrb_obj_alloc(mrb, ttype, c);
+  return mrb_obj_value(o);
+}
+/* end of function */
+
+TopoDS_Shape* siren_occ_shape_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
+  return new(p) TopoDS_Shape();
+}
+
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
 {
-  mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Shape"));
-  DATA_PTR(res) = const_cast<TopoDS_Shape*>(shape);
-  return res;
+  mrb_value obj;
+  obj = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Shape")));
+  DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(shape);
+  DATA_TYPE(obj) = &siren_shape_type;
+  return obj;
 }
 
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
@@ -27,8 +52,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 
 mrb_value siren_shape_init(mrb_state* mrb, mrb_value self)
 {
-  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
-  TopoDS_Shape* shape = new(p) TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   DATA_PTR(self) = shape;
   DATA_TYPE(self) = &siren_shape_type;
   return self;
