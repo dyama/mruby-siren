@@ -28,11 +28,14 @@ mrb_value siren_vec_init(mrb_state* mrb, mrb_value self)
   mrb_float x, y, z;
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
 
-  gp_Vec* vec = NULL;
-  if (argc == 3)
-    vec = new gp_Vec((Standard_Real)x, (Standard_Real)y, (Standard_Real)z);
-  else
-    vec = new gp_Vec(0., 0., 0.);
+  void* p = mrb_malloc(mrb, sizeof(gp_Vec));
+  gp_Vec* vec;
+  if (argc == 3) {
+    vec = new(p) gp_Vec((Standard_Real)x, (Standard_Real)y, (Standard_Real)z);
+  }
+  else {
+    vec = new(p) gp_Vec(0., 0., 0.);
+  }
 
   DATA_PTR(self) = vec;
   DATA_TYPE(self) = &siren_vec_type;
@@ -42,7 +45,7 @@ mrb_value siren_vec_init(mrb_state* mrb, mrb_value self)
 void siren_vec_final(mrb_state* mrb, void* p)
 {
   gp_Vec* v = static_cast<gp_Vec*>(p);
-  delete v;
+  mrb_free(mrb, v);
 }
 
 mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
