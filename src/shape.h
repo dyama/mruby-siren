@@ -33,6 +33,8 @@ mrb_value siren_shape_scale(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_mirror(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_move(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_shape_moved(mrb_state* mrb, mrb_value self);
+
 mrb_value siren_shape_hashcode(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_is_partner(mrb_state* mrb, mrb_value self);

@@ -29,6 +29,8 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "mirror!",    siren_shape_mirror,    ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "move!",      siren_shape_move,      ARGS_REQ(1));
 
+  mrb_define_method(mrb, rclass, "move",       siren_shape_moved,     ARGS_REQ(1));
+
   mrb_define_method(mrb, rclass, "hashcode",   siren_shape_hashcode,  ARGS_NONE());
 
   mrb_define_method(mrb, rclass, "partner?",   siren_shape_is_partner, ARGS_REQ(1));
@@ -162,6 +164,17 @@ mrb_value siren_shape_move(mrb_state* mrb, mrb_value self)
   shape->Move(*t);
 
   return mrb_nil_value();
+}
+
+mrb_value siren_shape_moved(mrb_state* mrb, mrb_value self)
+{
+  mrb_value trans;
+  int argc = mrb_get_args(mrb, "o", &trans);
+
+  gp_Trsf* t = siren_trans_get(mrb, trans);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  return siren_shape_new(mrb, shape->Moved(*t));
 }
 
 mrb_value siren_shape_hashcode(mrb_state* mrb, mrb_value self)
