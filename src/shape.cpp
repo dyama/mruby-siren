@@ -41,6 +41,8 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   ARGS_REQ(1));
 
+  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    ARGS_REQ(1));
+
   return true;
 }
 
@@ -223,5 +225,29 @@ mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* shape_self  = siren_shape_get(mrb, self);
   TopoDS_Shape* shape_other = siren_shape_get(mrb, other);
   return shape_self->IsEqual(*shape_other) ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self)
+{
+  mrb_int type;
+  mrb_value block;
+  int argc = mrb_get_args(mrb, "i&", &type, &block);
+  TopExp_Explorer ex(*siren_shape_get(mrb, self), (TopAbs_ShapeEnum)type);
+  if (!mrb_nil_p(block)) {
+    for (; ex.More(); ex.Next()) {
+      mrb_value argv[2];
+      argv[0] = siren_shape_new(mrb, ex.Current());
+      argv[1] = mrb_fixnum_value(ex.Depth());
+      mrb_yield_argv(mrb, block, 2, argv);
+    }
+    return self;
+  }
+  mrb_value ar = mrb_ary_new(mrb);
+  for (; ex.More(); ex.Next()) {
+    mrb_int ai = mrb_gc_arena_save(mrb);
+    mrb_ary_push(mrb, ar, siren_shape_new(mrb, ex.Current()));
+    mrb_gc_arena_restore(mrb, ai);
+  }
+  return ar;
 }
 

@@ -12,6 +12,8 @@
 #include <TopoDS.hxx>
 #include <TopoDS_Shape.hxx>
 
+#include <TopExp_Explorer.hxx>
+
 void siren_shape_final(mrb_state* mrb, void* p);
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass);
 static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };
@@ -44,5 +46,7 @@ mrb_value siren_shape_hashcode(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_partner(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_same(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self);
 
 #endif
