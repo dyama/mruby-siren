@@ -97,11 +97,9 @@ mrb_value siren_shape_translate(mrb_state* mrb, mrb_value self)
 {
   mrb_value vec;
   int argc = mrb_get_args(mrb, "o", &vec);
-  gp_Vec* _vec = siren_vec_get(mrb, vec);
   gp_Trsf trsf;
-  trsf.SetTranslation(*_vec);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  shape->Move(trsf);
+  trsf.SetTranslation(*siren_vec_get(mrb, vec));
+  siren_shape_get(mrb, self)->Move(trsf);
   return mrb_nil_value();
 }
 
@@ -112,8 +110,7 @@ mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "oof", &op, &norm, &ang);
   gp_Trsf trsf;
   trsf.SetRotation(siren_ax1_get(mrb, op, norm), (Standard_Real)ang);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  shape->Move(trsf);
+  siren_shape_get(mrb, self)->Move(trsf);
   return mrb_nil_value();
 }
 
@@ -124,8 +121,7 @@ mrb_value siren_shape_scale(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "of", &op, &factor);
   gp_Trsf trsf;
   trsf.SetScale(siren_pnt_get(mrb, op), (Standard_Real)factor);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  shape->Move(trsf);
+  siren_shape_get(mrb, self)->Move(trsf);
   return mrb_nil_value();
 }
 
@@ -133,11 +129,9 @@ mrb_value siren_shape_mirror(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
   int argc = mrb_get_args(mrb, "oo", &op, &norm);
-  gp_Ax2 ax = siren_ax2s_get(mrb, op, norm);
   gp_Trsf trsf;
-  trsf.SetMirror(ax);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  shape->Move(trsf);
+  trsf.SetMirror(siren_ax2s_get(mrb, op, norm));
+  siren_shape_get(mrb, self)->Move(trsf);
   return mrb_nil_value();
 }
 
@@ -146,8 +140,7 @@ mrb_value siren_shape_move(mrb_state* mrb, mrb_value self)
   mrb_value trans;
   int argc = mrb_get_args(mrb, "o", &trans);
   gp_Trsf* t = siren_trans_get(mrb, trans);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  shape->Move(*t);
+  siren_shape_get(mrb, self)->Move(*t);
   return mrb_nil_value();
 }
 
@@ -155,11 +148,9 @@ mrb_value siren_shape_translated(mrb_state* mrb, mrb_value self)
 {
   mrb_value vec;
   int argc = mrb_get_args(mrb, "o", &vec);
-  gp_Vec* _vec = siren_vec_get(mrb, vec);
   gp_Trsf trsf;
-  trsf.SetTranslation(*_vec);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  return siren_shape_new(mrb, shape->Moved(trsf));
+  trsf.SetTranslation(*siren_vec_get(mrb, vec));
+  return siren_shape_new(mrb, siren_shape_get(mrb, self)->Moved(trsf));
 }
 
 mrb_value siren_shape_rotated(mrb_state* mrb, mrb_value self)
@@ -169,8 +160,7 @@ mrb_value siren_shape_rotated(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "oof", &op, &norm, &ang);
   gp_Trsf trsf;
   trsf.SetRotation(siren_ax1_get(mrb, op, norm), (Standard_Real)ang);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  return siren_shape_new(mrb, shape->Moved(trsf));
+  return siren_shape_new(mrb, siren_shape_get(mrb, self)->Moved(trsf));
 }
 
 mrb_value siren_shape_scaled(mrb_state* mrb, mrb_value self)
@@ -180,19 +170,16 @@ mrb_value siren_shape_scaled(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "of", &op, &factor);
   gp_Trsf trsf;
   trsf.SetScale(siren_pnt_get(mrb, op), (Standard_Real)factor);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  return siren_shape_new(mrb, shape->Moved(trsf));
+  return siren_shape_new(mrb, siren_shape_get(mrb, self)->Moved(trsf));
 }
 
 mrb_value siren_shape_mirrored(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
   int argc = mrb_get_args(mrb, "oo", &op, &norm);
-  gp_Ax2 ax = siren_ax2s_get(mrb, op, norm);
   gp_Trsf trsf;
-  trsf.SetMirror(ax);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  return siren_shape_new(mrb, shape->Moved(trsf));
+  trsf.SetMirror(siren_ax2s_get(mrb, op, norm));
+  return siren_shape_new(mrb, siren_shape_get(mrb, self)->Moved(trsf));
 }
 
 mrb_value siren_shape_moved(mrb_state* mrb, mrb_value self)
@@ -200,8 +187,7 @@ mrb_value siren_shape_moved(mrb_state* mrb, mrb_value self)
   mrb_value trans;
   int argc = mrb_get_args(mrb, "o", &trans);
   gp_Trsf* t = siren_trans_get(mrb, trans);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  return siren_shape_new(mrb, shape->Moved(*t));
+  return siren_shape_new(mrb, siren_shape_get(mrb, self)->Moved(*t));
 }
 
 mrb_value siren_shape_hashcode(mrb_state* mrb, mrb_value self)
@@ -219,7 +205,6 @@ mrb_value siren_shape_is_partner(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* shape_self  = siren_shape_get(mrb, self);
   TopoDS_Shape* shape_other = siren_shape_get(mrb, other);
   return shape_self->IsPartner(*shape_other) ? mrb_true_value() : mrb_false_value();
-
 }
 
 mrb_value siren_shape_is_same(mrb_state* mrb, mrb_value self)
