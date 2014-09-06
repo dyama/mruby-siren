@@ -31,6 +31,10 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 
   mrb_define_method(mrb, rclass, "hashcode",   siren_shape_hashcode,  ARGS_NONE());
 
+  mrb_define_method(mrb, rclass, "partner?",   siren_shape_is_partner, ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   ARGS_REQ(1));
+
   return true;
 }
 
@@ -167,3 +171,32 @@ mrb_value siren_shape_hashcode(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   return mrb_fixnum_value(shape->HashCode(upper));
 }
+
+mrb_value siren_shape_is_partner(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  TopoDS_Shape* shape_self  = siren_shape_get(mrb, self);
+  TopoDS_Shape* shape_other = siren_shape_get(mrb, other);
+  return shape_self->IsPartner(*shape_other) ? mrb_true_value() : mrb_false_value();
+
+}
+
+mrb_value siren_shape_is_same(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  TopoDS_Shape* shape_self  = siren_shape_get(mrb, self);
+  TopoDS_Shape* shape_other = siren_shape_get(mrb, other);
+  return shape_self->IsSame(*shape_other) ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  TopoDS_Shape* shape_self  = siren_shape_get(mrb, self);
+  TopoDS_Shape* shape_other = siren_shape_get(mrb, other);
+  return shape_self->IsEqual(*shape_other) ? mrb_true_value() : mrb_false_value();
+}
+

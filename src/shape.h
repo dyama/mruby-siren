@@ -35,4 +35,8 @@ mrb_value siren_shape_move(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_hashcode(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_shape_is_partner(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_is_same(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self);
+
 #endif
