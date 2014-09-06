@@ -3,6 +3,7 @@
 
 #include "siren.h"
 #include "vec.h"
+#include "bndbox.h"
 #include "trans.h"
 
 #include <gp_Ax1.hxx>
@@ -23,6 +24,8 @@ mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_shapetype(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_location(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_shape_bndbox(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_translate(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self);
