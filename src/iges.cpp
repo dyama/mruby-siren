@@ -39,6 +39,8 @@ mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
   mrb_value path;
   mrb_bool oneshape;
   int argc = mrb_get_args(mrb, "S|b", &path, &oneshape);
+  if (argc == 1)
+    oneshape = 0;
 
   IGESControl_Reader iges_reader;
   int stat = iges_reader.ReadFile((Standard_CString)RSTRING_PTR(path));
