@@ -17,11 +17,55 @@ mrb_instance_alloc(mrb_state *mrb, mrb_value cv)
 }
 /* end of function */
 
+/**
+ * Make OpenCASCADE TopoDS_* instance.
+ */
+TopoDS_Compound* siren_occ_compound_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Compound));
+  return new(p) TopoDS_Compound();
+}
+TopoDS_CompSolid* siren_occ_compsolid_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_CompSolid));
+  return new(p) TopoDS_CompSolid();
+}
+TopoDS_Solid* siren_occ_solid_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Solid));
+  return new(p) TopoDS_Solid();
+}
+TopoDS_Shell* siren_occ_shell_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shell));
+  return new(p) TopoDS_Shell();
+}
+TopoDS_Face* siren_occ_face_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Face));
+  return new(p) TopoDS_Face();
+}
+TopoDS_Wire* siren_occ_wire_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Wire));
+  return new(p) TopoDS_Wire();
+}
+TopoDS_Edge* siren_occ_edge_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Edge));
+  return new(p) TopoDS_Edge();
+}
+TopoDS_Vertex* siren_occ_vertex_new(mrb_state* mrb)
+{
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Vertex));
+  return new(p) TopoDS_Vertex();
+}
 TopoDS_Shape* siren_occ_shape_new(mrb_state* mrb)
 {
   void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
   return new(p) TopoDS_Shape();
 }
+/* end of occ shape */
 
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
 {
