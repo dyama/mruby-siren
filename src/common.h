@@ -54,4 +54,6 @@ inline gp_Ax3 vec2ax3(const gp_Vec* p, const gp_Vec* v)
 #define siren_ax3_get(mrb,p,n,vx) vec2ax3(siren_vec_get(mrb,p),siren_vec_get(mrb,n),siren_vec_get(mrb,vx))
 #define siren_ax3s_get(mrb,p,v)   vec2ax3(siren_vec_get(mrb,p),siren_vec_get(mrb,v))
 
+mrb_value mrb_instance_alloc(mrb_state *mrb, mrb_value cv);
+
 #endif
