@@ -15,19 +15,16 @@ mrb_value siren_algo_section(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* S1 = siren_shape_get(mrb, s1);
   TopoDS_Shape* S2 = siren_shape_get(mrb, s2);
 
-  BRepAlgoAPI_Section sect(*S1, *S2, Standard_False );
-  sect.ComputePCurveOn1(Standard_True);
-  sect.Approximation(Standard_True);
-  sect.Build();
+  BRepAlgoAPI_Section api(*S1, *S2, Standard_False );
+  api.ComputePCurveOn1(Standard_True);
+  api.Approximation(Standard_True);
+  api.Build();
 
-  if (!sect.IsDone()) {
+  if (!api.IsDone()) {
     static const char m[] = "Failed to intersection.";
     return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
   }
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = sect.Shape();
-
-  return siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, api.Shape());
 }
 

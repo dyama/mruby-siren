@@ -55,18 +55,14 @@ mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
 
     if (oneshape) {
       // As one shape
-      TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-      *shape = iges_reader.OneShape();
-      result = siren_shape_new(mrb, shape);
+      result = siren_shape_new(mrb, iges_reader.OneShape());
     }
     else {
       // Some shapes
       result = mrb_ary_new(mrb);
       for (int i=1; i <= iges_reader.NbShapes(); i++) {
         try {
-          TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-          *shape = iges_reader.Shape(i);
-          mrb_value mrshape = siren_shape_new(mrb, shape);
+          mrb_value mrshape = siren_shape_new(mrb, iges_reader.Shape());
           mrb_ary_push(mrb, result, mrshape);
         }
         catch(...) {

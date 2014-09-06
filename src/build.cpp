@@ -26,10 +26,7 @@ mrb_value siren_build_copy(mrb_state* mrb, mrb_value self)
   BRepBuilderAPI_Copy B;
   B.Perform(*src);
 
-  TopoDS_Shape* dest = siren_occ_shape_new(mrb);
-  *dest = B.Shape();
-
-  return siren_shape_new(mrb, dest);
+  return siren_shape_new(mrb, B.Shape());
 }
 
 mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
@@ -37,16 +34,12 @@ mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
   mrb_float x, y, z;
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
 
-  mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Shape"));
-  TopoDS_Shape* shape = siren_shape_get(mrb, res);
-
   Standard_Real xx = (Standard_Real)x;
   Standard_Real yy = (Standard_Real)y;
   Standard_Real zz = (Standard_Real)z;
 
-  *shape = BRepBuilderAPI_MakeVertex(gp_Pnt(xx, yy, zz));
-
-  return res;
+  TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(gp_Pnt(xx, yy, zz));
+  return siren_shape_new(mrb, shape);
 }
 
 mrb_value siren_build_line(mrb_state* mrb, mrb_value self)
@@ -57,9 +50,7 @@ mrb_value siren_build_line(mrb_state* mrb, mrb_value self)
   gp_Vec* s = siren_vec_get(mrb, sp);
   gp_Vec* t = siren_vec_get(mrb, tp);
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = BRepBuilderAPI_MakeEdge(gp_Pnt(s->X(), s->Y(), s->Z()), gp_Pnt(t->X(), t->Y(), t->Z()));
-
+  TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(gp_Pnt(s->X(), s->Y(), s->Z()), gp_Pnt(t->X(), t->Y(), t->Z()));
   return siren_shape_new(mrb, shape);
 }
 
@@ -76,9 +67,7 @@ mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self)
     poly.Add(gp_Pnt(v->X(), v->Y(), v->Z()));
   }
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = poly.Wire();
-
+  TopoDS_Shape shape = poly.Wire();
   return siren_shape_new(mrb, shape);
 }
 
@@ -118,9 +107,7 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
   intp.Perform();
   Handle(Geom_BSplineCurve) geSpl = intp.Curve();
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = BRepBuilderAPI_MakeEdge(geSpl);
-
+  TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(geSpl);
   return siren_shape_new(mrb, shape);
 }
 
@@ -154,9 +141,8 @@ mrb_value siren_build_wire(mrb_state* mrb, mrb_value self)
     FTol.SetTolerance(e, 0.01, TopAbs_VERTEX);
     mw.Add(e);
   }
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = mw.Shape();
-  return siren_shape_new(mrb, shape);
+
+  return siren_shape_new(mrb, mw.Shape());
 }
 
 mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
@@ -175,11 +161,9 @@ mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
   gp_Ax3 ax(_pos, _norm, _vdir);
   gp_Pln _pln(ax);
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepBuilderAPI_MakeFace face(_pln, (Standard_Real)umin, (Standard_Real)umax, (Standard_Real)vmin, (Standard_Real)vmax);
-  *shape = face.Shape();
 
-  return siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, face.Shape());
 }
 
 mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
@@ -203,10 +187,7 @@ mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
     return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
   }
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = mf.Shape();
-
-  return siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, mf.Shape());
 }
 
 mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
@@ -234,11 +215,9 @@ mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
     }
   }
 
-  TopoDS_Shape* result = siren_occ_shape_new(mrb);
   sewer.Perform();
-  *result = sewer.SewedShape();
 
-  return siren_shape_new(mrb, result);
+  return siren_shape_new(mrb, sewer.SewedShape());
 }
 
 mrb_value siren_build_solid(mrb_state* mrb, mrb_value self)
@@ -248,7 +227,6 @@ mrb_value siren_build_solid(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* shape = siren_shape_get(mrb, obj);
 
-  TopoDS_Solid* solid = new TopoDS_Solid();
   BRepBuilderAPI_MakeSolid solid_maker;
 
   for (TopExp_Explorer ex(*shape, TopAbs_SHELL); ex.More(); ex.Next()) {
@@ -258,8 +236,7 @@ mrb_value siren_build_solid(mrb_state* mrb, mrb_value self)
   if (!solid_maker.IsDone())
     return mrb_nil_value();
 
-  *solid = solid_maker.Solid();
-  return siren_shape_new(mrb, solid);
+  return siren_shape_new(mrb, solid_maker.Solid());
 }
 
 mrb_value siren_build_compound(mrb_state* mrb, mrb_value self)
@@ -267,13 +244,13 @@ mrb_value siren_build_compound(mrb_state* mrb, mrb_value self)
   mrb_value ary;
   int argc = mrb_get_args(mrb, "A", &ary);
 
-  TopoDS_Compound* comp = new TopoDS_Compound;
+  TopoDS_Compound comp;
   BRep_Builder B;
-  B.MakeCompound(*comp);
+  B.MakeCompound(comp);
 
   for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
     TopoDS_Shape* shape = siren_shape_get(mrb, mrb_ary_ref(mrb, ary, i));
-    B.Add(*comp, *shape);
+    B.Add(comp, *shape);
   }
 
   return siren_shape_new(mrb, comp);

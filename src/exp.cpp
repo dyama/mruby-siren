@@ -46,9 +46,7 @@ mrb_value siren_exp_to_a(mrb_state* mrb, mrb_value self)
   mrb_value res = mrb_ary_new(mrb);
 
   for (exp->ReInit(); exp->More(); exp->Next()) {
-    TopoDS_Shape* s = siren_occ_shape_new(mrb);
-    *s = exp->Current();
-    mrb_value item = siren_shape_new(mrb, s);
+    mrb_value item = siren_shape_new(mrb, exp->Current());
     mrb_ary_push(mrb, res, item);
   }
 
@@ -106,9 +104,7 @@ mrb_value siren_exp_next(mrb_state* mrb, mrb_value self)
 mrb_value siren_exp_current(mrb_state* mrb, mrb_value self)
 {
   TopExp_Explorer* exp = siren_exp_get(mrb, self);
-  TopoDS_Shape* s = siren_occ_shape_new(mrb);
-  *s = exp->Current();
-  return siren_shape_new(mrb, s);
+  return siren_shape_new(mrb, exp->Current());
 }
 
 TopExp_Explorer* siren_exp_get(mrb_state* mrb, mrb_value obj)

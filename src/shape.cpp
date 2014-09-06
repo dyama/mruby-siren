@@ -67,11 +67,22 @@ TopoDS_Shape* siren_occ_shape_new(mrb_state* mrb)
 }
 /* end of occ shape */
 
-mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
+// mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape* shape)
+// {
+//   mrb_value obj;
+//   obj = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Shape")));
+//   DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(shape);
+//   DATA_TYPE(obj) = &siren_shape_type;
+//   return obj;
+// }
+
+mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
   mrb_value obj;
   obj = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Shape")));
-  DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(shape);
+  TopoDS_Shape* inner = siren_occ_shape_new(mrb);
+  *inner = shape; // Copy to inner native member
+  DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(inner);
   DATA_TYPE(obj) = &siren_shape_type;
   return obj;
 }

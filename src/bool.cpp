@@ -17,16 +17,13 @@ mrb_value siren_bool_common(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* S1 = siren_shape_get(mrb, s1);
   TopoDS_Shape* S2 = siren_shape_get(mrb, s2);
 
-  BRepAlgoAPI_Common bo(*S1, *S2);
-  bo.SetOperation(BOPAlgo_COMMON);
-  bo.Build();
-  if (bo.ErrorStatus())
+  BRepAlgoAPI_Common api(*S1, *S2);
+  api.SetOperation(BOPAlgo_COMMON);
+  api.Build();
+  if (api.ErrorStatus())
     return mrb_nil_value();
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = bo.Shape();
-
-  return siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, api.Shape());
 }
 
 mrb_value siren_bool_fuse(mrb_state* mrb, mrb_value self)
@@ -37,16 +34,13 @@ mrb_value siren_bool_fuse(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* S1 = siren_shape_get(mrb, s1);
   TopoDS_Shape* S2 = siren_shape_get(mrb, s2);
 
-  BRepAlgoAPI_Common bo(*S1, *S2);
-  bo.SetOperation(BOPAlgo_FUSE);
-  bo.Build();
-  if (bo.ErrorStatus())
+  BRepAlgoAPI_Common api(*S1, *S2);
+  api.SetOperation(BOPAlgo_FUSE);
+  api.Build();
+  if (api.ErrorStatus())
     return mrb_nil_value();
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = bo.Shape();
-
-  return siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, api.Shape());
 }
 
 mrb_value siren_bool_cut(mrb_state* mrb, mrb_value self)
@@ -57,15 +51,12 @@ mrb_value siren_bool_cut(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* S1 = siren_shape_get(mrb, s1);
   TopoDS_Shape* S2 = siren_shape_get(mrb, s2);
 
-  BRepAlgoAPI_Common bo(*S1, *S2);
-  bo.SetOperation(BOPAlgo_CUT);
-  bo.Build();
-  if (bo.ErrorStatus())
+  BRepAlgoAPI_Common api(*S1, *S2);
+  api.SetOperation(BOPAlgo_CUT);
+  api.Build();
+  if (api.ErrorStatus())
     return mrb_nil_value();
 
-  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
-  *shape = bo.Shape();
-
-  return siren_shape_new(mrb, shape);
+  return siren_shape_new(mrb, api.Shape());
 }
 

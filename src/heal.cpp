@@ -18,14 +18,12 @@ mrb_value siren_heal_outerwire(mrb_state* mrb, mrb_value self)
 
   if (shape->ShapeType() == TopAbs_FACE) {
     TopoDS_Face face = TopoDS::Face(*shape);
-    TopoDS_Wire* wire = new TopoDS_Wire();
-    *wire = ShapeAnalysis::OuterWire(face);
+    TopoDS_Wire wire = ShapeAnalysis::OuterWire(face);
     res = siren_shape_new(mrb, wire);
   }
   else {
     ShapeAnalysis_FreeBounds safb(*shape, 1.0e+1);
-    TopoDS_Compound* comp = new TopoDS_Compound();
-    *comp = safb.GetClosedWires();
+    TopoDS_Compound comp = safb.GetClosedWires();
     res = siren_shape_new(mrb, comp);
   }
   return res;

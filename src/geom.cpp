@@ -16,9 +16,9 @@ mrb_value siren_geom_bs2bzsurf(mrb_state* mrb, mrb_value self)
 
   TopExp_Explorer ex(*shape, TopAbs_FACE);
 
-  TopoDS_Compound* comp = new TopoDS_Compound();
+  TopoDS_Compound comp;
   BRep_Builder B;
-  B.MakeCompound(*comp);
+  B.MakeCompound(comp);
 
   for (; ex.More(); ex.Next()) {
     TopoDS_Face face = TopoDS::Face(ex.Current());
@@ -39,7 +39,7 @@ mrb_value siren_geom_bs2bzsurf(mrb_state* mrb, mrb_value self)
       for (int c = ary.LowerCol(); c <= ary.UpperCol(); c++) {
         Handle(Geom_BezierSurface) gbzsurf = ary.Value(r, c);
         TopoDS_Face patch = BRepBuilderAPI_MakeFace(gbzsurf, 1.0e-1);
-        B.Add(*comp, patch);
+        B.Add(comp, patch);
       }
     }
   }
