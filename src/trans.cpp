@@ -25,7 +25,8 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
 
 mrb_value siren_trans_init(mrb_state* mrb, mrb_value self)
 {
-  gp_Trsf* trans = new gp_Trsf();
+  void* p = mrb_malloc(mrb, sizeof(gp_Trsf));
+  gp_Trsf* trans = new(p) gp_Trsf();
   DATA_PTR(self) = trans;
   DATA_TYPE(self) = &siren_trans_type;
   return self;

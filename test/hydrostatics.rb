@@ -115,12 +115,12 @@ pl_foreend = makeend fe_line
 comp = Build.compound [hullsurf, cl_plane, top_plane] + pl_transom + pl_foreend
 BRepIO.save comp, "/tmp/#{no}.brep"
 
-ex = Exp.new comp, ShapeType::FACE
-while ex.more
-  next if ex.current.null?
-  p ("  " * ex.depth) + ex.current.to_s
-  ex.next
-end
+#ex = Exp.new comp, ShapeType::FACE
+#while ex.more
+#  next if ex.current.null?
+#  p ("  " * ex.depth) + ex.current.to_s
+#  ex.next
+#end
 
 #puts "Sewing faces to shell..."
 #shell = Build.sewing [hullsurf, cl_plane, top_plane] + pl_transom + pl_foreend
