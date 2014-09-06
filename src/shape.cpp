@@ -50,10 +50,6 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 mrb_value siren_shape_init(mrb_state* mrb, mrb_value self)
 {
   mrb_raise(mrb, E_NOMETHOD_ERROR, "private method `new' called for Shape:Class");
-  return mrb_nil_value();
-  // // ineffective?
-  // static const char m[] = 
-  // return mrb_exc_new(mrb, E_NOMETHOD_ERROR, m, sizeof(m) - 1);
 }
 
 void siren_shape_final(mrb_state* mrb, void* p)

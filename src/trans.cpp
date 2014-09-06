@@ -35,7 +35,7 @@ mrb_value siren_trans_init(mrb_state* mrb, mrb_value self)
 void siren_trans_final(mrb_state* mrb, void* p)
 {
   gp_Trsf* t = static_cast<gp_Trsf*>(p);
-  delete t;
+  mrb_free(mrb, t);
 }
 
 mrb_value siren_trans_set_translation(mrb_state* mrb, mrb_value self)
