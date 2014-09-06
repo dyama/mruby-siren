@@ -106,7 +106,9 @@ mrb_value siren_exp_next(mrb_state* mrb, mrb_value self)
 mrb_value siren_exp_current(mrb_state* mrb, mrb_value self)
 {
   TopExp_Explorer* exp = siren_exp_get(mrb, self);
-  return siren_shape_new(mrb, &(exp->Current()));
+  TopoDS_Shape* s = siren_occ_shape_new(mrb);
+  *s = exp->Current();
+  return siren_shape_new(mrb, s);
 }
 
 TopExp_Explorer* siren_exp_get(mrb_state* mrb, mrb_value obj)
