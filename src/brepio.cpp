@@ -26,7 +26,7 @@ mrb_value siren_brepio_load(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "S", &path);
 
   BRep_Builder B;
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepTools::Read(*shape, (Standard_CString)RSTRING_PTR(path), B);
 
   return siren_shape_new(mrb, shape);

@@ -30,7 +30,7 @@ mrb_value siren_prim_box(mrb_state* mrb, mrb_value self)
     op = gp_Pnt(0., 0., 0.);
   }
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepPrimAPI_MakeBox box(op, sx, sy, sz);
   *shape = box.Shape();
 
@@ -52,7 +52,7 @@ mrb_value siren_prim_sphere(mrb_state* mrb, mrb_value self)
     op = gp_Pnt(0., 0., 0.);
   }
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepPrimAPI_MakeSphere sp(op, (Standard_Real)r); 
   *shape = sp.Shape();
 
@@ -69,7 +69,7 @@ mrb_value siren_prim_cylinder(mrb_state* mrb, mrb_value self)
   gp_Vec* vnorm = siren_vec_get(mrb, norm);
   gp_Ax2 ax(gp_Pnt(vpos->X(), vpos->Y(), vpos->Z()), gp_Dir(vnorm->X(), vnorm->Y(), vnorm->Z()));
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepPrimAPI_MakeCylinder cy(ax, (Standard_Real)r, (Standard_Real)h, (Standard_Real)a);
   *shape = cy.Shape();
 
@@ -86,7 +86,7 @@ mrb_value siren_prim_cone(mrb_state* mrb, mrb_value self)
   gp_Vec* vnorm = siren_vec_get(mrb, norm);
   gp_Ax2 ax(gp_Pnt(vpos->X(), vpos->Y(), vpos->Z()), gp_Dir(vnorm->X(), vnorm->Y(), vnorm->Z()));
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepPrimAPI_MakeCone prm(ax, (Standard_Real)r1, (Standard_Real)r2, (Standard_Real)h, (Standard_Real)ang);
   *shape = prm.Shape();
 
@@ -103,7 +103,7 @@ mrb_value siren_prim_torus(mrb_state* mrb, mrb_value self)
   gp_Vec* vnorm = siren_vec_get(mrb, norm);
   gp_Ax2 ax(gp_Pnt(vpos->X(), vpos->Y(), vpos->Z()), gp_Dir(vnorm->X(), vnorm->Y(), vnorm->Z()));
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepPrimAPI_MakeTorus prm(ax, (Standard_Real)r1, (Standard_Real)r2, (Standard_Real)ang);
   *shape = prm.Shape();
 

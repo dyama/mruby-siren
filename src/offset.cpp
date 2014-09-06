@@ -26,7 +26,7 @@ mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self)
   BRepOffsetAPI_MakePipe mp(path, *profile);
   mp.Build();
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = mp.Shape();
 
   return siren_shape_new(mrb, shape);
@@ -102,14 +102,14 @@ mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
         );
 
     ps.Build();
-    TopoDS_Shape* shape = new TopoDS_Shape();
+    TopoDS_Shape* shape = siren_occ_shape_new(mrb);
     *shape = ps.Shape();
     result = siren_shape_new(mrb, shape);
   }
   else {
     BRepOffsetAPI_MakePipe mp(path, *shape_profile);
     mp.Build();
-    TopoDS_Shape* shape = new TopoDS_Shape();
+    TopoDS_Shape* shape = siren_occ_shape_new(mrb);
     *shape = mp.Shape();
     result = siren_shape_new(mrb, shape);
   }
@@ -145,7 +145,7 @@ mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self)
   ts.SetSmoothing(is_sm);
   ts.Build();
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = ts.Shape();
 
   return siren_shape_new(mrb, shape);

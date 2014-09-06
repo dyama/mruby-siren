@@ -24,7 +24,7 @@ mrb_value siren_feat_splitEF(mrb_state* mrb, mrb_value self)
   if (!splitter.IsDone()) {
     return mrb_nil_value();
   }
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = splitter.Shape();
   return siren_shape_new(mrb, shape);
 }

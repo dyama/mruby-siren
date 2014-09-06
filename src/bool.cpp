@@ -23,7 +23,7 @@ mrb_value siren_bool_common(mrb_state* mrb, mrb_value self)
   if (bo.ErrorStatus())
     return mrb_nil_value();
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = bo.Shape();
 
   return siren_shape_new(mrb, shape);
@@ -43,7 +43,7 @@ mrb_value siren_bool_fuse(mrb_state* mrb, mrb_value self)
   if (bo.ErrorStatus())
     return mrb_nil_value();
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = bo.Shape();
 
   return siren_shape_new(mrb, shape);
@@ -63,7 +63,7 @@ mrb_value siren_bool_cut(mrb_state* mrb, mrb_value self)
   if (bo.ErrorStatus())
     return mrb_nil_value();
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = bo.Shape();
 
   return siren_shape_new(mrb, shape);

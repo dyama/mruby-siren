@@ -25,7 +25,7 @@ mrb_value siren_algo_section(mrb_state* mrb, mrb_value self)
     return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
   }
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = sect.Shape();
 
   return siren_shape_new(mrb, shape);

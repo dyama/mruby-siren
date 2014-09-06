@@ -26,7 +26,7 @@ mrb_value siren_build_copy(mrb_state* mrb, mrb_value self)
   BRepBuilderAPI_Copy B;
   B.Perform(*src);
 
-  TopoDS_Shape* dest = new TopoDS_Shape();
+  TopoDS_Shape* dest = siren_occ_shape_new(mrb);
   *dest = B.Shape();
 
   return siren_shape_new(mrb, dest);
@@ -57,7 +57,7 @@ mrb_value siren_build_line(mrb_state* mrb, mrb_value self)
   gp_Vec* s = siren_vec_get(mrb, sp);
   gp_Vec* t = siren_vec_get(mrb, tp);
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = BRepBuilderAPI_MakeEdge(gp_Pnt(s->X(), s->Y(), s->Z()), gp_Pnt(t->X(), t->Y(), t->Z()));
 
   return siren_shape_new(mrb, shape);
@@ -76,7 +76,7 @@ mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self)
     poly.Add(gp_Pnt(v->X(), v->Y(), v->Z()));
   }
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = poly.Wire();
 
   return siren_shape_new(mrb, shape);
@@ -118,7 +118,7 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
   intp.Perform();
   Handle(Geom_BSplineCurve) geSpl = intp.Curve();
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = BRepBuilderAPI_MakeEdge(geSpl);
 
   return siren_shape_new(mrb, shape);
@@ -154,7 +154,7 @@ mrb_value siren_build_wire(mrb_state* mrb, mrb_value self)
     FTol.SetTolerance(e, 0.01, TopAbs_VERTEX);
     mw.Add(e);
   }
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = mw.Shape();
   return siren_shape_new(mrb, shape);
 }
@@ -175,7 +175,7 @@ mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
   gp_Ax3 ax(_pos, _norm, _vdir);
   gp_Pln _pln(ax);
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   BRepBuilderAPI_MakeFace face(_pln, (Standard_Real)umin, (Standard_Real)umax, (Standard_Real)vmin, (Standard_Real)vmax);
   *shape = face.Shape();
 
@@ -203,7 +203,7 @@ mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
     return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
   }
 
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = mf.Shape();
 
   return siren_shape_new(mrb, shape);
@@ -234,7 +234,7 @@ mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
     }
   }
 
-  TopoDS_Shape* result = new TopoDS_Shape();
+  TopoDS_Shape* result = siren_occ_shape_new(mrb);
   sewer.Perform();
   *result = sewer.SewedShape();
 

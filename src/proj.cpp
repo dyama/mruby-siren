@@ -18,7 +18,7 @@ mrb_value siren_proj_wire(mrb_state* mrb, mrb_value self)
   gp_Vec* vec = siren_vec_get(mrb, v);
 
   BRepProj_Projection bpp(*wire, *face, *vec);
-  TopoDS_Shape* shape = new TopoDS_Shape();
+  TopoDS_Shape* shape = siren_occ_shape_new(mrb);
   *shape = bpp.Shape();
 
   return siren_shape_new(mrb, shape);
