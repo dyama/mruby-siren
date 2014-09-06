@@ -4,7 +4,6 @@
 #include "siren.h"
 #include "shape.h"
 #include "build.h"
-#include "exp.h"
 
 // sweep_vec
 #include <BRepOffsetAPI_MakePipe.hxx>

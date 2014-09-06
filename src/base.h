@@ -3,7 +3,6 @@
 
 #include "siren.h"
 #include "shape.h"
-#include "exp.h"
 #include "build.h"
 
 // edge2pts

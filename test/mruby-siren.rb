@@ -29,24 +29,14 @@ else
 end
 p cmp2.shapetype
 
-ex = Exp.new cmp2, ShapeType::EDGE
-
-if false
-  while ex.more
-    s = ex.current
-    p "depth:" + ex.depth.to_s + " type:" + ShapeType::to_s(s.shapetype)
-    ex.next()
-  end
-else
-  ex.to_a.each do |s|
-    p "type:" + ShapeType::to_s(s.shapetype)
-  end
+cmp2.explore ShapeType::EDGE do |edge, depth|
+  p "depth:" + depth.to_s + " type:" + ShapeType::to_s(edge.shapetype)
 end
 
-p "------------"
-a = Build.vertex(3, 4, 5);
-p a.location.to_a
-
-b = Prim.box [10, 10, 10]
-s = Prim.sphere 5
+# p "------------"
+# a = Build.vertex(3, 4, 5);
+# p a.location.to_a
+# 
+# b = Prim.box [10, 10, 10]
+# s = Prim.sphere 5
 

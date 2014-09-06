@@ -3,7 +3,6 @@
 
 #include "siren.h"
 #include "shape.h"
-#include "exp.h"
 
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
