@@ -13,15 +13,25 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   use_oce = true
   occlibpath = '/opt/occ671/lib'
   occincpath = '/opt/occ671/inc'
+  occlibpath2 = ''
   if use_oce
     occlibpath = '/opt/oce/lib'
     occincpath = '/opt/oce/include/oce'
   end
 
+  if ENV['OS'] == 'Windows_NT'
+    occlibpath = 'E:/occ//671/opencascade-6.7.1/win32/vc9/lib'
+    occincpath = 'E:/occ/671/opencascade-6.7.1/inc'
+  end
+
   # OCCT dependencies
   # Check http://dev.opencascade.org/doc/refman/html/index.html
-  thirdPartyLibs =
-    [ 'tbb' ]
+  thirdPartyLibs = []
+  if cxx.command == 'cl.exe'
+
+  else
+    thirdPartyLibs = [ 'tbb' ]
+  end
   foundationClasses =
     [ 'TKernel', 'TKMath' ]
   modelingData =
@@ -68,8 +78,13 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.linker.libraries << allLibs
 
   # Compiler option
-  spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath << " " <<
+  if spec.cxx.command == 'cl.exe'
+    spec.cxx.flags << "/I#{occincpath}"
+    spec.cxx.flags << "/DWNT"
+  else
+  spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath <<
     "-Wno-unused-function -Wno-unused-variable"
+  end
 
   #allLibs.each do |libname|
   #  spec.cxx.flags << " -l" << libname
