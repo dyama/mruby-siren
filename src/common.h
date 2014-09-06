@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include "mruby.h"
 #include "shape.h"
 
 #include <gp_Vec.hxx>
@@ -22,39 +23,35 @@ inline gp_Dir vec2dir(const gp_Vec* vec)
 
 inline gp_Ax1 vec2ax1(const gp_Vec* p, const gp_Vec* v)
 {
-  gp_Pnt _p = vec2pnt(p);
-  gp_Dir _v = vec2dir(v);
-  return gp_Ax1(_p, _v);
+  return gp_Ax1(vec2pnt(p), vec2dir(v));
 }
 
 inline gp_Ax2 vec2ax2(const gp_Vec* p, const gp_Vec* n, const gp_Vec* vx)
 {
-  gp_Pnt _p = vec2pnt(p);
-  gp_Dir _n = vec2dir(n);
-  gp_Dir _vx = vec2dir(vx);
-  return gp_Ax2(_p, _n, _vx);
+  return gp_Ax2(vec2pnt(p), vec2dir(n), vec2dir(vx));
 }
 
 inline gp_Ax2 vec2ax2(const gp_Vec* p, const gp_Vec* v)
 {
-  gp_Pnt _p = vec2pnt(p);
-  gp_Dir _v = vec2dir(v);
-  return gp_Ax2(_p, _v);
+  return gp_Ax2(vec2pnt(p), vec2dir(v));
 }
 
 inline gp_Ax3 vec2ax3(const gp_Vec* p, const gp_Vec* n, const gp_Vec* vx)
 {
-  gp_Pnt _p = vec2pnt(p);
-  gp_Dir _n = vec2dir(n);
-  gp_Dir _vx = vec2dir(vx);
-  return gp_Ax3(_p, _n, _vx);
+  return gp_Ax3(vec2pnt(p), vec2dir(n), vec2dir(vx));
 }
 
 inline gp_Ax3 vec2ax3(const gp_Vec* p, const gp_Vec* v)
 {
-  gp_Pnt _p = vec2pnt(p);
-  gp_Dir _v = vec2dir(v);
-  return gp_Ax3(_p, _v);
+  return gp_Ax3(vec2pnt(p), vec2dir(v));
 }
+
+#define siren_pnt_get(mrb,val)    vec2pnt(siren_vec_get(mrb,val))
+#define siren_dir_get(mrb,val)    vec2dir(siren_vec_get(mrb,val))
+#define siren_ax1_get(mrb,p,v)    vec2ax1(siren_vec_get(mrb,p),siren_vec_get(mrb,v))
+#define siren_ax2_get(mrb,p,n,vx) vec2ax2(siren_vec_get(mrb,p),siren_vec_get(mrb,n),siren_vec_get(mrb,vx))
+#define siren_ax2s_get(mrb,p,v)   vec2ax2(siren_vec_get(mrb,p),siren_vec_get(mrb,v))
+#define siren_ax3_get(mrb,p,n,vx) vec2ax3(siren_vec_get(mrb,p),siren_vec_get(mrb,n),siren_vec_get(mrb,vx))
+#define siren_ax3s_get(mrb,p,v)   vec2ax3(siren_vec_get(mrb,p),siren_vec_get(mrb,v))
 
 #endif

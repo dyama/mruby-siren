@@ -53,11 +53,8 @@ mrb_value siren_trans_set_rotation(mrb_state* mrb, mrb_value self)
   mrb_value op, norm;
   mrb_float angle;
   int argc = mrb_get_args(mrb, "oof", &op, &norm, &angle);
-  gp_Vec*  vec_op   = siren_vec_get(mrb, op);
-  gp_Vec*  vec_norm = siren_vec_get(mrb, norm);
-  gp_Trsf* trans    = siren_trans_get(mrb, self);
-  vec_norm->Normalize();
-  trans->SetRotation(gp_Ax1(vec2pnt(vec_op), vec2dir(vec_norm)), (Standard_Real)angle);
+  gp_Trsf* trans = siren_trans_get(mrb, self);
+  trans->SetRotation(siren_ax1_get(mrb, op, norm), (Standard_Real)angle);
   return mrb_nil_value();
 }
 
@@ -66,9 +63,8 @@ mrb_value siren_trans_set_scale(mrb_state* mrb, mrb_value self)
   mrb_value op;
   mrb_float factor;
   int argc = mrb_get_args(mrb, "of", &op, &factor);
-  gp_Vec*  vec_op = siren_vec_get(mrb, op);
   gp_Trsf* trans  = siren_trans_get(mrb, self);
-  trans->SetScale(vec2pnt(vec_op), (Standard_Real)factor);
+  trans->SetScale(siren_pnt_get(mrb, op), (Standard_Real)factor);
   return mrb_nil_value();
 }
 
@@ -92,10 +88,8 @@ mrb_value siren_trans_set_mirror(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
   int argc = mrb_get_args(mrb, "oo", &op, &norm);
-  gp_Vec*  vec_op   = siren_vec_get(mrb, op);
-  gp_Vec*  vec_norm = siren_vec_get(mrb, norm);
   gp_Trsf* trans    = siren_trans_get(mrb, self);
-  trans->SetMirror(gp_Ax2(vec2pnt(vec_op), vec2dir(vec_norm)));
+  trans->SetMirror(siren_ax2s_get(mrb, op, norm));
   return mrb_nil_value();
 }
 
@@ -125,11 +119,8 @@ mrb_value siren_trans_set_transfomation1(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, zv, xv;
   int argc = mrb_get_args(mrb, "ooo", &op, &zv, &xv);
-  gp_Pnt p = vec2pnt(siren_vec_get(mrb, op));
-  gp_Dir z = vec2dir(siren_vec_get(mrb, zv));
-  gp_Dir x = vec2dir(siren_vec_get(mrb, xv));
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetTransformation(gp_Ax3(p, z, x));
+  trans->SetTransformation(siren_ax3_get(mrb, op, zv, xv));
   return mrb_nil_value();
 }
 
@@ -138,14 +129,8 @@ mrb_value siren_trans_set_transfomation2(mrb_state* mrb, mrb_value self)
   mrb_value op1, zv1, xv1;
   mrb_value op2, zv2, xv2;
   int argc = mrb_get_args(mrb, "oooooo", &op1, &zv1, &xv1, &op2, &zv2, &xv2);
-  gp_Pnt p1 = vec2pnt(siren_vec_get(mrb, op1));
-  gp_Dir z1 = vec2dir(siren_vec_get(mrb, zv1));
-  gp_Dir x1 = vec2dir(siren_vec_get(mrb, xv1));
-  gp_Pnt p2 = vec2pnt(siren_vec_get(mrb, op2));
-  gp_Dir z2 = vec2dir(siren_vec_get(mrb, zv2));
-  gp_Dir x2 = vec2dir(siren_vec_get(mrb, xv2));
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetTransformation(gp_Ax3(p1, z1, x1), gp_Ax3(p2, z2, x2));
+  trans->SetTransformation(siren_ax3_get(mrb, op1, zv1, xv1), siren_ax3_get(mrb, op2, zv2, xv2));
   return mrb_nil_value();
 }
 

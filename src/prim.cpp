@@ -23,7 +23,7 @@ mrb_value siren_prim_box(mrb_state* mrb, mrb_value self)
 
   gp_Pnt op;
   if (argc == 2) {
-    op = vec2pnt(siren_vec_get(mrb, pos));
+    op = siren_pnt_get(mrb, pos);
   }
   else {
     op = gp_Pnt(0., 0., 0.);
@@ -41,7 +41,7 @@ mrb_value siren_prim_sphere(mrb_state* mrb, mrb_value self)
 
   gp_Pnt op;
   if (argc == 2) {
-    op = vec2pnt(siren_vec_get(mrb, pos));
+    op = siren_pnt_get(mrb, pos);
   }
   else {
     op = gp_Pnt(0., 0., 0.);
@@ -57,7 +57,7 @@ mrb_value siren_prim_cylinder(mrb_state* mrb, mrb_value self)
   mrb_float r, h, a;
   int argc = mrb_get_args(mrb, "oofff", &pos, &norm, &r, &h, &a);
 
-  gp_Ax2 ax = vec2ax2(siren_vec_get(mrb, pos), siren_vec_get(mrb, norm));
+  gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
 
   BRepPrimAPI_MakeCylinder api(ax, (Standard_Real)r, (Standard_Real)h, (Standard_Real)a);
 
@@ -70,7 +70,7 @@ mrb_value siren_prim_cone(mrb_state* mrb, mrb_value self)
   mrb_float r1, r2, h, ang;
   int argc = mrb_get_args(mrb, "ooffff", &pos, &norm, &r1, &r2, &h, &ang);
 
-  gp_Ax2 ax = vec2ax2(siren_vec_get(mrb, pos), siren_vec_get(mrb, norm));
+  gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
 
   BRepPrimAPI_MakeCone api(ax, (Standard_Real)r1, (Standard_Real)r2, (Standard_Real)h, (Standard_Real)ang);
   return siren_shape_new(mrb, api.Shape());
@@ -82,7 +82,7 @@ mrb_value siren_prim_torus(mrb_state* mrb, mrb_value self)
   mrb_value pos, norm;
   int argc = mrb_get_args(mrb, "oofff", &pos, &norm, &r1, &r2, &ang);
 
-  gp_Ax2 ax = vec2ax2(siren_vec_get(mrb, pos), siren_vec_get(mrb, norm));
+  gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
 
   BRepPrimAPI_MakeTorus api(ax, (Standard_Real)r1, (Standard_Real)r2, (Standard_Real)ang);
   return siren_shape_new(mrb, api.Shape());

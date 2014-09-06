@@ -48,7 +48,7 @@ mrb_value siren_build_line(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "oo", &sp, &tp);
 
   TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(
-      vec2pnt(siren_vec_get(mrb, sp)), vec2pnt(siren_vec_get(mrb, tp)));
+      siren_pnt_get(mrb, sp), siren_pnt_get(mrb, tp));
 
   return siren_shape_new(mrb, shape);
 }
@@ -61,8 +61,7 @@ mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self)
   BRepBuilderAPI_MakePolygon poly;
 
   for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
-    mrb_value item = mrb_ary_ref(mrb, ary, i);
-    poly.Add(vec2pnt(siren_vec_get(mrb, item)));
+    poly.Add(siren_pnt_get(mrb, mrb_ary_ref(mrb, ary, i)));
   }
 
   TopoDS_Shape shape = poly.Wire();
@@ -77,7 +76,7 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
   int psize = mrb_ary_len(mrb, pts);
   Handle(TColgp_HArray1OfPnt) pary = new TColgp_HArray1OfPnt(1, psize);
   for (int i=0; i<psize; i++) {
-    pary->SetValue(i+1, vec2pnt(siren_vec_get(mrb, mrb_ary_ref(mrb, pts, i))));
+    pary->SetValue(i+1, siren_pnt_get(mrb, mrb_ary_ref(mrb, pts, i)));
   }
   GeomAPI_Interpolate intp(pary, Standard_False, 1.0e-7);
 
@@ -88,10 +87,10 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
     for (int i=0; i<psize; i++) {
       mrb_value avec = mrb_ary_ref(mrb, vecs, i);
       if (mrb_nil_p(avec)) {
-        use->SetValue(i+1, Standard_False); 
+        use->SetValue(i+1, Standard_False);
       }
       else {
-        vec.SetValue(i+1, vec2dir(siren_vec_get(mrb, avec)));
+        vec.SetValue(i+1, siren_dir_get(mrb, avec));
         use->SetValue(i+1, Standard_True);
       }
     }
@@ -145,7 +144,7 @@ mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
   mrb_float umin, umax, vmin, vmax;
   int argc = mrb_get_args(mrb, "oooffff", &pos, &norm, &vdir, &umin, &umax, &vmin, &vmax);
 
-  gp_Pln _pln(vec2ax2(siren_vec_get(mrb, pos), siren_vec_get(mrb, norm), siren_vec_get(mrb, vdir)));
+  gp_Pln _pln(siren_ax2_get(mrb, pos, norm, vdir));
 
   BRepBuilderAPI_MakeFace face(_pln, (Standard_Real)umin, (Standard_Real)umax, (Standard_Real)vmin, (Standard_Real)vmax);
 
@@ -160,7 +159,7 @@ mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
   BRepBuilderAPI_MakePolygon mp;
 
   for (int i=0; i<mrb_ary_len(mrb, pts); i++) {
-    mp.Add(vec2pnt(siren_vec_get(mrb, mrb_ary_ref(mrb, pts, i))));
+    mp.Add(siren_pnt_get(mrb, mrb_ary_ref(mrb, pts, i)));
   }
 
   mp.Close();

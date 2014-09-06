@@ -111,7 +111,7 @@ mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self)
   mrb_float ang;
   int argc = mrb_get_args(mrb, "oof", &op, &norm, &ang);
 
-  gp_Ax1 ax = vec2ax1(siren_vec_get(mrb, op), siren_vec_get(mrb, norm));
+  gp_Ax1 ax = siren_ax1_get(mrb, op, norm);
 
   gp_Trsf trsf;
   trsf.SetRotation(ax, (Standard_Real)ang);
@@ -143,7 +143,7 @@ mrb_value siren_shape_mirror(mrb_state* mrb, mrb_value self)
   mrb_value op, norm;
   int argc = mrb_get_args(mrb, "oo", &op, &norm);
 
-  gp_Ax2 ax = vec2ax2(siren_vec_get(mrb, op), siren_vec_get(mrb, norm));
+  gp_Ax2 ax = siren_ax2s_get(mrb, op, norm);
 
   gp_Trsf trsf;
   trsf.SetMirror(ax);
