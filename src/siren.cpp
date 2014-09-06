@@ -14,7 +14,6 @@
 #include "algo.h"
 #include "proj.h"
 #include "heal.h"
-#include "geom.h"
 #include "feat.h"
 #include "base.h"
 #include "bndbox.h"
@@ -38,7 +37,6 @@ extern "C" {
     struct RClass* _algo   = NULL;
     struct RClass* _proj   = NULL;
     struct RClass* _heal   = NULL;
-    struct RClass* _geom   = NULL;
     struct RClass* _feat   = NULL;
     struct RClass* _base   = NULL;
     struct RClass* _bndbox = NULL;
@@ -56,7 +54,6 @@ extern "C" {
     siren_algo_install(mrb, _algo);
     siren_proj_install(mrb, _proj);
     siren_heal_install(mrb, _heal);
-    siren_geom_install(mrb, _geom);
     siren_feat_install(mrb, _feat);
     siren_base_install(mrb, _base);
     siren_bndbox_install(mrb, _bndbox);
