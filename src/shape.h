@@ -29,17 +29,17 @@ mrb_value siren_shape_location(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_bndbox(mrb_state* mrb, mrb_value self);
 
+
+mrb_value siren_shape_translate_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_rotate_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_scale_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_mirror_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_move_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_translate(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_scale(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_mirror(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_move(mrb_state* mrb, mrb_value self);
-
-mrb_value siren_shape_translated(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_rotated(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_scaled(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_mirrored(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_moved(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_hashcode(mrb_state* mrb, mrb_value self);
 
