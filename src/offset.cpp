@@ -17,10 +17,9 @@ mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* profile = siren_shape_get(mrb, target);
 
-  gp_Vec* _vec = siren_vec_get(mrb, vec);
   gp_Pnt _pt = gp_Pnt(0., 0., 0.).Transformed(profile->Location());
 
-  TopoDS_Edge pe = BRepBuilderAPI_MakeEdge(_pt, gp_Pnt(_vec->X(), _vec->Y(), _vec->Z()));
+  TopoDS_Edge pe = BRepBuilderAPI_MakeEdge(_pt, vec2pnt(siren_vec_get(mrb, vec)));
   TopoDS_Wire path = BRepBuilderAPI_MakeWire(pe);
 
   BRepOffsetAPI_MakePipe mp(path, *profile);
