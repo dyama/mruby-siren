@@ -14,17 +14,16 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
 mrb_value siren_prim_box(mrb_state* mrb, mrb_value self)
 {
   mrb_value size, pos;
-  int argc = mrb_get_args(mrb, "A|o", &size, &pos);
+  int argc = mrb_get_args(mrb, "o|o", &size, &pos);
 
-  Standard_Real sx, sy, sz;
-  sx = (Standard_Real)to_double(mrb_ary_ref(mrb, size, 0));
-  sy = (Standard_Real)to_double(mrb_ary_ref(mrb, size, 1));
-  sz = (Standard_Real)to_double(mrb_ary_ref(mrb, size, 2));
+  gp_Vec* vsize = siren_vec_get(mrb, size);
+  Standard_Real sx = vsize->X();
+  Standard_Real sy = vsize->Y();
+  Standard_Real sz = vsize->Z();
 
   gp_Pnt op;
   if (argc == 2) {
-    gp_Vec* v = siren_vec_get(mrb, pos);
-    op = gp_Pnt(v->X(), v->Y(), v->Z());
+    op = vec2pnt(siren_vec_get(mrb, pos));
   }
   else {
     op = gp_Pnt(0., 0., 0.);
