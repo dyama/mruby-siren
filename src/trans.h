@@ -17,15 +17,15 @@ gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj);
 
 mrb_value siren_trans_init(mrb_state* mrb, mrb_value self);
 
-mrb_value siren_trans_set_translation(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_set_rotation(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_set_scale(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_set_scalef(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_set_mirror(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_multiply(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_multiplied(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_set_transfomation1(mrb_state* mrb, mrb_value self);
-mrb_value siren_trans_set_transfomation2(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_multiply_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_mirror_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_rotation_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_scale_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_scalef_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_transfomation1_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_translation_bang(mrb_state* mrb, mrb_value self);
 
 #endif
