@@ -11,7 +11,6 @@
 #include "gprop.h"
 #include "offset.h"
 #include "algo.h"
-#include "proj.h"
 #include "heal.h"
 #include "feat.h"
 #include "base.h"
@@ -33,7 +32,6 @@ extern "C" {
     struct RClass* _gprop  = NULL;
     struct RClass* _offset = NULL;
     struct RClass* _algo   = NULL;
-    struct RClass* _proj   = NULL;
     struct RClass* _heal   = NULL;
     struct RClass* _feat   = NULL;
     struct RClass* _base   = NULL;
@@ -49,7 +47,6 @@ extern "C" {
     siren_gprop_install(mrb, _gprop);
     siren_offset_install(mrb, _offset);
     siren_algo_install(mrb, _algo);
-    siren_proj_install(mrb, _proj);
     siren_heal_install(mrb, _heal);
     siren_feat_install(mrb, _feat);
     siren_base_install(mrb, _base);
