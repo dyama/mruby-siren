@@ -51,7 +51,9 @@ void siren_vec_final(mrb_state* mrb, void* p)
 mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
-  return mrb_str_new_cstr(mrb, "#Vec<>");
+  char str[64];
+  snprintf(str, sizeof(str), "#Vec<x=%f, y=%f, z=%f>", vec->X(), vec->Y(), vec->Z());
+  return mrb_str_new_cstr(mrb, str);
 }
 
 mrb_value siren_vec_x(mrb_state* mrb, mrb_value self)
