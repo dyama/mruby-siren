@@ -21,6 +21,11 @@ https://github.com/tpaviot/oce
 Required mrbgems
 ----------------
 
+Nothing
+
+Optional mrbgems
+----------------
+
 * mruby-io
 https://github.com/iij/mruby-io
 
