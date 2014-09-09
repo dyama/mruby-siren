@@ -17,11 +17,19 @@ mrb_value siren_feat_splitEF(mrb_state* mrb, mrb_value self)
   TopoDS_Face _face = TopoDS::Face(*sface);
   BRepFeat_SplitShape splitter(*sface);
 
+#if 0
   TopExp_Explorer ex(*sedge, TopAbs_EDGE);
   for (; ex.More(); ex.Next()) {
     TopoDS_Edge e = TopoDS::Edge(ex.Current());
     splitter.Add(e, _face);
   }
+#else
+  TopExp_Explorer ex(*sedge, TopAbs_WIRE);
+  for (; ex.More(); ex.Next()) {
+    TopoDS_Wire e = TopoDS::Wire(ex.Current());
+    splitter.Add(e, _face);
+  }
+#endif
 
   splitter.Build();
   if (!splitter.IsDone()) {

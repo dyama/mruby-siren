@@ -6,6 +6,7 @@
 
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
+#include <TopoDS_Wire.hxx>
 #include <TopoDS_Face.hxx>
 #include <BRepFeat_SplitShape.hxx>
 
