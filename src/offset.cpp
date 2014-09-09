@@ -93,8 +93,8 @@ mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
         *shape_profile, // セクションプロファイル
         law,           // 掃引規則
         pfirst,        // 開始点
-        withContact,   // セクションプロファイルを開始点に移動して掃引する
-        withCorrection // セクションプロファイルをパスに応じて回転する
+        withContact,   // translate profile to start point
+        withCorrection // Change normal of profile by curveture
         );
 
     ps.Build();
