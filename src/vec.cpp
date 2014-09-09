@@ -42,6 +42,10 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "normalize!", siren_vec_normalize_bang, ARGS_NONE());
   mrb_define_method(mrb, rclass, "reverse",    siren_vec_reverse,        ARGS_NONE());
   mrb_define_method(mrb, rclass, "reverse!",   siren_vec_reverse_bang,   ARGS_NONE());
+  mrb_define_method(mrb, rclass, "angle",      siren_vec_angle,          ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "magnitude",  siren_vec_magnitude,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "size",       siren_vec_magnitude,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "length",     siren_vec_magnitude,      ARGS_NONE());
   return true;
 }
 
@@ -204,5 +208,21 @@ mrb_value siren_vec_reverse_bang(mrb_state* mrb, mrb_value self)
 {
   siren_vec_get(mrb, self)->Reverse();
   return self;
+}
+
+mrb_value siren_vec_angle(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  gp_Vec* me = siren_vec_get(mrb, self);
+  gp_Vec* o = siren_vec_get(mrb, other);
+  Standard_Real res = me->Angle(*o);
+  return mrb_float_value(mrb, (float)res);
+}
+
+mrb_value siren_vec_magnitude(mrb_state* mrb, mrb_value self)
+{
+  Standard_Real res = siren_vec_get(mrb, self)->Magnitude();
+  return mrb_float_value(mrb, (float)res);
 }
 
