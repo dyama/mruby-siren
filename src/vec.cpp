@@ -14,6 +14,7 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_vec_init,   ARGS_NONE() | ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "inspect",    siren_vec_to_s,   ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_s",       siren_vec_to_s,   ARGS_NONE());
   mrb_define_method(mrb, rclass, "x",          siren_vec_x,      ARGS_NONE());
   mrb_define_method(mrb, rclass, "y",          siren_vec_y,      ARGS_NONE());
