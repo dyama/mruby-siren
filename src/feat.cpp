@@ -3,33 +3,26 @@
 bool siren_feat_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Feat");
-  mrb_define_class_method(mrb, rclass, "splitEF", siren_feat_splitEF, ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "splitFxW", siren_feat_splitFxW, ARGS_REQ(2));
   return true;
 }
 
-mrb_value siren_feat_splitEF(mrb_state* mrb, mrb_value self)
+mrb_value siren_feat_splitFxW(mrb_state* mrb, mrb_value self)
 {
-  mrb_value edge, face;
-  int argc = mrb_get_args(mrb, "oo", &edge, &face);
+  mrb_value face, wire;
+  int argc = mrb_get_args(mrb, "oo", &face, &wire);
 
-  TopoDS_Shape* sedge = siren_shape_get(mrb, edge);
   TopoDS_Shape* sface = siren_shape_get(mrb, face);
-  TopoDS_Face _face = TopoDS::Face(*sface);
-  BRepFeat_SplitShape splitter(*sface);
+  TopoDS_Shape* swire = siren_shape_get(mrb, wire);
 
-#if 0
-  TopExp_Explorer ex(*sedge, TopAbs_EDGE);
-  for (; ex.More(); ex.Next()) {
-    TopoDS_Edge e = TopoDS::Edge(ex.Current());
-    splitter.Add(e, _face);
-  }
-#else
-  TopExp_Explorer ex(*sedge, TopAbs_WIRE);
+  TopoDS_Face _face = TopoDS::Face(*sface);
+  BRepFeat_SplitShape splitter(_face);
+
+  TopExp_Explorer ex(*swire, TopAbs_WIRE);
   for (; ex.More(); ex.Next()) {
     TopoDS_Wire e = TopoDS::Wire(ex.Current());
     splitter.Add(e, _face);
   }
-#endif
 
   splitter.Build();
   if (!splitter.IsDone()) {

@@ -5,13 +5,12 @@
 #include "shape.h"
 
 #include <TopoDS.hxx>
-#include <TopoDS_Edge.hxx>
 #include <TopoDS_Wire.hxx>
 #include <TopoDS_Face.hxx>
 #include <BRepFeat_SplitShape.hxx>
 
 bool siren_feat_install(mrb_state* mrb, struct RClass* rclass);
 
-mrb_value siren_feat_splitEF(mrb_state* mrb, mrb_value self);
+mrb_value siren_feat_splitFxW(mrb_state* mrb, mrb_value self);
 
 #endif
