@@ -8,6 +8,7 @@ void siren_vec_final(mrb_state* mrb, void* p);
 static struct mrb_data_type siren_vec_type = { "Vec", siren_vec_final };
 gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj);
 mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z);
+mrb_value siren_vec_new(mrb_state* mrb, const gp_Vec& vec);
 
 mrb_value siren_vec_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self);
@@ -43,10 +44,10 @@ mrb_value siren_vec_is_parallel(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_cross_cross_bang(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_dot(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_dot_cross(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_normalize(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_normalize_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_reverse(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_reverse_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_normalize(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_normalize_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_reverse(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_reverse_bang(mrb_state* mrb, mrb_value self);
 // 
 // mrb_value siren_vec_coord(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_coord_set(mrb_state* mrb, mrb_value self);
