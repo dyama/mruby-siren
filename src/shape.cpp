@@ -17,6 +17,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_class(mrb, "Shape", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_shape_init,       ARGS_NONE());
+  mrb_define_method(mrb, rclass, "inspect",    siren_shape_to_s,       ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_s",       siren_shape_to_s,       ARGS_NONE());
   mrb_define_method(mrb, rclass, "null?",      siren_shape_is_null,    ARGS_NONE());
   mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype,  ARGS_NONE());
@@ -61,7 +62,12 @@ void siren_shape_final(mrb_state* mrb, void* p)
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  return mrb_str_new_cstr(mrb, "#Shape<>");
+  RClass* krass = mrb_module_get(mrb, "ShapeType");
+  mrb_value shapetype = mrb_funcall(mrb, mrb_obj_value(krass), "to_s", 1, mrb_fixnum_value((int)shape->ShapeType()));
+  mrb_value str = mrb_str_new_cstr(mrb, "#Shape<@shapetype=");
+  mrb_str_append(mrb, str, shapetype);
+  mrb_str_append(mrb, str, mrb_str_new_cstr(mrb, ">"));
+  return str;
 }
 
 mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self)
