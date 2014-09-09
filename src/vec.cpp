@@ -1,5 +1,10 @@
 #include "vec.h"
 
+gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj)
+{
+  return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, &siren_vec_type));
+}
+
 mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z)
 {
   mrb_value args[3];
@@ -13,17 +18,21 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_vec_init,   ARGS_NONE() | ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "inspect",    siren_vec_to_s,   ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_s",       siren_vec_to_s,   ARGS_NONE());
-  mrb_define_method(mrb, rclass, "x",          siren_vec_x,      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "x=",         siren_vec_x_set,  ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "y",          siren_vec_y,      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "y=",         siren_vec_y_set,  ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "z",          siren_vec_z,      ARGS_NONE());
-  mrb_define_method(mrb, rclass, "z=",         siren_vec_z_set,  ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "to_a",       siren_vec_to_a,   ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_xyz",     siren_vec_to_xyz, ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize", siren_vec_init,        ARGS_NONE() | ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "inspect",    siren_vec_to_s,        ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_s",       siren_vec_to_s,        ARGS_NONE());
+  mrb_define_method(mrb, rclass, "x",          siren_vec_x,           ARGS_NONE());
+  mrb_define_method(mrb, rclass, "x=",         siren_vec_x_set,       ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "y",          siren_vec_y,           ARGS_NONE());
+  mrb_define_method(mrb, rclass, "y=",         siren_vec_y_set,       ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "z",          siren_vec_z,           ARGS_NONE());
+  mrb_define_method(mrb, rclass, "z=",         siren_vec_z_set,       ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "to_a",       siren_vec_to_a,        ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_xyz",     siren_vec_to_xyz,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "equal?",     siren_vec_is_equal,    ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "normal?",    siren_vec_is_normal,   ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "opposite?",  siren_vec_is_opposite, ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "parallel?",  siren_vec_is_parallel, ARGS_REQ(2));
   return true;
 }
 
@@ -122,7 +131,48 @@ mrb_value siren_vec_to_xyz(mrb_state* mrb, mrb_value self)
   return siren_vec_to_a(mrb, self);
 }
 
-gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj)
+mrb_value siren_vec_is_equal(mrb_state* mrb, mrb_value self)
 {
-  return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, &siren_vec_type));
+  mrb_value other;
+  mrb_float lintol, angtol;
+  int argc = mrb_get_args(mrb, "off", &other, &lintol, &angtol);
+  gp_Vec* me = siren_vec_get(mrb, self);
+  gp_Vec* o = siren_vec_get(mrb, other);
+  Standard_Boolean res = me->IsEqual(*o, (Standard_Real)lintol, (Standard_Real)angtol);
+  return res ? mrb_true_value() : mrb_false_value();
 }
+
+mrb_value siren_vec_is_normal(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  mrb_float angtol;
+  int argc = mrb_get_args(mrb, "of", &other, &angtol);
+  gp_Vec* me = siren_vec_get(mrb, self);
+  gp_Vec* o = siren_vec_get(mrb, other);
+  Standard_Boolean res = me->IsNormal(*o, (Standard_Real)angtol);
+  return res ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_vec_is_opposite(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  mrb_float angtol;
+  int argc = mrb_get_args(mrb, "of", &other, &angtol);
+  gp_Vec* me = siren_vec_get(mrb, self);
+  gp_Vec* o = siren_vec_get(mrb, other);
+  Standard_Boolean res = me->IsOpposite(*o, (Standard_Real)angtol);
+  return res ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_vec_is_parallel(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  mrb_float angtol;
+  int argc = mrb_get_args(mrb, "of", &other, &angtol);
+  gp_Vec* me = siren_vec_get(mrb, self);
+  gp_Vec* o = siren_vec_get(mrb, other);
+  Standard_Boolean res = me->IsParallel(*o, (Standard_Real)angtol);
+  return res ? mrb_true_value() : mrb_false_value();
+}
+
+
