@@ -17,8 +17,11 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "inspect",    siren_vec_to_s,   ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_s",       siren_vec_to_s,   ARGS_NONE());
   mrb_define_method(mrb, rclass, "x",          siren_vec_x,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "x=",         siren_vec_x_set,  ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "y",          siren_vec_y,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "y=",         siren_vec_y_set,  ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "z",          siren_vec_z,      ARGS_NONE());
+  mrb_define_method(mrb, rclass, "z=",         siren_vec_z_set,  ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "to_a",       siren_vec_to_a,   ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_xyz",     siren_vec_to_xyz, ARGS_NONE());
   return true;
@@ -60,8 +63,16 @@ mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
 mrb_value siren_vec_x(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
-  Standard_Real val = vec->X();
-  return mrb_float_value(mrb, (float)val);
+  return mrb_float_value(mrb, (float)vec->X());
+}
+
+mrb_value siren_vec_x_set(mrb_state* mrb, mrb_value self)
+{
+  mrb_float val;
+  int argc = mrb_get_args(mrb, "f", &val);
+  gp_Vec* vec = siren_vec_get(mrb, self);
+  vec->SetX((Standard_Real)val);
+  return mrb_float_value(mrb, (float)vec->X());
 }
 
 mrb_value siren_vec_y(mrb_state* mrb, mrb_value self)
@@ -71,11 +82,29 @@ mrb_value siren_vec_y(mrb_state* mrb, mrb_value self)
   return mrb_float_value(mrb, (float)val);
 }
 
+mrb_value siren_vec_y_set(mrb_state* mrb, mrb_value self)
+{
+  mrb_float val;
+  int argc = mrb_get_args(mrb, "f", &val);
+  gp_Vec* vec = siren_vec_get(mrb, self);
+  vec->SetY((Standard_Real)val);
+  return mrb_float_value(mrb, (float)vec->Y());
+}
+
 mrb_value siren_vec_z(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->Z();
   return mrb_float_value(mrb, (float)val);
+}
+
+mrb_value siren_vec_z_set(mrb_state* mrb, mrb_value self)
+{
+  mrb_float val;
+  int argc = mrb_get_args(mrb, "f", &val);
+  gp_Vec* vec = siren_vec_get(mrb, self);
+  vec->SetZ((Standard_Real)val);
+  return mrb_float_value(mrb, (float)vec->Z());
 }
 
 mrb_value siren_vec_to_a(mrb_state* mrb, mrb_value self)

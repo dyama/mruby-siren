@@ -12,8 +12,11 @@ mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z);
 mrb_value siren_vec_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_x(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_x_set(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_y(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_y_set(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_z(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_z_set(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_to_a(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_to_xyz(mrb_state* mrb, mrb_value self);
 
