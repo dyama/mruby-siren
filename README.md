@@ -1,7 +1,10 @@
-Siren - Easy 3D geometry and topology engine
+siren - Easy 3D geometry and topology engine
 ============================================
 
-mrbgems edition for MRuby
+mrbgems edition for MRuby.
+
+siren is easy 3D operation engine powered by Open CASCADE. siren is integrated to Ruby interpreter environment, so it gives high-level 3D geometrical and topological operation with easy and simple script.
+For example, you can get volume of shape, intersection lines of some shapes, center of gravity and a result of boolean operation. It supports IGES, STEP file with NURBS surface and curve.
 
 Base project
 ------------
