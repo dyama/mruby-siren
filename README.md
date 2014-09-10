@@ -39,7 +39,6 @@ How to build
 3. Add build configue of mrbgems.
 4. Change path to each libraries in mrbgem.rake.
 5. Make mruby.
-6. 
 
 Usage
 -----
@@ -49,7 +48,7 @@ Usage
 Reference manual
 ----------------
 
-See https://github.com/dyama/mruby-siren/wiki
+See documentation in doc directory or https://github.com/dyama/mruby-siren/wiki.
 
 Lincense
 --------
