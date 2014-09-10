@@ -9,8 +9,8 @@ Base project
 * siren
 https://github.com/dyama/siren
 
-Depended
---------
+Dependencies
+------------
 
 * mruby
 https://github.com/mruby/mruby
@@ -39,6 +39,12 @@ How to build
 3. Add build configue of mrbgems.
 4. Change path to each libraries in mrbgem.rake.
 5. Make mruby.
+6. 
+
+Usage
+-----
+* Run build/host/bin/mirb.
+* Run build/host/bin/mruby with siren script.
 
 Reference manual
 ----------------
