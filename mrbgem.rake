@@ -82,8 +82,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
     spec.cxx.flags << "/I#{occincpath}"
     spec.cxx.flags << "/DWNT"
   else
-  spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath <<
-    "-Wno-unused-function -Wno-unused-variable"
+    spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath <<
+      "-Wno-unused-function -Wno-unused-variable"
   end
 
   #allLibs.each do |libname|
