@@ -1,5 +1,5 @@
-siren - Easy 3D geometry and topology engine
-============================================
+siren - Easy 3D operation engine
+================================
 
 mrbgems edition for MRuby.
 
