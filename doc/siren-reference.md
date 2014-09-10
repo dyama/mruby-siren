@@ -119,3 +119,13 @@ Modules
   * _revolution_
   * _sweep_
   * _wedge_
+
+Embedded ruby modules
+---------------------
+
+These module are used as enum-type by siren script and interface of any methods. In many cases, these can be replaced by an integer value.
+
+* ShapeType
+* OrientType
+* MaterialName
+* ColorName
