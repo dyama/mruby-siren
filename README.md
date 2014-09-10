@@ -10,6 +10,8 @@ In now, siren has no 3D viewer but it will be included soon. You can use batch p
 
 Base project
 ------------
+mruby-siren project is refactoring and rebuilds the code of siren project.
+In future, This project will feed back to siren project as core engine.
 
 * siren
 https://github.com/dyama/siren
