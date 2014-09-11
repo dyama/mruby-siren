@@ -42,7 +42,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    ARGS_REQ(1) | ARGS_OPT(1));
 
   return true;
 }
@@ -235,10 +235,14 @@ mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self)
 {
-  mrb_int type;
+  mrb_int type, avoid;
   mrb_value block;
-  int argc = mrb_get_args(mrb, "i&", &type, &block);
-  TopExp_Explorer ex(*siren_shape_get(mrb, self), (TopAbs_ShapeEnum)type);
+  int argc = mrb_get_args(mrb, "i|i&", &type, &avoid, &block);
+  TopExp_Explorer ex;
+  if (argc == 1)
+    ex.Init(*siren_shape_get(mrb, self), (TopAbs_ShapeEnum)type);
+  else
+    ex.Init(*siren_shape_get(mrb, self), (TopAbs_ShapeEnum)type, (TopAbs_ShapeEnum)avoid);
   if (!mrb_nil_p(block)) {
     for (; ex.More(); ex.Next()) {
       mrb_value argv[2];
