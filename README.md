@@ -8,6 +8,10 @@ For example, you can get volume of shape, intersection lines of some shapes, cen
 
 In now, siren has no 3D viewer but it will be included soon. You can use batch processing and interactive shell on Ruby environment already.
 
+You can get more information at siren official page.
+
+* siren official page: http://siren.xyz/
+
 Base project
 ------------
 mruby-siren project is refactoring and rebuilds the code of siren project.
