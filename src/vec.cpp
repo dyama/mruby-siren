@@ -46,6 +46,15 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "magnitude",  siren_vec_magnitude,      ARGS_NONE());
   mrb_define_method(mrb, rclass, "size",       siren_vec_magnitude,      ARGS_NONE());
   mrb_define_method(mrb, rclass, "length",     siren_vec_magnitude,      ARGS_NONE());
+
+  mrb_define_module_function(mrb, rclass, "zero", siren_vec_zero, ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "xdir", siren_vec_xdir, ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "ydir", siren_vec_ydir, ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "zdir", siren_vec_zdir, ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "xdir_neg", siren_vec_xdir_neg, ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "ydir_neg", siren_vec_ydir_neg, ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "zdir_neg", siren_vec_zdir_neg, ARGS_NONE());
+
   return true;
 }
 
@@ -224,5 +233,40 @@ mrb_value siren_vec_magnitude(mrb_state* mrb, mrb_value self)
 {
   Standard_Real res = siren_vec_get(mrb, self)->Magnitude();
   return mrb_float_value(mrb, (float)res);
+}
+
+mrb_value siren_vec_zero(mrb_state* mrb, mrb_value self)
+{
+  return siren_vec_new(mrb, 0.0, 0.0, 0.0);
+}
+
+mrb_value siren_vec_xdir(mrb_state* mrb, mrb_value self)
+{
+  return siren_vec_new(mrb, 1.0, 0.0, 0.0);
+}
+
+mrb_value siren_vec_ydir(mrb_state* mrb, mrb_value self)
+{
+  return siren_vec_new(mrb, 0.0, 1.0, 0.0);
+}
+
+mrb_value siren_vec_zdir(mrb_state* mrb, mrb_value self)
+{
+  return siren_vec_new(mrb, 0.0, 0.0, 1.0);
+}
+
+mrb_value siren_vec_xdir_neg(mrb_state* mrb, mrb_value self)
+{
+  return siren_vec_new(mrb, -1.0, 0.0, 0.0);
+}
+
+mrb_value siren_vec_ydir_neg(mrb_state* mrb, mrb_value self)
+{
+  return siren_vec_new(mrb, 0.0, -1.0, 0.0);
+}
+
+mrb_value siren_vec_zdir_neg(mrb_state* mrb, mrb_value self)
+{
+  return siren_vec_new(mrb, 0.0, 0.0, -1.0);
 }
 
