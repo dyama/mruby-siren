@@ -1,5 +1,46 @@
 #include "shape.h"
 
+#define TESTSINGLETON
+
+#ifdef TESTSINGLETON
+#include "curve.h"
+mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* c = siren_shape_get(mrb, self);
+  BRepAdaptor_Curve bracurve(TopoDS::Edge(*c));
+  gp_Pnt sp = bracurve.Value(bracurve.FirstParameter());
+  return siren_vec_new(mrb, sp.X(), sp.Y(), sp.Z());
+}
+
+mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* c = siren_shape_get(mrb, self);
+  BRepAdaptor_Curve bracurve(TopoDS::Edge(*c));
+  gp_Pnt tp = bracurve.Value(bracurve.LastParameter());
+  return siren_vec_new(mrb, tp.X(), tp.Y(), tp.Z());
+}
+
+void siren_edge_install(mrb_state* mrb, RObject* o)
+{
+  mrb_define_singleton_method(mrb, o, "sp", siren_edge_sp, MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "tp", siren_edge_tp, MRB_ARGS_NONE());
+  return;
+}
+
+void siren_add_singleton_method(mrb_state* mrb, mrb_value& self)
+{
+  TopoDS_Shape* S = siren_shape_get(mrb, self);
+  switch (S->ShapeType()) {
+  case TopAbs_EDGE:
+    siren_edge_install(mrb, mrb_obj_ptr(self));
+    break;
+  default:
+    break;
+  }
+  return;
+}
+#endif
+
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
   mrb_value obj;
@@ -9,6 +50,9 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
   *inner = shape; // Copy to inner native member
   DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(inner);
   DATA_TYPE(obj) = &siren_shape_type;
+#ifdef TESTSINGLETON
+  siren_add_singleton_method(mrb, obj);
+#endif
   return obj;
 }
 
