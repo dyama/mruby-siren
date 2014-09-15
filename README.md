@@ -56,10 +56,12 @@ Usage
 * Run build/host/bin/mirb.
 * Run build/host/bin/mruby with siren script.
 
-Reference manual
-----------------
+Documentation
+-------------
 
-See documentation in doc directory or https://github.com/dyama/mruby-siren/wiki.
+* Official web page: http://siren.xyz/
+* Tutorial: http://siren.xyz/tutorial.html
+* Wiki: https://github.com/dyama/mruby-siren/wiki.
 
 Lincense
 --------
