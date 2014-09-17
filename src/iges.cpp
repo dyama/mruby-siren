@@ -64,7 +64,7 @@ mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
       result = mrb_ary_new(mrb);
       for (int i=1; i <= iges_reader.NbShapes(); i++) {
         try {
-          mrb_value mrshape = siren_shape_new(mrb, iges_reader.Shape());
+          mrb_value mrshape = siren_shape_new(mrb, iges_reader.Shape(i));
           mrb_ary_push(mrb, result, mrshape);
         }
         catch(...) {
