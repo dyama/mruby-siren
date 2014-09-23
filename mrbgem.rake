@@ -40,7 +40,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
     [ 'TKGeomAlgo', 'TKTopAlgo', 'TKBO', 'TKPrim',
       'TKShHealing', 'TKHLR', 'TKMesh', 'TKBool',
       'TKXMesh', 'TKFeat', 'TKFillet', 'TKOffset' ]
-  visualization = []
+  visualization =
+    [ 'TKService', 'TKV3d' ]
   applicationFramework = []
   dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES' ]
 

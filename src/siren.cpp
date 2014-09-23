@@ -16,6 +16,7 @@
 #include "base.h"
 #include "bndbox.h"
 #include "curve.h"
+#include "world.h"
 
 extern "C" {
 
@@ -38,6 +39,7 @@ extern "C" {
     struct RClass* _base   = NULL;
     struct RClass* _bndbox = NULL;
     struct RClass* _curve = NULL;
+    struct RClass* _world = NULL;
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
     siren_vec_install(mrb, _vec);
@@ -54,6 +56,7 @@ extern "C" {
     siren_base_install(mrb, _base);
     siren_bndbox_install(mrb, _bndbox);
     siren_curve_install(mrb, _curve);
+    siren_world_install(mrb, _world);
     return;
   }
 
