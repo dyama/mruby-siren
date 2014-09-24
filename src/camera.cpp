@@ -27,12 +27,16 @@ mrb_value siren_camera_init(mrb_state* mrb, mrb_value self)
 #if _WNT
   Handle(WNT_Window) window = new WNT_Window((Aspect_Handle)whd);
 #else
-  Handle(Xw_Window) window = new Xw_Window(wa->driver->GetDisplayConnection(), (Window)whd);
+  Handle(Xw_Window) window = new Xw_Window(wa->driver->GetDisplayConnection(), *((Window*)whd));
 #endif
   view->SetWindow(window);
   if (!window->IsMapped()) {
     window->Map();
   }
+
+  Quantity_Color color_top(0.20, 0.20, 0.20, Quantity_TOC_RGB);
+  Quantity_Color color_btm(0.30, 0.45, 0.60, Quantity_TOC_RGB);
+  view->SetBgGradientColors(color_top, color_btm, Aspect_GFM_VER, Standard_False);
 
   // Show trihedron at right upper of view.
   // view->TriedronDisplay(Aspect_TOPP_RIGHT_UPPER, Quantity_NOC_WHITE, 0.1, V3d_ZBUFFER);
