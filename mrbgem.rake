@@ -10,7 +10,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.summary = 'Easy 3D Geometry and Topology engine.'
 
   # define path
-  use_oce = true
+  use_oce = false
   occlibpath = '/opt/occ671/lib'
   occincpath = '/opt/occ671/inc'
   occlibpath2 = ''
@@ -30,7 +30,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   if cxx.command == 'cl.exe'
 
   else
-    thirdPartyLibs = [ 'tbb' ]
+    thirdPartyLibs = [ 'tbb', 'gl2ps', 'freetype', 'freeimage', 'OpenCL' ]
   end
   foundationClasses =
     [ 'TKernel', 'TKMath' ]
@@ -41,7 +41,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
       'TKShHealing', 'TKHLR', 'TKMesh', 'TKBool',
       'TKXMesh', 'TKFeat', 'TKFillet', 'TKOffset' ]
   visualization =
-    [ 'TKService', 'TKV3d' ]
+     [ 'TKService', 'TKV3d', 'TKOpenGl', 'TKMeshVS',
+       'TKNIS', 'TKVoxel' ]
   applicationFramework = []
   dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES' ]
 
