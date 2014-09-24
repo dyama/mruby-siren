@@ -1,5 +1,10 @@
 #include "world.h"
 
+struct world_attr* siren_world_attr_get(mrb_state* mrb, mrb_value obj)
+{
+  return static_cast<struct world_attr*>(mrb_get_datatype(mrb, obj, &siren_world_type));
+}
+
 bool siren_world_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "World", mrb->object_class);

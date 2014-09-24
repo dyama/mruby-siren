@@ -22,6 +22,7 @@ struct world_attr
 void siren_world_final(mrb_state* mrb, void* p);
 bool siren_world_install(mrb_state* mrb, struct RClass* rclass);
 static struct mrb_data_type siren_world_type = { "World", siren_world_final };
+struct world_attr* siren_world_attr_get(mrb_state* mrb, mrb_value obj);
 
 mrb_value siren_world_init(mrb_state* mrb, mrb_value self);
 
