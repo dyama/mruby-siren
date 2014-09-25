@@ -10,7 +10,7 @@ bool siren_world_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_class(mrb, "World", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_world_init, ARGS_OPT(1));
-
+  mrb_define_method(mrb, rclass, "add",        siren_world_add, ARGS_REQ(1));
   return true;
 }
 
@@ -28,10 +28,9 @@ mrb_value siren_world_init(mrb_state* mrb, mrb_value self)
   wa->driver = Graphic3d::InitGraphicDriver(dc);
 
   // init viewer
-  void* p_viewer = mrb_malloc(mrb, sizeof(V3d_Viewer));
   TCollection_ExtendedString a3DName("siren3d"); // Viewer name
   Standard_CString aDomain = "";                 // Domain name
-  wa->viewer = new(p_viewer) V3d_Viewer(
+  wa->viewer = new V3d_Viewer(
       wa->driver,
       a3DName.ToExtString(),
       aDomain,
@@ -40,9 +39,13 @@ mrb_value siren_world_init(mrb_state* mrb, mrb_value self)
       Quantity_NOC_BLACK
       );
 
+  // light setting
+  wa->viewer->SetDefaultLights();
+  wa->viewer->SetLightOn();
+
   // init context
-  void* p_context = mrb_malloc(mrb, sizeof(AIS_InteractiveContext));
-  wa->context = new(p_context) AIS_InteractiveContext(wa->viewer);
+  wa->context = new AIS_InteractiveContext(wa->viewer);
+  wa->context->UpdateCurrentViewer();
 
   DATA_PTR(self) = wa;
   DATA_TYPE(self) = &siren_world_type;
@@ -54,8 +57,23 @@ void siren_world_final(mrb_state* mrb, void* p)
 {
   struct world_attr* wa = static_cast<struct world_attr*>(p);
   // driver is not managed under mruby GC
-  mrb_free(mrb, wa->viewer);
-  mrb_free(mrb, wa->context);
+  //mrb_free(mrb, wa->viewer);
+  //mrb_free(mrb, wa->context);
   mrb_free(mrb, wa);
 }
 
+mrb_value siren_world_add(mrb_state* mrb, mrb_value self)
+{
+  mrb_value skin;
+  int argc = mrb_get_args(mrb, "o", &skin);
+
+  struct world_attr* wa = siren_world_attr_get(mrb, self);
+
+  Handle(AIS_Shape) hashape = siren_skin_get(mrb, skin);
+  wa->context->SetDisplayMode(hashape, 1, Standard_False);
+  wa->context->Display(hashape, 1);
+  wa->context->Activate(hashape);
+  //wa->context->UpdateCurrentViewer();
+
+  return mrb_nil_value();
+}

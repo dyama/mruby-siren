@@ -2,6 +2,7 @@
 #define _WORLD_H_
 
 #include "siren.h"
+#include "skin.h"
 
 #include <Graphic3d_GraphicDriver.hxx>
 #include <AIS_InteractiveContext.hxx>
@@ -25,5 +26,6 @@ static struct mrb_data_type siren_world_type = { "World", siren_world_final };
 struct world_attr* siren_world_attr_get(mrb_state* mrb, mrb_value obj);
 
 mrb_value siren_world_init(mrb_state* mrb, mrb_value self);
+mrb_value siren_world_add(mrb_state* mrb, mrb_value self);
 
 #endif

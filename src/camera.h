@@ -19,7 +19,10 @@
 void siren_camera_final(mrb_state* mrb, void* p);
 bool siren_camera_install(mrb_state* mrb, struct RClass* rclass);
 static struct mrb_data_type siren_camera_type = { "Camera", siren_camera_final };
+Handle(V3d_View) siren_camera_get(mrb_state* mrb, mrb_value obj);
 
 mrb_value siren_camera_init(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_camera_fit(mrb_state* mrb, mrb_value self);
 
 #endif

@@ -18,6 +18,7 @@
 #include "curve.h"
 #include "world.h"
 #include "camera.h"
+#include "skin.h"
 
 extern "C" {
 
@@ -42,6 +43,7 @@ extern "C" {
     struct RClass* _curve = NULL;
     struct RClass* _world = NULL;
     struct RClass* _camera = NULL;
+    struct RClass* _skin = NULL;
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
     siren_vec_install(mrb, _vec);
@@ -60,6 +62,7 @@ extern "C" {
     siren_curve_install(mrb, _curve);
     siren_world_install(mrb, _world);
     siren_camera_install(mrb, _camera);
+    siren_skin_install(mrb, _skin);
     return;
   }
 
