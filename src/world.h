@@ -13,6 +13,14 @@
 #include <TCollection_ExtendedString.hxx>
 #include <Standard_PrimitiveTypes.hxx>
 
+#ifdef USE_GLSL_SHADER
+#include <Graphic3d_ShaderProgram.hxx>
+#include <Prs3d_ShadingAspect.hxx>
+#include <Graphic3d_AspectFillArea3d.hxx>
+#include <Graphic3d_ShaderObject.hxx>
+#include <Graphic3d_TypeOfShaderObject.hxx>
+#endif
+
 struct world_attr
 {
   Handle(Graphic3d_GraphicDriver) driver;

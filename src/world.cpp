@@ -70,6 +70,14 @@ mrb_value siren_world_add(mrb_state* mrb, mrb_value self)
   struct world_attr* wa = siren_world_attr_get(mrb, self);
 
   Handle(AIS_Shape) hashape = siren_skin_get(mrb, skin);
+
+#ifdef USE_GLSL_SHADER
+  Handle(Graphic3d_ShaderProgram) sp = new Graphic3d_ShaderProgram(Graphic3d_ShaderProgram::ShaderName_Phong);
+  sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_VERTEX, "default.vs"));
+  sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_FRAGMENT, "default.fs"));
+  hashape->Attributes()->ShadingAspect()->Aspect()->SetShaderProgram( sp );
+#endif
+
   wa->context->SetDisplayMode(hashape, 1, Standard_False);
   wa->context->Display(hashape, 1);
   wa->context->Activate(hashape);
