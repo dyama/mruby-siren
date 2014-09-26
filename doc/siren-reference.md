@@ -60,6 +60,21 @@ Classes
   * reverse! -> self
   * angle(other) -> Float
   * magnitude, size, length -> Float
+* Skin - _AIS_Shape_
+  * new(shape) -> Skin
+  * color -> ColorName
+  * color=(ColorName) -> nil
+  * material -> MaterianName
+  * material=(MaterialName) -> nil
+  * transparency -> Float
+  * transparency=(value)
+* World - _AIS_InteractiveContext_, _V3d_Viewer_
+  * new(display) -> World
+  * add(skin) -> nil
+  * erase(skin) -> nil
+* Camera - _V3d_View_
+  * new(world, Pointer of X Window) -> Camera
+  * fit -> nil
 
 Modules
 -------
