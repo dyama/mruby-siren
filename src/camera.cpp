@@ -46,8 +46,9 @@ mrb_value siren_camera_init(mrb_state* mrb, mrb_value self)
   view->SetBgGradientColors(color_top, color_btm, Aspect_GFM_VER, Standard_False);
 
   // Show trihedron at right upper of view.
-  // view->TriedronDisplay(Aspect_TOPP_RIGHT_UPPER, Quantity_NOC_WHITE, 0.1, V3d_ZBUFFER);
-  view->TriedronDisplay();
+  view->TriedronDisplay(Aspect_TOTP_RIGHT_UPPER, Quantity_NOC_WHITE, 0.1, V3d_ZBUFFER);
+
+  //view->SetAntialiasingOn();
 
   view->Redraw();
 

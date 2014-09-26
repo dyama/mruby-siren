@@ -9,7 +9,7 @@ puts "window : #{window}"
 world = World.new display
 cam = Camera.new world, window
 
-skin1 = Skin.new Prim.sphere(15, Vec::origin)
+skin1 = Skin.new Prim.sphere(5, Vec.new(-15, 0, 0))
 skin1.color = ColorName::RED
 skin1.material = MaterialName::STONE
 #skin1.transparency = 0.5
