@@ -16,4 +16,8 @@ AIS_Shape* siren_skin_get(mrb_state* mrb, mrb_value obj);
 
 mrb_value siren_skin_init(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_skin_color_set(mrb_state* mrb, mrb_value self);
+mrb_value siren_skin_material_set(mrb_state* mrb, mrb_value self);
+mrb_value siren_skin_transparency_set(mrb_state* mrb, mrb_value self);
+
 #endif
