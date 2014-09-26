@@ -13,8 +13,11 @@ bool siren_skin_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_class(mrb, "Skin", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize",    siren_skin_init,             ARGS_NONE());
+  mrb_define_method(mrb, rclass, "color",         siren_skin_color,            ARGS_NONE());
   mrb_define_method(mrb, rclass, "color=",        siren_skin_color_set,        ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "material",      siren_skin_material,         ARGS_NONE());
   mrb_define_method(mrb, rclass, "material=",     siren_skin_material_set,     ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "transparency",  siren_skin_transparency,     ARGS_NONE());
   mrb_define_method(mrb, rclass, "transparency=", siren_skin_transparency_set, ARGS_REQ(1));
 
   return true;
@@ -46,6 +49,12 @@ void siren_skin_final(mrb_state* mrb, void* p)
   //mrb_free(mrb, s);
 }
 
+mrb_value siren_skin_color(mrb_state* mrb, mrb_value self)
+{
+  Quantity_NameOfColor val = siren_skin_get(mrb, self)->Color();
+  return mrb_fixnum_value((int)val);
+}
+
 mrb_value siren_skin_color_set(mrb_state* mrb, mrb_value self)
 {
   mrb_int val;
@@ -54,12 +63,24 @@ mrb_value siren_skin_color_set(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
+mrb_value siren_skin_material(mrb_state* mrb, mrb_value self)
+{
+  Graphic3d_NameOfMaterial val = siren_skin_get(mrb, self)->Material();
+  return mrb_fixnum_value((int)val);
+}
+
 mrb_value siren_skin_material_set(mrb_state* mrb, mrb_value self)
 {
   mrb_int val;
   int argc = mrb_get_args(mrb, "i", &val);
   siren_skin_get(mrb, self)->SetMaterial((Graphic3d_NameOfMaterial)val);
   return mrb_nil_value();
+}
+
+mrb_value siren_skin_transparency(mrb_state* mrb, mrb_value self)
+{
+  Standard_Real val = siren_skin_get(mrb, self)->Transparency();
+  return mrb_float_value(mrb, (double)val); // round
 }
 
 mrb_value siren_skin_transparency_set(mrb_state* mrb, mrb_value self)
