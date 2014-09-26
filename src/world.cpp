@@ -9,8 +9,9 @@ bool siren_world_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "World", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_world_init, ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "add",        siren_world_add, ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "initialize", siren_world_init,  ARGS_OPT(1));
+  mrb_define_method(mrb, rclass, "add",        siren_world_add,   ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "erase",      siren_world_erase, ARGS_REQ(1));
   return true;
 }
 
@@ -68,7 +69,6 @@ mrb_value siren_world_add(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "o", &skin);
 
   struct world_attr* wa = siren_world_attr_get(mrb, self);
-
   Handle(AIS_Shape) hashape = siren_skin_get(mrb, skin);
 
 #ifdef USE_GLSL_SHADER
@@ -82,6 +82,19 @@ mrb_value siren_world_add(mrb_state* mrb, mrb_value self)
   wa->context->Display(hashape, 1);
   wa->context->Activate(hashape);
   //wa->context->UpdateCurrentViewer();
+
+  return mrb_nil_value();
+}
+
+mrb_value siren_world_erase(mrb_state* mrb, mrb_value self)
+{
+  mrb_value skin;
+  int argc = mrb_get_args(mrb, "o", &skin);
+
+  struct world_attr* wa = siren_world_attr_get(mrb, self);
+  Handle(AIS_Shape) hashape = siren_skin_get(mrb, skin);
+
+  wa->context->Erase(hashape, 1);
 
   return mrb_nil_value();
 }
