@@ -27,6 +27,17 @@ Classes
   * scale(op, factor) -> Shape
   * scale!(op, factor) -> nil
   * shapetype -> Integer(to be ShapeType)
+* Singleton methods of Shape
+  * ShapeType::VERTEX
+  * ShapeType::EDGE - _TopoDS_Edge_
+    * sp -> Vec
+    * tp -> Vec
+    * to_pts(deflection = 1.0e-1) -> Ary[Vec]
+  * ShapeType::WIRE
+  * ShapeType::FACE
+  * ShapeType::SHELL
+  * ShapeType::SOLID
+  * ShapeType::COMPOUND
 * Trans - _gp_Trsf_
   * new -> Trans
   * mirror!(op, norm) -> nil
@@ -83,7 +94,6 @@ Modules
   * section(shape1, shape2) -> Shape
 * Base - _TKGeomBase_
   * bs2bzsurf(shape) -> Shape
-  * edge2pts(edge, deflect) -> Array[Vec]
 * Bool - _TKBool_
   * common(shape1, shape2) -> Shape
   * cut(shape1, shape2) -> Shape
@@ -103,8 +113,6 @@ Modules
   * sewing(Array[face], tolerance = nil) -> Shape
   * solid(shell) -> Shape
   * vertex(x, y, z) -> Shape
-* Curve
-  * endpts(edge) -> [[sp, tp], ...]
 * Feat - _TKFeat_
   * splitFxW(face, wire) -> Shape
 * GProp - _TKG2d_ - _GProp_
