@@ -11,8 +11,13 @@
 #include <TopExp_Explorer.hxx>
 #include <BRepAdaptor_Curve.hxx>
 
+// to_pts
+#include <BRepAdaptor_Curve.hxx>
+#include <GCPnts_UniformDeflection.hxx>
+
 void siren_edge_install(mrb_state* mrb, RObject* o);
 mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self);
+mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self);
 
 #endif

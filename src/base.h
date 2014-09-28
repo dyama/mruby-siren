@@ -5,10 +5,6 @@
 #include "shape.h"
 #include "build.h"
 
-// edge2pts
-#include <BRepAdaptor_Curve.hxx>
-#include <GCPnts_UniformDeflection.hxx>
-
 // bs2bzsurf
 #include <TopoDS_Compound.hxx>
 #include <BRep_Tool.hxx>
@@ -19,8 +15,6 @@
 #include <TColGeom_Array2OfBezierSurface.hxx>
 
 bool siren_base_install(mrb_state* mrb, struct RClass* rclass);
-
-mrb_value siren_base_edge2pts(mrb_state* mrb, mrb_value self);
 mrb_value siren_base_bs2bzsurf(mrb_state* mrb, mrb_value self);
 
 #endif
