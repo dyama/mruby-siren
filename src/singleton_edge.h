@@ -11,8 +11,8 @@
 #include <TopExp_Explorer.hxx>
 #include <BRepAdaptor_Curve.hxx>
 
-bool siren_curve_install(mrb_state* mrb, struct RClass* rclass);
-
-mrb_value siren_curve_endpts(mrb_state* mrb, mrb_value self);
+void siren_edge_install(mrb_state* mrb, RObject* o);
+mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self);
+mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self);
 
 #endif

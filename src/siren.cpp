@@ -15,7 +15,6 @@
 #include "feat.h"
 #include "base.h"
 #include "bndbox.h"
-#include "curve.h"
 #include "world.h"
 #include "camera.h"
 #include "skin.h"
@@ -40,7 +39,6 @@ extern "C" {
     struct RClass* _feat   = NULL;
     struct RClass* _base   = NULL;
     struct RClass* _bndbox = NULL;
-    struct RClass* _curve = NULL;
     struct RClass* _world = NULL;
     struct RClass* _camera = NULL;
     struct RClass* _skin = NULL;
@@ -59,7 +57,6 @@ extern "C" {
     siren_feat_install(mrb, _feat);
     siren_base_install(mrb, _base);
     siren_bndbox_install(mrb, _bndbox);
-    siren_curve_install(mrb, _curve);
     siren_world_install(mrb, _world);
     siren_camera_install(mrb, _camera);
     siren_skin_install(mrb, _skin);
