@@ -72,9 +72,20 @@ mrb_value siren_world_add(mrb_state* mrb, mrb_value self)
   Handle(AIS_Shape) hashape = siren_skin_get(mrb, skin);
 
 #ifdef USE_GLSL_SHADER
-  Handle(Graphic3d_ShaderProgram) sp = new Graphic3d_ShaderProgram(Graphic3d_ShaderProgram::ShaderName_Phong);
-  sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_VERTEX, "default.vs"));
-  sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_FRAGMENT, "default.fs"));
+  // Handle(Graphic3d_ShaderProgram) sp = new Graphic3d_ShaderProgram(Graphic3d_ShaderProgram::ShaderName_Phong);
+  Handle(Graphic3d_ShaderProgram) sp = new Graphic3d_ShaderProgram();
+  // http://www.ozone3d.net/tutorials/ambient_occlusion.php
+  int r = sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_VERTEX, "ambient_occulusion.vs"));
+  if (!r) {
+    std::cout << "hoge" << std::endl;
+  }
+  r = sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_FRAGMENT, "ambient_occulusion.fs"));
+  if (!r) {
+    std::cout << "fuga" << std::endl;
+  }
+  sp->PushVariable("ambient_occlusion", Graphic3d_Vec4(1.0f, -1.0f, 1.0f, 0.7f));
+  //sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_VERTEX, "./shader/default.vs"));
+  //sp->AttachShader(Graphic3d_ShaderObject::CreateFromFile(Graphic3d_TOS_FRAGMENT, "./shader/default.fs"));
   hashape->Attributes()->ShadingAspect()->Aspect()->SetShaderProgram( sp );
 #endif
 

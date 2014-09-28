@@ -13,6 +13,9 @@
 #include <TCollection_ExtendedString.hxx>
 #include <Standard_PrimitiveTypes.hxx>
 
+#ifndef USE_GLSL_SHADER
+#define USE_GLSL_SHADER
+#endif
 #ifdef USE_GLSL_SHADER
 #include <Graphic3d_ShaderProgram.hxx>
 #include <Prs3d_ShadingAspect.hxx>

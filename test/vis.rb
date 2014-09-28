@@ -9,27 +9,16 @@ puts "window : #{window}"
 world = World.new display
 cam = Camera.new world, window
 
-skin1 = Skin.new Prim.sphere(5, Vec.new(-15, 0, 0))
-skin1.color = ColorName::RED
-skin1.material = MaterialName::STONE
+skin1 = Skin.new BRepIO.load("/opt/occ671_work/data/occ/Axis_of_bearing.brep")
+#skin1 = Skin.new Prim.sphere(5, Vec.new(-15, 0, 0))
+skin1.color = ColorName::WHITE
+#skin1.material = MaterialName::DEFAULT
 #skin1.transparency = 0.5
 world.add skin1
 
 puts "color: #{skin1.color}"
 puts "material: #{skin1.material}"
 puts "transparency: #{skin1.transparency}"
-
-def deg2rad(deg)
-  pi = 3.141592
-  pi / 180.0 * deg
-end
-
-box = Prim.box Vec.new(5, 5, 20), Vec.new(10, 0, 0)
-box.rotate! Vec::origin, Vec::zdir, deg2rad(25)
-skin2 = Skin.new box
-skin2.color = ColorName::GREEN
-skin2.material = MaterialName::SHINY_PLASTIC
-world.add skin2
 
 cam.fit
 
