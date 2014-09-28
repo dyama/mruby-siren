@@ -3,11 +3,18 @@
 bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Prim");
-  mrb_define_class_method(mrb, rclass, "box",      siren_prim_box,      ARGS_REQ(1) | ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "sphere",   siren_prim_sphere,   ARGS_REQ(1) | ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "cylinder", siren_prim_cylinder, ARGS_REQ(5));
-  mrb_define_class_method(mrb, rclass, "cone",     siren_prim_cone,     ARGS_REQ(6));
-  mrb_define_class_method(mrb, rclass, "torus",    siren_prim_torus,    ARGS_REQ(5));
+  mrb_define_class_method(mrb, rclass, "box",       siren_prim_box,       ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "sphere",    siren_prim_sphere,    ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "cylinder",  siren_prim_cylinder,  ARGS_REQ(5));
+  mrb_define_class_method(mrb, rclass, "cone",      siren_prim_cone,      ARGS_REQ(6));
+  mrb_define_class_method(mrb, rclass, "torus",     siren_prim_torus,     ARGS_REQ(5));
+  mrb_define_class_method(mrb, rclass, "halfspace", siren_prim_halfspace, ARGS_NONE());
+  mrb_define_class_method(mrb, rclass, "oneaxis",   siren_prim_oneaxis,   ARGS_NONE());
+  mrb_define_class_method(mrb, rclass, "prism",     siren_prim_prism,     ARGS_NONE());
+  mrb_define_class_method(mrb, rclass, "revol",     siren_prim_revol,     ARGS_NONE());
+  mrb_define_class_method(mrb, rclass, "revolution",siren_prim_revolution,ARGS_NONE());
+  mrb_define_class_method(mrb, rclass, "sweep",     siren_prim_sweep,     ARGS_NONE());
+  mrb_define_class_method(mrb, rclass, "wedge",     siren_prim_wedge,     ARGS_NONE());
   return true;
 }
 
@@ -86,5 +93,40 @@ mrb_value siren_prim_torus(mrb_state* mrb, mrb_value self)
 
   BRepPrimAPI_MakeTorus api(ax, (Standard_Real)r1, (Standard_Real)r2, (Standard_Real)ang);
   return siren_shape_new(mrb, api.Shape());
+}
+
+mrb_value siren_prim_halfspace(mrb_state* mrb, mrb_value self)
+{
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+}
+
+mrb_value siren_prim_oneaxis(mrb_state* mrb, mrb_value self)
+{
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+}
+
+mrb_value siren_prim_prism(mrb_state* mrb, mrb_value self)
+{
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+}
+
+mrb_value siren_prim_revol(mrb_state* mrb, mrb_value self)
+{
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+}
+
+mrb_value siren_prim_revolution(mrb_state* mrb, mrb_value self)
+{
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+}
+
+mrb_value siren_prim_sweep(mrb_state* mrb, mrb_value self)
+{
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+}
+
+mrb_value siren_prim_wedge(mrb_state* mrb, mrb_value self)
+{
+  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
 }
 
