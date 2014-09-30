@@ -44,10 +44,10 @@ mrb_value siren_gprop_area(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* shape = siren_shape_get(mrb, target);
 
-  GProp_GProps System;
-  BRepGProp::SurfaceProperties(*shape, System);
-  Standard_Real Area = System.Mass();
+  GProp_GProps gprops;
+  BRepGProp::SurfaceProperties(*shape, gprops);
+  Standard_Real area = gprops.Mass();
 
-  return mrb_float_value(mrb, Area);
+  return mrb_float_value(mrb, area);
 }
 
