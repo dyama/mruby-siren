@@ -33,6 +33,10 @@ Classes
     * sp -> Vec
     * tp -> Vec
     * to_pts(deflection = 1.0e-1) -> Ary[Vec]
+    * param(Vec) -> Float
+    * to_xyz(param) -> Vec
+    * curvature(param) -> Vec
+    * tangent(param) -> Vec
   * ShapeType::WIRE
   * ShapeType::FACE
   * ShapeType::SHELL
@@ -110,6 +114,8 @@ Modules
   * plane(pos, norm, vdir, umin, umax, vmin, vmax) -> Shape
   * polygon(Array[point]) -> Shape
   * polyline(Array[point]) -> Shape
+  * nrubscurve(degree, knots, mults, poles, weights) -> Shape
+  * beziersurf(poles[][], weights[][]) -> Shape
   * sewing(Array[face], tolerance = nil) -> Shape
   * solid(shell) -> Shape
   * vertex(x, y, z) -> Shape
