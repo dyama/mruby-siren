@@ -21,9 +21,10 @@ bool siren_bndbox_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "BndBox", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_bndbox_init, ARGS_NONE());
-  mrb_define_method(mrb, rclass, "min",        siren_bndbox_min,  ARGS_NONE());
-  mrb_define_method(mrb, rclass, "max",        siren_bndbox_max,  ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize", siren_bndbox_init,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "min",        siren_bndbox_min,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "max",        siren_bndbox_max,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "out?",       siren_bndbox_is_out, MRB_ARGS_REQ(1));
   return true;
 }
 
@@ -58,5 +59,14 @@ mrb_value siren_bndbox_max(mrb_state* mrb, mrb_value self)
 
   b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
   return siren_vec_new(mrb, xmax, ymax, zmax);
+}
+
+mrb_value siren_bndbox_is_out(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  Bnd_Box* b = siren_bndbox_get(mrb, self);
+  // return b->IsOut(siren_pnt_get(mrb, other)) == Standard_True ? mrb_true_value() : mrb_false_value();
+  return b->IsOut(*siren_bndbox_get(mrb, other)) == Standard_True ? mrb_true_value() : mrb_false_value();
 }
 
