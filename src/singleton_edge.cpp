@@ -5,6 +5,7 @@ void siren_edge_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "sp",     siren_edge_sp,     MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "tp",     siren_edge_tp,     MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "to_pts", siren_edge_to_pts, MRB_ARGS_OPT(1));
+  mrb_define_singleton_method(mrb, o, "param",  siren_edge_param,  MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   return;
 }
 
@@ -70,5 +71,29 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
   }
 
   return result;
+}
+
+mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
+{
+  mrb_value xyz;
+  mrb_float tol;
+  int argc = mrb_get_args(mrb, "o|f", &xyz, &tol);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  TopoDS_Edge edge = TopoDS::Edge(*shape);
+
+  ShapeAnalysis_Curve ana;
+  BRepAdaptor_Curve gcurve(edge);
+  gp_Pnt p = siren_pnt_get(mrb, xyz);
+  gp_Pnt pp;
+  Standard_Real param;
+  Standard_Real distance = ana.Project(gcurve, p, (Standard_Real)tol, pp, param);
+
+  if (fabs(distance) <= tol) {
+    static const char m[] = "Specified position is not on the edge.";
+    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+  }
+
+  return mrb_float_value(mrb, param);
 }
 

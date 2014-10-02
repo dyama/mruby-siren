@@ -15,9 +15,14 @@
 #include <BRepAdaptor_Curve.hxx>
 #include <GCPnts_UniformDeflection.hxx>
 
+// param
+#include <ShapeAnalysis_Curve.hxx>
+#include <BRepAdaptor_Curve.hxx>
+
 void siren_edge_install(mrb_state* mrb, RObject* o);
 mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self);
+mrb_value siren_edge_param(mrb_state* mrb, mrb_value self);
 
 #endif
