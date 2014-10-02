@@ -3,17 +3,18 @@
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Build");
-  mrb_define_class_method(mrb, rclass, "copy",     siren_build_copy,     ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "vertex",   siren_build_vertex,   ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "line",     siren_build_line,     ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "polyline", siren_build_polyline, ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "curve",    siren_build_curve,    ARGS_REQ(1) | ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "plane",    siren_build_plane,    ARGS_REQ(7));
-  mrb_define_class_method(mrb, rclass, "polygon",  siren_build_polygon,  ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "copy",       siren_build_copy,       ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "vertex",     siren_build_vertex,     ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "line",       siren_build_line,       ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "polyline",   siren_build_polyline,   ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "curve",      siren_build_curve,      ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "plane",      siren_build_plane,      ARGS_REQ(7));
+  mrb_define_class_method(mrb, rclass, "polygon",    siren_build_polygon,    ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, ARGS_REQ(4) | ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "sewing",   siren_build_sewing,   ARGS_REQ(1) | ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "solid",    siren_build_solid,    ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "beziersurf", siren_build_beziersurf, ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "sewing",     siren_build_sewing,     ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "solid",      siren_build_solid,      ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "compound",   siren_build_compound,   ARGS_REQ(1));
   return true;
 }
 
@@ -211,6 +212,43 @@ mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self)
       poles, weights, knots, mults, (Standard_Integer)d, Standard_False);
 
   return siren_shape_new(mrb, BRepBuilderAPI_MakeEdge(hgeom_bscurve));
+}
+
+mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self)
+{
+  mrb_value ptary, wtary;
+  int argc = mrb_get_args(mrb, "A|A", &ptary, &wtary);
+
+  int rlen = mrb_ary_len(mrb, ptary);
+  int clen = mrb_ary_len(mrb, mrb_ary_ref(mrb, ptary, 0));
+
+  TColgp_Array2OfPnt poles(0, rlen-1, 0, clen-1);
+
+  for (int r=0; r<rlen; r++) {
+    mrb_value ar = mrb_ary_ref(mrb, ptary, r);
+    for (int c=0; c<clen; c++) {
+      poles.SetValue(r, c, siren_pnt_get(mrb, mrb_ary_ref(mrb, ar, c)));
+    }
+  }
+
+  Handle(Geom_BezierSurface) s = NULL;
+
+  if (argc == 2) {
+    TColStd_Array2OfReal weights(0, rlen-1, 0, clen-1);
+    for (int r=0; r<rlen; r++) {
+      mrb_value ar = mrb_ary_ref(mrb, wtary, r);
+      for (int c=0; c<clen; c++) {
+        mrb_value val = mrb_ary_ref(mrb, ar, c);
+        weights.SetValue(r, c, (Standard_Real)mrb_float(val));
+      }
+    }
+    s = new Geom_BezierSurface(poles, weights);
+  }
+  else {
+    s = new Geom_BezierSurface(poles);
+  }
+
+  return siren_shape_new(mrb, BRepBuilderAPI_MakeFace(s, 1.0e-7));
 }
 
 mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)

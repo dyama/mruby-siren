@@ -36,6 +36,11 @@
 #include <TColStd_Array1OfInteger.hxx>
 #include <Geom_BSplineCurve.hxx>
 
+// Bezier surface
+#include <Geom_BezierSurface.hxx>
+#include <TColgp_Array2OfPnt.hxx>
+#include <TColStd_Array2OfReal.hxx>
+
 // sewing
 #include <BRepBuilderAPI_Sewing.hxx>
 
@@ -54,7 +59,7 @@ mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_beziercurve(mrb_state* mrb, mrb_value self);
 mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_rectangle(mrb_state* mrb, mrb_value self);
-// mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self);
+mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_shell(mrb_state* mrb, mrb_value self);
 
