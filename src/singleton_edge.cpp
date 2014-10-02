@@ -2,10 +2,13 @@
 
 void siren_edge_install(mrb_state* mrb, RObject* o)
 {
-  mrb_define_singleton_method(mrb, o, "sp",     siren_edge_sp,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "tp",     siren_edge_tp,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "to_pts", siren_edge_to_pts, MRB_ARGS_OPT(1));
-  mrb_define_singleton_method(mrb, o, "param",  siren_edge_param,  MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_singleton_method(mrb, o, "sp",        siren_edge_sp,        MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "tp",        siren_edge_tp,        MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "to_pts",    siren_edge_to_pts,    MRB_ARGS_OPT(1));
+  mrb_define_singleton_method(mrb, o, "param",     siren_edge_param,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_singleton_method(mrb, o, "to_xyz",    siren_edge_to_xyz,    MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "curvature", siren_edge_curvature, MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "tangent",   siren_edge_tangent,   MRB_ARGS_REQ(1));
   return;
 }
 
@@ -95,5 +98,41 @@ mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
   }
 
   return mrb_float_value(mrb, param);
+}
+
+mrb_value siren_edge_to_xyz(mrb_state* mrb, mrb_value self)
+{
+  mrb_float param;
+  int argc = mrb_get_args(mrb, "f", &param);
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  BRepAdaptor_Curve C(TopoDS::Edge(*shape));
+  gp_Pnt p;
+  gp_Vec v1, v2;
+  C.D2((Standard_Real)param, p, v1, v2);
+  return siren_vec_new(mrb, p.X(), p.Y(), p.Z());
+}
+
+mrb_value siren_edge_curvature(mrb_state* mrb, mrb_value self)
+{
+  mrb_float param;
+  int argc = mrb_get_args(mrb, "f", &param);
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  BRepAdaptor_Curve C(TopoDS::Edge(*shape));
+  gp_Pnt p;
+  gp_Vec v1, v2;
+  C.D2((Standard_Real)param, p, v1, v2);
+  return siren_vec_new(mrb, v2.X(), v2.Y(), v2.Z());
+}
+
+mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self)
+{
+  mrb_float param;
+  int argc = mrb_get_args(mrb, "f", &param);
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  BRepAdaptor_Curve C(TopoDS::Edge(*shape));
+  gp_Pnt p;
+  gp_Vec v1, v2;
+  C.D2((Standard_Real)param, p, v1, v2);
+  return siren_vec_new(mrb, v1.X(), v1.Y(), v1.Z());
 }
 
