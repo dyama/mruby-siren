@@ -16,5 +16,6 @@ mrb_value siren_bndbox_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_bndbox_min(mrb_state* mrb, mrb_value self);
 mrb_value siren_bndbox_max(mrb_state* mrb, mrb_value self);
 mrb_value siren_bndbox_is_out(mrb_state* mrb, mrb_value self);
+mrb_value siren_bndbox_to_s(mrb_state* mrb, mrb_value self);
 
 #endif
