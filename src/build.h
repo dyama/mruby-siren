@@ -31,6 +31,11 @@
 // copy
 #include <BRepBuilderAPI_Copy.hxx>
 
+// NURBS curve
+#include <TColStd_Array1OfReal.hxx>
+#include <TColStd_Array1OfInteger.hxx>
+#include <Geom_BSplineCurve.hxx>
+
 // sewing
 #include <BRepBuilderAPI_Sewing.hxx>
 
@@ -47,7 +52,7 @@ mrb_value siren_build_plane    (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_build_beziercurve(mrb_state* mrb, mrb_value self);
-// mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self);
+mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_rectangle(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self);

@@ -24,5 +24,6 @@ Handle(V3d_View) siren_camera_get(mrb_state* mrb, mrb_value obj);
 mrb_value siren_camera_init(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_camera_fit(mrb_state* mrb, mrb_value self);
+mrb_value siren_camera_fitz(mrb_state* mrb, mrb_value self);
 
 #endif

@@ -19,6 +19,8 @@ mrb_value siren_heal_outerwire(mrb_state* mrb, mrb_value self)
   if (shape->ShapeType() == TopAbs_FACE) {
     TopoDS_Face face = TopoDS::Face(*shape);
     TopoDS_Wire wire = ShapeAnalysis::OuterWire(face);
+    // ShapeAnalysis_FreeBounds
+    // ::ConnectWiresToWires
     res = siren_shape_new(mrb, wire);
   }
   else {

@@ -10,6 +10,7 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "curve",    siren_build_curve,    ARGS_REQ(1) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "plane",    siren_build_plane,    ARGS_REQ(7));
   mrb_define_class_method(mrb, rclass, "polygon",  siren_build_polygon,  ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, ARGS_REQ(4) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "sewing",   siren_build_sewing,   ARGS_REQ(1) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "solid",    siren_build_solid,    ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "compound", siren_build_compound, ARGS_REQ(1));
@@ -172,6 +173,44 @@ mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, mf.Shape());
+}
+
+mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self)
+{
+  mrb_int d;
+  mrb_value ks, ms, ps, ws;
+  int argc = mrb_get_args(mrb, "iAAA|A", &d, &ks, &ms, &ps, &ws);
+
+  int plen = mrb_ary_len(mrb, ps);
+
+  TColgp_Array1OfPnt poles(0, plen - 1);
+  TColStd_Array1OfReal weights(0, plen - 1);
+  for (int i=0; i < plen; i++) {
+    poles.SetValue(i, siren_pnt_get(mrb, mrb_ary_ref(mrb, ps, i)));
+    if (argc == 5) {
+      mrb_value w = mrb_ary_ref(mrb, ws, i);
+      weights.SetValue(i, (Standard_Real)mrb_float(w));
+    }
+    else {
+      weights.SetValue(i, (Standard_Real)1.0);
+    }
+  }
+
+  int klen = mrb_ary_len(mrb, ks);
+  TColStd_Array1OfReal knots(0, klen - 1);
+  TColStd_Array1OfInteger mults(0, klen - 1);
+
+  for (int i=0; i < klen; i++) {
+    mrb_value knot = mrb_ary_ref(mrb, ks, i);
+    knots.SetValue(i, (Standard_Real)mrb_float(knot));
+    mrb_value mult = mrb_ary_ref(mrb, ms, i);
+    mults.SetValue(i, (Standard_Integer)mrb_fixnum(mult));
+  }
+
+  Handle(Geom_BSplineCurve) hgeom_bscurve = new Geom_BSplineCurve(
+      poles, weights, knots, mults, (Standard_Integer)d, Standard_False);
+
+  return siren_shape_new(mrb, BRepBuilderAPI_MakeEdge(hgeom_bscurve));
 }
 
 mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)

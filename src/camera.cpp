@@ -12,6 +12,7 @@ bool siren_camera_install(mrb_state* mrb, struct RClass* rclass)
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_camera_init, ARGS_OPT(1));
   mrb_define_method(mrb, rclass, "fit", siren_camera_fit, ARGS_NONE());
+  mrb_define_method(mrb, rclass, "fitz", siren_camera_fit, ARGS_NONE());
 
   return true;
 }
@@ -70,3 +71,11 @@ mrb_value siren_camera_fit(mrb_state* mrb, mrb_value self)
   view->FitAll();
   return mrb_nil_value();
 }
+
+mrb_value siren_camera_fitz(mrb_state* mrb, mrb_value self)
+{
+  Handle(V3d_View) view = siren_camera_get(mrb, self);
+  view->ZFitAll();
+  return mrb_nil_value();
+}
+
