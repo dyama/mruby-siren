@@ -26,4 +26,6 @@ mrb_value siren_camera_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_camera_fit(mrb_state* mrb, mrb_value self);
 mrb_value siren_camera_fitz(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_camera_set_proj(mrb_state* mrb, mrb_value self);
+
 #endif

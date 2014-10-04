@@ -10,9 +10,10 @@ bool siren_camera_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Camera", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_camera_init, ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "fit", siren_camera_fit, ARGS_NONE());
-  mrb_define_method(mrb, rclass, "fitz", siren_camera_fit, ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize", siren_camera_init, MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, rclass, "fit", siren_camera_fit,         MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "fitz", siren_camera_fit,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "proj=", siren_camera_set_proj,  MRB_ARGS_REQ(1));
 
   return true;
 }
@@ -76,6 +77,15 @@ mrb_value siren_camera_fitz(mrb_state* mrb, mrb_value self)
 {
   Handle(V3d_View) view = siren_camera_get(mrb, self);
   view->ZFitAll();
+  return mrb_nil_value();
+}
+
+mrb_value siren_camera_set_proj(mrb_state* mrb, mrb_value self)
+{
+  mrb_int dir;
+  int argc = mrb_get_args(mrb, "i", &dir);
+  Handle(V3d_View) view = siren_camera_get(mrb, self);
+  view->SetProj((V3d_TypeOfOrientation)dir);
   return mrb_nil_value();
 }
 
