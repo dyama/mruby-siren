@@ -8,6 +8,7 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "line",       siren_build_line,       ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "polyline",   siren_build_polyline,   ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "curve",      siren_build_curve,      ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "wire",       siren_build_wire,       ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "plane",      siren_build_plane,      ARGS_REQ(7));
   mrb_define_class_method(mrb, rclass, "polygon",    siren_build_polygon,    ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, ARGS_REQ(4) | ARGS_OPT(1));
