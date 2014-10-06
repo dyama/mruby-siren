@@ -72,8 +72,5 @@ mrb_value siren_vec_zero(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_xdir(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_ydir(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_zdir(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_xdir_neg(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_ydir_neg(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_zdir_neg(mrb_state* mrb, mrb_value self);
 
 #endif

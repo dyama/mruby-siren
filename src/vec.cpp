@@ -58,9 +58,6 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_module_function(mrb, rclass, "xdir", siren_vec_xdir,   MRB_ARGS_NONE());
   mrb_define_module_function(mrb, rclass, "ydir", siren_vec_ydir,   MRB_ARGS_NONE());
   mrb_define_module_function(mrb, rclass, "zdir", siren_vec_zdir,   MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, rclass, "xdir_neg", siren_vec_xdir_neg, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, rclass, "ydir_neg", siren_vec_ydir_neg, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, rclass, "zdir_neg", siren_vec_zdir_neg, MRB_ARGS_NONE());
 
   return true;
 }
