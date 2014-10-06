@@ -13,6 +13,7 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "polygon",    siren_build_polygon,    ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, ARGS_REQ(4) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "beziersurf", siren_build_beziersurf, ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "nurbssurf",  siren_build_nurbssurf,  ARGS_REQ(5) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "sewing",     siren_build_sewing,     ARGS_REQ(1) | ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "solid",      siren_build_solid,      ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "compound",   siren_build_compound,   ARGS_REQ(1));
@@ -250,6 +251,63 @@ mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, BRepBuilderAPI_MakeFace(s, 1.0e-7));
+}
+
+mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
+{
+  mrb_int _udeg, _vdeg;
+  mrb_value _ar_ukm, _ar_vkm;
+  mrb_value _pol;
+  mrb_value _wire;
+  int argc = mrb_get_args(mrb, "iAiAA|o", &_udeg, &_ar_ukm, &_vdeg, &_ar_vkm, &_pol, &_wire);
+
+  Standard_Integer udeg = _udeg;
+  Standard_Integer nbuknots = mrb_ary_len(mrb, _ar_ukm);
+  Standard_Integer nbuknots_pure = 0;
+  TColStd_Array1OfReal uknots(1, nbuknots);
+  TColStd_Array1OfInteger umults(1, nbuknots);
+  for (int i=1; i<=nbuknots; i++) {
+    mrb_value item = mrb_ary_ref(mrb, _ar_ukm, i - 1);
+    mrb_value knot = mrb_ary_ref(mrb, item, 0);
+    mrb_value mult = mrb_ary_ref(mrb, item, 1);
+    uknots(i) = mrb_fixnum(knot);
+    umults(i) = mrb_fixnum(mult);
+    nbuknots_pure += umults(i);
+  }
+  Standard_Integer nbupoles = nbuknots_pure - udeg - 1;
+
+  Standard_Integer vdeg = _vdeg;
+  Standard_Integer nbvknots = mrb_ary_len(mrb, _ar_vkm);
+  Standard_Integer nbvknots_pure = 0;
+  TColStd_Array1OfReal vknots(1, nbvknots);
+  TColStd_Array1OfInteger vmults(1, nbvknots);
+  for (int i=1; i<=nbvknots; i++) {
+    mrb_value item = mrb_ary_ref(mrb, _ar_vkm, i - 1);
+    mrb_value knot = mrb_ary_ref(mrb, item, 0);
+    mrb_value mult = mrb_ary_ref(mrb, item, 1);
+    vknots(i) = mrb_fixnum(knot);
+    vmults(i) = mrb_fixnum(mult);
+    nbvknots_pure += vmults(i);
+  }
+  Standard_Integer nbvpoles = nbvknots_pure - vdeg - 1;
+
+  TColgp_Array2OfPnt   poles  (1, nbupoles, 1, nbvpoles);
+  TColStd_Array2OfReal weights(1, nbupoles, 1, nbvpoles);
+
+  for (int v=1; v <= nbvpoles; v++) {
+    mrb_value vitem = mrb_ary_ref(mrb, _pol, v - 1);
+    for (int u=1; u <= nbupoles; u++) {
+      mrb_value uitem = mrb_ary_ref(mrb, vitem, u - 1);
+      poles.SetValue(u, v, siren_pnt_get(mrb, mrb_ary_ref(mrb, uitem, 0)));
+      weights.SetValue(u, v, (Standard_Real)mrb_float(mrb_ary_ref(mrb, uitem, 1)));
+    }
+  }
+
+  Handle(Geom_BSplineSurface) hg_bssurf = new Geom_BSplineSurface(poles, weights, uknots, vknots, umults, vmults, udeg, vdeg);
+  Standard_Real toldegen = 1.0e-1;
+  TopoDS_Face shape = BRepBuilderAPI_MakeFace(hg_bssurf, toldegen);
+
+  return siren_shape_new(mrb, shape);
 }
 
 mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)

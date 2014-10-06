@@ -41,6 +41,9 @@
 #include <TColgp_Array2OfPnt.hxx>
 #include <TColStd_Array2OfReal.hxx>
 
+// NURBS surface
+#include <Geom_BSplineSurface.hxx>
+
 // sewing
 #include <BRepBuilderAPI_Sewing.hxx>
 
@@ -60,7 +63,7 @@ mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_rectangle(mrb_state* mrb, mrb_value self);
 mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self);
-// mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self);
+mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self);
 // mrb_value siren_build_shell(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self);
