@@ -48,6 +48,7 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "length",     siren_vec_magnitude,      MRB_ARGS_NONE());
 
   mrb_define_module_function(mrb, rclass, "-@", siren_vec_negative,        MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "==", siren_vec_eq,              MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, rclass, "+",  siren_vec_plus,            MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, rclass, "-",  siren_vec_minus,           MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, rclass, "*",  siren_vec_multiply_scalar, MRB_ARGS_REQ(1));
@@ -243,6 +244,15 @@ mrb_value siren_vec_negative(mrb_state* mrb, mrb_value self)
 {
   gp_Vec ans = -(*siren_vec_get(mrb, self));
   return siren_vec_new(mrb, ans.X(), ans.Y(), ans.Z());
+}
+
+mrb_value siren_vec_eq(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  Standard_Real lintol = 0.0, angtol = 0.0; // to be use the default tolerance value
+  Standard_Boolean ans = siren_vec_get(mrb, self)->IsEqual(*siren_vec_get(mrb, other), lintol, angtol);
+  return ans ? mrb_true_value() : mrb_false_value();
 }
 
 mrb_value siren_vec_plus(mrb_state* mrb, mrb_value self)
