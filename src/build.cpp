@@ -261,6 +261,8 @@ mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
   mrb_value _wire;
   int argc = mrb_get_args(mrb, "iAiAA|o", &_udeg, &_ar_ukm, &_vdeg, &_ar_vkm, &_pol, &_wire);
 
+  bool has_contour = argc == 6;
+
   Standard_Integer udeg = _udeg;
   Standard_Integer nbuknots = mrb_ary_len(mrb, _ar_ukm);
   Standard_Integer nbuknots_pure = 0;
@@ -304,8 +306,33 @@ mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
   }
 
   Handle(Geom_BSplineSurface) hg_bssurf = new Geom_BSplineSurface(poles, weights, uknots, vknots, umults, vmults, udeg, vdeg);
-  Standard_Real toldegen = 1.0e-1;
-  TopoDS_Face shape = BRepBuilderAPI_MakeFace(hg_bssurf, toldegen);
+  TopoDS_Shape shape;
+  if (has_contour) {
+    TopoDS_Shape* s = siren_shape_get(mrb, _wire);
+    TopoDS_Wire w = TopoDS::Wire(*s);
+    shape = BRepBuilderAPI_MakeFace(hg_bssurf, w, Standard_True);
+    // Fix a face
+    Handle(ShapeFix_Shape) sfs = new ShapeFix_Shape();
+    sfs->Init(shape);
+    sfs->FixFaceTool()->FixAddNaturalBoundMode() = 1;
+    sfs->FixFaceTool()->FixIntersectingWiresMode() = 1;
+    sfs->FixFaceTool()->FixLoopWiresMode() = 1;
+    sfs->FixFaceTool()->FixOrientationMode() = 1;
+    sfs->FixFaceTool()->FixPeriodicDegeneratedMode() = 1;
+    sfs->FixFaceTool()->FixSmallAreaWireMode() = 1;
+    sfs->FixFaceTool()->FixSplitFaceMode() = 1;
+    sfs->FixFaceTool()->FixWireMode() = 1;
+    sfs->SetPrecision(1.0);
+    sfs->SetMinTolerance(1.0e-1);
+    sfs->SetMaxTolerance(1.0);
+    sfs->Perform();
+    shape = sfs->Shape();
+    // End of fix
+  }
+  else {
+    Standard_Real toldegen = 1.0e-1;
+    shape = BRepBuilderAPI_MakeFace(hg_bssurf, toldegen);
+  }
 
   return siren_shape_new(mrb, shape);
 }

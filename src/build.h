@@ -43,6 +43,7 @@
 
 // NURBS surface
 #include <Geom_BSplineSurface.hxx>
+#include <ShapeFix_Shape.hxx>
 
 // sewing
 #include <BRepBuilderAPI_Sewing.hxx>
