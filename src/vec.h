@@ -61,6 +61,12 @@ mrb_value siren_vec_reverse_bang(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_transform(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_transform_bang(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_vec_negative(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_vec_plus(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_minus(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_multiply_scalar(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_devide_scalar(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_vec_zero(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_xdir(mrb_state* mrb, mrb_value self);
