@@ -75,6 +75,11 @@ Classes
   * reverse! -> self
   * angle(other) -> Float
   * magnitude, size, length -> Float
+  * -@ -> Vec
+  * + -> Vec
+  * - -> Vec
+  * * -> Vec
+  * / -> Vec
 * Skin - _AIS_Shape_
   * new(shape) -> Skin
   * color -> ColorName
