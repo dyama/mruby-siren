@@ -147,7 +147,7 @@ mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
   TopoDS_Edge edge = TopoDS::Edge(*shape);
   Standard_Real first, last;
   Handle(Geom_Curve) hgcurve = BRep_Tool::Curve(edge, first, last);
-#if 1
+#if 0
   Handle(Geom_TrimmedCurve) hgtc = new Geom_TrimmedCurve(hgcurve, first, last);
   Handle(Geom_BSplineCurve) hgbc = Handle(Geom_BSplineCurve)::DownCast(hgtc->BasisCurve());
 #else
