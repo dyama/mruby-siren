@@ -264,7 +264,7 @@ mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
     mrb_value item = mrb_ary_ref(mrb, _ar_ukm, i - 1);
     mrb_value knot = mrb_ary_ref(mrb, item, 0);
     mrb_value mult = mrb_ary_ref(mrb, item, 1);
-    uknots(i) = mrb_fixnum(knot);
+    uknots(i) = mrb_float(knot);
     umults(i) = mrb_fixnum(mult);
     nbuknots_pure += umults(i);
   }
@@ -279,7 +279,7 @@ mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
     mrb_value item = mrb_ary_ref(mrb, _ar_vkm, i - 1);
     mrb_value knot = mrb_ary_ref(mrb, item, 0);
     mrb_value mult = mrb_ary_ref(mrb, item, 1);
-    vknots(i) = mrb_fixnum(knot);
+    vknots(i) = mrb_float(knot);
     vmults(i) = mrb_fixnum(mult);
     nbvknots_pure += vmults(i);
   }
