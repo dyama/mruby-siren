@@ -98,8 +98,7 @@ mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_vec_x(mrb_state* mrb, mrb_value self)
 {
-  gp_Vec* vec = siren_vec_get(mrb, self);
-  return mrb_float_value(mrb, vec->X());
+  return mrb_float_value(mrb, siren_vec_get(mrb, self)->X());
 }
 
 mrb_value siren_vec_x_set(mrb_state* mrb, mrb_value self)
@@ -113,9 +112,7 @@ mrb_value siren_vec_x_set(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_vec_y(mrb_state* mrb, mrb_value self)
 {
-  gp_Vec* vec = siren_vec_get(mrb, self);
-  Standard_Real val = vec->Y();
-  return mrb_float_value(mrb, val);
+  return mrb_float_value(mrb, siren_vec_get(mrb, self)->Y());
 }
 
 mrb_value siren_vec_y_set(mrb_state* mrb, mrb_value self)
@@ -129,9 +126,7 @@ mrb_value siren_vec_y_set(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_vec_z(mrb_state* mrb, mrb_value self)
 {
-  gp_Vec* vec = siren_vec_get(mrb, self);
-  Standard_Real val = vec->Z();
-  return mrb_float_value(mrb, val);
+  return mrb_float_value(mrb, siren_vec_get(mrb, self)->Z());
 }
 
 mrb_value siren_vec_z_set(mrb_state* mrb, mrb_value self)

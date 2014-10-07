@@ -37,12 +37,7 @@ mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
 {
   mrb_float x, y, z;
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
-
-  Standard_Real xx = x;
-  Standard_Real yy = y;
-  Standard_Real zz = z;
-
-  TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(gp_Pnt(xx, yy, zz));
+  TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(gp_Pnt(x, y, z));
   return siren_shape_new(mrb, shape);
 }
 
@@ -147,11 +142,8 @@ mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
   mrb_value pos, norm, vdir;
   mrb_float umin, umax, vmin, vmax;
   int argc = mrb_get_args(mrb, "oooffff", &pos, &norm, &vdir, &umin, &umax, &vmin, &vmax);
-
   gp_Pln _pln(siren_ax2_get(mrb, pos, norm, vdir));
-
   BRepBuilderAPI_MakeFace face(_pln, umin, umax, vmin, vmax);
-
   return siren_shape_new(mrb, face.Shape());
 }
 
