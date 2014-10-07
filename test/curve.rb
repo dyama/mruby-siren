@@ -9,6 +9,6 @@ poles = [Vec.new(10, 0, 7), Vec.new(7, 0, 7), Vec.new(3, 0, 8), Vec.new(0, 0, 7)
 weights = [1.0, 1.0, 1.0, 1.0]
 
 c = Build.nurbscurve degree, knots, mults, poles#, weights
-
 p c
+p c.nurbs_def
 

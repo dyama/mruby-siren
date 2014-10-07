@@ -28,4 +28,6 @@ mrb_value siren_edge_to_xyz(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_curvature(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self);
+
 #endif
