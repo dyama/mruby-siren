@@ -38,9 +38,9 @@ mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
   mrb_float x, y, z;
   int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
 
-  Standard_Real xx = (Standard_Real)x;
-  Standard_Real yy = (Standard_Real)y;
-  Standard_Real zz = (Standard_Real)z;
+  Standard_Real xx = x;
+  Standard_Real yy = y;
+  Standard_Real zz = z;
 
   TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(gp_Pnt(xx, yy, zz));
   return siren_shape_new(mrb, shape);
@@ -150,7 +150,7 @@ mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
 
   gp_Pln _pln(siren_ax2_get(mrb, pos, norm, vdir));
 
-  BRepBuilderAPI_MakeFace face(_pln, (Standard_Real)umin, (Standard_Real)umax, (Standard_Real)vmin, (Standard_Real)vmax);
+  BRepBuilderAPI_MakeFace face(_pln, umin, umax, vmin, vmax);
 
   return siren_shape_new(mrb, face.Shape());
 }
@@ -192,10 +192,10 @@ mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self)
     poles.SetValue(i, siren_pnt_get(mrb, mrb_ary_ref(mrb, ps, i)));
     if (argc == 5) {
       mrb_value w = mrb_ary_ref(mrb, ws, i);
-      weights.SetValue(i, (Standard_Real)mrb_float(w));
+      weights.SetValue(i, mrb_float(w));
     }
     else {
-      weights.SetValue(i, (Standard_Real)1.0);
+      weights.SetValue(i, 1.0);
     }
   }
 
@@ -205,7 +205,7 @@ mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self)
 
   for (int i=0; i < klen; i++) {
     mrb_value knot = mrb_ary_ref(mrb, ks, i);
-    knots.SetValue(i, (Standard_Real)mrb_float(knot));
+    knots.SetValue(i, mrb_float(knot));
     mrb_value mult = mrb_ary_ref(mrb, ms, i);
     mults.SetValue(i, (Standard_Integer)mrb_fixnum(mult));
   }
@@ -241,7 +241,7 @@ mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self)
       mrb_value ar = mrb_ary_ref(mrb, wtary, r);
       for (int c=0; c<clen; c++) {
         mrb_value val = mrb_ary_ref(mrb, ar, c);
-        weights.SetValue(r, c, (Standard_Real)mrb_float(val));
+        weights.SetValue(r, c, mrb_float(val));
       }
     }
     s = new Geom_BezierSurface(poles, weights);
@@ -301,7 +301,7 @@ mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
     for (int u=1; u <= nbupoles; u++) {
       mrb_value uitem = mrb_ary_ref(mrb, vitem, u - 1);
       poles.SetValue(u, v, siren_pnt_get(mrb, mrb_ary_ref(mrb, uitem, 0)));
-      weights.SetValue(u, v, (Standard_Real)mrb_float(mrb_ary_ref(mrb, uitem, 1)));
+      weights.SetValue(u, v, mrb_float(mrb_ary_ref(mrb, uitem, 1)));
     }
   }
 

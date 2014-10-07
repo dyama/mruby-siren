@@ -148,7 +148,7 @@ mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "of|f", &target, &offset, &tol);
   Standard_Real t = 1.0;
   if (argc == 3)
-    t = (Standard_Real)tol;
+    t = tol;
 
   TopoDS_Shape* shape = siren_shape_get(mrb, target);
 
@@ -161,7 +161,7 @@ mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self)
   for (; exp.More(); exp.Next()) {
     TopoDS_Face face = TopoDS::Face(exp.Current());
     Handle(Geom_Surface) gs = BRep_Tool::Surface(face);
-    Handle(Geom_OffsetSurface) gos = new Geom_OffsetSurface(gs, (Standard_Real)offset);
+    Handle(Geom_OffsetSurface) gos = new Geom_OffsetSurface(gs, offset);
     TopoDS_Face newface = BRepBuilderAPI_MakeFace(gos, t);
     B.Add(comp, newface);
   }

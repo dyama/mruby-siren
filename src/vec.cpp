@@ -71,7 +71,7 @@ mrb_value siren_vec_init(mrb_state* mrb, mrb_value self)
   void* p = mrb_malloc(mrb, sizeof(gp_Vec));
   gp_Vec* vec;
   if (argc == 3) {
-    vec = new(p) gp_Vec((Standard_Real)x, (Standard_Real)y, (Standard_Real)z);
+    vec = new(p) gp_Vec(x, y, z);
   }
   else {
     vec = new(p) gp_Vec(0., 0., 0.);
@@ -99,7 +99,7 @@ mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
 mrb_value siren_vec_x(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
-  return mrb_float_value(mrb, (float)vec->X());
+  return mrb_float_value(mrb, vec->X());
 }
 
 mrb_value siren_vec_x_set(mrb_state* mrb, mrb_value self)
@@ -107,15 +107,15 @@ mrb_value siren_vec_x_set(mrb_state* mrb, mrb_value self)
   mrb_float val;
   int argc = mrb_get_args(mrb, "f", &val);
   gp_Vec* vec = siren_vec_get(mrb, self);
-  vec->SetX((Standard_Real)val);
-  return mrb_float_value(mrb, (float)vec->X());
+  vec->SetX(val);
+  return mrb_float_value(mrb, vec->X());
 }
 
 mrb_value siren_vec_y(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->Y();
-  return mrb_float_value(mrb, (float)val);
+  return mrb_float_value(mrb, val);
 }
 
 mrb_value siren_vec_y_set(mrb_state* mrb, mrb_value self)
@@ -123,15 +123,15 @@ mrb_value siren_vec_y_set(mrb_state* mrb, mrb_value self)
   mrb_float val;
   int argc = mrb_get_args(mrb, "f", &val);
   gp_Vec* vec = siren_vec_get(mrb, self);
-  vec->SetY((Standard_Real)val);
-  return mrb_float_value(mrb, (float)vec->Y());
+  vec->SetY(val);
+  return mrb_float_value(mrb, vec->Y());
 }
 
 mrb_value siren_vec_z(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   Standard_Real val = vec->Z();
-  return mrb_float_value(mrb, (float)val);
+  return mrb_float_value(mrb, val);
 }
 
 mrb_value siren_vec_z_set(mrb_state* mrb, mrb_value self)
@@ -139,17 +139,17 @@ mrb_value siren_vec_z_set(mrb_state* mrb, mrb_value self)
   mrb_float val;
   int argc = mrb_get_args(mrb, "f", &val);
   gp_Vec* vec = siren_vec_get(mrb, self);
-  vec->SetZ((Standard_Real)val);
-  return mrb_float_value(mrb, (float)vec->Z());
+  vec->SetZ(val);
+  return mrb_float_value(mrb, vec->Z());
 }
 
 mrb_value siren_vec_to_a(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   mrb_value res[3];
-  res[0] = mrb_float_value(mrb, (float)vec->X());
-  res[1] = mrb_float_value(mrb, (float)vec->Y());
-  res[2] = mrb_float_value(mrb, (float)vec->Z());
+  res[0] = mrb_float_value(mrb, vec->X());
+  res[1] = mrb_float_value(mrb, vec->Y());
+  res[2] = mrb_float_value(mrb, vec->Z());
   return mrb_ary_new_from_values(mrb, 3, res);
 }
 
@@ -165,7 +165,7 @@ mrb_value siren_vec_is_equal(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "off", &other, &lintol, &angtol);
   gp_Vec* me = siren_vec_get(mrb, self);
   gp_Vec* o = siren_vec_get(mrb, other);
-  Standard_Boolean res = me->IsEqual(*o, (Standard_Real)lintol, (Standard_Real)angtol);
+  Standard_Boolean res = me->IsEqual(*o, lintol, angtol);
   return res ? mrb_true_value() : mrb_false_value();
 }
 
@@ -176,7 +176,7 @@ mrb_value siren_vec_is_normal(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "of", &other, &angtol);
   gp_Vec* me = siren_vec_get(mrb, self);
   gp_Vec* o = siren_vec_get(mrb, other);
-  Standard_Boolean res = me->IsNormal(*o, (Standard_Real)angtol);
+  Standard_Boolean res = me->IsNormal(*o, angtol);
   return res ? mrb_true_value() : mrb_false_value();
 }
 
@@ -187,7 +187,7 @@ mrb_value siren_vec_is_opposite(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "of", &other, &angtol);
   gp_Vec* me = siren_vec_get(mrb, self);
   gp_Vec* o = siren_vec_get(mrb, other);
-  Standard_Boolean res = me->IsOpposite(*o, (Standard_Real)angtol);
+  Standard_Boolean res = me->IsOpposite(*o, angtol);
   return res ? mrb_true_value() : mrb_false_value();
 }
 
@@ -198,7 +198,7 @@ mrb_value siren_vec_is_parallel(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "of", &other, &angtol);
   gp_Vec* me = siren_vec_get(mrb, self);
   gp_Vec* o = siren_vec_get(mrb, other);
-  Standard_Boolean res = me->IsParallel(*o, (Standard_Real)angtol);
+  Standard_Boolean res = me->IsParallel(*o, angtol);
   return res ? mrb_true_value() : mrb_false_value();
 }
 
@@ -231,13 +231,13 @@ mrb_value siren_vec_angle(mrb_state* mrb, mrb_value self)
   gp_Vec* me = siren_vec_get(mrb, self);
   gp_Vec* o = siren_vec_get(mrb, other);
   Standard_Real res = me->Angle(*o);
-  return mrb_float_value(mrb, (float)res);
+  return mrb_float_value(mrb, res);
 }
 
 mrb_value siren_vec_magnitude(mrb_state* mrb, mrb_value self)
 {
   Standard_Real res = siren_vec_get(mrb, self)->Magnitude();
-  return mrb_float_value(mrb, (float)res);
+  return mrb_float_value(mrb, res);
 }
 
 mrb_value siren_vec_negative(mrb_state* mrb, mrb_value self)
@@ -275,7 +275,7 @@ mrb_value siren_vec_multiply_scalar(mrb_state* mrb, mrb_value self)
 {
   mrb_float factor;
   int argc = mrb_get_args(mrb, "f", &factor);
-  gp_Vec ans = *siren_vec_get(mrb, self) * (Standard_Real)factor;
+  gp_Vec ans = *siren_vec_get(mrb, self) * factor;
   return siren_vec_new(mrb, ans.X(), ans.Y(), ans.Z());
 }
 
@@ -283,7 +283,7 @@ mrb_value siren_vec_devide_scalar(mrb_state* mrb, mrb_value self)
 {
   mrb_float factor;
   int argc = mrb_get_args(mrb, "f", &factor);
-  gp_Vec ans = *siren_vec_get(mrb, self) / (Standard_Real)factor;
+  gp_Vec ans = *siren_vec_get(mrb, self) / factor;
   return siren_vec_new(mrb, ans.X(), ans.Y(), ans.Z());
 }
 

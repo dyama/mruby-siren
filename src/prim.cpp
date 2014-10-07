@@ -54,7 +54,7 @@ mrb_value siren_prim_sphere(mrb_state* mrb, mrb_value self)
     op = gp_Pnt(0., 0., 0.);
   }
 
-  BRepPrimAPI_MakeSphere api(op, (Standard_Real)r); 
+  BRepPrimAPI_MakeSphere api(op, r); 
   return siren_shape_new(mrb, api.Shape());
 }
 
@@ -66,7 +66,7 @@ mrb_value siren_prim_cylinder(mrb_state* mrb, mrb_value self)
 
   gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
 
-  BRepPrimAPI_MakeCylinder api(ax, (Standard_Real)r, (Standard_Real)h, (Standard_Real)a);
+  BRepPrimAPI_MakeCylinder api(ax, r, h, a);
 
   return siren_shape_new(mrb, api.Shape());
 }
@@ -79,7 +79,7 @@ mrb_value siren_prim_cone(mrb_state* mrb, mrb_value self)
 
   gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
 
-  BRepPrimAPI_MakeCone api(ax, (Standard_Real)r1, (Standard_Real)r2, (Standard_Real)h, (Standard_Real)ang);
+  BRepPrimAPI_MakeCone api(ax, r1, r2, h, ang);
   return siren_shape_new(mrb, api.Shape());
 }
 
@@ -91,7 +91,7 @@ mrb_value siren_prim_torus(mrb_state* mrb, mrb_value self)
 
   gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
 
-  BRepPrimAPI_MakeTorus api(ax, (Standard_Real)r1, (Standard_Real)r2, (Standard_Real)ang);
+  BRepPrimAPI_MakeTorus api(ax, r1, r2, ang);
   return siren_shape_new(mrb, api.Shape());
 }
 

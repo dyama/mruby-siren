@@ -87,7 +87,7 @@ mrb_value siren_skin_transparency_set(mrb_state* mrb, mrb_value self)
 {
   mrb_float val;
   int argc = mrb_get_args(mrb, "f", &val);
-  siren_skin_get(mrb, self)->SetTransparency((Standard_Real)val);
+  siren_skin_get(mrb, self)->SetTransparency(val);
   return mrb_nil_value();
 }
 

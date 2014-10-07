@@ -51,7 +51,7 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
     first_param = adaptor.FirstParameter();
     last_param = adaptor.LastParameter();
 
-    GCPnts_UniformDeflection unidef(adaptor, (Standard_Real)deflect);
+    GCPnts_UniformDeflection unidef(adaptor, deflect);
     if (!unidef.IsDone()) {
       continue;
     }
@@ -91,7 +91,7 @@ mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
   gp_Pnt p = siren_pnt_get(mrb, xyz);
   gp_Pnt pp;
   Standard_Real param;
-  Standard_Real distance = ana.Project(gcurve, p, (Standard_Real)tol, pp, param);
+  Standard_Real distance = ana.Project(gcurve, p, tol, pp, param);
 
   if (fabs(distance) > tol) {
     static const char m[] = "Specified position is not on the edge.";
@@ -109,7 +109,7 @@ mrb_value siren_edge_to_xyz(mrb_state* mrb, mrb_value self)
   BRepAdaptor_Curve C(TopoDS::Edge(*shape));
   gp_Pnt p;
   gp_Vec v1, v2;
-  C.D2((Standard_Real)param, p, v1, v2);
+  C.D2(param, p, v1, v2);
   return siren_vec_new(mrb, p.X(), p.Y(), p.Z());
 }
 
@@ -121,7 +121,7 @@ mrb_value siren_edge_curvature(mrb_state* mrb, mrb_value self)
   BRepAdaptor_Curve C(TopoDS::Edge(*shape));
   gp_Pnt p;
   gp_Vec v1, v2;
-  C.D2((Standard_Real)param, p, v1, v2);
+  C.D2(param, p, v1, v2);
   return siren_vec_new(mrb, v2.X(), v2.Y(), v2.Z());
 }
 
@@ -133,14 +133,10 @@ mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self)
   BRepAdaptor_Curve C(TopoDS::Edge(*shape));
   gp_Pnt p;
   gp_Vec v1, v2;
-  C.D2((Standard_Real)param, p, v1, v2);
+  C.D2(param, p, v1, v2);
   return siren_vec_new(mrb, v1.X(), v1.Y(), v1.Z());
 }
 
-#include <Geom_Curve.hxx>
-#include <BRep_Tool.hxx>
-#include <Geom_TrimmedCurve.hxx>
-#include <Geom_BSplineCurve.hxx>
 mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
@@ -163,8 +159,7 @@ mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
   // knots
   mrb_value knots = mrb_ary_new(mrb);
   for (int i=1; i <= hgbc->NbKnots(); i++) {
-    // Not good cast: Standard_Real(double) -> float
-    mrb_ary_push(mrb, knots, mrb_float_value(mrb, (float)hgbc->Knot(i)));
+    mrb_ary_push(mrb, knots, mrb_float_value(mrb, hgbc->Knot(i)));
   }
   mrb_ary_push(mrb, res, knots);
   // mults
@@ -182,8 +177,7 @@ mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
   // weights
   mrb_value weights = mrb_ary_new(mrb);
   for (int i=1; i <= hgbc->NbPoles(); i++) {
-    // Not good cast: Standard_Real(double) -> float
-    mrb_ary_push(mrb, weights, mrb_float_value(mrb, (float)hgbc->Weight(i)));
+    mrb_ary_push(mrb, weights, mrb_float_value(mrb, hgbc->Weight(i)));
   }
   mrb_ary_push(mrb, res, weights);
   return res;

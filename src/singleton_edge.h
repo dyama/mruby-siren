@@ -19,6 +19,12 @@
 #include <ShapeAnalysis_Curve.hxx>
 #include <BRepAdaptor_Curve.hxx>
 
+// nurbs def
+#include <Geom_Curve.hxx>
+#include <BRep_Tool.hxx>
+#include <Geom_TrimmedCurve.hxx>
+#include <Geom_BSplineCurve.hxx>
+
 void siren_edge_install(mrb_state* mrb, RObject* o);
 mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self);

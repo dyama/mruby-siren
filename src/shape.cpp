@@ -133,7 +133,7 @@ mrb_value siren_shape_rotate_bang(mrb_state* mrb, mrb_value self)
   mrb_float ang;
   int argc = mrb_get_args(mrb, "oof", &op, &norm, &ang);
   gp_Trsf trsf;
-  trsf.SetRotation(siren_ax1_get(mrb, op, norm), (Standard_Real)ang);
+  trsf.SetRotation(siren_ax1_get(mrb, op, norm), ang);
   siren_shape_get(mrb, self)->Move(trsf);
   return mrb_nil_value();
 }
@@ -144,7 +144,7 @@ mrb_value siren_shape_scale_bang(mrb_state* mrb, mrb_value self)
   mrb_float factor;
   int argc = mrb_get_args(mrb, "of", &op, &factor);
   gp_Trsf trsf;
-  trsf.SetScale(siren_pnt_get(mrb, op), (Standard_Real)factor);
+  trsf.SetScale(siren_pnt_get(mrb, op), factor);
   siren_shape_get(mrb, self)->Move(trsf);
   return mrb_nil_value();
 }
@@ -183,7 +183,7 @@ mrb_value siren_shape_rotate(mrb_state* mrb, mrb_value self)
   mrb_float ang;
   int argc = mrb_get_args(mrb, "oof", &op, &norm, &ang);
   gp_Trsf trsf;
-  trsf.SetRotation(siren_ax1_get(mrb, op, norm), (Standard_Real)ang);
+  trsf.SetRotation(siren_ax1_get(mrb, op, norm), ang);
   return siren_shape_new(mrb, siren_shape_get(mrb, self)->Moved(trsf));
 }
 
@@ -193,7 +193,7 @@ mrb_value siren_shape_scale(mrb_state* mrb, mrb_value self)
   mrb_float factor;
   int argc = mrb_get_args(mrb, "of", &op, &factor);
   gp_Trsf trsf;
-  trsf.SetScale(siren_pnt_get(mrb, op), (Standard_Real)factor);
+  trsf.SetScale(siren_pnt_get(mrb, op), factor);
   return siren_shape_new(mrb, siren_shape_get(mrb, self)->Moved(trsf));
 }
 

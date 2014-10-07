@@ -54,7 +54,7 @@ mrb_value siren_trans_rotation_bang(mrb_state* mrb, mrb_value self)
   mrb_float angle;
   int argc = mrb_get_args(mrb, "oof", &op, &norm, &angle);
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetRotation(siren_ax1_get(mrb, op, norm), (Standard_Real)angle);
+  trans->SetRotation(siren_ax1_get(mrb, op, norm), angle);
   return mrb_nil_value();
 }
 
@@ -64,7 +64,7 @@ mrb_value siren_trans_scale_bang(mrb_state* mrb, mrb_value self)
   mrb_float factor;
   int argc = mrb_get_args(mrb, "of", &op, &factor);
   gp_Trsf* trans  = siren_trans_get(mrb, self);
-  trans->SetScale(siren_pnt_get(mrb, op), (Standard_Real)factor);
+  trans->SetScale(siren_pnt_get(mrb, op), factor);
   return mrb_nil_value();
 }
 
@@ -80,7 +80,7 @@ mrb_value siren_trans_scalef_bang(mrb_state* mrb, mrb_value self)
   mrb_float f;
   int argc = mrb_get_args(mrb, "f", &f);
   gp_Trsf* trans  = siren_trans_get(mrb, self);
-  trans->SetScaleFactor((Standard_Real)f);
+  trans->SetScaleFactor(f);
   return mrb_nil_value();
 }
 
