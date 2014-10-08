@@ -180,6 +180,9 @@ mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
     mrb_ary_push(mrb, weights, mrb_float_value(mrb, hgbc->Weight(i)));
   }
   mrb_ary_push(mrb, res, weights);
+  // params
+  mrb_ary_push(mrb, res, mrb_float_value(mrb, first));
+  mrb_ary_push(mrb, res, mrb_float_value(mrb, last));
   return res;
 }
 
