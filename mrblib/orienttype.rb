@@ -1,7 +1,6 @@
 ##
-# Orientation type module
+# 方向タイプ 定義モジュール
 #
-
 module OrientType
   Xpos           =  0
   Ypos           =  1

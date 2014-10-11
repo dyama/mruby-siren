@@ -1,19 +1,30 @@
 ##
-# Shape type module
+# シェイプタイプ 定義モジュール
 #
-
 module ShapeType
 
+  # コンパウンド
   COMPOUND  = 0
+  # コンポジット ソリッド
   COMPSOLID = 1
+  # ソリッド
   SOLID     = 2
+  # シェル
   SHELL     = 3
+  # フェイス
   FACE      = 4
+  # ワイヤー
   WIRE      = 5
+  # エッジ
   EDGE      = 6
+  # バーテックス
   VERTEX    = 7
+  # シェイプ
   SHAPE     = 8
 
+  #
+  # シェイプタイプ(番号)をシェイプ名文字列にする
+  #
   def self.to_s(type)
     case type
     when ShapeType::COMPOUND
@@ -39,6 +50,9 @@ module ShapeType
     end
   end
 
+  #
+  # シェイプ名をシェイプタイプ(番号)にする
+  #
   def self.to_i(typename)
     case typename
     when "COMPOUND"

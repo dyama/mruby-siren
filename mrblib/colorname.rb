@@ -1,7 +1,7 @@
 ##
-# Color name module
+# 色名称 定義モジュール
 #
-
+# 色名称は X11 colors に近い名称になっています。
 module ColorName
   BLACK                 =    0
   MATRABLUE             =    1
