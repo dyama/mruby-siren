@@ -14,6 +14,7 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass);
 void siren_trans_final(mrb_state* mrb, void* p);
 static struct mrb_data_type siren_trans_type = { "Trans", siren_trans_final };
 gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj);
+mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src);
 
 mrb_value siren_trans_init(mrb_state* mrb, mrb_value self);
 

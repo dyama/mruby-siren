@@ -5,6 +5,17 @@ gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj)
   return static_cast<gp_Trsf*>(mrb_get_datatype(mrb, obj, &siren_trans_type));
 }
 
+mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src)
+{
+  mrb_value res;
+  void* p = mrb_malloc(mrb, sizeof(gp_Trsf));
+  gp_Trsf* trans = new(p) gp_Trsf();
+  *trans = src;
+  DATA_PTR(res) = trans;
+  DATA_TYPE(res) = &siren_trans_type;
+  return res;
+}
+
 bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Trans", mrb->object_class);
