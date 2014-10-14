@@ -3,11 +3,7 @@
 
 #include "common.h"
 #include "siren.h"
-#include "vec.h"
 
-#include <gp_Ax1.hxx>
-#include <gp_Ax2.hxx>
-#include <gp_Ax3.hxx>
 #include <gp_Trsf.hxx>
 
 #include <TopLoc_Location.hxx>

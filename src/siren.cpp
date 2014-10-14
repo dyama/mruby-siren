@@ -1,10 +1,10 @@
 #include "siren.h"
 
 #include "vec.h"
+#include "loc.h"
 #include "shape.h"
 #include "build.h"
 #include "brepio.h"
-#include "loc.h"
 #include "trans.h"
 #include "prim.h"
 #include "bool.h"
@@ -25,11 +25,11 @@ extern "C" {
   // initializer
   void mrb_mruby_siren_gem_init(mrb_state* mrb)
   {
+    struct RClass* _loc    = NULL;
     struct RClass* _shape  = NULL;
     struct RClass* _build  = NULL;
     struct RClass* _vec    = NULL;
     struct RClass* _brepio = NULL;
-    struct RClass* _loc    = NULL;
     struct RClass* _trans  = NULL;
     struct RClass* _prim   = NULL;
     struct RClass* _bool   = NULL;
@@ -44,11 +44,11 @@ extern "C" {
     struct RClass* _world = NULL;
     struct RClass* _camera = NULL;
     struct RClass* _skin = NULL;
+    siren_loc_install(mrb, _loc);
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
     siren_vec_install(mrb, _vec);
     siren_brepio_install(mrb, _brepio);
-    siren_loc_install(mrb, _loc);
     siren_trans_install(mrb, _trans);
     siren_prim_install(mrb, _prim);
     siren_bool_install(mrb, _bool);

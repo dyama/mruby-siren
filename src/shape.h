@@ -4,6 +4,7 @@
 #include "siren.h"
 #include "vec.h"
 #include "bndbox.h"
+#include "loc.h"
 #include "trans.h"
 
 #include "singleton_edge.h"
@@ -27,7 +28,8 @@ mrb_value siren_shape_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_shapetype(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_position(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_pos(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_loc(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_bndbox(mrb_state* mrb, mrb_value self);
 
