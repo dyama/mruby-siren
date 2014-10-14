@@ -37,7 +37,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "to_s",       siren_shape_to_s,       ARGS_NONE());
   mrb_define_method(mrb, rclass, "null?",      siren_shape_is_null,    ARGS_NONE());
   mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype,  ARGS_NONE());
-  mrb_define_method(mrb, rclass, "location",   siren_shape_location,   ARGS_NONE());
+  mrb_define_method(mrb, rclass, "position",   siren_shape_position,   ARGS_NONE());
   mrb_define_method(mrb, rclass, "bndbox",     siren_shape_bndbox,     ARGS_NONE());
 
   mrb_define_method(mrb, rclass, "translate!", siren_shape_translate_bang, ARGS_REQ(1));
@@ -99,7 +99,7 @@ mrb_value siren_shape_shapetype(mrb_state* mrb, mrb_value self)
   return mrb_fixnum_value(type);
 }
 
-mrb_value siren_shape_location(mrb_state* mrb, mrb_value self)
+mrb_value siren_shape_position(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   gp_XYZ pos = shape->Location().Transformation().TranslationPart();
