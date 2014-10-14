@@ -16,7 +16,7 @@ bool siren_loc_install(mrb_state* mrb, struct RClass* rclass);
 void siren_loc_final(mrb_state* mrb, void* p);
 static struct mrb_data_type siren_loc_type = { "Loc", siren_loc_final };
 TopLoc_Location* siren_loc_get(mrb_state* mrb, mrb_value obj);
-
+mrb_value siren_loc_new(mrb_state* mrb, const TopLoc_Location& src);
 mrb_value siren_loc_init(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_loc_is_identity(mrb_state* mrb, mrb_value self);
