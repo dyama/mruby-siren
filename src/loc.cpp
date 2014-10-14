@@ -87,7 +87,7 @@ mrb_value siren_loc_next(mrb_state* mrb, mrb_value self)
 mrb_value siren_loc_trans(mrb_state* mrb, mrb_value self)
 {
   gp_Trsf t = siren_loc_get(mrb, self)->Transformation();
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  return siren_trans_new(mrb, t);
 }
 
 mrb_value siren_loc_inverted(mrb_state* mrb, mrb_value self)
