@@ -19,4 +19,19 @@ TopLoc_Location* siren_loc_get(mrb_state* mrb, mrb_value obj);
 
 mrb_value siren_loc_init(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_loc_is_identity(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_identity(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_first_datum(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_first_power(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_next(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_trans(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_inverted(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_multiplied(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_divided(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_predivided(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_powered(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_hashcode(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_is_equal(mrb_state* mrb, mrb_value self);
+mrb_value siren_loc_is_dump(mrb_state* mrb, mrb_value self);
+
 #endif
