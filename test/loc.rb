@@ -1,21 +1,16 @@
 #!siren
 
-puts "make box"
+puts "make prim"
 box = Prim.box(Vec.new(10, 10, 10));
 
-puts "move box"
+puts "loc1"
+loc1 = box.loc
+
+puts "translate"
 box.translate!(Vec.new(5, 0, 0));
 
-p box
+puts "loc2"
+loc2 = box.loc
 
-p box.pos
-
-p box.loc
-
-# box.translate!(Vec.new(5, 0, 0));
-# 
-# loc2 = box.location
-# p loc2
-# 
-# p loc1 == loc2 # => false
+p loc1 == loc2 # => false
 

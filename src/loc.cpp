@@ -8,13 +8,14 @@ TopLoc_Location* siren_loc_get(mrb_state* mrb, mrb_value obj)
 mrb_value siren_loc_new(mrb_state* mrb, const TopLoc_Location& src)
 {
   mrb_value res;
+  res = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Loc")));
   void* p = mrb_malloc(mrb, sizeof(TopLoc_Location));
 #if 0
   TopLoc_Location* loc = new(p) TopLoc_Location();
   *loc = src;
 #else
-  // TopLoc_Location* loc = new(p) TopLoc_Location(src.Transformation());
-  TopLoc_Location* loc = new(p) TopLoc_Location(src.FirstDatum());
+  TopLoc_Location* loc = new(p) TopLoc_Location(src.Transformation());
+  // TopLoc_Location* loc = new(p) TopLoc_Location(src.FirstDatum());
 #endif
   DATA_PTR(res) = loc;
   DATA_TYPE(res) = &siren_loc_type;
