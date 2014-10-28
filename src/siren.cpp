@@ -12,7 +12,6 @@
 #include "gprop.h"
 #include "offset.h"
 #include "heal.h"
-#include "feat.h"
 #include "bndbox.h"
 #include "world.h"
 #include "camera.h"
@@ -35,7 +34,6 @@ extern "C" {
     struct RClass* _gprop  = NULL;
     struct RClass* _offset = NULL;
     struct RClass* _heal   = NULL;
-    struct RClass* _feat   = NULL;
     struct RClass* _bndbox = NULL;
     struct RClass* _world = NULL;
     struct RClass* _camera = NULL;
@@ -52,7 +50,6 @@ extern "C" {
     siren_gprop_install(mrb, _gprop);
     siren_offset_install(mrb, _offset);
     siren_heal_install(mrb, _heal);
-    siren_feat_install(mrb, _feat);
     siren_bndbox_install(mrb, _bndbox);
     siren_world_install(mrb, _world);
     siren_camera_install(mrb, _camera);

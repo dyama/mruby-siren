@@ -4,6 +4,7 @@ void siren_face_install(mrb_state* mrb, RObject* o)
 {
   mrb_define_singleton_method(mrb, o, "normal", siren_face_normal, MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "to_bezier", siren_face_to_bezier, MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "split", siren_face_split, ARGS_REQ(1));
   return;
 }
 
@@ -50,5 +51,30 @@ mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, comp);
+}
+
+mrb_value siren_face_split(mrb_state* mrb, mrb_value self)
+{
+  mrb_value wire;
+  int argc = mrb_get_args(mrb, "o", &wire);
+
+  TopoDS_Shape* sface = siren_shape_get(mrb, self);
+  TopoDS_Shape* swire = siren_shape_get(mrb, wire);
+
+  TopoDS_Face _face = TopoDS::Face(*sface);
+  BRepFeat_SplitShape splitter(_face);
+
+  TopExp_Explorer ex(*swire, TopAbs_WIRE);
+  for (; ex.More(); ex.Next()) {
+    TopoDS_Wire e = TopoDS::Wire(ex.Current());
+    splitter.Add(e, _face);
+  }
+
+  splitter.Build();
+  if (!splitter.IsDone()) {
+    return mrb_nil_value();
+  }
+
+  return siren_shape_new(mrb, splitter.Shape());
 }
 

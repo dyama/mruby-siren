@@ -6,7 +6,10 @@
 #include "build.h"
 #include "vec.h"
 
+#include <TopoDS.hxx>
+#include <TopoDS_Wire.hxx>
 #include <TopoDS_Face.hxx>
+
 #include <BRepTools.hxx>
 #include <GeomLProp_SLProps.hxx>
 
@@ -19,9 +22,13 @@
 #include <GeomConvert_BSplineSurfaceToBezierSurface.hxx>
 #include <TColGeom_Array2OfBezierSurface.hxx>
 
+// split
+#include <BRepFeat_SplitShape.hxx>
+
 void siren_face_install(mrb_state* mrb, RObject* o);
 
 mrb_value siren_face_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_split(mrb_state* mrb, mrb_value self);
 
 #endif
