@@ -65,6 +65,8 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 
   mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    ARGS_REQ(1) | ARGS_OPT(1));
 
+  mrb_define_method(mrb, rclass, "section",    siren_shape_section,    ARGS_REQ(1));
+
   return true;
 }
 
@@ -296,5 +298,26 @@ mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self)
     mrb_gc_arena_restore(mrb, ai);
   }
   return ar;
+}
+
+mrb_value siren_shape_section(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+
+  TopoDS_Shape* S1 = siren_shape_get(mrb, self);
+  TopoDS_Shape* S2 = siren_shape_get(mrb, other);
+
+  BRepAlgoAPI_Section api(*S1, *S2, Standard_False);
+  // api.ComputePCurveOn1(Standard_True);
+  api.Approximation(Standard_True);
+  api.Build();
+
+  if (!api.IsDone()) {
+    static const char m[] = "Failed to intersection.";
+    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+  }
+
+  return siren_shape_new(mrb, api.Shape());
 }
 

@@ -18,6 +18,8 @@
 
 #include <TopExp_Explorer.hxx>
 
+#include <BRepAlgoAPI_Section.hxx>
+
 void siren_shape_final(mrb_state* mrb, void* p);
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass);
 static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };
@@ -34,7 +36,6 @@ mrb_value siren_shape_loc(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_set_loc(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_bndbox(mrb_state* mrb, mrb_value self);
-
 
 mrb_value siren_shape_translate_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_rotate_bang(mrb_state* mrb, mrb_value self);
@@ -54,5 +55,7 @@ mrb_value siren_shape_is_same(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_shape_section(mrb_state* mrb, mrb_value self);
 
 #endif
