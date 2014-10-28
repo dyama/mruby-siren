@@ -27,6 +27,7 @@ Classes
   * scale(op, factor) -> Shape
   * scale!(op, factor) -> nil
   * shapetype -> Integer(to be ShapeType)
+  * section(shape1, shape2) -> Shape
 * Singleton methods of Shape
   * ShapeType::VERTEX
   * ShapeType::EDGE - _TopoDS_Edge_
@@ -39,6 +40,7 @@ Classes
     * tangent(param) -> Vec
   * ShapeType::WIRE
   * ShapeType::FACE
+    * to_bezier -> Shape
   * ShapeType::SHELL
   * ShapeType::SOLID
   * ShapeType::COMPOUND
@@ -99,10 +101,6 @@ Classes
 Modules
 -------
 
-* Algo - _TKGeomAlgo_
-  * section(shape1, shape2) -> Shape
-* Base - _TKGeomBase_
-  * bs2bzsurf(shape) -> Shape
 * Bool - _TKBool_
   * common(shape1, shape2) -> Shape
   * cut(shape1, shape2) -> Shape
