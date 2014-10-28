@@ -1,5 +1,5 @@
-#ifndef _CURVE_H_
-#define _CURVE_H_
+#ifndef _SINGLETON_EDGE_H_
+#define _SINGLETON_EDGE_H_
 
 #include "siren.h"
 #include "shape.h"
