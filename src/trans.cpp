@@ -32,6 +32,7 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "transfomation1!", siren_trans_transfomation1_bang, ARGS_REQ(3));
   mrb_define_method(mrb, rclass, "transfomation2!", siren_trans_transfomation2_bang, ARGS_REQ(6));
   mrb_define_method(mrb, rclass, "translation!"   , siren_trans_translation_bang   , ARGS_REQ(1));
+  // mrb_define_method(mrb, rclass, "matrix",        , siren_trans_translation_bang   , ARGS_REQ(1));
   return true;
 }
 
@@ -143,6 +144,16 @@ mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "oooooo", &op1, &zv1, &xv1, &op2, &zv2, &xv2);
   gp_Trsf* trans = siren_trans_get(mrb, self);
   trans->SetTransformation(siren_ax3_get(mrb, op1, zv1, xv1), siren_ax3_get(mrb, op2, zv2, xv2));
+  return mrb_nil_value();
+}
+
+mrb_value siren_trans_value(mrb_state* mrb, mrb_value self)
+{
+  return mrb_nil_value();
+}
+
+mrb_value siren_trans_set_value(mrb_state* mrb, mrb_value self)
+{
   return mrb_nil_value();
 }
 
