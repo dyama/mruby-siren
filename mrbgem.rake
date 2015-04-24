@@ -20,8 +20,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   end
 
   if ENV['OS'] == 'Windows_NT'
-    occlibpath = 'E:/occ//671/opencascade-6.7.1/win32/vc9/lib'
-    occincpath = 'E:/occ/671/opencascade-6.7.1/inc'
+    occlibpath = 'E:/occ//680/opencascade-6.8.0/win32/vc9/lib'
+    occincpath = 'E:/occ/680/opencascade-6.8.0/inc'
   end
 
   # OCCT dependencies
