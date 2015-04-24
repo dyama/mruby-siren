@@ -13,9 +13,12 @@
 #include "offset.h"
 #include "heal.h"
 #include "bndbox.h"
-#include "world.h"
-#include "camera.h"
-#include "skin.h"
+
+#ifndef _WIN32
+  #include "world.h"
+  #include "camera.h"
+  #include "skin.h"
+#endif
 
 extern "C" {
 
@@ -51,9 +54,11 @@ extern "C" {
     siren_offset_install(mrb, _offset);
     siren_heal_install(mrb, _heal);
     siren_bndbox_install(mrb, _bndbox);
+#ifndef _WIN32
     siren_world_install(mrb, _world);
     siren_camera_install(mrb, _camera);
     siren_skin_install(mrb, _skin);
+#endif
     return;
   }
 

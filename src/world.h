@@ -8,7 +8,9 @@
 #include <AIS_InteractiveContext.hxx>
 #include <V3d_Viewer.hxx>
 
-#include <Graphic3d.hxx>
+#if OCC_VERSION_MAJOR >= 6 && OCC_VERSION_MINOR == 7
+  #include <Graphic3d.hxx>
+#endif
 #include <Aspect_DisplayConnection.hxx>
 #include <TCollection_ExtendedString.hxx>
 #include <Standard_PrimitiveTypes.hxx>

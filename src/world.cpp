@@ -1,5 +1,7 @@
 #include "world.h"
 
+#ifndef _WIN32
+
 struct world_attr* siren_world_attr_get(mrb_state* mrb, mrb_value obj)
 {
   return static_cast<struct world_attr*>(mrb_get_datatype(mrb, obj, &siren_world_type));
@@ -25,7 +27,7 @@ mrb_value siren_world_init(mrb_state* mrb, mrb_value self)
 
   // init driver
   Handle(Aspect_DisplayConnection) dc;
-    dc = argc ? new Aspect_DisplayConnection((Standard_CString)RSTRING_PTR(dispname)) : NULL;
+  dc = argc ? new Aspect_DisplayConnection((Standard_CString)RSTRING_PTR(dispname)) : NULL;
   wa->driver = Graphic3d::InitGraphicDriver(dc);
 
   // init viewer
@@ -117,3 +119,5 @@ mrb_value siren_world_erase(mrb_state* mrb, mrb_value self)
 
   return mrb_nil_value();
 }
+
+#endif

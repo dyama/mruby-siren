@@ -6,9 +6,11 @@
 
 #include <Aspect_Handle.hxx>
 #include <V3d_View.hxx>
-#include <V3d_PerspectiveView.hxx>
+#if OCC_VERSION_MAJOR >= 6 && OCC_VERSION_MINOR == 7
+  #include <V3d_PerspectiveView.hxx>
+#endif
 
-#ifdef _WNT
+#ifdef _WIN32
 // for Microsoft Windows
 #include <WNT_Window.hxx>
 #else

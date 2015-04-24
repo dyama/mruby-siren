@@ -1,5 +1,7 @@
 #include "skin.h"
 
+#ifndef _WIN32
+
 //Handle(AIS_Shape) siren_skin_get(mrb_state* mrb, mrb_value obj)
 AIS_Shape* siren_skin_get(mrb_state* mrb, mrb_value obj)
 {
@@ -91,3 +93,4 @@ mrb_value siren_skin_transparency_set(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
+#endif

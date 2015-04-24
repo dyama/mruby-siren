@@ -1,5 +1,7 @@
 #include "camera.h"
 
+#ifndef _WIN32
+
 Handle(V3d_View) siren_camera_get(mrb_state* mrb, mrb_value obj)
 {
   void* p = mrb_get_datatype(mrb, obj, &siren_camera_type);
@@ -29,11 +31,15 @@ mrb_value siren_camera_init(mrb_state* mrb, mrb_value self)
   bool pers = false;
   // How can I manage Handle(...) object with mruby GC in this case?
   Handle(V3d_View) view;
+#if OCC_VERSION_MAJOR >= 6 && OCC_VERSION_MINOR == 7
   view = pers ?
     new V3d_PerspectiveView(wa->context->CurrentViewer())
     : wa->context->CurrentViewer()->CreateView();
+#else
+  view = wa->context->CurrentViewer()->CreateView();
+#endif
 
-#if _WNT
+#ifdef _WIN32
   Handle(WNT_Window) window = new WNT_Window((Aspect_Handle)whd);
 #else
   Handle(Xw_Window) window = new Xw_Window(wa->driver->GetDisplayConnection(), *((Window*)whd));
@@ -89,3 +95,4 @@ mrb_value siren_camera_set_proj(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
+#endif
