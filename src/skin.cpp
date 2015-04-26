@@ -1,6 +1,6 @@
 #include "skin.h"
 
-#ifndef _WIN32
+#if !defined(_WIN32) && defined(SIREN_ENABLE_VIS)
 
 //Handle(AIS_Shape) siren_skin_get(mrb_state* mrb, mrb_value obj)
 AIS_Shape* siren_skin_get(mrb_state* mrb, mrb_value obj)

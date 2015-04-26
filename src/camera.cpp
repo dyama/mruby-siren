@@ -1,6 +1,6 @@
 #include "camera.h"
 
-#ifndef _WIN32
+#if !defined(_WIN32) && defined(SIREN_ENABLE_VIS)
 
 Handle(V3d_View) siren_camera_get(mrb_state* mrb, mrb_value obj)
 {

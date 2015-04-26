@@ -1,6 +1,6 @@
 #include "world.h"
 
-#ifndef _WIN32
+#if !defined(_WIN32) && defined(SIREN_ENABLE_VIS)
 
 struct world_attr* siren_world_attr_get(mrb_state* mrb, mrb_value obj)
 {
