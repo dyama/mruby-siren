@@ -12,7 +12,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   # define path
   occlibpath = '/opt/occ680/lib'
   occincpath = '/opt/occ680/inc'
-  occlibpath2 = ''
+  sirenincpath = File.expand_path(File.dirname(__FILE__)) + '/inc'
 
   if ENV['OS'] == 'Windows_NT'
     occlibpath = 'E:/occ//680/opencascade-6.8.0/win32/vc9/lib'
@@ -77,9 +77,10 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   # Compiler option
   if spec.cxx.command == 'cl.exe'
     spec.cxx.flags << "/I#{occincpath}"
+    spec.cxx.flags << "/I#{sirenincpath}"
     spec.cxx.flags << "/DWNT"
   else
-    spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath <<
+    spec.cxx.flags << "-L" << occlibpath << " -I" << occincpath << " -I" << sirenincpath <<
       "-Wno-unused-function -Wno-unused-variable"
   end
 
