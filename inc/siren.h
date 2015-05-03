@@ -4,6 +4,7 @@
 // Configuration
 // #define SIREN_ENABLE_VIS
 #define SIREN_ENABLE_GPROP
+#define SIREN_ENABLE_BOOL
 
 // C++ libraries
 #include <iostream>
