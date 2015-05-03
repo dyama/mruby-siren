@@ -77,7 +77,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "common",     siren_bool_common,      ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "fuse",       siren_bool_fuse,        ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "cut",        siren_bool_cut,         ARGS_REQ(1));
-//   mrb_define_class_method(mrb, rclass, "projwire", siren_bool_projwire, ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "projwire",   siren_bool_projwire,    ARGS_REQ(2));
 #endif
 
   return true;
