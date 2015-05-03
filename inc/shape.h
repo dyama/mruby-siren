@@ -7,6 +7,10 @@
 #include "loc.h"
 #include "trans.h"
 
+#ifdef SIREN_ENABLE_GPROP
+#include "gprop.h"
+#endif
+
 #include "singleton_edge.h"
 #include "singleton_face.h"
 

@@ -25,7 +25,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   if cxx.command == 'cl.exe'
 
   else
-    thirdPartyLibs = [ 'tbb', 'gl2ps', 'freetype', 'freeimage', 'OpenCL' ]
+    # thirdPartyLibs = [ 'tbb', 'gl2ps', 'freetype', 'freeimage', 'OpenCL' ]
+    thirdPartyLibs = [ 'tbb', 'gl2ps', 'freetype', 'freeimage' ]
   end
   foundationClasses =
     [ 'TKernel', 'TKMath' ]

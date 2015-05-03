@@ -67,6 +67,12 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 
   mrb_define_method(mrb, rclass, "section",    siren_shape_section,    ARGS_REQ(1));
 
+#ifdef _GPROP_H_
+  mrb_define_method(mrb, rclass, "volume",     siren_gprop_volume,     ARGS_NONE());
+  mrb_define_method(mrb, rclass, "cog",        siren_gprop_cog,        ARGS_NONE());
+  mrb_define_method(mrb, rclass, "area",       siren_gprop_area,       ARGS_NONE());
+#endif
+
   return true;
 }
 

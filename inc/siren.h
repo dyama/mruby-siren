@@ -1,6 +1,10 @@
 #ifndef _SIREN_H_
 #define _SIREN_H_
 
+// Configuration
+// #define SIREN_ENABLE_VIS
+#define SIREN_ENABLE_GPROP
+
 // C++ libraries
 #include <iostream>
 #include <stdlib.h>

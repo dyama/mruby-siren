@@ -9,7 +9,6 @@
 #include "prim.h"
 #include "bool.h"
 #include "iges.h"
-#include "gprop.h"
 #include "offset.h"
 #include "heal.h"
 #include "bndbox.h"
@@ -34,7 +33,6 @@ extern "C" {
     struct RClass* _prim   = NULL;
     struct RClass* _bool   = NULL;
     struct RClass* _iges   = NULL;
-    struct RClass* _gprop  = NULL;
     struct RClass* _offset = NULL;
     struct RClass* _heal   = NULL;
     struct RClass* _bndbox = NULL;
@@ -50,7 +48,6 @@ extern "C" {
     siren_prim_install(mrb, _prim);
     siren_bool_install(mrb, _bool);
     siren_iges_install(mrb, _iges);
-    siren_gprop_install(mrb, _gprop);
     siren_offset_install(mrb, _offset);
     siren_heal_install(mrb, _heal);
     siren_bndbox_install(mrb, _bndbox);
