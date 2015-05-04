@@ -57,7 +57,7 @@ vecs = ar2vecs ul
 plate = Build.polygon vecs
 deckbox = Offset.sweep_vec plate, Vec.new(0, -n*2, 0)
 
-res = Bool.cut hull, deckbox
+res = hull.cut deckbox
 
 BRepIO.save res, "/tmp/shimakaze.brep"
 puts "Done."
