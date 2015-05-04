@@ -117,7 +117,7 @@ mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self)
   int lsize = mrb_ary_len(mrb, objs);
 
   if (lsize < 2) {
-    static const char m[] = "Number of objects must be over 2 lines.";
+    static const char m[] = "Number of objects must be over 2 wires.";
     return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
   }
 

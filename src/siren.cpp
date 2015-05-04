@@ -34,9 +34,11 @@ extern "C" {
     struct RClass* _offset = NULL;
     struct RClass* _heal   = NULL;
     struct RClass* _bndbox = NULL;
+#if !defined(_WIN32) && defined(SIREN_ENABLE_VIS)
     struct RClass* _world = NULL;
     struct RClass* _camera = NULL;
     struct RClass* _skin = NULL;
+#endif
     siren_loc_install(mrb, _loc);
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
