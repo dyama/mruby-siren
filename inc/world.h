@@ -5,25 +5,24 @@
 #include "skin.h"
 
 #include <Graphic3d_GraphicDriver.hxx>
+#include <OpenGl_GraphicDriver.hxx>
 #include <AIS_InteractiveContext.hxx>
 #include <V3d_Viewer.hxx>
 
-#if OCC_VERSION_MAJOR >= 6 && OCC_VERSION_MINOR == 7
-  #include <Graphic3d.hxx>
-#endif
 #include <Aspect_DisplayConnection.hxx>
 #include <TCollection_ExtendedString.hxx>
 #include <Standard_PrimitiveTypes.hxx>
 
 #ifndef USE_GLSL_SHADER
-#define USE_GLSL_SHADER
+  #define USE_GLSL_SHADER
 #endif
+
 #ifdef USE_GLSL_SHADER
-#include <Graphic3d_ShaderProgram.hxx>
-#include <Prs3d_ShadingAspect.hxx>
-#include <Graphic3d_AspectFillArea3d.hxx>
-#include <Graphic3d_ShaderObject.hxx>
-#include <Graphic3d_TypeOfShaderObject.hxx>
+  #include <Graphic3d_ShaderProgram.hxx>
+  #include <Prs3d_ShadingAspect.hxx>
+  #include <Graphic3d_AspectFillArea3d.hxx>
+  #include <Graphic3d_ShaderObject.hxx>
+  #include <Graphic3d_TypeOfShaderObject.hxx>
 #endif
 
 struct world_attr

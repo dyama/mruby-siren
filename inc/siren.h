@@ -2,7 +2,7 @@
 #define _SIREN_H_
 
 // Configuration
-// #define SIREN_ENABLE_VIS
+#define SIREN_ENABLE_VIS
 #define SIREN_ENABLE_GPROP
 #define SIREN_ENABLE_BOOL
 

@@ -28,7 +28,8 @@ mrb_value siren_world_init(mrb_state* mrb, mrb_value self)
   // init driver
   Handle(Aspect_DisplayConnection) dc;
   dc = argc ? new Aspect_DisplayConnection((Standard_CString)RSTRING_PTR(dispname)) : NULL;
-  wa->driver = Graphic3d::InitGraphicDriver(dc);
+  //wa->driver = Graphic3d::InitGraphicDriver(dc);
+  wa->driver = new OpenGl_GraphicDriver(dc);
 
   // init viewer
   TCollection_ExtendedString a3DName("siren3d"); // Viewer name
