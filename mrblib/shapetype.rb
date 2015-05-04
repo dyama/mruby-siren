@@ -80,3 +80,15 @@ module ShapeType
 
 end
 
+class Integer
+  def to_sname
+    ShapeType::to_s(self)
+  end
+end
+
+class String
+  def to_sno
+    ShapeType::to_i(self)
+  end
+end
+
