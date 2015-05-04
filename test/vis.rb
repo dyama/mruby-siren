@@ -9,7 +9,12 @@ puts "window : #{window}"
 world = World::new display
 cam = Camera::new world, window.handle
 
-skin1 = Skin.new Prim.sphere 10
+file = "/opt/opencascade-6.8.0/data/occ/Axis_of_bearing.brep"
+if File.exist? file
+  skin1 = Skin.new BRepIO.load file
+else
+  skin1 = Skin.new Prim.sphere 10
+end
 
 skin1.color = ColorName::RED
 skin1.material = MaterialName::DEFAULT
