@@ -1,5 +1,7 @@
+#!/usr/bin/env siren
+# coding: utf-8
 
-a = Prim.box Vec.new 10, 5, 3
+a = Prim.box [10, 5, 3]
 
 bb = a.bndbox
 

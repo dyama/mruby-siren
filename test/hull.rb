@@ -1,4 +1,5 @@
-#!siren
+#!/usr/bin/env siren
+# coding: utf-8
 
 # CSV offset table parser
 def get_table(ofsfile)

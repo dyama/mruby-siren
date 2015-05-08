@@ -6,11 +6,11 @@
 # 適当な構成点を与えて曲線を発生
 # (入出力ベクトルは省略)
 c = Build.curve([
-  Vec.new(0, 0, 0),     Vec.new(0, 1, 0),
-  Vec.new(0, 2, 0.5),   Vec.new(0, 3, 1.8),
-  Vec.new(0, 4, 3.8),   Vec.new(0, 5, 5.5),
-  Vec.new(0, 6, 6.8),   Vec.new(0, 6.5, 8.2),
-  Vec.new(0, 6.8, 9.5), Vec.new(0, 7, 11.2),
+  [0, 0, 0],     [0, 1, 0],
+  [0, 2, 0.5],   [0, 3, 1.8],
+  [0, 4, 3.8],   [0, 5, 5.5],
+  [0, 6, 6.8],   [0, 6.5, 8.2],
+  [0, 6.8, 9.5], [0, 7, 11.2],
 ])
 
 # トレランス、刻みピッチ、曲率ベクトルの大きさ係数
@@ -33,15 +33,15 @@ spr.floor.step(tpr.floor, pt) do |pr|
   cv = c.curvature pr
   # ベクトル同士の和差、スカラ積は未実装・・・
   # pp = cp + cv * f
-  pp = Vec.new(cp.x+cv.x*f,cp.y+cv.y*f,cp.z+cv.z*f)
+  pp = [cp.x+cv.x*f, cp.y+cv.y*f, cp.z+cv.z*f]
   cvs.push Build.line(cp, pp)
   pps.push pp
 end
 
 # 以下、表示
-
+window = X11Window::new
 world = World.new `echo $DISPLAY`.chomp
-cam = Camera.new world, X11.test
+cam = Camera::new world, window.handle
 
 s_cvs = Skin.new Build.compound cvs
 s_cvs.color = ColorName::WHITE

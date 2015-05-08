@@ -4,20 +4,20 @@ puts "--------------"
 puts "mruby-siren.rb"
 puts "--------------"
 
-sp = Vec.new(5.0, 1.2, 3.8)
-tp = Vec.new(8.0, 4.2, 3.8)
-a = Build.line(sp, tp)
+sp = [5.0, 1.2, 3.8]
+tp = [8.0, 4.2, 3.8]
+a = Build.line sp, tp
 
 b = Build.vertex(1, 2, 3)
 
 pts = []
-pts.push Vec.new 1, 2, 3
-pts.push Vec.new 3, 3, 3
-pts.push Vec.new 2, 1, 3
+pts.push [1, 2, 3]
+pts.push [3, 3, 3]
+pts.push [2, 1, 3]
 
 c = Build.polyline pts
 
-cmp = Build.compound([a, b, c])
+cmp = Build.compound [a, b, c]
 
 cmp2 = nil
 if true
@@ -30,13 +30,6 @@ end
 p cmp2.shapetype
 
 cmp2.explore ShapeType::EDGE do |edge, depth|
-  p "depth:" + depth.to_s + " type:" + ShapeType::to_s(edge.shapetype)
+  p "depth:" + depth.to_s + " type:" + edge.shapetype.to_sname
 end
-
-# p "------------"
-# a = Build.vertex(3, 4, 5);
-# p a.location.to_a
-# 
-# b = Prim.box [10, 10, 10]
-# s = Prim.sphere 5
 

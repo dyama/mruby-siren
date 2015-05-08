@@ -1,20 +1,17 @@
 #!siren
 
 puts "make prim"
-box = Prim.box(Vec.new(10, 10, 10));
+box = Prim.box [10, 10, 10]
 
 puts "loc1"
 loc1 = box.loc
 
 puts "translate"
-box.translate!(Vec.new(5, 0, 0));
+box.translate! [5, 0, 0]
 p box.bndbox
 
 puts "loc2"
 loc2 = box.loc
-
-# puts "translate"
-# box.translate!(Vec.new(-5, 0, 0));
 
 puts "set loc"
 box.loc = loc1
@@ -24,7 +21,7 @@ puts "loc3"
 loc3 = box.loc
 
 puts "make another prim"
-box2 = Prim.box(Vec.new(10, 10, 10))
+box2 = Prim.box 10, 10, 10
 p box2.bndbox
 puts "set box1's loc to box2"
 box2.loc = loc2
