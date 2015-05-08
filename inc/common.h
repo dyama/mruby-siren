@@ -11,48 +11,53 @@
 #include <gp_Ax2.hxx>
 #include <gp_Ax3.hxx>
 
-inline gp_Pnt vec2pnt(const gp_Vec* vec)
+void siren_ary_to_xyz(mrb_state* mrb, mrb_value ary, Standard_Real& x, Standard_Real& y, Standard_Real& z);
+
+inline gp_Pnt siren_ary_to_pnt(mrb_state* mrb, mrb_value val)
 {
-  return gp_Pnt(vec->X(), vec->Y(), vec->Z());
+  Standard_Real x, y, z;
+  siren_ary_to_xyz(mrb, val, x, y, z);
+  return gp_Pnt(x, y, z);
 }
 
-inline gp_Dir vec2dir(const gp_Vec* vec)
+inline gp_Vec siren_ary_to_vec(mrb_state* mrb, mrb_value val)
 {
-  return gp_Dir(vec->X(), vec->Y(), vec->Z());
+  Standard_Real x, y, z;
+  siren_ary_to_xyz(mrb, val, x, y, z);
+  return gp_Vec(x, y, z);
 }
 
-inline gp_Ax1 vec2ax1(const gp_Vec* p, const gp_Vec* v)
+inline gp_Dir siren_ary_to_dir(mrb_state* mrb, mrb_value val)
 {
-  return gp_Ax1(vec2pnt(p), vec2dir(v));
+  Standard_Real x, y, z;
+  siren_ary_to_xyz(mrb, val, x, y, z);
+  return gp_Dir(x, y, z);
 }
 
-inline gp_Ax2 vec2ax2(const gp_Vec* p, const gp_Vec* n, const gp_Vec* vx)
+inline gp_Ax1 siren_ary_to_ax1(mrb_state* mrb, mrb_value pos, mrb_value norm)
 {
-  return gp_Ax2(vec2pnt(p), vec2dir(n), vec2dir(vx));
+  return gp_Ax1(siren_ary_to_pnt(mrb, pos), siren_ary_to_dir(mrb, norm));
 }
 
-inline gp_Ax2 vec2ax2(const gp_Vec* p, const gp_Vec* v)
+inline gp_Ax2 siren_ary_to_ax2(mrb_state* mrb, mrb_value pos, mrb_value norm, mrb_value vdir)
 {
-  return gp_Ax2(vec2pnt(p), vec2dir(v));
+  return gp_Ax2(siren_ary_to_pnt(mrb, pos), siren_ary_to_dir(mrb, norm), siren_ary_to_dir(mrb, vdir));
 }
 
-inline gp_Ax3 vec2ax3(const gp_Vec* p, const gp_Vec* n, const gp_Vec* vx)
+inline gp_Ax2 siren_ary_to_ax2(mrb_state* mrb, mrb_value pos, mrb_value norm)
 {
-  return gp_Ax3(vec2pnt(p), vec2dir(n), vec2dir(vx));
+  return gp_Ax2(siren_ary_to_pnt(mrb, pos), siren_ary_to_dir(mrb, norm));
 }
 
-inline gp_Ax3 vec2ax3(const gp_Vec* p, const gp_Vec* v)
+inline gp_Ax3 siren_ary_to_ax3(mrb_state* mrb, mrb_value pos, mrb_value norm, mrb_value vdir)
 {
-  return gp_Ax3(vec2pnt(p), vec2dir(v));
+  return gp_Ax3(siren_ary_to_pnt(mrb, pos), siren_ary_to_dir(mrb, norm), siren_ary_to_dir(mrb, vdir));
 }
 
-#define siren_pnt_get(mrb,val)    vec2pnt(siren_vec_get(mrb,val))
-#define siren_dir_get(mrb,val)    vec2dir(siren_vec_get(mrb,val))
-#define siren_ax1_get(mrb,p,v)    vec2ax1(siren_vec_get(mrb,p),siren_vec_get(mrb,v))
-#define siren_ax2_get(mrb,p,n,vx) vec2ax2(siren_vec_get(mrb,p),siren_vec_get(mrb,n),siren_vec_get(mrb,vx))
-#define siren_ax2s_get(mrb,p,v)   vec2ax2(siren_vec_get(mrb,p),siren_vec_get(mrb,v))
-#define siren_ax3_get(mrb,p,n,vx) vec2ax3(siren_vec_get(mrb,p),siren_vec_get(mrb,n),siren_vec_get(mrb,vx))
-#define siren_ax3s_get(mrb,p,v)   vec2ax3(siren_vec_get(mrb,p),siren_vec_get(mrb,v))
+inline gp_Ax3 siren_ary_to_ax3(mrb_state* mrb, mrb_value pos, mrb_value norm)
+{
+  return gp_Ax3(siren_ary_to_pnt(mrb, pos), siren_ary_to_dir(mrb, norm));
+}
 
 mrb_value mrb_instance_alloc(mrb_state *mrb, mrb_value cv);
 

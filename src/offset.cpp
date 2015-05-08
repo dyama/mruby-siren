@@ -13,12 +13,12 @@ bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
 mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self)
 {
   mrb_value target, vec;
-  int argc = mrb_get_args(mrb, "oo", &target, &vec);
+  int argc = mrb_get_args(mrb, "oA", &target, &vec);
 
   TopoDS_Shape* profile = siren_shape_get(mrb, target);
 
   gp_Pnt sp = gp_Pnt(0., 0., 0.).Transformed(profile->Location());
-  gp_Pnt tp = siren_pnt_get(mrb, vec).Transformed(profile->Location());
+  gp_Pnt tp = siren_ary_to_pnt(mrb, vec).Transformed(profile->Location());
 
   TopoDS_Edge pe = BRepBuilderAPI_MakeEdge(sp, tp);
   TopoDS_Wire path = BRepBuilderAPI_MakeWire(pe);

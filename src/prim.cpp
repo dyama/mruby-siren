@@ -21,16 +21,16 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
 mrb_value siren_prim_box(mrb_state* mrb, mrb_value self)
 {
   mrb_value size, pos;
-  int argc = mrb_get_args(mrb, "o|o", &size, &pos);
+  int argc = mrb_get_args(mrb, "A|A", &size, &pos);
 
-  gp_Vec* vsize = siren_vec_get(mrb, size);
-  Standard_Real sx = vsize->X();
-  Standard_Real sy = vsize->Y();
-  Standard_Real sz = vsize->Z();
+  Standard_Real sx, sy, sz;
+  siren_ary_to_xyz(mrb, size, sx, sy, sz);
 
   gp_Pnt op;
   if (argc == 2) {
-    op = siren_pnt_get(mrb, pos);
+    Standard_Real px, py, pz;
+    siren_ary_to_xyz(mrb, pos, px, py, pz);
+    op = gp_Pnt(px, py, pz);
   }
   else {
     op = gp_Pnt(0., 0., 0.);
@@ -44,11 +44,13 @@ mrb_value siren_prim_sphere(mrb_state* mrb, mrb_value self)
 {
   mrb_float r;
   mrb_value pos;
-  int argc = mrb_get_args(mrb, "f|o", &r, &pos);
+  int argc = mrb_get_args(mrb, "f|A", &r, &pos);
 
   gp_Pnt op;
   if (argc == 2) {
-    op = siren_pnt_get(mrb, pos);
+    Standard_Real px, py, pz;
+    siren_ary_to_xyz(mrb, pos, px, py, pz);
+    op = gp_Pnt(px, py, pz);
   }
   else {
     op = gp_Pnt(0., 0., 0.);
@@ -62,9 +64,9 @@ mrb_value siren_prim_cylinder(mrb_state* mrb, mrb_value self)
 {
   mrb_value pos, norm;
   mrb_float r, h, a;
-  int argc = mrb_get_args(mrb, "oofff", &pos, &norm, &r, &h, &a);
+  int argc = mrb_get_args(mrb, "AAfff", &pos, &norm, &r, &h, &a);
 
-  gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
+  gp_Ax2 ax = siren_ary_to_ax2(mrb, pos, norm);
 
   BRepPrimAPI_MakeCylinder api(ax, r, h, a);
 
@@ -75,9 +77,9 @@ mrb_value siren_prim_cone(mrb_state* mrb, mrb_value self)
 {
   mrb_value pos, norm;
   mrb_float r1, r2, h, ang;
-  int argc = mrb_get_args(mrb, "ooffff", &pos, &norm, &r1, &r2, &h, &ang);
+  int argc = mrb_get_args(mrb, "AAffff", &pos, &norm, &r1, &r2, &h, &ang);
 
-  gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
+  gp_Ax2 ax = siren_ary_to_ax2(mrb, pos, norm);
 
   BRepPrimAPI_MakeCone api(ax, r1, r2, h, ang);
   return siren_shape_new(mrb, api.Shape());
@@ -87,9 +89,9 @@ mrb_value siren_prim_torus(mrb_state* mrb, mrb_value self)
 {
   mrb_float r1, r2, ang;
   mrb_value pos, norm;
-  int argc = mrb_get_args(mrb, "oofff", &pos, &norm, &r1, &r2, &ang);
+  int argc = mrb_get_args(mrb, "AAfff", &pos, &norm, &r1, &r2, &ang);
 
-  gp_Ax2 ax = siren_ax2s_get(mrb, pos, norm);
+  gp_Ax2 ax = siren_ary_to_ax2(mrb, pos, norm);
 
   BRepPrimAPI_MakeTorus api(ax, r1, r2, ang);
   return siren_shape_new(mrb, api.Shape());

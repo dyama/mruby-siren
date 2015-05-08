@@ -81,14 +81,14 @@ mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
 {
   mrb_value xyz;
   mrb_float tol;
-  int argc = mrb_get_args(mrb, "o|f", &xyz, &tol);
+  int argc = mrb_get_args(mrb, "A|f", &xyz, &tol);
 
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   TopoDS_Edge edge = TopoDS::Edge(*shape);
 
   ShapeAnalysis_Curve ana;
   BRepAdaptor_Curve gcurve(edge);
-  gp_Pnt p = siren_pnt_get(mrb, xyz);
+  gp_Pnt p = siren_ary_to_pnt(mrb, xyz);
   gp_Pnt pp;
   Standard_Real param;
   Standard_Real distance = ana.Project(gcurve, p, tol, pp, param);

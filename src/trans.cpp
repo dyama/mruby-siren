@@ -54,10 +54,10 @@ void siren_trans_final(mrb_state* mrb, void* p)
 mrb_value siren_trans_translation_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value v;
-  int argc = mrb_get_args(mrb, "o", &v);
-  gp_Vec*  vec   = siren_vec_get(mrb, v); 
+  int argc = mrb_get_args(mrb, "A", &v);
+  gp_Vec vec = siren_ary_to_vec(mrb, v); 
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetTranslation(*vec);
+  trans->SetTranslation(vec);
   return mrb_nil_value();
 }
 
@@ -65,9 +65,9 @@ mrb_value siren_trans_rotation_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
   mrb_float angle;
-  int argc = mrb_get_args(mrb, "oof", &op, &norm, &angle);
+  int argc = mrb_get_args(mrb, "AAf", &op, &norm, &angle);
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetRotation(siren_ax1_get(mrb, op, norm), angle);
+  trans->SetRotation(siren_ary_to_ax1(mrb, op, norm), angle);
   return mrb_nil_value();
 }
 
@@ -75,9 +75,9 @@ mrb_value siren_trans_scale_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value op;
   mrb_float factor;
-  int argc = mrb_get_args(mrb, "of", &op, &factor);
+  int argc = mrb_get_args(mrb, "Af", &op, &factor);
   gp_Trsf* trans  = siren_trans_get(mrb, self);
-  trans->SetScale(siren_pnt_get(mrb, op), factor);
+  trans->SetScale(siren_ary_to_pnt(mrb, op), factor);
   return mrb_nil_value();
 }
 
@@ -100,9 +100,9 @@ mrb_value siren_trans_scalef_bang(mrb_state* mrb, mrb_value self)
 mrb_value siren_trans_mirror_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
-  int argc = mrb_get_args(mrb, "oo", &op, &norm);
+  int argc = mrb_get_args(mrb, "AA", &op, &norm);
   gp_Trsf* trans    = siren_trans_get(mrb, self);
-  trans->SetMirror(siren_ax2s_get(mrb, op, norm));
+  trans->SetMirror(siren_ary_to_ax2(mrb, op, norm));
   return mrb_nil_value();
 }
 
@@ -131,9 +131,9 @@ mrb_value siren_trans_multiply(mrb_state* mrb, mrb_value self)
 mrb_value siren_trans_transfomation1_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, zv, xv;
-  int argc = mrb_get_args(mrb, "ooo", &op, &zv, &xv);
+  int argc = mrb_get_args(mrb, "AAA", &op, &zv, &xv);
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetTransformation(siren_ax3_get(mrb, op, zv, xv));
+  trans->SetTransformation(siren_ary_to_ax3(mrb, op, zv, xv));
   return mrb_nil_value();
 }
 
@@ -141,9 +141,9 @@ mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value op1, zv1, xv1;
   mrb_value op2, zv2, xv2;
-  int argc = mrb_get_args(mrb, "oooooo", &op1, &zv1, &xv1, &op2, &zv2, &xv2);
+  int argc = mrb_get_args(mrb, "AAAAAA", &op1, &zv1, &xv1, &op2, &zv2, &xv2);
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetTransformation(siren_ax3_get(mrb, op1, zv1, xv1), siren_ax3_get(mrb, op2, zv2, xv2));
+  trans->SetTransformation(siren_ary_to_ax3(mrb, op1, zv1, xv1), siren_ary_to_ax3(mrb, op2, zv2, xv2));
   return mrb_nil_value();
 }
 
