@@ -2,6 +2,7 @@
 # Vec クラスのための Array クラス拡張メソッド
 #
 class Array
+
   def to_v
     if size == 0
       Vec::new 0.0, 0.0, 0.0
@@ -13,5 +14,14 @@ class Array
       Vec::new x, y, z
     end
   end
+
+  def x; (self[0] ||= 0).to_f end
+  def y; (self[1] ||= 0).to_f end
+  def z; (self[2] ||= 0).to_f end
+
+  def x=(val); self[0] = val end
+  def y=(val); self[1] = val end
+  def z=(val); self[2] = val end
+
 end
 
