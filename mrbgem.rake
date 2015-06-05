@@ -10,8 +10,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.summary = 'Easy 3D Geometry and Topology engine.'
 
   # define path
-  occlibpath = '/opt/occ680/lib'
-  occincpath = '/opt/occ680/inc'
+  occlibpath = '/opt/occ690/lib'
+  occincpath = '/opt/occ690/inc'
   sirenincpath = File.expand_path(File.dirname(__FILE__)) + '/inc'
 
   if ENV['OS'] == 'Windows_NT'

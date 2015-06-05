@@ -33,6 +33,7 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "z",          siren_vec_z,              MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "z=",         siren_vec_z_set,          MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "to_a",       siren_vec_to_a,           MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_ary",     siren_vec_to_a,           MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_xyz",     siren_vec_to_xyz,         MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "equal?",     siren_vec_is_equal,       MRB_ARGS_REQ(3));
   mrb_define_method(mrb, rclass, "normal?",    siren_vec_is_normal,      MRB_ARGS_REQ(2));

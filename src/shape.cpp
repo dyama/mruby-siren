@@ -1,3 +1,8 @@
+/*
+ * Document-class: Shape
+ *
+ */
+
 #include "shape.h"
 
 void siren_add_singleton_method(mrb_state* mrb, mrb_value& self)
@@ -95,6 +100,15 @@ void siren_shape_final(mrb_state* mrb, void* p)
   mrb_free(mrb, s);
 }
 
+/*
+ * Document-method: to_s
+ *
+ * call-seq:
+ *   shape.to_s -> String
+ *
+ * Return the string.
+ *
+ */
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
