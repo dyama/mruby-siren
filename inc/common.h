@@ -59,6 +59,24 @@ inline gp_Ax3 siren_ary_to_ax3(mrb_state* mrb, mrb_value pos, mrb_value norm)
   return gp_Ax3(siren_ary_to_pnt(mrb, pos), siren_ary_to_dir(mrb, norm));
 }
 
+inline mrb_value siren_pnt_to_ary(mrb_state* mrb, const gp_Pnt& pnt)
+{
+  mrb_value res[3];
+  res[0] = mrb_float_value(mrb, pnt.X());
+  res[1] = mrb_float_value(mrb, pnt.Y());
+  res[2] = mrb_float_value(mrb, pnt.Z());
+  return mrb_ary_new_from_values(mrb, 3, res);
+}
+
+inline mrb_value siren_vec_to_ary(mrb_state* mrb, const gp_Vec& vec)
+{
+  mrb_value res[3];
+  res[0] = mrb_float_value(mrb, vec.X());
+  res[1] = mrb_float_value(mrb, vec.Y());
+  res[2] = mrb_float_value(mrb, vec.Z());
+  return mrb_ary_new_from_values(mrb, 3, res);
+}
+
 mrb_value mrb_instance_alloc(mrb_state *mrb, mrb_value cv);
 
 #endif

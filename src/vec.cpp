@@ -142,11 +142,7 @@ mrb_value siren_vec_z_set(mrb_state* mrb, mrb_value self)
 mrb_value siren_vec_to_a(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
-  mrb_value res[3];
-  res[0] = mrb_float_value(mrb, vec->X());
-  res[1] = mrb_float_value(mrb, vec->Y());
-  res[2] = mrb_float_value(mrb, vec->Z());
-  return mrb_ary_new_from_values(mrb, 3, res);
+  return siren_vec_to_ary(mrb, *vec);
 }
 
 mrb_value siren_vec_to_xyz(mrb_state* mrb, mrb_value self)

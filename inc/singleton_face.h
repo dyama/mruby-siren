@@ -25,10 +25,17 @@
 // split
 #include <BRepFeat_SplitShape.hxx>
 
+// triangle
+#include <BRepMesh_IncrementalMesh.hxx>
+#include <Poly_Triangulation.hxx>
+#include <Poly_Triangle.hxx>
+#include <Poly_Array1OfTriangle.hxx>
+
 void siren_face_install(mrb_state* mrb, RObject* o);
 
 mrb_value siren_face_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_split(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_triangle(mrb_state* mrb, mrb_value self);
 
 #endif
