@@ -12,14 +12,6 @@ You can get more information at siren official page.
 
 * siren official page: http://siren.xyz/
 
-Base project
-------------
-mruby-siren project is refactoring and rebuilds the code of siren project.
-In future, This project will feed back to siren project as core engine.
-
-* siren
-https://github.com/dyama/siren
-
 Dependencies
 ------------
 
