@@ -26,24 +26,24 @@ bool siren_loc_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Loc", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize",  siren_loc_init,        ARGS_NONE());
-  mrb_define_method(mrb, rclass, "identity?",   siren_loc_is_identity, ARGS_NONE());
-  mrb_define_method(mrb, rclass, "identity",    siren_loc_identity,    ARGS_NONE());
-  mrb_define_method(mrb, rclass, "first_datum", siren_loc_first_datum, ARGS_NONE());
-  mrb_define_method(mrb, rclass, "first_power", siren_loc_first_power, ARGS_NONE());
-  mrb_define_method(mrb, rclass, "next",        siren_loc_next,        ARGS_NONE());
-  mrb_define_method(mrb, rclass, "trans",       siren_loc_trans,       ARGS_NONE());
-  mrb_define_method(mrb, rclass, "inverted",    siren_loc_inverted,    ARGS_NONE());
-  mrb_define_method(mrb, rclass, "multiplied",  siren_loc_multiplied,  ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "*",           siren_loc_multiplied,  ARGS_NONE());
-  mrb_define_method(mrb, rclass, "divided",     siren_loc_divided,     ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "/",           siren_loc_divided,     ARGS_NONE());
-  mrb_define_method(mrb, rclass, "predivided",  siren_loc_predivided,  ARGS_NONE());
-  mrb_define_method(mrb, rclass, "powered",     siren_loc_powered,     ARGS_NONE());
-  mrb_define_method(mrb, rclass, "hashcode",    siren_loc_hashcode,    ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize",  siren_loc_init,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "identity?",   siren_loc_is_identity, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "identity",    siren_loc_identity,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "first_datum", siren_loc_first_datum, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "first_power", siren_loc_first_power, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "next",        siren_loc_next,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "trans",       siren_loc_trans,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "inverted",    siren_loc_inverted,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "multiplied",  siren_loc_multiplied,  MRB_ARGS_NONE());
+  // mrb_define_method(mrb, rclass, "*",           siren_loc_multiplied,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "divided",     siren_loc_divided,     MRB_ARGS_NONE());
+  // mrb_define_method(mrb, rclass, "/",           siren_loc_divided,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "predivided",  siren_loc_predivided,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "powered",     siren_loc_powered,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "hashcode",    siren_loc_hashcode,    MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "equal?",      siren_loc_is_equal,    MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "==",          siren_loc_is_equal,    MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "dump",        siren_loc_is_dump,     ARGS_NONE());
+  mrb_define_method(mrb, rclass, "dump",        siren_loc_is_dump,     MRB_ARGS_NONE());
   return true;
 }
 

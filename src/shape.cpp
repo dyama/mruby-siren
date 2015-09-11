@@ -40,15 +40,15 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Shape", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_shape_init,       ARGS_NONE());
-  mrb_define_method(mrb, rclass, "inspect",    siren_shape_to_s,       ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_s",       siren_shape_to_s,       ARGS_NONE());
-  mrb_define_method(mrb, rclass, "null?",      siren_shape_is_null,    ARGS_NONE());
-  mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype,  ARGS_NONE());
-  mrb_define_method(mrb, rclass, "pos",        siren_shape_pos,        ARGS_NONE());
-  mrb_define_method(mrb, rclass, "loc",        siren_shape_loc,        ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize", siren_shape_init,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "inspect",    siren_shape_to_s,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_s",       siren_shape_to_s,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "null?",      siren_shape_is_null,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "pos",        siren_shape_pos,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "loc",        siren_shape_loc,        MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "loc=",       siren_shape_set_loc,    MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "bndbox",     siren_shape_bndbox,     ARGS_NONE());
+  mrb_define_method(mrb, rclass, "bndbox",     siren_shape_bndbox,     MRB_ARGS_NONE());
 
   mrb_define_method(mrb, rclass, "translate!", siren_shape_translate_bang, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "rotate!",    siren_shape_rotate_bang,    MRB_ARGS_REQ(3));
@@ -62,20 +62,20 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "mirror",     siren_shape_mirror,     MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "move",       siren_shape_move,       MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "hashcode",   siren_shape_hashcode,   ARGS_NONE());
+  mrb_define_method(mrb, rclass, "hashcode",   siren_shape_hashcode,   MRB_ARGS_NONE());
 
   mrb_define_method(mrb, rclass, "partner?",   siren_shape_is_partner, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    MRB_ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
 
   mrb_define_method(mrb, rclass, "section",    siren_shape_section,    MRB_ARGS_REQ(1));
 
 #ifdef _GPROP_H_
-  mrb_define_method(mrb, rclass, "volume",     siren_gprop_volume,     ARGS_NONE());
-  mrb_define_method(mrb, rclass, "cog",        siren_gprop_cog,        ARGS_NONE());
-  mrb_define_method(mrb, rclass, "area",       siren_gprop_area,       ARGS_NONE());
+  mrb_define_method(mrb, rclass, "volume",     siren_gprop_volume,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "cog",        siren_gprop_cog,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "area",       siren_gprop_area,       MRB_ARGS_NONE());
 #endif
 
 #ifdef _BOOL_H_

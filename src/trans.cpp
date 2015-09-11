@@ -21,10 +21,10 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Trans", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize"     , siren_trans_init               , ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize"     , siren_trans_init               , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "multiply"       , siren_trans_multiply           , MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "multiply!"      , siren_trans_multiply_bang      , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "scalef"         , siren_trans_scalef             , ARGS_NONE());
+  mrb_define_method(mrb, rclass, "scalef"         , siren_trans_scalef             , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "mirror!"        , siren_trans_mirror_bang        , MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "rotation!"      , siren_trans_rotation_bang      , MRB_ARGS_REQ(3));
   mrb_define_method(mrb, rclass, "scale!"         , siren_trans_scale_bang         , MRB_ARGS_REQ(2));

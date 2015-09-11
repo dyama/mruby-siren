@@ -3,7 +3,7 @@
 bool siren_stl_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "STL");
-  mrb_define_class_method(mrb, rclass, "save", siren_stl_save, MRB_ARGS_REQ(2) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "save", siren_stl_save, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "load", siren_stl_load, MRB_ARGS_REQ(1));
   return true;
 }

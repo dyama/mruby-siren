@@ -14,12 +14,12 @@ bool siren_skin_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Skin", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize",    siren_skin_init,             ARGS_NONE());
-  mrb_define_method(mrb, rclass, "color",         siren_skin_color,            ARGS_NONE());
+  mrb_define_method(mrb, rclass, "initialize",    siren_skin_init,             MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "color",         siren_skin_color,            MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "color=",        siren_skin_color_set,        MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "material",      siren_skin_material,         ARGS_NONE());
+  mrb_define_method(mrb, rclass, "material",      siren_skin_material,         MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "material=",     siren_skin_material_set,     MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "transparency",  siren_skin_transparency,     ARGS_NONE());
+  mrb_define_method(mrb, rclass, "transparency",  siren_skin_transparency,     MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "transparency=", siren_skin_transparency_set, MRB_ARGS_REQ(1));
 
   return true;
