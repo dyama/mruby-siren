@@ -3,10 +3,10 @@
 bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Offset");
-  mrb_define_class_method(mrb, rclass, "sweep_vec",  siren_offset_sweep_vec,  ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "sweep_path", siren_offset_sweep_path, ARGS_REQ(2) | ARGS_OPT(4));
-  mrb_define_class_method(mrb, rclass, "loft",       siren_offset_loft,       ARGS_REQ(1) | ARGS_OPT(3));
-  mrb_define_class_method(mrb, rclass, "offset",     siren_offset_offset,     ARGS_REQ(2) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "sweep_vec",  siren_offset_sweep_vec,  MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "sweep_path", siren_offset_sweep_path, MRB_ARGS_REQ(2) | ARGS_OPT(4));
+  mrb_define_class_method(mrb, rclass, "loft",       siren_offset_loft,       MRB_ARGS_REQ(1) | ARGS_OPT(3));
+  mrb_define_class_method(mrb, rclass, "offset",     siren_offset_offset,     MRB_ARGS_REQ(2) | ARGS_OPT(1));
   return true;
 }
 

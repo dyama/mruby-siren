@@ -3,7 +3,7 @@
 bool siren_heal_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Heal");
-  mrb_define_class_method(mrb, rclass, "outerwire", siren_heal_outerwire, ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "outerwire", siren_heal_outerwire, MRB_ARGS_REQ(1));
   return true;
 }
 

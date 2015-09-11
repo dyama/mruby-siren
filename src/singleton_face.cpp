@@ -4,8 +4,8 @@ void siren_face_install(mrb_state* mrb, RObject* o)
 {
   mrb_define_singleton_method(mrb, o, "normal", siren_face_normal, MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "to_bezier", siren_face_to_bezier, MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "split", siren_face_split, ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "triangle", siren_face_triangle, ARGS_REQ(2));
+  mrb_define_singleton_method(mrb, o, "split", siren_face_split, MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "triangle", siren_face_triangle, MRB_ARGS_REQ(2));
   return;
 }
 

@@ -3,8 +3,8 @@
 bool siren_brepio_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "BRepIO");
-  mrb_define_class_method(mrb, rclass, "save", siren_brepio_save, ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "load", siren_brepio_load, ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "save", siren_brepio_save, MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "load", siren_brepio_load, MRB_ARGS_REQ(1));
   return true;
 }
 

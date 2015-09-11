@@ -12,8 +12,8 @@ bool siren_world_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_class(mrb, "World", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_world_init,  ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "add",        siren_world_add,   ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "erase",      siren_world_erase, ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "add",        siren_world_add,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "erase",      siren_world_erase, MRB_ARGS_REQ(1));
   return true;
 }
 

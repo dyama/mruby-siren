@@ -3,11 +3,11 @@
 bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Prim");
-  mrb_define_class_method(mrb, rclass, "box",       siren_prim_box,       ARGS_REQ(1) | ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "sphere",    siren_prim_sphere,    ARGS_REQ(1) | ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "cylinder",  siren_prim_cylinder,  ARGS_REQ(5));
-  mrb_define_class_method(mrb, rclass, "cone",      siren_prim_cone,      ARGS_REQ(6));
-  mrb_define_class_method(mrb, rclass, "torus",     siren_prim_torus,     ARGS_REQ(5));
+  mrb_define_class_method(mrb, rclass, "box",       siren_prim_box,       MRB_ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "sphere",    siren_prim_sphere,    MRB_ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "cylinder",  siren_prim_cylinder,  MRB_ARGS_REQ(5));
+  mrb_define_class_method(mrb, rclass, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
+  mrb_define_class_method(mrb, rclass, "torus",     siren_prim_torus,     MRB_ARGS_REQ(5));
   mrb_define_class_method(mrb, rclass, "halfspace", siren_prim_halfspace, ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "oneaxis",   siren_prim_oneaxis,   ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "prism",     siren_prim_prism,     ARGS_NONE());

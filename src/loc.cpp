@@ -41,8 +41,8 @@ bool siren_loc_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "predivided",  siren_loc_predivided,  ARGS_NONE());
   mrb_define_method(mrb, rclass, "powered",     siren_loc_powered,     ARGS_NONE());
   mrb_define_method(mrb, rclass, "hashcode",    siren_loc_hashcode,    ARGS_NONE());
-  mrb_define_method(mrb, rclass, "equal?",      siren_loc_is_equal,    ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "==",          siren_loc_is_equal,    ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "equal?",      siren_loc_is_equal,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "==",          siren_loc_is_equal,    MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "dump",        siren_loc_is_dump,     ARGS_NONE());
   return true;
 }

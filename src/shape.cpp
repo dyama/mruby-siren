@@ -47,30 +47,30 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype,  ARGS_NONE());
   mrb_define_method(mrb, rclass, "pos",        siren_shape_pos,        ARGS_NONE());
   mrb_define_method(mrb, rclass, "loc",        siren_shape_loc,        ARGS_NONE());
-  mrb_define_method(mrb, rclass, "loc=",       siren_shape_set_loc,    ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "loc=",       siren_shape_set_loc,    MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "bndbox",     siren_shape_bndbox,     ARGS_NONE());
 
-  mrb_define_method(mrb, rclass, "translate!", siren_shape_translate_bang, ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "rotate!",    siren_shape_rotate_bang,    ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "scale!",     siren_shape_scale_bang,     ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "mirror!",    siren_shape_mirror_bang,    ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "move!",      siren_shape_move_bang,      ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "translate!", siren_shape_translate_bang, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "rotate!",    siren_shape_rotate_bang,    MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "scale!",     siren_shape_scale_bang,     MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "mirror!",    siren_shape_mirror_bang,    MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "move!",      siren_shape_move_bang,      MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "translate",  siren_shape_translate,  ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "rotate",     siren_shape_rotate,     ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "scale",      siren_shape_scale,      ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "mirror",     siren_shape_mirror,     ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "move",       siren_shape_move,       ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "translate",  siren_shape_translate,  MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "rotate",     siren_shape_rotate,     MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "scale",      siren_shape_scale,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "mirror",     siren_shape_mirror,     MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "move",       siren_shape_move,       MRB_ARGS_REQ(1));
 
   mrb_define_method(mrb, rclass, "hashcode",   siren_shape_hashcode,   ARGS_NONE());
 
-  mrb_define_method(mrb, rclass, "partner?",   siren_shape_is_partner, ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "partner?",   siren_shape_is_partner, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    ARGS_REQ(1) | ARGS_OPT(1));
+  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    MRB_ARGS_REQ(1) | ARGS_OPT(1));
 
-  mrb_define_method(mrb, rclass, "section",    siren_shape_section,    ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "section",    siren_shape_section,    MRB_ARGS_REQ(1));
 
 #ifdef _GPROP_H_
   mrb_define_method(mrb, rclass, "volume",     siren_gprop_volume,     ARGS_NONE());
@@ -79,10 +79,10 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 #endif
 
 #ifdef _BOOL_H_
-  mrb_define_method(mrb, rclass, "common",     siren_bool_common,      ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "fuse",       siren_bool_fuse,        ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "cut",        siren_bool_cut,         ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "projwire",   siren_bool_projwire,    ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "common",     siren_bool_common,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "fuse",       siren_bool_fuse,        MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "cut",        siren_bool_cut,         MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "projwire",   siren_bool_projwire,    MRB_ARGS_REQ(2));
 #endif
 
   return true;
