@@ -72,6 +72,9 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
 
   mrb_define_method(mrb, rclass, "section",    siren_shape_section,    MRB_ARGS_REQ(1));
 
+  mrb_define_method(mrb, rclass, "reverse",    siren_shape_reverse,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "reverse!",   siren_shape_reverse_bang,MRB_ARGS_NONE());
+
 #ifdef _GPROP_H_
   mrb_define_method(mrb, rclass, "volume",     siren_gprop_volume,     MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "cog",        siren_gprop_cog,        MRB_ARGS_NONE());
@@ -348,3 +351,15 @@ mrb_value siren_shape_section(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, api.Shape());
 }
 
+mrb_value siren_shape_reverse(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  return siren_shape_new(mrb, shape->Reversed());
+}
+
+mrb_value siren_shape_reverse_bang(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  shape->Reverse();
+  return mrb_nil_value();
+}

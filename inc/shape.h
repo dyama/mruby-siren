@@ -66,4 +66,7 @@ mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_section(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_shape_reverse(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_reverse_bang(mrb_state* mrb, mrb_value self);
+
 #endif
