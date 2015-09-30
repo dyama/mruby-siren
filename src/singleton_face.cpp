@@ -118,12 +118,11 @@ mrb_value siren_face_triangle(mrb_state* mrb, mrb_value self)
 
       // Node indexes
       Standard_Integer n1, n2, n3;
-
-      if (face.Orientation() == TopAbs_REVERSED) {
-        tri.Get(n3, n2, n1);
+      if (face.Orientation() != TopAbs_REVERSED) {
+        tri.Get(n1, n2, n3);
       }
       else {
-        tri.Get(n1, n2, n3);
+        tri.Get(n3, n2, n1);
       }
 
       gp_Pnt p1 = poly->Nodes().Value(n1);
