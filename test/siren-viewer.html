@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>siren viewer</title>
+    <style>
+      body {
+        background: -webkit-linear-gradient(#AAA, #666); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(#AAA, #666); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(#AAA, #666); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(#EEE, #666); /* Standard syntax */
+        margin: 0px;
+        overflow: hidden;
+      } 
+      .panel {
+        position:absolute;
+        top:10px;
+        left:10px;
+        size:18pt;
+        color:#fff;
+        background-color:#000;
+        opacity:0.5;
+        padding:10px
+      }
+    </style>
+  </head>
+  <body>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r72/three.min.js'></script>
+    <script type='text/javascript' src='https://rawgithub.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>
+    <script type='text/javascript' src='model.js'></script>
+    <script type='text/javascript' src='siren-viewer.js'></script>
+    <div class='panel'>
+      siren viewer test<br />
+      <hr />
+      <input widht=20 type=text /><br />
+      <input widht=20 type=text /><br />
+      <input widht=20 type=text /><br />
+      <hr />
+      <input type=button value='foo' />
+    </div>
+  </body>
+</html>
+
