@@ -28,6 +28,7 @@ mrb_value siren_trans_scalef_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_transfomation1_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_translation_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_move_point(mrb_state* mrb, mrb_value self);
 
 //mrb_value siren_trans_matrix(mrb_state* mrb, mrb_value self);
 //mrb_value siren_trans_set_matrix(mrb_state* mrb, mrb_value self);

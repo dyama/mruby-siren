@@ -32,6 +32,7 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "transfomation1!", siren_trans_transfomation1_bang, MRB_ARGS_REQ(3));
   mrb_define_method(mrb, rclass, "transfomation2!", siren_trans_transfomation2_bang, MRB_ARGS_REQ(6));
   mrb_define_method(mrb, rclass, "translation!"   , siren_trans_translation_bang   , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "move_point"     , siren_trans_move_point         , MRB_ARGS_REQ(1));
   // mrb_define_method(mrb, rclass, "matrix",        , siren_trans_translation_bang   , MRB_ARGS_REQ(1));
   return true;
 }
@@ -157,3 +158,12 @@ mrb_value siren_trans_set_value(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
+mrb_value siren_trans_move_point(mrb_state* mrb, mrb_value self)
+{
+  mrb_value ary;
+  int argc = mrb_get_args(mrb, "A", &ary);
+  gp_Pnt point = siren_ary_to_pnt(mrb, ary);
+  gp_Trsf* trans = siren_trans_get(mrb, self);
+  point.Transform(*trans);
+  return siren_pnt_to_ary(mrb, point);
+}

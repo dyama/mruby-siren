@@ -1,5 +1,5 @@
 #
-# Vec クラスのための Array クラス拡張メソッド
+# Array クラス拡張メソッド
 #
 class Array
 
@@ -13,6 +13,15 @@ class Array
       if size > 2 then z = self[2].to_f end
       Vec::new x, y, z
     end
+  end
+
+  def trans(t)
+    t.move_point self
+  end
+
+  def trans!(t)
+    r = t.move_point self
+    x = r.x, y = r.y, z = r.z
   end
 
   def x; (self[0] ||= 0).to_f end
