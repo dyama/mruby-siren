@@ -129,6 +129,10 @@ mrb_value siren_face_triangle(mrb_state* mrb, mrb_value self)
       gp_Pnt p2 = poly->Nodes().Value(n2);
       gp_Pnt p3 = poly->Nodes().Value(n3);
 
+      p1.Transform(loc);
+      p2.Transform(loc);
+      p3.Transform(loc);
+
       gp_Vec u = gp_Vec(p2.XYZ() - p1.XYZ());
       gp_Vec v = gp_Vec(p3.XYZ() - p1.XYZ());
 
