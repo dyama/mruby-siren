@@ -12,5 +12,6 @@ bool siren_brepio_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_brepio_save(mrb_state* mrb, mrb_value self);
 mrb_value siren_brepio_load(mrb_state* mrb, mrb_value self);
+mrb_value siren_brepio_dump(mrb_state* mrb, mrb_value self);
 
 #endif
