@@ -2,7 +2,10 @@ var w = window.innerWidth;
 var h = window.innerHeight;
 var aspect = w/h;
 
+var models = [];
 var modelcolor = 'slategray';
+var selectedcolor = 'red';
+var highlightcolor = 'royalblue';
 
 var scene = new THREE.Scene();
 scene.fog = new THREE.Fog(0xffffff, 0, 750);
@@ -45,27 +48,36 @@ axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), 
 axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -length), 0x0000FF, true)); // -Z
 scene.add(axes);
 
-// MODEL(Mesh)
-var material = new THREE.MeshPhongMaterial({color: modelcolor});
-model = new THREE.Mesh(g, material);
-//model.position.set(-50, 0, 0);
-scene.add(model);
+// MODEL(Face)
+for (var i = 0; i<fs.length; i++) {
+  var material = new THREE.MeshPhongMaterial({color: modelcolor});
+  var model = new THREE.Mesh(fs[i], material);
+  scene.add(model);
+  models.push(model);
+
+  var edge = new THREE.EdgesHelper(model, "#3F3F3F");
+  edge.material.linewidth = 4;
+  scene.add(edge);
+}
 
 // MODEL(Edge)
-var edge = new THREE.EdgesHelper(model, "#3F3F3F");
-edge.material.linewidth = 4;
-scene.add(edge);
+for (var i = 0; i<es.length; i++) {
+  var material = new THREE.LineBasicMaterial({linewidth: 4, color: 'red'});
+  var model = new THREE.Line(es[i], material);
+  scene.add(model);
+  models.push(model);
+}
 
 // EVENT
 window.addEventListener('resize', function() {
-  w = window.innerWidth
-  h = window.innerHeight
+  w = window.innerWidth;
+  h = window.innerHeight;
   renderer.setSize(w, h);
   camera.aspect = aspect = w / h;
   camera.updateProjectionMatrix();
 }, false);
 
-window.addEventListener("mousemove", function(e) {
+function get_objs(e) {
   var rect = e.target.getBoundingClientRect();
   var mouseX = e.clientX - rect.left;
   var mouseY = e.clientY - rect.top;
@@ -74,10 +86,49 @@ window.addEventListener("mousemove", function(e) {
   var pos = new THREE.Vector3(mouseX, mouseY, 1);
   pos.unproject(camera);
   var ray = new THREE.Raycaster(camera.position, pos.sub(camera.position).normalize());
-  var obj = ray.intersectObjects([model]);
-  material.color.set(modelcolor);
-  if (obj.length > 0) {
-    material.color.set('royalblue');
+  return ray.intersectObjects(models);
+}
+
+window.addEventListener("mousemove", function(e) {
+  var objs = get_objs(e);
+  update_color_all();
+  if (objs.length > 0) {
+    var model = objs[0].object;
+    if (!model.selected) {
+      model.material.color.set(highlightcolor);
+    }
+  }
+}, false);
+
+function update_color_all()
+{
+  for (var i = 0; i<models.length; i++) {
+    if (models[i].selected) {
+      models[i].material.color.set(selectedcolor);
+    }
+    else {
+      models[i].material.color.set(modelcolor);
+    }
+  }
+}
+
+function unselect_all()
+{
+  for (var i = 0; i<models.length; i++) {
+    models[i].selected = false;  
+  }
+}
+
+window.addEventListener("click", function(e) {
+  if (e.button == 0) {
+    var objs = get_objs(e);
+    if (objs.length == 0) {
+      unselect_all();
+    }
+    else {
+      objs[0].object.selected = true;
+    }
+    update_color_all();
   }
 }, false);
 

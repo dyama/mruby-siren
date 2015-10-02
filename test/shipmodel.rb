@@ -1,7 +1,8 @@
 #!/usr/bin/siren
 # coding: utf-8
 
-if true
+ress = []
+
   # lines of Hull
   wl = [
     [[1.0,0,6],[1,1,6],[3,2,6],[6,3,6],[10,4,6],[13,4.5,6],[20,5.0,6],[30,5.5,6],[40,5.5,6],[50,5.5,6],[60,5.5,6],[70,5.5,6],[80,5.5,6],[90,5.1,6.0],[100,4.5,6],[105,4.1-0.00,6],[110,3.5-0.00,6],[113,2.9-0.00,6],[116,2.0-0.00,6],[119-0.0,0.9-0.00,6],[120+0.9,0,6]],
@@ -32,26 +33,85 @@ if true
   plate = Build.polygon ul
   deckbox = Offset.sweep_vec plate, Vec.new(0, -n*2, 0)
   res = hull.cut deckbox
-else
+  ress.push res
+
+if false
   box1 = Prim::box [20, 20, 20]
   box2 = Prim::box [20, 20, 20]
   box2.translate! [5, 5, 5]
   res = box1.cut box2
+  ress.push res
 end
 
-i = 0
+c = Build.curve([
+  [0, 0, 0],     [0, 1, 0],
+  [0, 2, 0.5],   [0, 3, 1.8],
+  [0, 4, 3.8],   [0, 5, 5.5],
+  [0, 6, 6.8],   [0, 6.5, 8.2],
+  [0, 6.8, 9.5], [0, 7, 11.2],
+])
+
+# トレランス、刻みピッチ、曲率ベクトルの大きさ係数
+t = 0.01 # 1cm
+pt = 0.2
+f = -3.0
+
+# 始終点の曲線パラメータを取得
+spr = c.param(c.sp, t)
+tpr = c.param(c.tp, t)
+
+cvs = []
+pps = []
+
+# 計算
+spr.floor.step(tpr.floor, pt) do |pr|
+  # パラメータにおける三次元位置
+  cp = c.to_xyz pr
+  # パラメータにおける曲率ベクトル
+  cv = c.curvature pr
+  # ベクトル同士の和差、スカラ積は未実装・・・
+  # pp = cp + cv * f
+  pp = [cp.x+cv.x*f, cp.y+cv.y*f, cp.z+cv.z*f]
+  cvs.push Build.line(cp, pp)
+  pps.push pp
+end
+
+ress.push Build.compound [c, Build.curve(pps)] + cvs
+
 File.open("model.js", "w") do |f|
-  f.write "var g = new THREE.Geometry();\n"
-  res.explore(ShapeType::FACE) do |face|
-    face.triangle(1.0, 1.0).each do |m|
-      f.write "\n"
-      f.write "g.vertices.push(new THREE.Vector3(#{m[0][0]}, #{m[0][1]}, #{m[0][2]}));\n"
-      f.write "g.vertices.push(new THREE.Vector3(#{m[1][0]}, #{m[1][1]}, #{m[1][2]}));\n"
-      f.write "g.vertices.push(new THREE.Vector3(#{m[2][0]}, #{m[2][1]}, #{m[2][2]}));\n"
-      f.write "var face#{i} = new THREE.Face3(#{i}, #{i+1}, #{i+2});\n"
-      f.write "face#{i}.normal = new THREE.Vector3(#{m[5][0]}, #{m[5][1]}, #{m[5][2]});\n"
-      f.write "g.faces.push(face#{i});\n"
-      i += 3
+  f.write "var fs = [];\n"
+  f.write "var es = [];\n"
+  ress.each do |object|
+    if object.explore(ShapeType::FACE).size > 0
+      i = 0
+      f.write "{\n"
+      f.write "  var g = new THREE.Geometry();\n"
+      object.explore(ShapeType::FACE) do |face|
+        face.triangle(1.0, 1.0).each do |m|
+          f.write "  g.vertices.push(new THREE.Vector3(#{m[0][0]}, #{m[0][1]}, #{m[0][2]}));\n"
+          f.write "  g.vertices.push(new THREE.Vector3(#{m[1][0]}, #{m[1][1]}, #{m[1][2]}));\n"
+          f.write "  g.vertices.push(new THREE.Vector3(#{m[2][0]}, #{m[2][1]}, #{m[2][2]}));\n"
+          f.write "  var face#{i} = new THREE.Face3(#{i}, #{i+1}, #{i+2});\n"
+          f.write "  face#{i}.normal = new THREE.Vector3(#{m[5][0]}, #{m[5][1]}, #{m[5][2]});\n"
+          f.write "  g.faces.push(face#{i});\n"
+          i += 3
+        end
+      end
+      f.write "  fs.push(g);\n"
+      f.write "}\n";
+    elsif object.explore(ShapeType::EDGE, ShapeType::FACE).size > 0
+      object.explore(ShapeType::EDGE, ShapeType::FACE) do |edge|
+        i = 0
+        f.write "{\n"
+        f.write "  var g = new THREE.Geometry();\n"
+        edge.to_pts(1.0e-6).each do |pts|
+          pts.each do |pt|
+            f.write "  g.vertices.push(new THREE.Vector3(#{pt.x}, #{pt.y}, #{pt.z}));\n" 
+          end
+        end
+        f.write "  es.push(g);\n"
+        f.write "}\n";
+      end
     end
   end
 end
