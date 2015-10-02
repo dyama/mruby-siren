@@ -36,7 +36,7 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
 
-  if (argc != 2) {
+  if (argc != 1) {
     deflect = 1.0e-1;
   }
 
