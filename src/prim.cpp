@@ -99,36 +99,36 @@ mrb_value siren_prim_torus(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_prim_halfspace(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_prim_oneaxis(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_prim_prism(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_prim_revol(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_prim_revolution(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_prim_sweep(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_prim_wedge(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 

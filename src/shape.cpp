@@ -344,8 +344,7 @@ mrb_value siren_shape_section(mrb_state* mrb, mrb_value self)
   api.Build();
 
   if (!api.IsDone()) {
-    static const char m[] = "Failed to intersection.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to intersection.");
   }
 
   return siren_shape_new(mrb, api.Shape());

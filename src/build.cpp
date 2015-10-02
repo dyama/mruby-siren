@@ -163,8 +163,7 @@ mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
   mf.Build();
 
   if (!mf.IsDone()) {
-    static const char m[] = "Failed to make a polygon.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a polygon.");
   }
 
   return siren_shape_new(mrb, mf.Shape());

@@ -27,8 +27,7 @@ mrb_value siren_iges_save(mrb_state* mrb, mrb_value self)
   writer.ComputeModel();
 
   if (writer.Write((Standard_CString)RSTRING_PTR(path)) == Standard_False) {
-    static const char m[] = "Save error.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raisef(mrb, E_ARGUMENT_ERROR, "Failed to save IGES to %S.", path);
   }
 
   return mrb_nil_value();
@@ -51,8 +50,7 @@ mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
       iges_reader.TransferRoots();
     }
     catch (...) {
-      static const char m[] = "Failed to TransferRoots() with an IGES file.";
-      return mrb_exc_new(mrb, E_RUNTIME_ERROR, m, sizeof(m) - 1);
+      mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to TransferRoots() with an IGES.");
     }
 
     if (oneshape) {
@@ -77,8 +75,7 @@ mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
     }
   }
   else {
-    static const char m[] = "Failed to load IGES file.";
-    result = mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raisef(mrb, E_ARGUMENT_ERROR, "Failed to load IGES from %S.", path);
   }
   return result;
 }

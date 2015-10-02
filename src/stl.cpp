@@ -36,8 +36,7 @@ mrb_value siren_stl_load(mrb_state* mrb, mrb_value self)
   StlAPI::Read(shape, (Standard_CString)RSTRING_PTR(path));
 
   if (shape.IsNull()) {
-    static const char m[] = "Failed to load STL file.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raisef(mrb, E_ARGUMENT_ERROR, "Failed to load STL from %S.", path);
   }
 
   return siren_shape_new(mrb, shape);

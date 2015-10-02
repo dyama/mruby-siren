@@ -17,8 +17,7 @@ mrb_value siren_brepio_save(mrb_state* mrb, mrb_value self)
 
   TopoDS_Shape* shape = siren_shape_get(mrb, target);
   if (BRepTools::Write(*shape, (Standard_CString)RSTRING_PTR(path)) != Standard_True) {
-    static const char m[] = "Failed to write BRep file.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raisef(mrb, E_ARGUMENT_ERROR, "Failed to save BRep to %S.", path);
   }
   return mrb_nil_value();
 }
@@ -31,8 +30,7 @@ mrb_value siren_brepio_load(mrb_state* mrb, mrb_value self)
   BRep_Builder B;
   TopoDS_Shape shape;
   if (BRepTools::Read(shape, (Standard_CString)RSTRING_PTR(path), B) != Standard_True) {
-    static const char m[] = "Failed to read BRep file.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raisef(mrb, E_ARGUMENT_ERROR, "Failed to load BRep from %S.", path);
   }
 
   return siren_shape_new(mrb, shape);

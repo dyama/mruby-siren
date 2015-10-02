@@ -48,8 +48,7 @@ mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
     path = TopoDS::Wire(*shape_path);
   }
   else {
-    static const char m[] = "Path object is not Edge or Wire.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Type of path is not Edge or Wire.");
   }
 
   mrb_value result = mrb_nil_value();
@@ -117,8 +116,7 @@ mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self)
   int lsize = mrb_ary_len(mrb, objs);
 
   if (lsize < 2) {
-    static const char m[] = "Number of objects must be over 2 wires.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Number of shapes must be over 2 wires.");
   }
 
   Standard_Boolean is_sm, is_s, is_r;

@@ -75,7 +75,7 @@ mrb_value siren_loc_identity(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_loc_first_datum(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_loc_first_power(mrb_state* mrb, mrb_value self)
@@ -151,6 +151,6 @@ mrb_value siren_loc_is_equal(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_loc_is_dump(mrb_state* mrb, mrb_value self)
 {
-  return mrb_exc_new(mrb, E_NOTIMP_ERROR, NULL, 0);
+  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 

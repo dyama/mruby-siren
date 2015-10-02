@@ -94,8 +94,7 @@ mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
   Standard_Real distance = ana.Project(gcurve, p, tol, pp, param);
 
   if (fabs(distance) > tol) {
-    static const char m[] = "Specified position is not on the edge.";
-    return mrb_exc_new(mrb, E_ARGUMENT_ERROR, m, sizeof(m) - 1);
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified position is not on the edge.");
   }
 
   return mrb_float_value(mrb, param);
