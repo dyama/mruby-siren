@@ -26,27 +26,36 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   foundationClasses =
     [ 'TKernel', 'TKMath' ]
+
   modelingData =
     [ 'TKG2d', 'TKG3d', 'TKGeomBase', 'TKBRep' ]
+
   modelingAlgorithms =
     [ 'TKGeomAlgo', 'TKTopAlgo', 'TKBO', 'TKPrim',
       'TKShHealing', 'TKHLR', 'TKMesh', 'TKBool',
       'TKXMesh', 'TKFeat', 'TKFillet', 'TKOffset' ]
+
   visualization =
      [ 'TKService', 'TKV3d', 'TKOpenGl', 'TKMeshVS',
        'TKNIS', 'TKVoxel' ]
+
   applicationFramework =
     [ 'PTKernel', 'TKCDF', 'TKPShape', 'FWOSPlugin', 'TKLCAF',
       'TKShapeSchema', 'TKPLCAF', 'TKCAF', 'TKBinL', 'TKTObj',
       'TKXmlL', 'TKStdLSchema', 'TKPCAF', 'TKBin', 'TKBinTObj',
       'TKXml', 'TKXmlTObj', 'TKStdSchema' ]
+
   dataExchange =
     [ 'TKXSBase', 'TKSTL', 'TKVRML', 'TKSTEPBase', 'TKXCAF', 'TKIGES',
       'TKSTEP209', 'TKSTEPAttr', 'TKXCAFSchema', 'TKXmlXCAF', 'TKBinXCAF',
       'TKXDEIGES', 'TKSTEP', 'TKXDESTEP' ]
 
-  # applicationFramework = []
-  # dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES' ]
+  if true
+    visualization = []
+    applicationFramework = []
+    dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES' ]
+    thirdPartyLibs = [ ]
+  end
 
   allLibs =
     thirdPartyLibs << foundationClasses << modelingData << modelingAlgorithms <<
