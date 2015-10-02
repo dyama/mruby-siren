@@ -26,7 +26,8 @@ mrb_value siren_iges_save(mrb_state* mrb, mrb_value self)
 
   writer.ComputeModel();
 
-  if (writer.Write((Standard_CString)RSTRING_PTR(path)) == Standard_False) {
+  std::ofstream fst(RSTRING_PTR(path), std::ios_base::out);
+  if (writer.Write(fst) == Standard_False) {
     mrb_raisef(mrb, E_ARGUMENT_ERROR, "Failed to save IGES to %S.", path);
   }
 
