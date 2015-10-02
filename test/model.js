@@ -18,7 +18,7 @@ g.vertices.push(new THREE.Vector3(106.66666666667, -3.8, 5));
 g.vertices.push(new THREE.Vector3(110, -3.41, 5.1));
 g.vertices.push(new THREE.Vector3(106.66666666667, 3.8, 5));
 var face6 = new THREE.Face3(6, 7, 8);
-face6.normal = new THREE.Vector3(-0.029986509105675, 0, 0.99955030352237);
+face6.normal = new THREE.Vector3(-0.029986509105675, -5.6070253199583e-17, 0.99955030352237);
 g.faces.push(face6);
 
 g.vertices.push(new THREE.Vector3(100, -4.5, 4.8));
@@ -39,7 +39,7 @@ g.vertices.push(new THREE.Vector3(106.66666666667, -3.8, 5));
 g.vertices.push(new THREE.Vector3(106.66666666667, 3.8, 5));
 g.vertices.push(new THREE.Vector3(105, 3.997, 4.95));
 var face15 = new THREE.Face3(15, 16, 17);
-face15.normal = new THREE.Vector3(-0.029986509105671, 0, 0.99955030352237);
+face15.normal = new THREE.Vector3(-0.029986509105671, -5.6070253199575e-17, 0.99955030352237);
 g.faces.push(face15);
 
 g.vertices.push(new THREE.Vector3(100, -4.5, 4.8));
@@ -714,25 +714,25 @@ var face303 = new THREE.Face3(303, 304, 305);
 face303.normal = new THREE.Vector3(0, -0, 1);
 g.faces.push(face303);
 
+g.vertices.push(new THREE.Vector3(13, -4.5, 2.5));
+g.vertices.push(new THREE.Vector3(20, -5, 2.5));
+g.vertices.push(new THREE.Vector3(20, 5, 2.5));
+var face306 = new THREE.Face3(306, 307, 308);
+face306.normal = new THREE.Vector3(-0, 0, 1);
+g.faces.push(face306);
+
 g.vertices.push(new THREE.Vector3(20, -5, 2.5));
 g.vertices.push(new THREE.Vector3(30, 5.5, 2.5));
 g.vertices.push(new THREE.Vector3(20, 5, 2.5));
-var face306 = new THREE.Face3(306, 307, 308);
-face306.normal = new THREE.Vector3(0, 0, 1);
-g.faces.push(face306);
-
-g.vertices.push(new THREE.Vector3(13, -4.5, 2.5));
-g.vertices.push(new THREE.Vector3(20, -5, 2.5));
-g.vertices.push(new THREE.Vector3(13, 4.5, 2.5));
 var face309 = new THREE.Face3(309, 310, 311);
-face309.normal = new THREE.Vector3(-0, 0, 1);
+face309.normal = new THREE.Vector3(0, 0, 1);
 g.faces.push(face309);
 
-g.vertices.push(new THREE.Vector3(20, -5, 2.5));
+g.vertices.push(new THREE.Vector3(13, -4.5, 2.5));
 g.vertices.push(new THREE.Vector3(20, 5, 2.5));
 g.vertices.push(new THREE.Vector3(13, 4.5, 2.5));
 var face312 = new THREE.Face3(312, 313, 314);
-face312.normal = new THREE.Vector3(0, -0, 1);
+face312.normal = new THREE.Vector3(0, 0, 1);
 g.faces.push(face312);
 
 g.vertices.push(new THREE.Vector3(6, -3, 2.5));
@@ -2611,135 +2611,135 @@ var face1116 = new THREE.Face3(1116, 1117, 1118);
 face1116.normal = new THREE.Vector3(0.059892290727947, -0.99820484546578, 0);
 g.faces.push(face1116);
 
-g.vertices.push(new THREE.Vector3(110, -3.26, 0));
-g.vertices.push(new THREE.Vector3(116, -1.44, 0));
-g.vertices.push(new THREE.Vector3(113, -2.55, 0));
+g.vertices.push(new THREE.Vector3(3, -2, 0));
+g.vertices.push(new THREE.Vector3(1, -1, 0));
+g.vertices.push(new THREE.Vector3(0, 0, 0));
 var face1119 = new THREE.Face3(1119, 1120, 1121);
 face1119.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1119);
 
-g.vertices.push(new THREE.Vector3(105, -3.86, 0));
-g.vertices.push(new THREE.Vector3(117.8, -0.66, 0));
-g.vertices.push(new THREE.Vector3(116, -1.44, 0));
+g.vertices.push(new THREE.Vector3(6, -3, 0));
+g.vertices.push(new THREE.Vector3(3, -2, 0));
+g.vertices.push(new THREE.Vector3(0, 0, 0));
 var face1122 = new THREE.Face3(1122, 1123, 1124);
 face1122.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1122);
 
-g.vertices.push(new THREE.Vector3(105, -3.86, 0));
-g.vertices.push(new THREE.Vector3(119.3, 0, 0));
-g.vertices.push(new THREE.Vector3(117.8, -0.66, 0));
+g.vertices.push(new THREE.Vector3(10, -4, 0));
+g.vertices.push(new THREE.Vector3(6, -3, 0));
+g.vertices.push(new THREE.Vector3(0, 0, 0));
 var face1125 = new THREE.Face3(1125, 1126, 1127);
 face1125.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1125);
 
-g.vertices.push(new THREE.Vector3(105, -3.86, 0));
-g.vertices.push(new THREE.Vector3(116, -1.44, 0));
-g.vertices.push(new THREE.Vector3(110, -3.26, 0));
+g.vertices.push(new THREE.Vector3(13, -4.5, 0));
+g.vertices.push(new THREE.Vector3(10, -4, 0));
+g.vertices.push(new THREE.Vector3(0, 0, 0));
 var face1128 = new THREE.Face3(1128, 1129, 1130);
 face1128.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1128);
 
+g.vertices.push(new THREE.Vector3(20, -5, 0));
+g.vertices.push(new THREE.Vector3(13, -4.5, 0));
 g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(3, -2, 0));
-g.vertices.push(new THREE.Vector3(1, -1, 0));
 var face1131 = new THREE.Face3(1131, 1132, 1133);
 face1131.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1131);
 
+g.vertices.push(new THREE.Vector3(30, -5.5, 0));
+g.vertices.push(new THREE.Vector3(20, -5, 0));
 g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(6, -3, 0));
-g.vertices.push(new THREE.Vector3(3, -2, 0));
 var face1134 = new THREE.Face3(1134, 1135, 1136);
 face1134.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1134);
 
+g.vertices.push(new THREE.Vector3(40, -5.5, 0));
+g.vertices.push(new THREE.Vector3(30, -5.5, 0));
 g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(10, -4, 0));
-g.vertices.push(new THREE.Vector3(6, -3, 0));
 var face1137 = new THREE.Face3(1137, 1138, 1139);
 face1137.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1137);
 
+g.vertices.push(new THREE.Vector3(50, -5.5, 0));
+g.vertices.push(new THREE.Vector3(40, -5.5, 0));
 g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(13, -4.5, 0));
-g.vertices.push(new THREE.Vector3(10, -4, 0));
 var face1140 = new THREE.Face3(1140, 1141, 1142);
 face1140.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1140);
 
+g.vertices.push(new THREE.Vector3(60, -5.5, 0));
+g.vertices.push(new THREE.Vector3(50, -5.5, 0));
 g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(20, -5, 0));
-g.vertices.push(new THREE.Vector3(13, -4.5, 0));
 var face1143 = new THREE.Face3(1143, 1144, 1145);
 face1143.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1143);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(119.3, 0, 0));
+g.vertices.push(new THREE.Vector3(116, -1.44, 0));
+g.vertices.push(new THREE.Vector3(110, -3.26, 0));
 g.vertices.push(new THREE.Vector3(105, -3.86, 0));
 var face1146 = new THREE.Face3(1146, 1147, 1148);
 face1146.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1146);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(105, -3.86, 0));
-g.vertices.push(new THREE.Vector3(100, -4.5, 0));
+g.vertices.push(new THREE.Vector3(116, -1.44, 0));
+g.vertices.push(new THREE.Vector3(113, -2.55, 0));
+g.vertices.push(new THREE.Vector3(110, -3.26, 0));
 var face1149 = new THREE.Face3(1149, 1150, 1151);
 face1149.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1149);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(100, -4.5, 0));
-g.vertices.push(new THREE.Vector3(90, -5.1, 0));
+g.vertices.push(new THREE.Vector3(117.8, -0.66, 0));
+g.vertices.push(new THREE.Vector3(116, -1.44, 0));
+g.vertices.push(new THREE.Vector3(105, -3.86, 0));
 var face1152 = new THREE.Face3(1152, 1153, 1154);
 face1152.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1152);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(90, -5.1, 0));
-g.vertices.push(new THREE.Vector3(80, -5.5, 0));
+g.vertices.push(new THREE.Vector3(119.3, 0, 0));
+g.vertices.push(new THREE.Vector3(70, -5.5, 0));
+g.vertices.push(new THREE.Vector3(60, -5.5, 0));
 var face1155 = new THREE.Face3(1155, 1156, 1157);
 face1155.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1155);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
+g.vertices.push(new THREE.Vector3(119.3, 0, 0));
 g.vertices.push(new THREE.Vector3(80, -5.5, 0));
 g.vertices.push(new THREE.Vector3(70, -5.5, 0));
 var face1158 = new THREE.Face3(1158, 1159, 1160);
 face1158.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1158);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(70, -5.5, 0));
-g.vertices.push(new THREE.Vector3(60, -5.5, 0));
+g.vertices.push(new THREE.Vector3(119.3, 0, 0));
+g.vertices.push(new THREE.Vector3(90, -5.1, 0));
+g.vertices.push(new THREE.Vector3(80, -5.5, 0));
 var face1161 = new THREE.Face3(1161, 1162, 1163);
 face1161.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1161);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(60, -5.5, 0));
-g.vertices.push(new THREE.Vector3(50, -5.5, 0));
+g.vertices.push(new THREE.Vector3(119.3, 0, 0));
+g.vertices.push(new THREE.Vector3(100, -4.5, 0));
+g.vertices.push(new THREE.Vector3(90, -5.1, 0));
 var face1164 = new THREE.Face3(1164, 1165, 1166);
 face1164.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1164);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(50, -5.5, 0));
-g.vertices.push(new THREE.Vector3(40, -5.5, 0));
+g.vertices.push(new THREE.Vector3(119.3, 0, 0));
+g.vertices.push(new THREE.Vector3(105, -3.86, 0));
+g.vertices.push(new THREE.Vector3(100, -4.5, 0));
 var face1167 = new THREE.Face3(1167, 1168, 1169);
 face1167.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1167);
 
+g.vertices.push(new THREE.Vector3(119.3, 0, 0));
+g.vertices.push(new THREE.Vector3(60, -5.5, 0));
 g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(40, -5.5, 0));
-g.vertices.push(new THREE.Vector3(30, -5.5, 0));
 var face1170 = new THREE.Face3(1170, 1171, 1172);
-face1170.normal = new THREE.Vector3(0, 0, -1);
+face1170.normal = new THREE.Vector3(-0, 0, -1);
 g.faces.push(face1170);
 
-g.vertices.push(new THREE.Vector3(0, 0, 0));
-g.vertices.push(new THREE.Vector3(30, -5.5, 0));
-g.vertices.push(new THREE.Vector3(20, -5, 0));
+g.vertices.push(new THREE.Vector3(119.3, 0, 0));
+g.vertices.push(new THREE.Vector3(117.8, -0.66, 0));
+g.vertices.push(new THREE.Vector3(105, -3.86, 0));
 var face1173 = new THREE.Face3(1173, 1174, 1175);
 face1173.normal = new THREE.Vector3(0, 0, -1);
 g.faces.push(face1173);

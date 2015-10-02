@@ -19,10 +19,7 @@ if true
   btmp = Build.polygon(wl.last + [wl.last[0]])
 
   # starboard side
-  wl2 = wl.map {|ps| ps.map{|p| [p[0], -p[1], p[2]] } }
-  hulls = Offset.loft(wl2.map{|ps| Build.polyline(ps)})
-  tops = Build.polygon(wl2.first + [wl2.first[0]])
-  btms = Build.polygon(wl2.last + [wl2.last[0]])
+  hulls, tops, btms = [hullp, topp, btmp].map{|item| item.mirror([0,0,0], Vec::ydir)}
 
   hullshell = Build.sewing [hullp, topp, btmp, hulls, tops, btms]
   hull = Build.solid hullshell
