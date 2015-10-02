@@ -16,12 +16,6 @@
   #include "stl.h"
 #endif
 
-#if !defined(_WIN32) && defined(SIREN_ENABLE_VIS)
-  #include "world.h"
-  #include "camera.h"
-  #include "skin.h"
-#endif
-
 extern "C" {
 
   // initializer
@@ -41,11 +35,6 @@ extern "C" {
 #ifdef SIREN_ENABLE_STL
     struct RClass* _stl    = NULL;
 #endif
-#if !defined(_WIN32) && defined(SIREN_ENABLE_VIS)
-    struct RClass* _world  = NULL;
-    struct RClass* _camera = NULL;
-    struct RClass* _skin   = NULL;
-#endif
     siren_loc_install(mrb, _loc);
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
@@ -59,11 +48,6 @@ extern "C" {
     siren_bndbox_install(mrb, _bndbox);
 #ifdef SIREN_ENABLE_STL
     siren_stl_install(mrb, _stl);
-#endif
-#if !defined(_WIN32) && defined(SIREN_ENABLE_VIS)
-    siren_world_install(mrb, _world);
-    siren_camera_install(mrb, _camera);
-    siren_skin_install(mrb, _skin);
 #endif
     return;
   }
