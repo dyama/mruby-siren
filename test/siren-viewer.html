@@ -11,15 +11,48 @@
         margin: 0px;
         overflow: hidden;
       } 
+      hr {
+        border-width: 1px 0 0 0;
+        border-style: solid;
+        color: white;
+      }
+      input {
+        border-width: 1 1 1 1;
+        border-style: solid;
+        border-color: #393939;
+        border-radius: 3px;
+        // padding: 2 2 2 2;
+        margin: 1 1 1 1;
+      }
       .panel {
         position:absolute;
         top:10px;
         left:10px;
         size:18pt;
-        color:#fff;
-        background-color:#000;
-        opacity:0.5;
-        padding:10px
+        color:white;
+        border-radius: 5px;
+        background: rgba(99, 99, 99, 0.8);
+        padding:5px;
+      }
+      .xyz {
+        text-align: right;
+      }
+      .textbox {
+        // background-color: #a5a5a5;
+        background-color: #eaeaea;
+        text-align: right;
+        width: 60px;
+      }
+      .textbox:hover {
+        background-color: white;
+      }
+      .button {
+        color: white;
+        background-color: #4f4f4f;
+      }
+      .button:hover {
+        color: pink;
+        background-color: #7f7f7f;
       }
     </style>
   </head>
@@ -31,11 +64,14 @@
     <div class='panel'>
       siren viewer test<br />
       <hr />
-      <input widht=20 type=text /><br />
-      <input widht=20 type=text /><br />
-      <input widht=20 type=text /><br />
+      <div class='xyz'>
+        <input class="textbox" width=20 type=text placeholder="X" value="0.000" pattern="^ *-?\d*(\.\d*)? *$" /><br />
+        <input class="textbox" width=20 type=text placeholder="Y" value="0.000" pattern="^ *-?\d*(\.\d*)? *$" /><br />
+        <input class="textbox" width=20 type=text placeholder="Z" value="0.000" pattern="^ *-?\d*(\.\d*)? *$" /><br />
+      </div>
       <hr />
-      <input type=button value='foo' />
+      <input class="button" type=button value='+' />
+      <input class="button" type=button value='-' />
     </div>
   </body>
 </html>

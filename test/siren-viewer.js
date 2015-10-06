@@ -162,4 +162,4 @@ function render() {
 }
 render();
 
-var controls = new THREE.OrbitControls(camera);
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
