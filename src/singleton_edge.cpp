@@ -10,6 +10,20 @@ void siren_edge_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "curvature", siren_edge_curvature, MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "tangent",   siren_edge_tangent,   MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "nurbs_def", siren_edge_nurbs_def, MRB_ARGS_NONE());
+
+  mrb_value self = mrb_obj_value(o);
+  {
+    TopoDS_Shape* shape = siren_shape_get(mrb, self);
+    TopoDS_Edge edge = TopoDS::Edge(*shape);
+    Standard_Real first, last;
+    Handle(Geom_Curve) hgcurve = BRep_Tool::Curve(edge, first, last);
+    mrb_obj_iv_set(mrb, o, mrb_intern_lit(mrb, "@curve"), siren_curve_new(mrb, &hgcurve));
+    mrb_define_singleton_method(mrb, o, "curve", siren_edge_curve, MRB_ARGS_NONE());
+  }
+  mrb_define_singleton_method(mrb, o, "first",  siren_edge_first,  MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "last",   siren_edge_last,   MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "params", siren_edge_params, MRB_ARGS_NONE());
+
   return;
 }
 
@@ -183,5 +197,40 @@ mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
   mrb_ary_push(mrb, res, mrb_float_value(mrb, first));
   mrb_ary_push(mrb, res, mrb_float_value(mrb, last));
   return res;
+}
+
+mrb_value siren_edge_first(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  Standard_Real first, last;
+  BRep_Tool::Curve(edge, first, last);
+  return mrb_float_value(mrb, first);
+}
+
+mrb_value siren_edge_last(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  Standard_Real first, last;
+  BRep_Tool::Curve(edge, first, last);
+  return mrb_float_value(mrb, last);
+}
+
+mrb_value siren_edge_params(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  Standard_Real first, last;
+  BRep_Tool::Curve(edge, first, last);
+  mrb_value res = mrb_ary_new(mrb);
+  mrb_ary_push(mrb, res, mrb_float_value(mrb, first));
+  mrb_ary_push(mrb, res, mrb_float_value(mrb, last));
+  return res;
+}
+
+mrb_value siren_edge_curve(mrb_state* mrb, mrb_value self)
+{
+  return mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@curve"));
 }
 

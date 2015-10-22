@@ -2,6 +2,7 @@
 #define _SINGLETON_EDGE_H_
 
 #include "siren.h"
+#include "curve.h"
 #include "shape.h"
 
 #include <TopoDS.hxx>
@@ -35,5 +36,10 @@ mrb_value siren_edge_curvature(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_edge_first(mrb_state* mrb, mrb_value self);
+mrb_value siren_edge_last(mrb_state* mrb, mrb_value self);
+mrb_value siren_edge_params(mrb_state* mrb, mrb_value self);
+mrb_value siren_edge_curve(mrb_state* mrb, mrb_value self);
 
 #endif

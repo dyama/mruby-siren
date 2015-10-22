@@ -2,6 +2,7 @@
 
 #include "vec.h"
 #include "loc.h"
+#include "curve.h"
 #include "shape.h"
 #include "build.h"
 #include "brepio.h"
@@ -22,6 +23,7 @@ extern "C" {
   void mrb_mruby_siren_gem_init(mrb_state* mrb)
   {
     struct RClass* _loc    = NULL;
+    struct RClass* _curve  = NULL;
     struct RClass* _shape  = NULL;
     struct RClass* _build  = NULL;
     struct RClass* _vec    = NULL;
@@ -35,7 +37,9 @@ extern "C" {
 #ifdef SIREN_ENABLE_STL
     struct RClass* _stl    = NULL;
 #endif
+
     siren_loc_install(mrb, _loc);
+    siren_curve_install(mrb, _curve);
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
     siren_vec_install(mrb, _vec);
@@ -49,6 +53,7 @@ extern "C" {
 #ifdef SIREN_ENABLE_STL
     siren_stl_install(mrb, _stl);
 #endif
+
     return;
   }
 
