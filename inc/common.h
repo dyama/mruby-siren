@@ -77,6 +77,15 @@ inline mrb_value siren_vec_to_ary(mrb_state* mrb, const gp_Vec& vec)
   return mrb_ary_new_from_values(mrb, 3, res);
 }
 
+inline mrb_value siren_pnt_new(mrb_state* mrb, double x, double y, double z)
+{
+  mrb_value res[3];
+  res[0] = mrb_float_value(mrb, x);
+  res[1] = mrb_float_value(mrb, y);
+  res[2] = mrb_float_value(mrb, z);
+  return mrb_ary_new_from_values(mrb, 3, res);
+}
+
 mrb_value mrb_instance_alloc(mrb_state *mrb, mrb_value cv);
 
 #endif
