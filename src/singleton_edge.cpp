@@ -12,6 +12,7 @@ void siren_edge_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "nurbs_def", siren_edge_nurbs_def, MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "extrema",   siren_edge_extrema,   MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "split",     siren_edge_split,     MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "trim",      siren_edge_trim,      MRB_ARGS_REQ(2));
 
   mrb_value self = mrb_obj_value(o);
   {
@@ -278,5 +279,20 @@ mrb_value siren_edge_split(mrb_state* mrb, mrb_value self)
   TopoDS_Edge e2 = BRepBuilderAPI_MakeEdge(gc, param, last);
   mrb_value res[] = { siren_shape_new(mrb, e1), siren_shape_new(mrb, e2) };
   return mrb_ary_new_from_values(mrb, 2, res);
+}
+
+mrb_value siren_edge_trim(mrb_state* mrb, mrb_value self)
+{
+  mrb_float first2, last2;
+  int argc = mrb_get_args(mrb, "ff", &first2, &last2);
+  if (first2 == last2) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified parameter has same value.");
+  }
+  Standard_Real first, last; 
+  TopoDS_Shape* s = siren_shape_get(mrb, self);
+  TopoDS_Edge e = TopoDS::Edge(*s);
+  Handle(Geom_Curve) gc  = BRep_Tool::Curve(e, first, last);
+  TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(gc, first2, last2);
+  return siren_shape_new(mrb, edge);
 }
 
