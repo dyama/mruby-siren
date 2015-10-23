@@ -23,6 +23,8 @@ bool siren_curve_install(mrb_state* mrb, struct RClass* rclass)
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_curve_init,     MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "type",       siren_curve_geomtype, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "inspect",    siren_curve_to_s, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_s",       siren_curve_to_s, MRB_ARGS_NONE());
 
   // circle
   mrb_define_method(mrb, rclass, "radius",  siren_curve_circle_get_radius, MRB_ARGS_NONE());
@@ -90,6 +92,18 @@ mrb_value siren_curve_geomtype(mrb_state* mrb, mrb_value self)
     return mrb_fixnum_value(12);
   }
   return mrb_fixnum_value(0);
+}
+
+mrb_value siren_curve_to_s(mrb_state* mrb, mrb_value self)
+{
+  mrb_value str = mrb_str_new_cstr(mrb, "#<Curve:");
+  mrb_str_concat(mrb, str, mrb_ptr_to_str(mrb, mrb_cptr(self)));
+  mrb_str_cat_lit(mrb, str, " @type=");
+  mrb_value type = mrb_funcall(mrb, self, "type", 0);
+  mrb_value stype = mrb_funcall(mrb, type, "to_gcname", 0);
+  mrb_str_append(mrb, str, stype);
+  mrb_str_cat_lit(mrb, str, ">");
+  return str;
 }
 
 mrb_value siren_curve_circle_get_radius(mrb_state* mrb, mrb_value self)

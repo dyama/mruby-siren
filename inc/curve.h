@@ -24,6 +24,7 @@ Handle(Geom_Curve)* siren_curve_get(mrb_state* mrb, mrb_value obj);
 
 mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve);
 mrb_value siren_curve_init(mrb_state* mrb, mrb_value self);
+mrb_value siren_curve_to_s(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_curve_geomtype(mrb_state* mrb, mrb_value self);
 

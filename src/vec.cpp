@@ -93,7 +93,8 @@ mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
 {
   gp_Vec* vec = siren_vec_get(mrb, self);
   char str[64];
-  snprintf(str, sizeof(str), "#Vec<x=%f, y=%f, z=%f>", vec->X(), vec->Y(), vec->Z());
+  snprintf(str, sizeof(str), "#<Vec:0x%x @x=%f, @y=%f, @z=%f>",
+      (int)mrb_cptr(self), vec->X(), vec->Y(), vec->Z());
   return mrb_str_new_cstr(mrb, str);
 }
 
