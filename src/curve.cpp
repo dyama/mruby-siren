@@ -23,6 +23,11 @@ bool siren_curve_install(mrb_state* mrb, struct RClass* rclass)
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_curve_init,     MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "type",       siren_curve_geomtype, MRB_ARGS_NONE());
+
+  // circle
+  mrb_define_method(mrb, rclass, "radius",  siren_curve_circle_get_radius, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "radius=", siren_curve_circle_set_radius, MRB_ARGS_NONE());
+
   return true;
 }
 
@@ -87,3 +92,26 @@ mrb_value siren_curve_geomtype(mrb_state* mrb, mrb_value self)
   return mrb_fixnum_value(0);
 }
 
+mrb_value siren_curve_circle_get_radius(mrb_state* mrb, mrb_value self)
+{
+  Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
+  Handle(Geom_Circle) circle = Handle(Geom_Circle)::DownCast(hgc);
+  if (circle.IsNull()) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not circle.");
+  }
+  Standard_Real r = circle->Radius();
+  return mrb_float_value(mrb, r);
+}
+
+mrb_value siren_curve_circle_set_radius(mrb_state* mrb, mrb_value self)
+{
+  Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
+  Handle(Geom_Circle) circle = Handle(Geom_Circle)::DownCast(hgc);
+  if (circle.IsNull()) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not circle.");
+  }
+  mrb_float r;
+  int argc = mrb_get_args(mrb, "f", &r);
+  circle->SetRadius(r);
+  return mrb_nil_value();
+}

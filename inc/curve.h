@@ -27,4 +27,7 @@ mrb_value siren_curve_init(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_curve_geomtype(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_curve_circle_get_radius(mrb_state* mrb, mrb_value self);
+mrb_value siren_curve_circle_set_radius(mrb_state* mrb, mrb_value self);
+
 #endif
