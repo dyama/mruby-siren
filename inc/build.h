@@ -58,6 +58,7 @@ mrb_value siren_build_copy     (mrb_state* mrb, mrb_value self);
 
 mrb_value siren_build_vertex   (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_line     (mrb_state* mrb, mrb_value self);
+mrb_value siren_build_infline  (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_polyline (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_curve    (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_wire     (mrb_state* mrb, mrb_value self);
@@ -67,6 +68,7 @@ mrb_value siren_build_circle   (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_circle3p (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_plane    (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_face     (mrb_state* mrb, mrb_value self);
+mrb_value siren_build_infplane (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_build_beziercurve(mrb_state* mrb, mrb_value self);
