@@ -66,6 +66,7 @@ mrb_value siren_build_arc3p    (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_circle   (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_circle3p (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_plane    (mrb_state* mrb, mrb_value self);
+mrb_value siren_build_face     (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_build_beziercurve(mrb_state* mrb, mrb_value self);

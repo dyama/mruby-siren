@@ -14,6 +14,7 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "circle",     siren_build_circle,     MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "circle3p",   siren_build_circle3p,   MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "plane",      siren_build_plane,      MRB_ARGS_REQ(7));
+  mrb_define_class_method(mrb, rclass, "face",       siren_build_face,       MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "polygon",    siren_build_polygon,    MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
   mrb_define_class_method(mrb, rclass, "beziersurf", siren_build_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
@@ -197,6 +198,20 @@ mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
   gp_Pln _pln(siren_ary_to_ax2(mrb, pos, norm, vdir));
   BRepBuilderAPI_MakeFace face(_pln, umin, umax, vmin, vmax);
   return siren_shape_new(mrb, face.Shape());
+}
+
+mrb_value siren_build_face(mrb_state* mrb, mrb_value self)
+{
+  mrb_value wire;
+  mrb_bool force_plane;
+  int argc = mrb_get_args(mrb, "ob", &wire, &force_plane);
+  TopoDS_Shape* s = siren_shape_get(mrb, wire);
+  TopoDS_Wire w = TopoDS::Wire(*s);
+  if (w.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape type is not wire.");
+  }
+  TopoDS_Face face = BRepBuilderAPI_MakeFace(w, (Standard_Boolean)force_plane);
+  return siren_shape_new(mrb, face);
 }
 
 mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
