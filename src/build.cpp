@@ -11,6 +11,8 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "wire",       siren_build_wire,       MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "arc",        siren_build_arc,        MRB_ARGS_REQ(6));
   mrb_define_class_method(mrb, rclass, "arc3p",      siren_build_arc3p,      MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "circle",     siren_build_circle,     MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "circle3p",   siren_build_circle3p,   MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "plane",      siren_build_plane,      MRB_ARGS_REQ(7));
   mrb_define_class_method(mrb, rclass, "polygon",    siren_build_polygon,    MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
@@ -155,6 +157,31 @@ mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
   mrb_value p1, p2, p3;
   int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
   Handle(Geom_Curve) gc = GC_MakeArcOfCircle(
+      siren_ary_to_pnt(mrb, p1),
+      siren_ary_to_pnt(mrb, p2),
+      siren_ary_to_pnt(mrb, p3));
+  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+  return siren_shape_new(mrb, E);
+}
+
+mrb_value siren_build_circle(mrb_state* mrb, mrb_value self)
+{
+  mrb_value orig, dir;
+  mrb_float r;
+  int argc = mrb_get_args(mrb, "AAf", &orig, &dir, &r);
+  Handle(Geom_Curve) gc = GC_MakeCircle(
+      siren_ary_to_pnt(mrb, orig),
+      siren_ary_to_dir(mrb, dir),
+      r);
+  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+  return siren_shape_new(mrb, E);
+}
+
+mrb_value siren_build_circle3p(mrb_state* mrb, mrb_value self)
+{
+  mrb_value p1, p2, p3;
+  int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
+  Handle(Geom_Curve) gc = GC_MakeCircle(
       siren_ary_to_pnt(mrb, p1),
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));

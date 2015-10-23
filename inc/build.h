@@ -50,6 +50,7 @@
 
 #include <gp_Circ.hxx>
 #include <GC_MakeArcOfCircle.hxx>
+#include <GC_MakeCircle.hxx>
 
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass);
 
@@ -62,6 +63,8 @@ mrb_value siren_build_curve    (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_wire     (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_arc      (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_arc3p    (mrb_state* mrb, mrb_value self);
+mrb_value siren_build_circle   (mrb_state* mrb, mrb_value self);
+mrb_value siren_build_circle3p (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_plane    (mrb_state* mrb, mrb_value self);
 mrb_value siren_build_polygon  (mrb_state* mrb, mrb_value self);
 
