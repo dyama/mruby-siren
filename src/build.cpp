@@ -4,11 +4,13 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Build");
   mrb_define_class_method(mrb, rclass, "copy",       siren_build_copy,       MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "vertex",     siren_build_vertex,     MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "vertex",     siren_build_vertex,     MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "line",       siren_build_line,       MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "polyline",   siren_build_polyline,   MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "curve",      siren_build_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "wire",       siren_build_wire,       MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "arc",        siren_build_arc,        MRB_ARGS_REQ(6));
+  mrb_define_class_method(mrb, rclass, "arc3p",      siren_build_arc3p,      MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "plane",      siren_build_plane,      MRB_ARGS_REQ(7));
   mrb_define_class_method(mrb, rclass, "polygon",    siren_build_polygon,    MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
@@ -35,9 +37,9 @@ mrb_value siren_build_copy(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
 {
-  mrb_float x, y, z;
-  int argc = mrb_get_args(mrb, "fff", &x, &y, &z);
-  TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(gp_Pnt(x, y, z));
+  mrb_value pos;
+  int argc = mrb_get_args(mrb, "A", &pos);
+  TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(siren_ary_to_pnt(mrb, pos));
   return siren_shape_new(mrb, shape);
 }
 
@@ -135,6 +137,29 @@ mrb_value siren_build_wire(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, mw.Shape());
+}
+
+mrb_value siren_build_arc(mrb_state* mrb, mrb_value self)
+{
+  mrb_value orig, dir, vx;
+  mrb_float r, start_ang, term_ang;
+  int argc = mrb_get_args(mrb, "AAAfff", &orig, &dir, &vx, &r, &start_ang, &term_ang);
+  gp_Circ circle = gp_Circ(gp_Ax2(siren_ary_to_pnt(mrb, orig), siren_ary_to_dir(mrb, dir), siren_ary_to_dir(mrb, vx)), r);
+  Handle(Geom_Curve) gc = GC_MakeArcOfCircle(circle, start_ang, term_ang, Standard_True);
+  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+  return siren_shape_new(mrb, E);
+}
+
+mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
+{
+  mrb_value p1, p2, p3;
+  int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
+  Handle(Geom_Curve) gc = GC_MakeArcOfCircle(
+      siren_ary_to_pnt(mrb, p1),
+      siren_ary_to_pnt(mrb, p2),
+      siren_ary_to_pnt(mrb, p3));
+  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+  return siren_shape_new(mrb, E);
 }
 
 mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
