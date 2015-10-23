@@ -26,6 +26,8 @@
 #include <Geom_TrimmedCurve.hxx>
 #include <Geom_BSplineCurve.hxx>
 
+#include <BRepExtrema_ExtCC.hxx>
+
 void siren_edge_install(mrb_state* mrb, RObject* o);
 mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self);
@@ -41,5 +43,7 @@ mrb_value siren_edge_first(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_last(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_params(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_curve(mrb_state* mrb, mrb_value self);
+
+mrb_value siren_edge_extrema(mrb_state* mrb, mrb_value self);
 
 #endif

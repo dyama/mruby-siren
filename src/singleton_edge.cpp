@@ -10,6 +10,7 @@ void siren_edge_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "curvature", siren_edge_curvature, MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "tangent",   siren_edge_tangent,   MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "nurbs_def", siren_edge_nurbs_def, MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "extrema",   siren_edge_extrema,   MRB_ARGS_REQ(1));
 
   mrb_value self = mrb_obj_value(o);
   {
@@ -234,3 +235,29 @@ mrb_value siren_edge_curve(mrb_state* mrb, mrb_value self)
   return mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@curve"));
 }
 
+mrb_value siren_edge_extrema(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  TopoDS_Shape* s = siren_shape_get(mrb, other);
+  TopoDS_Edge e2 = TopoDS::Edge(*s);
+  if (e2.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape type is not edge.");
+  }
+  TopoDS_Edge e1 = TopoDS::Edge(*siren_shape_get(mrb, self));
+  BRepExtrema_ExtCC ext(e1, e2);
+  if (!ext.IsDone()) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to get extrema points.");
+  }
+  else if (ext.IsParallel()) {
+    return mrb_nil_value();
+  }
+  mrb_value p1s = mrb_ary_new(mrb);
+  mrb_value p2s = mrb_ary_new(mrb);
+  for (int i = 1; i <= ext.NbExt(); i++) {
+    mrb_ary_push(mrb, p1s, mrb_float_value(mrb, ext.ParameterOnE1(i)));
+    mrb_ary_push(mrb, p2s, mrb_float_value(mrb, ext.ParameterOnE2(i)));
+  }
+  mrb_value res[2] = { p1s, p2s };
+  return mrb_ary_new_from_values(mrb, 2, res);
+}
