@@ -74,9 +74,19 @@ mrb_value siren_bndbox_to_s(mrb_state* mrb, mrb_value self)
   char str[128];
   Standard_Real xmin, ymin, zmin, xmax, ymax, zmax;
   b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
+  const int s = 16;
+  char sxmin[s]; char sxmax[s];
+  char symin[s]; char symax[s];
+  char szmin[s]; char szmax[s];
+  b->IsOpenXmin() ? snprintf(sxmin, s, "%s", "inf") : snprintf(sxmin, s, "%f", xmin);
+  b->IsOpenXmax() ? snprintf(sxmax, s, "%s", "inf") : snprintf(sxmax, s, "%f", xmax);
+  b->IsOpenYmin() ? snprintf(symin, s, "%s", "inf") : snprintf(symin, s, "%f", ymin);
+  b->IsOpenYmax() ? snprintf(symax, s, "%s", "inf") : snprintf(symax, s, "%f", ymax);
+  b->IsOpenZmin() ? snprintf(szmin, s, "%s", "inf") : snprintf(szmin, s, "%f", zmin);
+  b->IsOpenZmax() ? snprintf(szmax, s, "%s", "inf") : snprintf(szmax, s, "%f", zmax);
   snprintf(str, sizeof(str),
-      "#BndBox<xmin=%f, ymin=%f, zmin=%f, xmax=%f, ymax=%f, zmax=%f>",
-      xmin, ymin, zmin, xmax, ymax, zmax);
+      "#BndBox<xmin=%s, ymin=%s, zmin=%s, xmax=%s, ymax=%s, zmax=%s>",
+      sxmin, symin, szmin, sxmax, symax, szmax);
   return mrb_str_new_cstr(mrb, str);
 }
 
