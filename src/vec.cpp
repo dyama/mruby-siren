@@ -40,7 +40,7 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "normal?",    siren_vec_is_normal,      MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "normal",     siren_vec_normal,         MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "normal!",    siren_vec_normal_bang,    MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "reverse?",   siren_vec_is_reverse,    MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "reverse?",   siren_vec_is_reverse,     MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "reverse",    siren_vec_reverse,        MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "reverse!",   siren_vec_reverse_bang,   MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "angle",      siren_vec_angle,          MRB_ARGS_REQ(1));
@@ -48,6 +48,8 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "magnitude",  siren_vec_magnitude,      MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "size",       siren_vec_magnitude,      MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "length",     siren_vec_magnitude,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "cross",      siren_vec_cross,          MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "dot",        siren_vec_dot,            MRB_ARGS_REQ(1));
 
   mrb_define_module_function(mrb, rclass, "-@", siren_vec_negative,        MRB_ARGS_NONE());
   mrb_define_module_function(mrb, rclass, "==", siren_vec_eq,              MRB_ARGS_REQ(1));
@@ -325,5 +327,21 @@ mrb_value siren_vec_ydir_neg(mrb_state* mrb, mrb_value self)
 mrb_value siren_vec_zdir_neg(mrb_state* mrb, mrb_value self)
 {
   return siren_vec_new(mrb, 0.0, 0.0, -1.0);
+}
+
+mrb_value siren_vec_cross(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  gp_Vec ans = siren_vec_get(mrb, self)->Crossed(*siren_vec_get(mrb, other));
+  return siren_vec_new(mrb, ans.X(), ans.Y(), ans.Z());
+}
+
+mrb_value siren_vec_dot(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  Standard_Real ans = siren_vec_get(mrb, self)->Dot(*siren_vec_get(mrb, other));
+  return mrb_float_value(mrb, ans);
 }
 
