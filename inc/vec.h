@@ -45,14 +45,14 @@ mrb_value siren_vec_reverse_bang(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_coord(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_coord_set(mrb_state* mrb, mrb_value self);
  
-// mrb_value siren_vec_mirror(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_mirror_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_rotate(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_rotate_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_scale(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_scale_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_transform(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_transform_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_mirror(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_mirror_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_rotate(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_rotate_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_scale(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_scale_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_transform(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_transform_bang(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_vec_negative(mrb_state* mrb, mrb_value self);
 

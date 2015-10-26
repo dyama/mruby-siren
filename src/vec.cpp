@@ -58,6 +58,15 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "cross_square_mag", siren_vec_cross_square_mag, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "square_mag",       siren_vec_square_mag,       MRB_ARGS_NONE());
 
+  mrb_define_method(mrb, rclass, "mirror",           siren_vec_mirror,           MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "mirror!",          siren_vec_mirror_bang,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "rotate",           siren_vec_rotate,           MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "rotate!",          siren_vec_rotate_bang,      MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "scale",            siren_vec_scale,            MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "scale!",           siren_vec_scale_bang,       MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "transform",        siren_vec_transform,        MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "transform!",       siren_vec_transform_bang,   MRB_ARGS_REQ(1));
+
   mrb_define_module_function(mrb, rclass, "-@",  siren_vec_negative,         MRB_ARGS_NONE());
   mrb_define_module_function(mrb, rclass, "==",  siren_vec_eq,               MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, rclass, "+",   siren_vec_plus,             MRB_ARGS_REQ(1));
@@ -412,5 +421,73 @@ mrb_value siren_vec_square_mag(mrb_state* mrb, mrb_value self)
 {
   Standard_Real res = siren_vec_get(mrb, self)->SquareMagnitude();
   return mrb_float_value(mrb, res);
+}
+
+mrb_value siren_vec_mirror(mrb_state* mrb, mrb_value self)
+{
+  mrb_value dir;
+  int argc = mrb_get_args(mrb, "o", &dir);
+  gp_Vec res = siren_vec_get(mrb, self)->Mirrored(*siren_vec_get(mrb, dir));
+  return siren_vec_new(mrb, res.X(), res.Y(), res.Z());
+}
+
+mrb_value siren_vec_mirror_bang(mrb_state* mrb, mrb_value self)
+{
+  mrb_value dir;
+  int argc = mrb_get_args(mrb, "o", &dir);
+  siren_vec_get(mrb, self)->Mirror(*siren_vec_get(mrb, dir));
+  return self;
+}
+
+mrb_value siren_vec_rotate(mrb_state* mrb, mrb_value self)
+{
+  mrb_value orig, dir;
+  mrb_float angle;
+  int argc = mrb_get_args(mrb, "oof", &orig, &dir, &angle);
+  gp_Vec res = siren_vec_get(mrb, self)->Rotated(
+      gp_Ax1(siren_ary_to_pnt(mrb, orig), *siren_vec_get(mrb, dir)), angle);
+  return siren_vec_new(mrb, res.X(), res.Y(), res.Z());
+}
+
+mrb_value siren_vec_rotate_bang(mrb_state* mrb, mrb_value self)
+{
+  mrb_value orig, dir;
+  mrb_float angle;
+  int argc = mrb_get_args(mrb, "oof", &orig, &dir, &angle);
+  siren_vec_get(mrb, self)->Rotate(
+      gp_Ax1(siren_ary_to_pnt(mrb, orig), *siren_vec_get(mrb, dir)), angle);
+  return self;
+}
+
+mrb_value siren_vec_scale(mrb_state* mrb, mrb_value self)
+{
+  mrb_float f;
+  int argc = mrb_get_args(mrb, "f", &f);
+  gp_Vec res = siren_vec_get(mrb, self)->Scaled(f);
+  return siren_vec_new(mrb, res.X(), res.Y(), res.Z());
+}
+
+mrb_value siren_vec_scale_bang(mrb_state* mrb, mrb_value self)
+{
+  mrb_float f;
+  int argc = mrb_get_args(mrb, "f", &f);
+  siren_vec_get(mrb, self)->Scale(f);
+  return self;
+}
+
+mrb_value siren_vec_transform(mrb_state* mrb, mrb_value self)
+{
+  mrb_value t;
+  int argc = mrb_get_args(mrb, "o", &t);
+  gp_Vec res = siren_vec_get(mrb, self)->Transformed(*siren_trans_get(mrb, t));
+  return siren_vec_new(mrb, res.X(), res.Y(), res.Z());
+}
+
+mrb_value siren_vec_transform_bang(mrb_state* mrb, mrb_value self)
+{
+  mrb_value t;
+  int argc = mrb_get_args(mrb, "o", &t);
+  siren_vec_get(mrb, self)->Transform(*siren_trans_get(mrb, t));
+  return self;
 }
 
