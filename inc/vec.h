@@ -28,19 +28,11 @@ mrb_value siren_vec_is_parallel(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_angle(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_angleref(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_magnitude(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_square_magnitude(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_add(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_add_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_subtract(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_subtract_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_multiply(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_multiply_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_divide(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_divide_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_square_mag(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_cross(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_cross_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_cross_magnitude(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_cross_square_magnitude(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_cross_mag(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_cross_square_mag(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_cross_cross(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_cross_cross_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_dot(mrb_state* mrb, mrb_value self);
@@ -49,10 +41,10 @@ mrb_value siren_vec_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_normal_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_reverse(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_reverse_bang(mrb_state* mrb, mrb_value self);
-// 
+ 
 // mrb_value siren_vec_coord(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_coord_set(mrb_state* mrb, mrb_value self);
-// 
+ 
 // mrb_value siren_vec_mirror(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_mirror_bang(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_rotate(mrb_state* mrb, mrb_value self);
