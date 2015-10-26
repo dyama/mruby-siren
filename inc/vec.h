@@ -23,10 +23,10 @@ mrb_value siren_vec_to_xyz(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_vec_is_equal(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_is_normal(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_is_opposite(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_is_reverse(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_is_parallel(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_angle(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_angleref(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_angleref(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_magnitude(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_square_magnitude(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_add(mrb_state* mrb, mrb_value self);
@@ -44,8 +44,8 @@ mrb_value siren_vec_magnitude(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_cross_cross_bang(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_dot(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_dot_cross(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_normalize(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_normalize_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_normal(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_normal_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_reverse(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_reverse_bang(mrb_state* mrb, mrb_value self);
 // 

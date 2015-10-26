@@ -36,14 +36,15 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "to_ary",     siren_vec_to_a,           MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_xyz",     siren_vec_to_xyz,         MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "equal?",     siren_vec_is_equal,       MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "normal?",    siren_vec_is_normal,      MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "opposite?",  siren_vec_is_opposite,    MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "parallel?",  siren_vec_is_parallel,    MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "normalize",  siren_vec_normalize,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "normalize!", siren_vec_normalize_bang, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "normal?",    siren_vec_is_normal,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "normal",     siren_vec_normal,         MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "normal!",    siren_vec_normal_bang,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "reverse?",   siren_vec_is_reverse,    MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "reverse",    siren_vec_reverse,        MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "reverse!",   siren_vec_reverse_bang,   MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "angle",      siren_vec_angle,          MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "angleref",   siren_vec_angleref,       MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "magnitude",  siren_vec_magnitude,      MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "size",       siren_vec_magnitude,      MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "length",     siren_vec_magnitude,      MRB_ARGS_NONE());
@@ -173,7 +174,7 @@ mrb_value siren_vec_is_normal(mrb_state* mrb, mrb_value self)
   return res ? mrb_true_value() : mrb_false_value();
 }
 
-mrb_value siren_vec_is_opposite(mrb_state* mrb, mrb_value self)
+mrb_value siren_vec_is_reverse(mrb_state* mrb, mrb_value self)
 {
   mrb_value other;
   mrb_float angtol;
@@ -195,12 +196,12 @@ mrb_value siren_vec_is_parallel(mrb_state* mrb, mrb_value self)
   return res ? mrb_true_value() : mrb_false_value();
 }
 
-mrb_value siren_vec_normalize(mrb_state* mrb, mrb_value self)
+mrb_value siren_vec_normal(mrb_state* mrb, mrb_value self)
 {
   return siren_vec_new(mrb, siren_vec_get(mrb, self)->Normalized());
 }
 
-mrb_value siren_vec_normalize_bang(mrb_state* mrb, mrb_value self)
+mrb_value siren_vec_normal_bang(mrb_state* mrb, mrb_value self)
 {
   siren_vec_get(mrb, self)->Normalize();
   return self;
@@ -224,6 +225,17 @@ mrb_value siren_vec_angle(mrb_state* mrb, mrb_value self)
   gp_Vec* me = siren_vec_get(mrb, self);
   gp_Vec* o = siren_vec_get(mrb, other);
   Standard_Real res = me->Angle(*o);
+  return mrb_float_value(mrb, res);
+}
+
+mrb_value siren_vec_angleref(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other, vref;
+  int argc = mrb_get_args(mrb, "oo", &other, &vref);
+  gp_Vec* me = siren_vec_get(mrb, self);
+  gp_Vec* o = siren_vec_get(mrb, other);
+  gp_Vec* ref = siren_vec_get(mrb, vref);
+  Standard_Real res = me->AngleWithRef(*o, *ref);
   return mrb_float_value(mrb, res);
 }
 
