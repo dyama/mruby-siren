@@ -15,7 +15,7 @@ mrb_value siren_gprop_cog(mrb_state* mrb, mrb_value self)
   GProp_GProps gprops;
   BRepGProp::VolumeProperties(*shape, gprops);
   gp_Pnt cog = gprops.CentreOfMass();
-  return siren_vec_new(mrb, cog.X(), cog.Y(), cog.Z());
+  return siren_pnt_to_ary(mrb, cog);
 }
 
 mrb_value siren_gprop_area(mrb_state* mrb, mrb_value self)
