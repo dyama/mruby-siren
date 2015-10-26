@@ -23,42 +23,44 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_vec_init,           MRB_ARGS_NONE() | MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "inspect",    siren_vec_to_s,           MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_s",       siren_vec_to_s,           MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "x",          siren_vec_x,              MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "x=",         siren_vec_x_set,          MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "y",          siren_vec_y,              MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "y=",         siren_vec_y_set,          MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "z",          siren_vec_z,              MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "z=",         siren_vec_z_set,          MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "to_a",       siren_vec_to_a,           MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_ary",     siren_vec_to_a,           MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_xyz",     siren_vec_to_xyz,         MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "equal?",     siren_vec_is_equal,       MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "parallel?",  siren_vec_is_parallel,    MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "normal?",    siren_vec_is_normal,      MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "normal",     siren_vec_normal,         MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "normal!",    siren_vec_normal_bang,    MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "reverse?",   siren_vec_is_reverse,     MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "reverse",    siren_vec_reverse,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "reverse!",   siren_vec_reverse_bang,   MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "angle",      siren_vec_angle,          MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "angleref",   siren_vec_angleref,       MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "magnitude",  siren_vec_magnitude,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "size",       siren_vec_magnitude,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "length",     siren_vec_magnitude,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "cross",      siren_vec_cross,          MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "cross!",     siren_vec_cross_bang,     MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "dot",        siren_vec_dot,            MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "dot_cross",  siren_vec_dot_cross,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "initialize",   siren_vec_init,             MRB_ARGS_NONE() | MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "inspect",      siren_vec_to_s,             MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_s",         siren_vec_to_s,             MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "x",            siren_vec_x,                MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "x=",           siren_vec_x_set,            MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "y",            siren_vec_y,                MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "y=",           siren_vec_y_set,            MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "z",            siren_vec_z,                MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "z=",           siren_vec_z_set,            MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "to_a",         siren_vec_to_a,             MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_ary",       siren_vec_to_a,             MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_xyz",       siren_vec_to_xyz,           MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "equal?",       siren_vec_is_equal,         MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "parallel?",    siren_vec_is_parallel,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "normal?",      siren_vec_is_normal,        MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "normal",       siren_vec_normal,           MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "normal!",      siren_vec_normal_bang,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "reverse?",     siren_vec_is_reverse,       MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "reverse",      siren_vec_reverse,          MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "reverse!",     siren_vec_reverse_bang,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "angle",        siren_vec_angle,            MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "angleref",     siren_vec_angleref,         MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "magnitude",    siren_vec_magnitude,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "size",         siren_vec_magnitude,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "length",       siren_vec_magnitude,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "cross",        siren_vec_cross,            MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "cross!",       siren_vec_cross_bang,       MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "dot",          siren_vec_dot,              MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "dot_cross",    siren_vec_dot_cross,        MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "cross_cross",  siren_vec_cross_cross,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "cross_cross!", siren_vec_cross_cross_bang, MRB_ARGS_REQ(2));
 
-  mrb_define_module_function(mrb, rclass, "-@", siren_vec_negative,        MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, rclass, "==", siren_vec_eq,              MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, rclass, "+",  siren_vec_plus,            MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, rclass, "-",  siren_vec_minus,           MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, rclass, "*",  siren_vec_multiply_scalar, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, rclass, "/",  siren_vec_devide_scalar,   MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, rclass, "-@",  siren_vec_negative,         MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, rclass, "==",  siren_vec_eq,               MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, rclass, "+",   siren_vec_plus,             MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, rclass, "-",   siren_vec_minus,            MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, rclass, "*",   siren_vec_multiply_scalar,  MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, rclass, "/",   siren_vec_devide_scalar,    MRB_ARGS_REQ(1));
 
   mrb_define_module_function(mrb, rclass, "zero", siren_vec_zero,   MRB_ARGS_NONE());
   mrb_define_module_function(mrb, rclass, "origin", siren_vec_zero, MRB_ARGS_NONE());
@@ -363,5 +365,27 @@ mrb_value siren_vec_dot_cross(mrb_state* mrb, mrb_value self)
       *siren_vec_get(mrb, v1),
       *siren_vec_get(mrb, v2));
   return mrb_float_value(mrb, ans);
+}
+
+mrb_value siren_vec_cross_cross(mrb_state* mrb, mrb_value self)
+{
+  mrb_value v1, v2;
+  int argc = mrb_get_args(mrb, "o", &v1, &v2);
+  gp_Vec ans = siren_vec_get(mrb, self)->CrossCrossed(
+      *siren_vec_get(mrb, v1),
+      *siren_vec_get(mrb, v2)
+      );
+  return siren_vec_new(mrb, ans.X(), ans.Y(), ans.Z());
+}
+
+mrb_value siren_vec_cross_cross_bang(mrb_state* mrb, mrb_value self)
+{
+  mrb_value v1, v2;
+  int argc = mrb_get_args(mrb, "o", &v1, &v2);
+  siren_vec_get(mrb, self)->CrossCross(
+      *siren_vec_get(mrb, v1),
+      *siren_vec_get(mrb, v2)
+      );
+  return self;
 }
 
