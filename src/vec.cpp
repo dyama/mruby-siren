@@ -51,6 +51,7 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "cross",      siren_vec_cross,          MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "cross!",     siren_vec_cross_bang,     MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "dot",        siren_vec_dot,            MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "dot_cross",  siren_vec_dot_cross,      MRB_ARGS_REQ(2));
 
   mrb_define_module_function(mrb, rclass, "-@", siren_vec_negative,        MRB_ARGS_NONE());
   mrb_define_module_function(mrb, rclass, "==", siren_vec_eq,              MRB_ARGS_REQ(1));
@@ -351,6 +352,16 @@ mrb_value siren_vec_dot(mrb_state* mrb, mrb_value self)
   mrb_value other;
   int argc = mrb_get_args(mrb, "o", &other);
   Standard_Real ans = siren_vec_get(mrb, self)->Dot(*siren_vec_get(mrb, other));
+  return mrb_float_value(mrb, ans);
+}
+
+mrb_value siren_vec_dot_cross(mrb_state* mrb, mrb_value self)
+{
+  mrb_value v1, v2;
+  int argc = mrb_get_args(mrb, "o", &v1, &v2);
+  Standard_Real ans = siren_vec_get(mrb, self)->DotCross(
+      *siren_vec_get(mrb, v1),
+      *siren_vec_get(mrb, v2));
   return mrb_float_value(mrb, ans);
 }
 

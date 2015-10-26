@@ -43,7 +43,7 @@ mrb_value siren_vec_cross_bang(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_cross_cross(mrb_state* mrb, mrb_value self);
 // mrb_value siren_vec_cross_cross_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_dot(mrb_state* mrb, mrb_value self);
-// mrb_value siren_vec_dot_cross(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_dot_cross(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_normal_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_reverse(mrb_state* mrb, mrb_value self);
