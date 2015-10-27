@@ -5,66 +5,6 @@ gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj)
   return static_cast<gp_Trsf*>(mrb_get_datatype(mrb, obj, &siren_trans_type));
 }
 
-/*
-#include <TopLoc_Datum3D.hxx>
-mrb_value siren_trans_test(mrb_state* mrb, mrb_value self)
-{
-  gp_Trsf t1; t1.SetTranslation(gp_Vec(1.0, 0.0, 0.0));
-  gp_Trsf t2; t2.SetTranslation(gp_Vec(10.0, 0.0, 0.0));
-  gp_Trsf t3; t3.SetTranslation(gp_Vec(2.0, 0.0, 0.0));
-  gp_Trsf t4; t4.SetTranslation(gp_Vec(3.0, 0.0, 0.0));
-
-  Handle(TopLoc_Datum3D) R1 = new TopLoc_Datum3D(t1);
-  Handle(TopLoc_Datum3D) R2 = new TopLoc_Datum3D(t2);
-  Handle(TopLoc_Datum3D) R3 = new TopLoc_Datum3D(t3);
-  Handle(TopLoc_Datum3D) R4 = new TopLoc_Datum3D(t4);
-
-  TopLoc_Location L1(R1);
-  TopLoc_Location L2(R2);
-  TopLoc_Location L3(R3);
-  TopLoc_Location L4(R4);
-
-  TopoDS_Shape S1 = BRepBuilderAPI_MakeVertex(gp_Pnt(0.0, 0.0, 0.0));
-  // TopoDS_Shape S2 = BRepBuilderAPI_MakeVertex(gp_Pnt(0.0, 0.0, 0.0));
-
-  S1.Move(L1);
-  S1.Move(L2);
-  S1.Move(L3);
-
-  //S2.Move(L1);
-  //S2.Move(L2);
-  //S2.Move(L4);
-
-  TopLoc_Location loc1 = S1.Location();
-  TopLoc_Location loc2 = loc1.NextLocation();
-  TopLoc_Location loc3 = loc2.NextLocation();
-  gp_Trsf T1 = loc1.Transformation(); // 
-  gp_Trsf T2 = loc2.Transformation(); // 
-  gp_Trsf T3 = loc3.Transformation();
-
-  gp_Trsf T11 = loc1.FirstDatum()->Transformation();
-  gp_Trsf T12 = loc2.FirstDatum()->Transformation();
-  gp_Trsf T13 = loc3.FirstDatum()->Transformation();
-
-  // TopLoc_Location loc21 = S2.Location();
-  // TopLoc_Location loc22 = loc21.NextLocation();
-  // TopLoc_Location loc23 = loc22.NextLocation();
-  // gp_Trsf T21 = loc21.Transformation();
-  // gp_Trsf T22 = loc22.Transformation();
-  // gp_Trsf T23 = loc23.Transformation();
-
-  mrb_value res = mrb_ary_new(mrb);
-  //mrb_ary_push(mrb, res, siren_trans_new(mrb, T1));
-  //mrb_ary_push(mrb, res, siren_trans_new(mrb, T2));
-  //mrb_ary_push(mrb, res, siren_trans_new(mrb, T3));
-  mrb_ary_push(mrb, res, siren_trans_new(mrb, T11));
-  mrb_ary_push(mrb, res, siren_trans_new(mrb, T12));
-  mrb_ary_push(mrb, res, siren_trans_new(mrb, T13));
-
-  return res;
-}
-*/
-
 mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src)
 {
   mrb_value res;
@@ -84,22 +24,34 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "initialize"     , siren_trans_init               , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "inspect"        , siren_trans_to_s               , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_s"           , siren_trans_to_s               , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_a"           , siren_trans_to_a               , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_ary"         , siren_trans_to_a               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_a"           , siren_trans_matrix             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_ary"         , siren_trans_matrix             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "matrix"         , siren_trans_matrix             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "matrix="        , siren_trans_set_matrix         , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "multiply"       , siren_trans_multiply           , MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "multiply!"      , siren_trans_multiply_bang      , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "scalef"         , siren_trans_scalef             , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "mirror!"        , siren_trans_mirror_bang        , MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "rotation!"      , siren_trans_rotation_bang      , MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "power"          , siren_trans_power              , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "power!"         , siren_trans_power_bang         , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "translate!"     , siren_trans_translate_bang     , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "translatef"     , siren_trans_translatef         , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "translatef="    , siren_trans_set_translatef     , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "mirror!"        , siren_trans_mirror_bang        , MRB_ARGS_REQ(1) | MRB_ARGS_OPT(2));
+  mrb_define_method(mrb, rclass, "rotate!"        , siren_trans_rotate_bang        , MRB_ARGS_REQ(3));
+//  mrb_define_method(mrb, rclass, "rotatef"        , siren_trans_rotatef            , MRB_ARGS_NONE());
+//  mrb_define_method(mrb, rclass, "rotatef="       , siren_trans_set_rotatef        , MRB_ARGS_REQ(3));
   mrb_define_method(mrb, rclass, "scale!"         , siren_trans_scale_bang         , MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "scalef!"        , siren_trans_scalef_bang        , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "transfomation1!", siren_trans_transfomation1_bang, MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "transfomation2!", siren_trans_transfomation2_bang, MRB_ARGS_REQ(6));
-  mrb_define_method(mrb, rclass, "translation!"   , siren_trans_translation_bang   , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "move_point"     , siren_trans_move_point         , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "scalef"         , siren_trans_scalef             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "scalef="        , siren_trans_set_scalef         , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "invert"         , siren_trans_invert             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "invert!"        , siren_trans_invert_bang        , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "reverse"        , siren_trans_invert             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "reverse!"       , siren_trans_invert_bang        , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "negative?"      , siren_trans_is_negative        , MRB_ARGS_NONE());
 
-  // mrb_define_method(mrb, rclass, "test"     , siren_trans_test         , MRB_ARGS_NONE());
-  // mrb_define_method(mrb, rclass, "matrix",        , siren_trans_translation_bang   , MRB_ARGS_REQ(1));
+//  mrb_define_method(mrb, rclass, "transfomation1!", siren_trans_transfomation1_bang, MRB_ARGS_REQ(3));
+//  mrb_define_method(mrb, rclass, "transfomation2!", siren_trans_transfomation2_bang, MRB_ARGS_REQ(6));
+
+  mrb_define_method(mrb, rclass, "move_point"     , siren_trans_move_point         , MRB_ARGS_REQ(1));
   return true;
 }
 
@@ -135,10 +87,10 @@ mrb_value siren_trans_to_s(mrb_state* mrb, mrb_value self)
   Standard_Real a34 = siren_trans_get(mrb, self)->Value(3, 4);
   snprintf(str, sizeof(str),
       "#<Trans:0x%x\n"
-      "    X = %.6f, %.6f, %.6f\n"
-      "    Y = %.6f, %.6f, %.6f\n"
-      "    Z = %.6f, %.6f, %.6f\n"
-      "    T = %.6f, %.6f, %.6f>",
+      "    X = % 2.6f, % 2.6f, % 2.6f\n"
+      "    Y = % 2.6f, % 2.6f, % 2.6f\n"
+      "    Z = % 2.6f, % 2.6f, % 2.6f\n"
+      "    T = % 2.6f, % 2.6f, % 2.6f>",
       (int)mrb_cptr(self),
       a11, a21, a31,
       a12, a22, a32,
@@ -148,38 +100,46 @@ mrb_value siren_trans_to_s(mrb_state* mrb, mrb_value self)
   return mrb_str_new_cstr(mrb, str);
 }
 
-mrb_value siren_trans_to_a(mrb_state* mrb, mrb_value self)
-{
-  mrb_value result[4];
-  for (int row = 1; row <= 4; row++) {
-    result[row - 1] = mrb_ary_new(mrb);
-    for (int col = 1; col <= 3; col++) {
-      mrb_ary_push(mrb, result[row - 1], 
-          mrb_float_value(mrb, siren_trans_get(mrb, self)->Value(row, col)));
-    }
-  }
-  return mrb_ary_new_from_values(mrb, 4, result);
-}
-
-mrb_value siren_trans_translation_bang(mrb_state* mrb, mrb_value self)
+mrb_value siren_trans_translate_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value v;
   int argc = mrb_get_args(mrb, "A", &v);
   gp_Vec vec = siren_ary_to_vec(mrb, v); 
   gp_Trsf* trans = siren_trans_get(mrb, self);
   trans->SetTranslation(vec);
-  return mrb_nil_value();
+  return self;
 }
 
-mrb_value siren_trans_rotation_bang(mrb_state* mrb, mrb_value self)
+mrb_value siren_trans_rotate_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, norm;
   mrb_float angle;
   int argc = mrb_get_args(mrb, "AAf", &op, &norm, &angle);
   gp_Trsf* trans = siren_trans_get(mrb, self);
   trans->SetRotation(siren_ary_to_ax1(mrb, op, norm), angle);
+  return self;
+}
+
+/*
+mrb_value siren_trans_rotatef(mrb_state* mrb, mrb_value self)
+{
+  gp_XYZ axis;
+  Standard_Real angle;
+  if (siren_trans_get(mrb, self)->GetRotation(axis, angle) == Standard_False) {
+    return mrb_nil_value();
+  }
+  mrb_value res[] = {
+    siren_pnt_new(mrb, axis.X(), axis.Y(), axis.Z()),
+    mrb_float_value(mrb, angle)
+  };
+  return mrb_ary_new_from_values(mrb, 2, res);
+}
+
+mrb_value siren_trans_set_rotatef(mrb_state* mrb, mrb_value self)
+{
   return mrb_nil_value();
 }
+*/
 
 mrb_value siren_trans_scale_bang(mrb_state* mrb, mrb_value self)
 {
@@ -188,7 +148,7 @@ mrb_value siren_trans_scale_bang(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "Af", &op, &factor);
   gp_Trsf* trans  = siren_trans_get(mrb, self);
   trans->SetScale(siren_ary_to_pnt(mrb, op), factor);
-  return mrb_nil_value();
+  return self;
 }
 
 mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self)
@@ -198,22 +158,41 @@ mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self)
   return mrb_float_value(mrb, f);
 }
 
-mrb_value siren_trans_scalef_bang(mrb_state* mrb, mrb_value self)
+mrb_value siren_trans_set_scalef(mrb_state* mrb, mrb_value self)
 {
   mrb_float f;
   int argc = mrb_get_args(mrb, "f", &f);
   gp_Trsf* trans  = siren_trans_get(mrb, self);
   trans->SetScaleFactor(f);
-  return mrb_nil_value();
+  return mrb_float_value(mrb, f);
 }
 
 mrb_value siren_trans_mirror_bang(mrb_state* mrb, mrb_value self)
 {
-  mrb_value op, norm;
-  int argc = mrb_get_args(mrb, "AA", &op, &norm);
-  gp_Trsf* trans    = siren_trans_get(mrb, self);
-  trans->SetMirror(siren_ary_to_ax2(mrb, op, norm));
-  return mrb_nil_value();
+  mrb_value op, norm, vx;
+  int argc = mrb_get_args(mrb, "A|AA", &op, &norm, &vx);
+  switch (argc) {
+  case 1:
+    siren_trans_get(mrb, self)->SetMirror(siren_ary_to_pnt(mrb, op));
+    break;
+  case 2:
+    siren_trans_get(mrb, self)->SetMirror(siren_ary_to_ax1(mrb, op, norm));
+    break;
+  case 3:
+    siren_trans_get(mrb, self)->SetMirror(siren_ary_to_ax2(mrb, op, norm, vx));
+    break;
+  }
+  return self;
+}
+
+mrb_value siren_trans_multiply(mrb_state* mrb, mrb_value self)
+{
+  mrb_value other;
+  int argc = mrb_get_args(mrb, "o", &other);
+  gp_Trsf* trans_me = siren_trans_get(mrb, self);
+  gp_Trsf* trans_other = siren_trans_get(mrb, other);
+  gp_Trsf t = trans_me->Multiplied(*trans_other);
+  return siren_trans_new(mrb, t);
 }
 
 mrb_value siren_trans_multiply_bang(mrb_state* mrb, mrb_value self)
@@ -223,28 +202,48 @@ mrb_value siren_trans_multiply_bang(mrb_state* mrb, mrb_value self)
   gp_Trsf* trans_me = siren_trans_get(mrb, self);
   gp_Trsf* trans_other = siren_trans_get(mrb, other);
   trans_me->Multiply(*trans_other);
-  return mrb_nil_value();
+  return self;
 }
 
-mrb_value siren_trans_multiply(mrb_state* mrb, mrb_value self)
+mrb_value siren_trans_power(mrb_state* mrb, mrb_value self)
 {
-  mrb_value other;
-  int argc = mrb_get_args(mrb, "o", &other);
-  gp_Trsf* trans_me = siren_trans_get(mrb, self);
-  gp_Trsf* trans_other = siren_trans_get(mrb, other);
-  mrb_value res = mrb_class_new_instance(mrb, 0, NULL, mrb_class_get(mrb, "Trans"));
-  gp_Trsf* t = siren_trans_get(mrb, res);
-  *t = trans_me->Multiplied(*trans_other);
-  return res;
+  mrb_int n;
+  int argc = mrb_get_args(mrb, "i", &n);
+  return siren_trans_new(mrb, siren_trans_get(mrb, self)->Powered(n));
 }
 
+mrb_value siren_trans_power_bang(mrb_state* mrb, mrb_value self)
+{
+  mrb_int n;
+  int argc = mrb_get_args(mrb, "i", &n);
+  siren_trans_get(mrb, self)->Power(n);
+  return self;
+}
+
+mrb_value siren_trans_invert(mrb_state* mrb, mrb_value self)
+{
+  return siren_trans_new(mrb, siren_trans_get(mrb, self)->Inverted());
+}
+
+mrb_value siren_trans_invert_bang(mrb_state* mrb, mrb_value self)
+{
+  siren_trans_get(mrb, self)->Invert();
+  return self;
+}
+
+mrb_value siren_trans_is_negative(mrb_state* mrb, mrb_value self)
+{
+  return siren_trans_get(mrb, self)->IsNegative() ? mrb_true_value() : mrb_false_value();
+}
+
+/*
 mrb_value siren_trans_transfomation1_bang(mrb_state* mrb, mrb_value self)
 {
   mrb_value op, zv, xv;
   int argc = mrb_get_args(mrb, "AAA", &op, &zv, &xv);
   gp_Trsf* trans = siren_trans_get(mrb, self);
   trans->SetTransformation(siren_ary_to_ax3(mrb, op, zv, xv));
-  return mrb_nil_value();
+  return self;
 }
 
 mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self)
@@ -254,16 +253,54 @@ mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "AAAAAA", &op1, &zv1, &xv1, &op2, &zv2, &xv2);
   gp_Trsf* trans = siren_trans_get(mrb, self);
   trans->SetTransformation(siren_ary_to_ax3(mrb, op1, zv1, xv1), siren_ary_to_ax3(mrb, op2, zv2, xv2));
-  return mrb_nil_value();
+  return self;
+}
+*/
+
+mrb_value siren_trans_matrix(mrb_state* mrb, mrb_value self)
+{
+  mrb_value result[4];
+  for (int row = 1; row <= 4; row++) {
+    result[row - 1] = mrb_ary_new(mrb);
+    for (int col = 1; col <= 3; col++) {
+      mrb_ary_push(mrb, result[row - 1], 
+          mrb_float_value(mrb, siren_trans_get(mrb, self)->Value(col, row)));
+    }
+  }
+  return mrb_ary_new_from_values(mrb, 4, result);
 }
 
-mrb_value siren_trans_value(mrb_state* mrb, mrb_value self)
+mrb_value siren_trans_set_matrix(mrb_state* mrb, mrb_value self)
 {
-  return mrb_nil_value();
+  mrb_value ary;
+  int argc = mrb_get_args(mrb, "A", &ary);
+  if (mrb_ary_len(mrb, ary) != 4) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Number of items of specified array is wrong.");
+  }
+  gp_Vec x = siren_ary_to_vec(mrb, mrb_ary_ref(mrb, ary, 0));
+  gp_Vec y = siren_ary_to_vec(mrb, mrb_ary_ref(mrb, ary, 1));
+  gp_Vec z = siren_ary_to_vec(mrb, mrb_ary_ref(mrb, ary, 2));
+  gp_Vec t = siren_ary_to_vec(mrb, mrb_ary_ref(mrb, ary, 3));
+  gp_Trsf* trans = siren_trans_get(mrb, self);
+  trans->SetValues(
+      x.X(), y.X(), z.X(), t.X(), 
+      x.Y(), y.Y(), z.Y(), t.Y(), 
+      x.Z(), y.Z(), z.Z(), t.Z());
+  return self;
 }
 
-mrb_value siren_trans_set_value(mrb_state* mrb, mrb_value self)
+mrb_value siren_trans_translatef(mrb_state* mrb, mrb_value self)
 {
+  gp_Trsf* trans = siren_trans_get(mrb, self);
+  gp_XYZ xyz = trans->TranslationPart();
+  return siren_pnt_new(mrb, xyz.X(), xyz.Y(), xyz.Z());
+}
+
+mrb_value siren_trans_set_translatef(mrb_state* mrb, mrb_value self)
+{
+  mrb_value v;
+  int argc = mrb_get_args(mrb, "o", &v);
+  siren_trans_get(mrb, self)->SetTranslationPart(siren_ary_to_vec(mrb, v));
   return mrb_nil_value();
 }
 
