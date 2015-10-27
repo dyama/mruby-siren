@@ -46,8 +46,8 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "null?",      siren_shape_is_null,    MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype,  MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "pos",        siren_shape_pos,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "loc",        siren_shape_loc,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "loc=",       siren_shape_set_loc,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "trans",      siren_shape_trans,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "trans=",     siren_shape_set_trans,  MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "bndbox",     siren_shape_bndbox,     MRB_ARGS_NONE());
 
   mrb_define_method(mrb, rclass, "translate!", siren_shape_translate_bang, MRB_ARGS_REQ(1));
@@ -145,19 +145,20 @@ mrb_value siren_shape_pos(mrb_state* mrb, mrb_value self)
   return siren_vec_new(mrb, pos.X(), pos.Y(), pos.Z());
 }
 
-mrb_value siren_shape_loc(mrb_state* mrb, mrb_value self)
+mrb_value siren_shape_trans(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   TopLoc_Location loc = shape->Location();
-  return siren_loc_new(mrb, loc);
+  return siren_trans_new(mrb, loc.Transformation());
 }
 
-mrb_value siren_shape_set_loc(mrb_state* mrb, mrb_value self)
+mrb_value siren_shape_set_trans(mrb_state* mrb, mrb_value self)
 {
   mrb_value obj;
   int argc = mrb_get_args(mrb, "o", &obj);
-  TopLoc_Location* loc = siren_loc_get(mrb, obj);
-  siren_shape_get(mrb, self)->Location(*loc);
+  gp_Trsf* trans = siren_trans_get(mrb, obj);
+  TopLoc_Location loc(*trans);
+  siren_shape_get(mrb, self)->Location(loc);
   return self;
 }
 

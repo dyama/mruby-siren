@@ -6,7 +6,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   # General spec
   spec.author  = 'dyama'
-  spec.summary = 'Easy 3D Geometry and Topology engine.'
+  spec.summary = 'Lightweight 3D Geometry and Topology engine.'
   spec.license = 'MIT license'
 
   # define path

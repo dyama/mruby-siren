@@ -17,7 +17,8 @@ gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj);
 mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src);
 
 mrb_value siren_trans_init(mrb_state* mrb, mrb_value self);
-
+mrb_value siren_trans_to_s(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_to_a(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_multiply(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_multiply_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self);

@@ -5,6 +5,66 @@ gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj)
   return static_cast<gp_Trsf*>(mrb_get_datatype(mrb, obj, &siren_trans_type));
 }
 
+/*
+#include <TopLoc_Datum3D.hxx>
+mrb_value siren_trans_test(mrb_state* mrb, mrb_value self)
+{
+  gp_Trsf t1; t1.SetTranslation(gp_Vec(1.0, 0.0, 0.0));
+  gp_Trsf t2; t2.SetTranslation(gp_Vec(10.0, 0.0, 0.0));
+  gp_Trsf t3; t3.SetTranslation(gp_Vec(2.0, 0.0, 0.0));
+  gp_Trsf t4; t4.SetTranslation(gp_Vec(3.0, 0.0, 0.0));
+
+  Handle(TopLoc_Datum3D) R1 = new TopLoc_Datum3D(t1);
+  Handle(TopLoc_Datum3D) R2 = new TopLoc_Datum3D(t2);
+  Handle(TopLoc_Datum3D) R3 = new TopLoc_Datum3D(t3);
+  Handle(TopLoc_Datum3D) R4 = new TopLoc_Datum3D(t4);
+
+  TopLoc_Location L1(R1);
+  TopLoc_Location L2(R2);
+  TopLoc_Location L3(R3);
+  TopLoc_Location L4(R4);
+
+  TopoDS_Shape S1 = BRepBuilderAPI_MakeVertex(gp_Pnt(0.0, 0.0, 0.0));
+  // TopoDS_Shape S2 = BRepBuilderAPI_MakeVertex(gp_Pnt(0.0, 0.0, 0.0));
+
+  S1.Move(L1);
+  S1.Move(L2);
+  S1.Move(L3);
+
+  //S2.Move(L1);
+  //S2.Move(L2);
+  //S2.Move(L4);
+
+  TopLoc_Location loc1 = S1.Location();
+  TopLoc_Location loc2 = loc1.NextLocation();
+  TopLoc_Location loc3 = loc2.NextLocation();
+  gp_Trsf T1 = loc1.Transformation(); // 
+  gp_Trsf T2 = loc2.Transformation(); // 
+  gp_Trsf T3 = loc3.Transformation();
+
+  gp_Trsf T11 = loc1.FirstDatum()->Transformation();
+  gp_Trsf T12 = loc2.FirstDatum()->Transformation();
+  gp_Trsf T13 = loc3.FirstDatum()->Transformation();
+
+  // TopLoc_Location loc21 = S2.Location();
+  // TopLoc_Location loc22 = loc21.NextLocation();
+  // TopLoc_Location loc23 = loc22.NextLocation();
+  // gp_Trsf T21 = loc21.Transformation();
+  // gp_Trsf T22 = loc22.Transformation();
+  // gp_Trsf T23 = loc23.Transformation();
+
+  mrb_value res = mrb_ary_new(mrb);
+  //mrb_ary_push(mrb, res, siren_trans_new(mrb, T1));
+  //mrb_ary_push(mrb, res, siren_trans_new(mrb, T2));
+  //mrb_ary_push(mrb, res, siren_trans_new(mrb, T3));
+  mrb_ary_push(mrb, res, siren_trans_new(mrb, T11));
+  mrb_ary_push(mrb, res, siren_trans_new(mrb, T12));
+  mrb_ary_push(mrb, res, siren_trans_new(mrb, T13));
+
+  return res;
+}
+*/
+
 mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src)
 {
   mrb_value res;
@@ -22,6 +82,10 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
   rclass = mrb_define_class(mrb, "Trans", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize"     , siren_trans_init               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "inspect"        , siren_trans_to_s               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_s"           , siren_trans_to_s               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_a"           , siren_trans_to_a               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "to_ary"         , siren_trans_to_a               , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "multiply"       , siren_trans_multiply           , MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "multiply!"      , siren_trans_multiply_bang      , MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "scalef"         , siren_trans_scalef             , MRB_ARGS_NONE());
@@ -33,6 +97,8 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "transfomation2!", siren_trans_transfomation2_bang, MRB_ARGS_REQ(6));
   mrb_define_method(mrb, rclass, "translation!"   , siren_trans_translation_bang   , MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "move_point"     , siren_trans_move_point         , MRB_ARGS_REQ(1));
+
+  // mrb_define_method(mrb, rclass, "test"     , siren_trans_test         , MRB_ARGS_NONE());
   // mrb_define_method(mrb, rclass, "matrix",        , siren_trans_translation_bang   , MRB_ARGS_REQ(1));
   return true;
 }
@@ -50,6 +116,49 @@ void siren_trans_final(mrb_state* mrb, void* p)
 {
   gp_Trsf* t = static_cast<gp_Trsf*>(p);
   mrb_free(mrb, t);
+}
+
+mrb_value siren_trans_to_s(mrb_state* mrb, mrb_value self)
+{
+  char str[256];
+  Standard_Real a11 = siren_trans_get(mrb, self)->Value(1, 1);
+  Standard_Real a12 = siren_trans_get(mrb, self)->Value(1, 2);
+  Standard_Real a13 = siren_trans_get(mrb, self)->Value(1, 3);
+  Standard_Real a14 = siren_trans_get(mrb, self)->Value(1, 4);
+  Standard_Real a21 = siren_trans_get(mrb, self)->Value(2, 1);
+  Standard_Real a22 = siren_trans_get(mrb, self)->Value(2, 2);
+  Standard_Real a23 = siren_trans_get(mrb, self)->Value(2, 3);
+  Standard_Real a24 = siren_trans_get(mrb, self)->Value(2, 4);
+  Standard_Real a31 = siren_trans_get(mrb, self)->Value(3, 1);
+  Standard_Real a32 = siren_trans_get(mrb, self)->Value(3, 2);
+  Standard_Real a33 = siren_trans_get(mrb, self)->Value(3, 3);
+  Standard_Real a34 = siren_trans_get(mrb, self)->Value(3, 4);
+  snprintf(str, sizeof(str),
+      "#<Trans:0x%x\n"
+      "    X = %.6f, %.6f, %.6f\n"
+      "    Y = %.6f, %.6f, %.6f\n"
+      "    Z = %.6f, %.6f, %.6f\n"
+      "    T = %.6f, %.6f, %.6f>",
+      (int)mrb_cptr(self),
+      a11, a21, a31,
+      a12, a22, a32,
+      a13, a23, a33,
+      a14, a24, a34
+      );
+  return mrb_str_new_cstr(mrb, str);
+}
+
+mrb_value siren_trans_to_a(mrb_state* mrb, mrb_value self)
+{
+  mrb_value result[4];
+  for (int row = 1; row <= 4; row++) {
+    result[row - 1] = mrb_ary_new(mrb);
+    for (int col = 1; col <= 3; col++) {
+      mrb_ary_push(mrb, result[row - 1], 
+          mrb_float_value(mrb, siren_trans_get(mrb, self)->Value(row, col)));
+    }
+  }
+  return mrb_ary_new_from_values(mrb, 4, result);
 }
 
 mrb_value siren_trans_translation_bang(mrb_state* mrb, mrb_value self)
@@ -167,3 +276,4 @@ mrb_value siren_trans_move_point(mrb_state* mrb, mrb_value self)
   point.Transform(*trans);
   return siren_pnt_to_ary(mrb, point);
 }
+
