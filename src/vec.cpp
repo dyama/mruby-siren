@@ -7,11 +7,11 @@ gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj)
 
 mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z)
 {
-  mrb_value args[3];
-  args[0] = mrb_float_value(mrb, x);
-  args[1] = mrb_float_value(mrb, y);
-  args[2] = mrb_float_value(mrb, z);
-  return mrb_class_new_instance(mrb, 3, args, mrb_class_get(mrb, "Vec"));
+  mrb_value arg = mrb_ary_new(mrb);
+  mrb_ary_push(mrb, arg, mrb_float_value(mrb, x));
+  mrb_ary_push(mrb, arg, mrb_float_value(mrb, y));
+  mrb_ary_push(mrb, arg, mrb_float_value(mrb, z));
+  return mrb_class_new_instance(mrb, 1, &arg, mrb_class_get(mrb, "Vec"));
 }
 
 mrb_value siren_vec_new(mrb_state* mrb, const gp_Vec& vec)
