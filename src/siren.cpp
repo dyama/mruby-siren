@@ -16,6 +16,10 @@
   #include "stl.h"
 #endif
 
+#ifdef SIREN_ENABLE_STEP
+  #include "step.h"
+#endif
+
 extern "C" {
 
   // initializer
@@ -35,7 +39,9 @@ extern "C" {
 #ifdef SIREN_ENABLE_STL
     struct RClass* _stl    = NULL;
 #endif
-
+#ifdef SIREN_ENABLE_STEP
+    struct RClass* _step   = NULL;
+#endif
     siren_curve_install(mrb, _curve);
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
@@ -50,7 +56,9 @@ extern "C" {
 #ifdef SIREN_ENABLE_STL
     siren_stl_install(mrb, _stl);
 #endif
-
+#ifdef SIREN_ENABLE_STEP
+    siren_step_install(mrb, _step);
+#endif
     return;
   }
 

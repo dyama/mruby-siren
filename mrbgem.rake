@@ -53,7 +53,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   if true
     visualization = []
     applicationFramework = []
-    dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES' ]
+    dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES', 'TKSTEP' ]
     thirdPartyLibs = [ ]
   end
 
