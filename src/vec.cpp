@@ -23,7 +23,7 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize",       siren_vec_init,             MRB_ARGS_NONE() | MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "initialize",       siren_vec_init,             MRB_ARGS_NONE() | MRB_ARGS_OPT(1));
   mrb_define_method(mrb, rclass, "inspect",          siren_vec_to_s,             MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "to_s",             siren_vec_to_s,             MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "x",                siren_vec_x,                MRB_ARGS_NONE());
@@ -85,13 +85,14 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
 
 mrb_value siren_vec_init(mrb_state* mrb, mrb_value self)
 {
-  mrb_float x, y, z;
-  int argc = mrb_get_args(mrb, "|fff", &x, &y, &z);
+  mrb_value ary;
+  int argc = mrb_get_args(mrb, "|A", &ary);
 
   void* p = mrb_malloc(mrb, sizeof(gp_Vec));
   gp_Vec* vec;
-  if (argc == 3) {
-    vec = new(p) gp_Vec(x, y, z);
+  if (argc == 1) {
+    gp_Vec v = siren_ary_to_vec(mrb, ary);
+    vec = new(p) gp_Vec(v.X(), v.Y(), v.Z());
   }
   else {
     vec = new(p) gp_Vec(0., 0., 0.);
