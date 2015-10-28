@@ -1,21 +1,26 @@
+#!/usr/bin/siren
+# coding: utf-8
+#
+# fractal tree
+#
 
-$lines = []
-$len = 100.0
+$start_len = 100.0
 
-def tree(pt, d, l)
-  pp = pt + d * l
-  e = Build::line(pt, pp)
-  $lines.push(e)
-  if l < $len / 10.0
-    return 1
+def tree(cur_pt, dir, len)
+  nxt_pt = cur_pt + dir * len
+  edges = [ Build::line(cur_pt, nxt_pt) ]
+  len *= 0.75
+  if len > $start_len / 10.0
+    edges.concat tree(nxt_pt, dir.rotate(Vec::ydir, 30.0.to_rad), len)
+    edges.concat tree(nxt_pt, dir.rotate(Vec::ydir, -30.0.to_rad), len)
   end
-  l = l * 0.75
-  tree(pp, d.rotate(Vec::origin, Vec::ydir, Math::PI / 6.0), l)
-  tree(pp, d.rotate(Vec::origin, Vec::ydir, -Math::PI / 6.0), l)
+  return edges
 end
 
-tree Vec::origin, Vec::zdir, $len
+lines = tree(Vec::origin, Vec::zdir, $start_len)
 
-comp = Build.compound $lines
-IGES.save [comp], "test.igs"
+comp = Build.compound lines
+IGES.save [comp], "tree.igs"
+
+puts "done."
 
