@@ -58,10 +58,10 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "cross_square_mag", siren_vec_cross_square_mag, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "square_mag",       siren_vec_square_mag,       MRB_ARGS_NONE());
 
-  mrb_define_method(mrb, rclass, "mirror",           siren_vec_mirror,           MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "mirror!",          siren_vec_mirror_bang,      MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "rotate",           siren_vec_rotate,           MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "rotate!",          siren_vec_rotate_bang,      MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, rclass, "mirror",           siren_vec_mirror,           MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "mirror!",          siren_vec_mirror_bang,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "rotate",           siren_vec_rotate,           MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "rotate!",          siren_vec_rotate_bang,      MRB_ARGS_REQ(2));
   mrb_define_method(mrb, rclass, "scale",            siren_vec_scale,            MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "scale!",           siren_vec_scale_bang,       MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "transform",        siren_vec_transform,        MRB_ARGS_REQ(1));
@@ -442,21 +442,21 @@ mrb_value siren_vec_mirror_bang(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_vec_rotate(mrb_state* mrb, mrb_value self)
 {
-  mrb_value orig, dir;
+  mrb_value dir;
   mrb_float angle;
-  int argc = mrb_get_args(mrb, "oof", &orig, &dir, &angle);
+  int argc = mrb_get_args(mrb, "of", &dir, &angle);
   gp_Vec res = siren_vec_get(mrb, self)->Rotated(
-      gp_Ax1(siren_ary_to_pnt(mrb, orig), *siren_vec_get(mrb, dir)), angle);
+      gp_Ax1(gp_Pnt(0.0, 0.0, 0.0), *siren_vec_get(mrb, dir)), angle);
   return siren_vec_new(mrb, res.X(), res.Y(), res.Z());
 }
 
 mrb_value siren_vec_rotate_bang(mrb_state* mrb, mrb_value self)
 {
-  mrb_value orig, dir;
+  mrb_value dir;
   mrb_float angle;
-  int argc = mrb_get_args(mrb, "oof", &orig, &dir, &angle);
+  int argc = mrb_get_args(mrb, "of", &dir, &angle);
   siren_vec_get(mrb, self)->Rotate(
-      gp_Ax1(siren_ary_to_pnt(mrb, orig), *siren_vec_get(mrb, dir)), angle);
+      gp_Ax1(gp_Pnt(0.0, 0.0, 0.0), *siren_vec_get(mrb, dir)), angle);
   return self;
 }
 
