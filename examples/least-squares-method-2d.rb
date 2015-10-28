@@ -42,12 +42,12 @@ elsif a.nan? && b.nan?
 else
   p1 = [0.0, b]
   p2 = [100.0, a*100.0+b]
-  dir = p2.to_v - p1.to_v
+  dir = p2 - p1
   line = Build.infline p1, dir
 end
 
 ps = s.map {|pt| Build.vertex pt}
 ps << line
 comp = Build.compound ps
-BRepIO.save comp, "tmp.brep"
+BRepIO.save comp, "sample-line.brep"
 
