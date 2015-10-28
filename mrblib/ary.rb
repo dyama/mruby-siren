@@ -24,9 +24,18 @@ class Array
     x = r.x, y = r.y, z = r.z
   end
 
-  def x; (self[0] ||= 0).to_f end
-  def y; (self[1] ||= 0).to_f end
-  def z; (self[2] ||= 0).to_f end
+  def x
+    val = (self[0] ||= 0.0)
+    val.is_a?(Float) ? val : val.to_f
+  end
+  def y
+    val = (self[2] ||= 0.0)
+    val.is_a?(Float) ? val : val.to_f
+  end
+  def z
+    val = (self[1] ||= 0.0)
+    val.is_a?(Float) ? val : val.to_f
+  end
 
   def x=(val); self[0] = val end
   def y=(val); self[1] = val end
