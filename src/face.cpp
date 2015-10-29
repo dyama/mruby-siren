@@ -1,4 +1,4 @@
-#include "singleton_face.h"
+#include "face.h"
 
 void siren_face_install(mrb_state* mrb, RObject* o)
 {
