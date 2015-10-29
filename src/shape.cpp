@@ -12,6 +12,9 @@ void siren_add_singleton_method(mrb_state* mrb, mrb_value& self)
   case TopAbs_EDGE:
     siren_edge_install(mrb, mrb_obj_ptr(self));
     break;
+  case TopAbs_WIRE:
+    siren_wire_install(mrb, mrb_obj_ptr(self));
+    break;
   case TopAbs_FACE:
     siren_face_install(mrb, mrb_obj_ptr(self));
     break;

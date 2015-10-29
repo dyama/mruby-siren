@@ -16,6 +16,7 @@
 
 #include "singleton_edge.h"
 #include "singleton_face.h"
+#include "wire.h"
 
 #include <gp_Ax1.hxx>
 #include <gp_Ax2.hxx>
