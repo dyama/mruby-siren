@@ -9,17 +9,15 @@ void siren_add_singleton_method(mrb_state* mrb, mrb_value& self)
 {
   TopoDS_Shape* S = siren_shape_get(mrb, self);
   switch (S->ShapeType()) {
-  case TopAbs_EDGE:
-    siren_edge_install(mrb, mrb_obj_ptr(self));
-    break;
-  case TopAbs_WIRE:
-    siren_wire_install(mrb, mrb_obj_ptr(self));
-    break;
-  case TopAbs_FACE:
-    siren_face_install(mrb, mrb_obj_ptr(self));
-    break;
-  default:
-    break;
+  case TopAbs_VERTEX:    siren_vertex_install(mrb, mrb_obj_ptr(self));    break;
+  case TopAbs_EDGE:      siren_edge_install(mrb, mrb_obj_ptr(self));      break;
+  case TopAbs_WIRE:      siren_wire_install(mrb, mrb_obj_ptr(self));      break;
+  case TopAbs_FACE:      siren_face_install(mrb, mrb_obj_ptr(self));      break;
+  case TopAbs_SHELL:     siren_shell_install(mrb, mrb_obj_ptr(self));     break;
+  case TopAbs_SOLID:     siren_solid_install(mrb, mrb_obj_ptr(self));     break;
+  case TopAbs_COMPSOLID: siren_compsolid_install(mrb, mrb_obj_ptr(self)); break;
+  case TopAbs_COMPOUND:  siren_compound_install(mrb, mrb_obj_ptr(self));  break;
+  default: break;
   }
   return;
 }
