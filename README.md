@@ -16,15 +16,18 @@ Dependencies
 * mruby
 https://github.com/mruby/mruby
 
-* Open CASCADE Technorogy
+* Open CASCADE Technorogy 6.8.0
 http://www.opencascade.org/
+
+* Open CASCADE Community Edition 0.17 (OCE, for siren MINGW32 edition)
+https://github.com/tpaviot/oce
 
 Required mrbgems
 ----------------
 
 Nothing
 
-Optional mrbgems
+Additional mrbgems
 ----------------
 
 * mruby-io
@@ -36,10 +39,15 @@ https://github.com/mattn/mruby-pcre-regexp
 How to build
 ------------
 1. Install OCCT libraries and headers on your system.
-2. Clone mruby environment.
-3. Add build configue of mrbgems.
-4. Change path to each libraries in mrbgem.rake.
-5. Make mruby.
+2. Clone mruby source code from github.
+3. Add `conf.gem :github => "dyama/mruby-siren"` line to mrbgems/default.gembox.
+4. Make mruby.
+
+If your OCCT installed path is not `/opt/occ<version no>`, you should change mrbgem.rake file in build/mrbgems/mruby-siren.
+Default install path is;
+
+  * /opt/occ690 ... for UNIX
+  * E:/occ/OCE-0.170Mingw32 .. for MINGW32
 
 Usage
 -----
@@ -52,6 +60,8 @@ Documentation
 * Official web page: http://siren.xyz/
 * Tutorial: http://siren.xyz/tutorial.html
 * Wiki: https://github.com/dyama/mruby-siren/wiki.
+  * Reference Manual: https://github.com/dyama/mruby-siren/wiki/Reference-manual
+  * Examples: https://github.com/dyama/mruby-siren/wiki/Sample
 
 Lincense
 --------
