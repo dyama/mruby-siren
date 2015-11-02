@@ -89,6 +89,33 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "projwire",   siren_bool_projwire,    MRB_ARGS_REQ(2));
 #endif
 
+  /* from BRepTools */
+  mrb_define_method(mrb, rclass, "update!", siren_shape_update_bang, MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "clean!",  siren_shape_clean_bang,  MRB_ARGS_NONE());
+
+  /* frag accessors */
+  mrb_define_method(mrb, rclass, "lock?",       siren_shape_is_lock,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "lock",        siren_shape_is_lock,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "lock=",       siren_shape_set_lock,       MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "modify?",     siren_shape_is_modify,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "modify",      siren_shape_is_modify,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "modify=",     siren_shape_set_modify,     MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "check?",      siren_shape_is_check,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "check",       siren_shape_is_check,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "check=",      siren_shape_set_check,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "orientable?", siren_shape_is_orientable,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "orientable",  siren_shape_is_orientable,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "orientable=", siren_shape_set_orientable, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "close?",      siren_shape_is_close,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "close",       siren_shape_is_close,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "close=",      siren_shape_set_close,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "infinite?",   siren_shape_is_infinite,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "infinite",    siren_shape_is_infinite,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "infinite=",   siren_shape_set_infinite,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "convex?",     siren_shape_is_convex,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "convex",      siren_shape_is_convex,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "convex=",     siren_shape_set_convex,     MRB_ARGS_REQ(1));
+
   return true;
 }
 
@@ -366,3 +393,118 @@ mrb_value siren_shape_reverse_bang(mrb_state* mrb, mrb_value self)
   shape->Reverse();
   return mrb_nil_value();
 }
+
+mrb_value siren_shape_update_bang(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  BRepTools::Update(*shape);
+  return self;
+}
+
+mrb_value siren_shape_clean_bang(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  // Removes all the triangulations of the faces of <shape>
+  // and removes all polygons on triangulations of the edges.
+  BRepTools::Clean(*shape);
+  return self;
+}
+
+mrb_value siren_shape_is_lock(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->Locked() == Standard_True ?
+    mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_set_lock(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool flag;
+  int argc = mrb_get_args(mrb, "b", &flag);
+  siren_shape_get(mrb, self)->Locked((Standard_Boolean)flag);
+  return self;
+}
+
+mrb_value siren_shape_is_modify(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->Modified() == Standard_True ?
+    mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_set_modify(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool flag;
+  int argc = mrb_get_args(mrb, "b", &flag);
+  siren_shape_get(mrb, self)->Modified((Standard_Boolean)flag);
+  return self;
+}
+
+mrb_value siren_shape_is_check(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->Checked() == Standard_True ?
+    mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_set_check(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool flag;
+  int argc = mrb_get_args(mrb, "b", &flag);
+  siren_shape_get(mrb, self)->Checked((Standard_Boolean)flag);
+  return self;
+}
+
+mrb_value siren_shape_is_orientable(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->Orientable() == Standard_True ?
+    mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_set_orientable(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool flag;
+  int argc = mrb_get_args(mrb, "b", &flag);
+  siren_shape_get(mrb, self)->Orientable((Standard_Boolean)flag);
+  return self;
+}
+
+mrb_value siren_shape_is_close(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->Closed() == Standard_True ?
+    mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_set_close(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool flag;
+  int argc = mrb_get_args(mrb, "b", &flag);
+  siren_shape_get(mrb, self)->Closed((Standard_Boolean)flag);
+  return self;
+}
+
+mrb_value siren_shape_is_infinite(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->Infinite() == Standard_True ?
+    mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_set_infinite(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool flag;
+  int argc = mrb_get_args(mrb, "b", &flag);
+  siren_shape_get(mrb, self)->Infinite((Standard_Boolean)flag);
+  return self;
+}
+
+mrb_value siren_shape_is_convex(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->Convex() == Standard_True ?
+    mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_set_convex(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool flag;
+  int argc = mrb_get_args(mrb, "b", &flag);
+  siren_shape_get(mrb, self)->Convex((Standard_Boolean)flag);
+  return self;
+}
+
