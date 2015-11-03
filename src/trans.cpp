@@ -91,7 +91,7 @@ mrb_value siren_trans_to_s(mrb_state* mrb, mrb_value self)
       "    Y = % 2.6f, % 2.6f, % 2.6f\n"
       "    Z = % 2.6f, % 2.6f, % 2.6f\n"
       "    T = % 2.6f, % 2.6f, % 2.6f>",
-      (int)mrb_cptr(self),
+      (uintptr_t)mrb_cptr(self),
       a11, a21, a31,
       a12, a22, a32,
       a13, a23, a33,
