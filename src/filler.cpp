@@ -31,8 +31,6 @@ mrb_value siren_filler_init(mrb_state* mrb, mrb_value self)
       &degree, &nbptsoncur, &nbiter, &anisotropie,
       &tol2d, &tol3d, &tolang, &tolcurv, &maxdeg, &maxsegs);
 
-  mrb_value obj;
-  obj = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Filler")));
   void* p = mrb_malloc(mrb, sizeof(BRepFill_Filling));
   BRepFill_Filling* inner = NULL;
 
@@ -78,9 +76,9 @@ mrb_value siren_filler_init(mrb_state* mrb, mrb_value self)
       break;
   }
 
-  DATA_PTR(obj)  = inner;
-  DATA_TYPE(obj) = &siren_filler_type;
-  return obj;
+  DATA_PTR(self)  = inner;
+  DATA_TYPE(self) = &siren_filler_type;
+  return self;
 }
 
 void siren_filler_final(mrb_state* mrb, void* p)
