@@ -11,6 +11,7 @@
 #include "offset.h"
 #include "heal.h"
 #include "bndbox.h"
+#include "filler.h"
 
 #ifdef SIREN_ENABLE_STL
   #include "stl.h"
@@ -36,6 +37,7 @@ extern "C" {
     struct RClass* _offset = NULL;
     struct RClass* _heal   = NULL;
     struct RClass* _bndbox = NULL;
+    struct RClass* _filler = NULL;
 #ifdef SIREN_ENABLE_STL
     struct RClass* _stl    = NULL;
 #endif
@@ -53,6 +55,7 @@ extern "C" {
     siren_offset_install(mrb, _offset);
     siren_heal_install(mrb, _heal);
     siren_bndbox_install(mrb, _bndbox);
+    siren_filler_install(mrb, _filler);
 #ifdef SIREN_ENABLE_STL
     siren_stl_install(mrb, _stl);
 #endif
