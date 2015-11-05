@@ -99,7 +99,7 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
         use->SetValue(i+1, Standard_False);
       }
       else {
-        vec.SetValue(i+1, siren_ary_to_dir(mrb, avec));
+        vec.SetValue(i+1, siren_ary_to_vec(mrb, avec));
         use->SetValue(i+1, Standard_True);
       }
     }
