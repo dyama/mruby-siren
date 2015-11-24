@@ -33,7 +33,7 @@ lines << parawa << parawf
 faces << para
 
 # アフトガンネルライン
-av = Vec.new([(pp_aft - ae) / 4.0, b2]) - Vec.new([ae, b4])
+av = [(pp_aft - ae) / 4.0, b2].to_v - [ae, b4].to_v
 av.normal!
 ptsa = [ [ae, b4, d], [pp_aft - (pp_aft - ae) / 2.0, b2, d]]
 vcsa = [ av.to_a, [pp_len / 2.0, 0.0]]
@@ -41,7 +41,7 @@ gunnela = Build.curve(ptsa, vcsa)
 lines << gunnela
 
 # フォアガンネルライン
-fv = Vec.new([xtop_max - pp_fore, 0]) - Vec.new([(xtop_max - pp_fore) * 3.0 / 4.0, b2])
+fv = [xtop_max - pp_fore, 0].to_v - [(xtop_max - pp_fore) * 3.0 / 4.0, b2].to_v
 ptsf = [[pp_fore + (xtop_max - pp_fore) / 3.0, b2, d], [xtop_max, 0, d] ]
 vcsf = [ [pp_len / 2.0, 0.0], fv.to_a ]
 gunnelf = Build.curve(ptsf, vcsf)
@@ -67,7 +67,7 @@ tsom_bl = Build.curve [[ae, 0, d * 2.0 / 3.0], [ae, b4, d]], [[0,1,0], [0,0,1]]
 lines << tsom_tl << tsom_bl
 
 # アフト プロファイル
-v1 = Vec.new([-ae, 0, d / 2.0]) - Vec.new([ae, 0, d * 2.0 / 3.0])
+v1 = [-ae, 0, d / 2.0].to_v - [ae, 0, d * 2.0 / 3.0].to_v
 v1.normal!
 v2 = v1.rotate(Vec.ydir, 90.0.to_rad)
 v2.normal!
@@ -84,7 +84,7 @@ p2 = [loa, 0, d * 0.3]
 p3 = [lpp, 0, d / 4.0 * 2.5]
 p4 = [lpp, 0, d / 4.0 * 3.0]
 p5 = [xtop_max, 0, d]
-fore_profile = Build.curve [p1, p2, [xtop_max,0,d/2.0], p3, p4, p5], [[1,0,0], [0,0,1], nil, [0,0,1], [0,0,1], (Vec.new(p5) - Vec.new(p4)).to_a]
+fore_profile = Build.curve [p1, p2, [xtop_max,0,d/2.0], p3, p4, p5], [[1,0,0], [0,0,1], nil, [0,0,1], [0,0,1], (p5.to_v - p4.to_v).to_a]
 lines << fore_profile
 
 # ボトム面(アフト)
