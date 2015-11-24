@@ -4,11 +4,7 @@
 class Array
 
   def to_v
-    if size == 0
-      Vec::zero
-    else
-      Vec::new self.x, self.y, self.z
-    end
+    Vec::new self
   end
 
   def trans(t)
@@ -22,15 +18,35 @@ class Array
 
   def x
     val = (self[0] ||= 0.0)
-    val.is_a?(Float) ? val : val.to_f
+    if val.is_a?(Float)
+      val
+    elsif val.is_a?(Numeric)
+      val.to_f
+    else
+      0.0
+    end
   end
+
   def y
     val = (self[1] ||= 0.0)
-    val.is_a?(Float) ? val : val.to_f
+    if val.is_a?(Float)
+      val
+    elsif val.is_a?(Numeric)
+      val.to_f
+    else
+      0.0
+    end
   end
+
   def z
     val = (self[2] ||= 0.0)
-    val.is_a?(Float) ? val : val.to_f
+    if val.is_a?(Float)
+      val
+    elsif val.is_a?(Numeric)
+      val.to_f
+    else
+      0.0
+    end
   end
 
   def x=(val); self[0] = val end
