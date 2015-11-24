@@ -170,7 +170,7 @@ mrb_value siren_shape_pos(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   gp_XYZ pos = shape->Location().Transformation().TranslationPart();
-  return siren_vec_new(mrb, pos.X(), pos.Y(), pos.Z());
+  return siren_pnt_to_ary(mrb, gp_Pnt(pos.X(), pos.Y(), pos.Z()));
 }
 
 mrb_value siren_shape_trans(mrb_state* mrb, mrb_value self)

@@ -35,7 +35,7 @@ mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* c = siren_shape_get(mrb, self);
   BRepAdaptor_Curve bracurve(TopoDS::Edge(*c));
   gp_Pnt sp = bracurve.Value(bracurve.FirstParameter());
-  return siren_vec_new(mrb, sp.X(), sp.Y(), sp.Z());
+  return siren_pnt_to_ary(mrb, sp);
 }
 
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self)
@@ -43,7 +43,7 @@ mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* c = siren_shape_get(mrb, self);
   BRepAdaptor_Curve bracurve(TopoDS::Edge(*c));
   gp_Pnt tp = bracurve.Value(bracurve.LastParameter());
-  return siren_vec_new(mrb, tp.X(), tp.Y(), tp.Z());
+  return siren_pnt_to_ary(mrb, tp);
 }
 
 mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
@@ -77,16 +77,16 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
 
     // first point
     gp_Pnt p = adaptor.Value(first_param);
-    mrb_ary_push(mrb, line, siren_vec_new(mrb, p.X(), p.Y(), p.Z()));
+    mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
 
     for (int i=1; i<=unidef.NbPoints(); i++) {
       p = unidef.Value(i);
-      mrb_ary_push(mrb, line, siren_vec_new(mrb, p.X(), p.Y(), p.Z()));
+      mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
     }
 
     // last point
     p = adaptor.Value(last_param);
-    mrb_ary_push(mrb, line, siren_vec_new(mrb, p.X(), p.Y(), p.Z()));
+    mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
 
     mrb_ary_push(mrb, result, line);
   }
@@ -126,7 +126,7 @@ mrb_value siren_edge_to_xyz(mrb_state* mrb, mrb_value self)
   gp_Pnt p;
   gp_Vec v1, v2;
   C.D2(param, p, v1, v2);
-  return siren_vec_new(mrb, p.X(), p.Y(), p.Z());
+  return siren_pnt_to_ary(mrb, p);
 }
 
 mrb_value siren_edge_curvature(mrb_state* mrb, mrb_value self)
