@@ -7,8 +7,41 @@ class Array
     Vec::new self
   end
 
+  def to(other)
+    other.to_v - self.to_v
+  end
+
+  def from(other)
+    self.to_v - other.to_v
+  end
+
+  def xyz
+    self[0,3]
+  end
+
+  def xyz=(val)
+    self[0,3] = val
+  end
+
   def dist(other)
     (self.to_v - other.to_v).magnitude
+  end
+
+  def center(other)
+    ((self.to_v + other.to_v) / 2.0).to_a
+  end
+
+  def equal?(other, lintol)
+    dist(other) < lintol
+  end
+
+  def translate(t)
+    (self.to_v + t.to_v).to_a
+  end
+
+  def translate!(t)
+    val = translate(t)
+    self.xyz = val.x, val.y, val.z
   end
 
   def trans(t)
