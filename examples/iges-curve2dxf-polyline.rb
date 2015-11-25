@@ -10,8 +10,8 @@ def ds(no, val)
     (val.is_a?(Float) ? sprintf("%14.6f\n", val) : "#{val}\n")
 end
 
-# Vec クラス拡張
-class Vec
+# Array クラス拡張
+class Array
   def to_dxf
     s = ""
     s += ds 10, self.x
@@ -37,9 +37,9 @@ class Shape
       s += ds 8, @layer
       s += ds 66, 1
       s += ds 70, 8
-      s += Vec::origin.to_dxf
+      s += [].to_dxf
       # 点列化
-      edge.to_pts.flatten.each do |pnt|
+      edge.to_pts.each do |pnt|
         s += ds 0, "VERTEX"
         s += ds 8, @layer
         s += pnt.to_dxf
@@ -56,10 +56,8 @@ File.open("hammer.dxf", "w") do |f|
   f.write ds(2, "ENTITIES")
   # IGES の読み込み・DXF ポリラインの出力
   IGES.load("hammer.iges").each do |shape|
-    shape.explore(ShapeType::EDGE) do |edge|
-      edge.layer = "BASE"
-      f.write edge.to_polyline
-    end
+    shape.layer = "BASE"
+    f.write shape.to_polyline
   end
   f.write ds(0, "ENDSEC")
   f.write ds(0, "EOF")
