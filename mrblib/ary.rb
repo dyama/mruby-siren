@@ -7,6 +7,10 @@ class Array
     Vec::new self
   end
 
+  def dist(other)
+    (self.to_v - other.to_v).magnitude
+  end
+
   def trans(t)
     t.move_point self
   end
