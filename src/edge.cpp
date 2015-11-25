@@ -27,6 +27,8 @@ void siren_edge_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "last",   siren_edge_last,   MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "params", siren_edge_params, MRB_ARGS_NONE());
 
+  mrb_define_singleton_method(mrb, o, "length", siren_edge_length, MRB_ARGS_NONE());
+
   return;
 }
 
@@ -56,42 +58,36 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
   if (argc != 1) {
     deflect = 1.0e-1;
   }
-
-  mrb_value result = mrb_ary_new(mrb);
+  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  BRepAdaptor_Curve adaptor(edge);
   double first_param, last_param;
+  first_param = adaptor.FirstParameter();
+  last_param = adaptor.LastParameter();
 
-  TopExp_Explorer exp(*shape, TopAbs_EDGE);
-  for(; exp.More(); exp.Next()) {
-    TopoDS_Edge edge = TopoDS::Edge(exp.Current());
+  mrb_value line = mrb_ary_new(mrb);
 
-    BRepAdaptor_Curve adaptor(edge);
-    first_param = adaptor.FirstParameter();
-    last_param = adaptor.LastParameter();
-
-    GCPnts_UniformDeflection unidef(adaptor, deflect);
-    if (!unidef.IsDone()) {
-      continue;
-    }
-
-    mrb_value line = mrb_ary_new(mrb);
-
+  GCPnts_UniformDeflection unidef(adaptor, deflect);
+  if (unidef.IsDone()) {
     // first point
     gp_Pnt p = adaptor.Value(first_param);
     mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
+    gp_Pnt prev = p;
 
     for (int i=1; i<=unidef.NbPoints(); i++) {
       p = unidef.Value(i);
+      if (prev.IsEqual(p, 1.0e-7)) {
+        continue;
+      }
       mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
+      prev = p;
     }
-
     // last point
     p = adaptor.Value(last_param);
-    mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
-
-    mrb_ary_push(mrb, result, line);
+    if (!prev.IsEqual(p, 1.0e-7)) {
+      mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
+    }
   }
-
-  return result;
+  return line;
 }
 
 mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
@@ -294,5 +290,23 @@ mrb_value siren_edge_trim(mrb_state* mrb, mrb_value self)
   Handle(Geom_Curve) gc  = BRep_Tool::Curve(e, first, last);
   TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(gc, first2, last2);
   return siren_shape_new(mrb, edge);
+}
+
+mrb_value siren_edge_length(mrb_state* mrb, mrb_value self)
+{
+  Standard_Real res = 0.0;
+  mrb_value ary = siren_edge_to_pts(mrb, self);
+  gp_Pnt prev;
+  for (int i=0; i < mrb_ary_len(mrb, ary); i++) {
+    if (i == 0) {
+      prev = siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, ary, i));
+    }
+    else {
+      gp_Pnt curr = siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, ary, i));
+      res += curr.Distance(prev);
+      prev = curr;
+    }
+  }
+  return mrb_float_value(mrb, res);
 }
 

@@ -48,4 +48,6 @@ mrb_value siren_edge_split(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_trim(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_extrema(mrb_state* mrb, mrb_value self);
 
+mrb_value siren_edge_length(mrb_state* mrb, mrb_value self);
+
 #endif
