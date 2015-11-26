@@ -8,6 +8,7 @@
 #include <BRepPrimAPI_MakeCylinder.hxx>
 #include <BRepPrimAPI_MakeCone.hxx>
 #include <BRepPrimAPI_MakeTorus.hxx>
+#include <BRepPrimAPI_MakeHalfSpace.hxx>
 
 bool siren_prim_install(mrb_state* mrb, struct RClass* rclass);
 

@@ -8,7 +8,7 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "cylinder",  siren_prim_cylinder,  MRB_ARGS_REQ(5));
   mrb_define_class_method(mrb, rclass, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
   mrb_define_class_method(mrb, rclass, "torus",     siren_prim_torus,     MRB_ARGS_REQ(5));
-  mrb_define_class_method(mrb, rclass, "halfspace", siren_prim_halfspace, MRB_ARGS_NONE());
+  mrb_define_class_method(mrb, rclass, "halfspace", siren_prim_halfspace, MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "oneaxis",   siren_prim_oneaxis,   MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
@@ -99,7 +99,24 @@ mrb_value siren_prim_torus(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_prim_halfspace(mrb_state* mrb, mrb_value self)
 {
-  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
+  mrb_value surf, refpnt;
+  int argc = mrb_get_args(mrb, "oA", &surf, &refpnt);
+  TopoDS_Shape* shape = siren_shape_get(mrb, surf);
+  if (shape == NULL || shape->IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape is incorrect.");
+  }
+  TopoDS_Solid solid;
+  gp_Pnt pnt = siren_ary_to_pnt(mrb, refpnt);
+  if (shape->ShapeType() == TopAbs_FACE) {
+    solid = BRepPrimAPI_MakeHalfSpace(TopoDS::Face(*shape), pnt);
+  }
+  else if (shape->ShapeType() == TopAbs_SHELL) {
+    solid = BRepPrimAPI_MakeHalfSpace(TopoDS::Shell(*shape), pnt);
+  }
+  else {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape type is not FACE or SHELL.");
+  }
+  return siren_shape_new(mrb, solid);
 }
 
 mrb_value siren_prim_oneaxis(mrb_state* mrb, mrb_value self)
