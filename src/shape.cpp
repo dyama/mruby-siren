@@ -116,6 +116,15 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "convex",      siren_shape_is_convex,      MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "convex=",     siren_shape_set_convex,     MRB_ARGS_REQ(1));
 
+  mrb_define_method(mrb, rclass, "vertex?",     siren_shape_is_vertex,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "edge?",       siren_shape_is_edge,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "wire?",       siren_shape_is_wire,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "face?",       siren_shape_is_face,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "shell?",      siren_shape_is_shell,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "solid?",      siren_shape_is_solid,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "compsolid?",  siren_shape_is_compsolid,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "compound?",   siren_shape_is_compound,    MRB_ARGS_NONE());
+
   return true;
 }
 
@@ -506,5 +515,53 @@ mrb_value siren_shape_set_convex(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "b", &flag);
   siren_shape_get(mrb, self)->Convex((Standard_Boolean)flag);
   return self;
+}
+
+mrb_value siren_shape_is_vertex(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_VERTEX
+    ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_edge(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_EDGE
+    ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_wire(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_WIRE
+    ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_face(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_FACE
+    ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_shell(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_SHELL
+    ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_solid(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_SOLID
+    ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_compsolid(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_COMPSOLID
+    ? mrb_true_value() : mrb_false_value();
+}
+
+mrb_value siren_shape_is_compound(mrb_state* mrb, mrb_value self)
+{
+  return siren_shape_get(mrb, self)->ShapeType() == TopAbs_COMPOUND
+    ? mrb_true_value() : mrb_false_value();
 }
 
