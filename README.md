@@ -1,6 +1,8 @@
 siren - Lightweight 3D operation environment
 =====================================
 
+![siren logo](http://siren.xyz/res/siren_logo_main.png)
+
 **siren** is lightweight 3D operation environment powered by Open CASCADE Technorogy. siren is integrated to MRuby; lightweight Ruby interpreter environment, so it gives high-level 3D geometrical and topological operation with easy and simple scripting.
 For example, you can get volume of shape, intersection lines of some shapes, center of gravity and a result of boolean operation. It supports IGES, STEP file with NURBS surface and curve.
 
