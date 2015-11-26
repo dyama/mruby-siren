@@ -1,10 +1,8 @@
 siren - Lightweight 3D operation environment
 =====================================
 
-**siren** is lightweight 3D operation environment powered by Open CASCADE Technorogy. siren is integrated to Ruby interpreter environment, so it gives high-level 3D geometrical and topological operation with easy and simple script.
+**siren** is lightweight 3D operation environment powered by Open CASCADE Technorogy and MRuby. siren is integrated to Ruby interpreter environment, so it gives high-level 3D geometrical and topological operation with easy and simple script.
 For example, you can get volume of shape, intersection lines of some shapes, center of gravity and a result of boolean operation. It supports IGES, STEP file with NURBS surface and curve.
-
-In now, siren has a 3D viewer for X window system only, but it will be included for cross platform viewer based WebGL technorogy soon. You can use batch processing and interactive shell on Ruby environment already.
 
 You can get more information at siren official page.
 
@@ -21,20 +19,6 @@ http://www.opencascade.org/
 
 * Open CASCADE Community Edition 0.17 (OCE, for siren MINGW32 edition)
 https://github.com/tpaviot/oce
-
-Required mrbgems
-----------------
-
-Nothing
-
-Additional mrbgems
-----------------
-
-* mruby-io
-https://github.com/iij/mruby-io
-
-* mruby-pcre-regexp
-https://github.com/mattn/mruby-pcre-regexp
 
 How to build
 ------------
