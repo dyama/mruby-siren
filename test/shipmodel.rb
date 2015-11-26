@@ -78,41 +78,5 @@ end
 
 ress.push Build.compound [c, Build.curve(pps)] + cvs
 
-File.open("model.js", "w") do |f|
-  f.write "var fs = [];\n"
-  f.write "var es = [];\n"
-  ress.each do |object|
-    if object.explore(ShapeType::FACE).size > 0
-      i = 0
-      f.write "{\n"
-      f.write "  var g = new THREE.Geometry();\n"
-      object.explore(ShapeType::FACE) do |face|
-        face.triangle(1.0, 1.0).each do |m|
-          f.write "  g.vertices.push(new THREE.Vector3(#{m[0][0]}, #{m[0][1]}, #{m[0][2]}));\n"
-          f.write "  g.vertices.push(new THREE.Vector3(#{m[1][0]}, #{m[1][1]}, #{m[1][2]}));\n"
-          f.write "  g.vertices.push(new THREE.Vector3(#{m[2][0]}, #{m[2][1]}, #{m[2][2]}));\n"
-          f.write "  var face#{i} = new THREE.Face3(#{i}, #{i+1}, #{i+2});\n"
-          f.write "  face#{i}.normal = new THREE.Vector3(#{m[5][0]}, #{m[5][1]}, #{m[5][2]});\n"
-          f.write "  g.faces.push(face#{i});\n"
-          i += 3
-        end
-      end
-      f.write "  fs.push(g);\n"
-      f.write "}\n";
-    elsif object.explore(ShapeType::EDGE, ShapeType::FACE).size > 0
-      object.explore(ShapeType::EDGE, ShapeType::FACE) do |edge|
-        i = 0
-        f.write "{\n"
-        f.write "  var g = new THREE.Geometry();\n"
-        edge.to_pts(1.0e-6).each do |pts|
-          pts.each do |pt|
-            f.write "  g.vertices.push(new THREE.Vector3(#{pt.x}, #{pt.y}, #{pt.z}));\n" 
-          end
-        end
-        f.write "  es.push(g);\n"
-        f.write "}\n";
-      end
-    end
-  end
-end
+BRepIO::save Build::compound(ress), "result.brep"
 
