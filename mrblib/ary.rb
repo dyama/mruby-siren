@@ -36,7 +36,12 @@ class Array
   end
 
   def translate(t)
-    (self.to_v + t.to_v).xyz
+    if t.is_a? Vec
+      v = t
+    else
+      v = t.to_v
+    end
+    (self.to_v + v).xyz
   end
 
   def translate!(t)
@@ -61,6 +66,18 @@ class Array
 
   def scale!(op, f)
     self.xyz = scale(op, f)
+  end
+
+  def mirror(op, dir=Vec::zero)
+    if dir == Vec::zero
+      op.translate(self.to(op)).xyz
+    else
+      self.from(op).mirror(dir).xyz.translate(op).xyz
+    end
+  end
+
+  def mirror!(op, dir=Vec::zero)
+    self.xyz = mirror(op, dir)
   end
 
   def trans(t)
