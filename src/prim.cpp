@@ -9,7 +9,6 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
   mrb_define_class_method(mrb, rclass, "torus",     siren_prim_torus,     MRB_ARGS_REQ(5));
   mrb_define_class_method(mrb, rclass, "halfspace", siren_prim_halfspace, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "oneaxis",   siren_prim_oneaxis,   MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
@@ -117,11 +116,6 @@ mrb_value siren_prim_halfspace(mrb_state* mrb, mrb_value self)
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape type is not FACE or SHELL.");
   }
   return siren_shape_new(mrb, solid);
-}
-
-mrb_value siren_prim_oneaxis(mrb_state* mrb, mrb_value self)
-{
-  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }
 
 mrb_value siren_prim_prism(mrb_state* mrb, mrb_value self)
