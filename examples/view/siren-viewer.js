@@ -55,9 +55,9 @@ for (var i = 0; i<fs.length; i++) {
   scene.add(model);
   models.push(model);
 
-  var edge = new THREE.EdgesHelper(model, "#3F3F3F");
-  edge.material.linewidth = 4;
-  scene.add(edge);
+  // var edge = new THREE.EdgesHelper(model, "#3F3F3F");
+  // edge.material.linewidth = 4;
+  // scene.add(edge);
 }
 
 // MODEL(Edge)

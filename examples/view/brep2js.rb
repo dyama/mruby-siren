@@ -10,7 +10,7 @@ def brep2js(shape, path)
       f.write "{\n"
       f.write "  var g = new THREE.Geometry();\n"
       shape.explore(ShapeType::FACE) do |face|
-        face.triangle(1.0, 1.0).each do |m|
+        face.triangle(1.0e-1, 1.0e-1).each do |m|
           f.write "  g.vertices.push(new THREE.Vector3(#{m[0][0]}, #{m[0][1]}, #{m[0][2]}));\n"
           f.write "  g.vertices.push(new THREE.Vector3(#{m[1][0]}, #{m[1][1]}, #{m[1][2]}));\n"
           f.write "  g.vertices.push(new THREE.Vector3(#{m[2][0]}, #{m[2][1]}, #{m[2][2]}));\n"
@@ -41,9 +41,9 @@ end
 
 model = nil
 if ARGV.size == 0
-  box1 = Prim::box [10, 10, 10]
-  box2 = Prim::box [10, 10, 10], [5, 5, 5]
-  model = box1.fuse box2
+  box = Prim::box [10, 10, 10], [5, 5, 5]
+  foo = Prim::cylinder [], Vec::zdir, 15, 10, Math::PI * 3.0 / 2.0
+  model = foo.fuse box
 else
   model = BRepIO::read ARGV[0]
 end
