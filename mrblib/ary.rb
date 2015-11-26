@@ -28,7 +28,7 @@ class Array
   end
 
   def center(other)
-    ((self.to_v + other.to_v) / 2.0).to_a
+    ((self.to_v + other.to_v) / 2.0).xyz
   end
 
   def equal?(other, lintol)
@@ -36,12 +36,19 @@ class Array
   end
 
   def translate(t)
-    (self.to_v + t.to_v).to_a
+    (self.to_v + t.to_v).xyz
   end
 
   def translate!(t)
-    val = translate(t)
-    self.xyz = val.x, val.y, val.z
+    self.xyz = translate(t)
+  end
+
+  def rotate(op, dir, angle)
+    self.from(op).rotate(dir, angle).xyz.translate(op)
+  end
+
+  def rotate!(op, dir, angle)
+    self.xyz = rotate(op, dir, angle).xyz
   end
 
   def trans(t)
@@ -50,7 +57,7 @@ class Array
 
   def trans!(t)
     r = t.move_point self
-    x = r.x, y = r.y, z = r.z
+    xyz = r.xyz
   end
 
   def x
