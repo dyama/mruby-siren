@@ -12,7 +12,6 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
-  mrb_define_class_method(mrb, rclass, "sweep",     siren_prim_sweep,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, rclass, "wedge",     siren_prim_wedge,     MRB_ARGS_NONE());
   return true;
 }
@@ -129,11 +128,6 @@ mrb_value siren_prim_revol(mrb_state* mrb, mrb_value self)
 }
 
 mrb_value siren_prim_revolution(mrb_state* mrb, mrb_value self)
-{
-  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
-}
-
-mrb_value siren_prim_sweep(mrb_state* mrb, mrb_value self)
 {
   mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
 }

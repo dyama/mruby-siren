@@ -21,7 +21,6 @@ mrb_value siren_prim_halfspace  (mrb_state* mrb, mrb_value self);
 mrb_value siren_prim_prism      (mrb_state* mrb, mrb_value self);
 mrb_value siren_prim_revol      (mrb_state* mrb, mrb_value self);
 mrb_value siren_prim_revolution (mrb_state* mrb, mrb_value self);
-mrb_value siren_prim_sweep      (mrb_state* mrb, mrb_value self);
 mrb_value siren_prim_wedge      (mrb_state* mrb, mrb_value self);
 
 #endif
