@@ -1,7 +1,7 @@
 #!/usr/bin/siren
 # coding: utf-8
 #
-# Œğü ”­¶ƒTƒ“ƒvƒ‹
+# äº¤ç·š ç™ºç”Ÿã‚µãƒ³ãƒ—ãƒ«
 #
 
 tor = Prim::torus [], Vec::zdir, 30, 10, Math::PI * 2
