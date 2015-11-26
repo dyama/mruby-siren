@@ -44,11 +44,23 @@ class Array
   end
 
   def rotate(op, dir, angle)
-    self.from(op).rotate(dir, angle).xyz.translate(op)
+    self.from(op).rotate(dir, angle).xyz.translate(op).xyz
   end
 
   def rotate!(op, dir, angle)
-    self.xyz = rotate(op, dir, angle).xyz
+    self.xyz = rotate(op, dir, angle)
+  end
+
+  def scale(op, f)
+    if (op.equal?(self, 1.0e-7))
+      self.xyz
+    else
+      (self.from(op).normal * f).xyz.translate(op).xyz
+    end
+  end
+
+  def scale!(op, f)
+    self.xyz = scale(op, f)
   end
 
   def trans(t)
