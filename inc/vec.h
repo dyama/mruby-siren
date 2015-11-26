@@ -19,7 +19,7 @@ mrb_value siren_vec_y_set(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_z(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_z_set(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_to_a(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_to_xyz(mrb_state* mrb, mrb_value self);
+mrb_value siren_vec_xyz(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_vec_is_equal(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_is_normal(mrb_state* mrb, mrb_value self);
