@@ -126,5 +126,8 @@ class Array
   def y=(val); self[1] = val end
   def z=(val); self[2] = val end
 
+  def self.origin
+    [0, 0, 0]
+  end
 end
 

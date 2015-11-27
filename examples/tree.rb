@@ -17,7 +17,7 @@ def tree(cur_pt, dir, len)
   return edges
 end
 
-lines = tree(Vec::origin, Vec::zdir, $start_len)
+lines = tree([].to_v, Vec::zdir, $start_len)
 
 comp = Build.compound lines
 IGES.save [comp], "tree.igs"
