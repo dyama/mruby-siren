@@ -8,4 +8,6 @@
 
 void siren_vertex_install(mrb_state* mrb, RObject* o);
 
+mrb_value siren_vertex_xyz(mrb_state* mrb, mrb_value self);
+
 #endif
