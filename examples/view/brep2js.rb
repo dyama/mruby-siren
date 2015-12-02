@@ -46,5 +46,4 @@ else
   model = BRepIO::load ARGV[0]
 end
 
-brep2js model, "model.js"
-
+brep2js model, File.expand_path(File.dirname(__FILE__)) + "/model.js"
