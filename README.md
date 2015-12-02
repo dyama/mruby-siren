@@ -10,6 +10,27 @@ You can get more information at siren official page.
 
 * siren official page: http://siren.xyz/
 
+Example
+-------
+
+    # Make two boxes
+    box1 = Prim.box [10, 10, 10]
+    box2 = Prim.box [10, 10, 10]
+
+    # Move box2
+    box2.translate! [5, 5, 5]
+
+    # Fuse two boxes
+    box3 = box1.fuse box2
+
+    # Print volume of box
+    p box3.volume # => 1875
+
+    box3.explore(ShapeType::FACE) do |face|
+      # Print area of face
+      p face.area
+    end
+
 Dependencies
 ------------
 
