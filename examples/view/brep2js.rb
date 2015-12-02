@@ -1,7 +1,7 @@
 #!/usr/bin/siren
 # coding: utf-8
 
-def brep2js(shape, path)
+def brep2js(shape, path, face_defl=1.0, face_angle=5.0.to_rad, edge_defl=5.0.to_rad)
   File.open(path, "w") do |f|
     f.write "var fs = [];\n"
     f.write "var es = [];\n"
@@ -10,7 +10,7 @@ def brep2js(shape, path)
       f.write "{\n"
       f.write "  var g = new THREE.Geometry();\n"
       shape.explore(ShapeType::FACE) do |face|
-        face.triangle(1.0e-1, 1.0e-1).each do |m|
+        face.triangle(face_defl, face_angle).each do |m|
           f.write "  g.vertices.push(new THREE.Vector3(#{m[0][0]}, #{m[0][1]}, #{m[0][2]}));\n"
           f.write "  g.vertices.push(new THREE.Vector3(#{m[1][0]}, #{m[1][1]}, #{m[1][2]}));\n"
           f.write "  g.vertices.push(new THREE.Vector3(#{m[2][0]}, #{m[2][1]}, #{m[2][2]}));\n"
@@ -27,10 +27,8 @@ def brep2js(shape, path)
         i = 0
         f.write "{\n"
         f.write "  var g = new THREE.Geometry();\n"
-        edge.to_pts(1.0e-6).each do |pts|
-          pts.each do |pt|
-            f.write "  g.vertices.push(new THREE.Vector3(#{pt.x}, #{pt.y}, #{pt.z}));\n" 
-          end
+        edge.to_pts(edge_defl).each do |pt|
+          f.write "  g.vertices.push(new THREE.Vector3(#{pt.x}, #{pt.y}, #{pt.z}));\n" 
         end
         f.write "  es.push(g);\n"
         f.write "}\n";
@@ -45,7 +43,7 @@ if ARGV.size == 0
   foo = Prim::cylinder [], Vec::zdir, 15, 10, Math::PI * 3.0 / 2.0
   model = foo.fuse box
 else
-  model = BRepIO::read ARGV[0]
+  model = BRepIO::load ARGV[0]
 end
 
 brep2js model, "model.js"
