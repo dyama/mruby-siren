@@ -8,7 +8,7 @@ var selectedcolor = 'red';
 var highlightcolor = 'royalblue';
 
 var scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0xffffff, 0, 750);
+scene.fog = new THREE.Fog(0xffffff, 0, 20750);
 
 // var helper = new THREE.GridHelper(150, 50);
 // helper.color1.setHex(0xffffff);
@@ -51,6 +51,7 @@ scene.add(axes);
 // MODEL(Face)
 for (var i = 0; i<fs.length; i++) {
   var material = new THREE.MeshPhongMaterial({color: modelcolor});
+  material.side = THREE.DoubleSide;
   var model = new THREE.Mesh(fs[i], material);
   scene.add(model);
   models.push(model);
@@ -135,7 +136,7 @@ window.addEventListener("click", function(e) {
 // CAMERA
 var camera;
 if (1) {
-  camera = new THREE.PerspectiveCamera(65, aspect, 1, 1000);
+  camera = new THREE.PerspectiveCamera(65, aspect, 1, 500000);
   camera.position.set(-15, -25, 20);
   camera.lookAt(new THREE.Vector3(40, 0, 0));
   camera.up.set(0, 0, 1);
@@ -151,6 +152,10 @@ else {
 var renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setSize(w, h);
 renderer.setClearColor(0x000000, 0);
+renderer.setFaceCulling(false);
+//renderer.setFaceCulling(THREE.CullFaceFrontBack);
+//renderer.setFaceCulling(THREE.CullFaceFront);
+//renderer.setFaceCulling(THREE.CullFaceBack);
 document.body.appendChild(renderer.domElement);
 
 function render() {
