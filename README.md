@@ -35,13 +35,18 @@ Dependencies
 ------------
 
 * mruby
-https://github.com/mruby/mruby
+  * Official page: http://www.mruby.org/
+  * Source code: https://github.com/mruby/mruby
+  * License: https://github.com/mruby/mruby/blob/master/MITL
 
 * Open CASCADE Technorogy 6.9.0 (for UNIX environment)
-http://www.opencascade.org/
+  * Official page: http://www.opencascade.org/
+  * Source code: http://www.opencascade.com/content/latest-release
+  * License: http://www.opencascade.com/content/licensing
 
 * Open CASCADE Community Edition 0.17 (for MINGW32 environment)
-https://github.com/tpaviot/oce
+  * Source code: https://github.com/tpaviot/oce
+  * License: https://github.com/tpaviot/oce/blob/master/LICENSE_LGPL_21.txt
 
 How to build
 ------------
@@ -73,6 +78,7 @@ Documentation
 Lincense
 --------
 MIT License
+Show `LICENSE` file.
 
 Author
 ------
