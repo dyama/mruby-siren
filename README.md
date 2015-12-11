@@ -31,20 +31,24 @@ Example
       p face.area
     end
 
+You can find more examples code on Github page.
+
+https://github.com/dyama/mruby-siren/wiki/Sample
+
 Dependencies
 ------------
 
-* mruby
+* mruby (Lightweight Ruby interpreter engine)
   * Official page: http://www.mruby.org/
   * Source code: https://github.com/mruby/mruby
   * License: https://github.com/mruby/mruby/blob/master/MITL
 
-* Open CASCADE Technorogy 6.9.0 (for UNIX environment)
+* Open CASCADE Technorogy 6.9.0 (for UNIX)
   * Official page: http://www.opencascade.org/
   * Source code: http://www.opencascade.com/content/latest-release
   * License: http://www.opencascade.com/content/licensing
 
-* Open CASCADE Community Edition 0.17 (for MINGW32 environment)
+* Open CASCADE Community Edition 0.17 (for MINGW32)
   * Source code: https://github.com/tpaviot/oce
   * License: https://github.com/tpaviot/oce/blob/master/LICENSE_LGPL_21.txt
 
@@ -78,6 +82,7 @@ Documentation
 Lincense
 --------
 MIT License
+
 Show `LICENSE` file.
 
 Author
