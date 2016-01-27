@@ -26,5 +26,6 @@ mrb_value siren_offset_sweep_vec(mrb_state* mrb, mrb_value self);
 mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self);
 mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self);
 mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self);
+mrb_value siren_offset_pipe(mrb_state* mrb, mrb_value self);
 
 #endif

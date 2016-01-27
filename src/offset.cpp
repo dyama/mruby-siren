@@ -7,6 +7,7 @@ bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "sweep_path", siren_offset_sweep_path, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
   mrb_define_class_method(mrb, rclass, "loft",       siren_offset_loft,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
   mrb_define_class_method(mrb, rclass, "offset",     siren_offset_offset,     MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "pipe",       siren_offset_pipe,       MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
   return true;
 }
 
@@ -164,5 +165,35 @@ mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, comp);
+}
+
+mrb_value siren_offset_pipe(mrb_state* mrb, mrb_value self)
+{
+  mrb_value profile, path;
+  mrb_int mode;
+  mrb_bool force_approx_c1;
+  int argc = mrb_get_args(mrb, "oo|ib", &profile, &path, &mode, &force_approx_c1);
+
+  TopoDS_Shape* shape_profile = siren_shape_get(mrb, profile);
+  TopoDS_Shape* shape_path = siren_shape_get(mrb, path);
+
+  if (shape_path->ShapeType() != TopAbs_WIRE) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Type of path is not Edge or Wire.");
+  }
+
+  TopoDS_Wire wire = TopoDS::Wire(*shape_path);
+
+  if (argc == 2) {
+    BRepOffsetAPI_MakePipe mp(wire, *shape_profile);
+    mp.Build();
+    return siren_shape_new(mrb, mp.Shape());
+  }
+  if (argc == 3) {
+    force_approx_c1 = FALSE;
+  }
+
+  BRepOffsetAPI_MakePipe mp(wire, *shape_profile, (GeomFill_Trihedron)mode, force_approx_c1);
+  mp.Build();
+  return siren_shape_new(mrb, mp.Shape());
 }
 
