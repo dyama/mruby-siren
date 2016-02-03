@@ -3,11 +3,13 @@
 bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Offset");
-  mrb_define_class_method(mrb, rclass, "sweep_vec",  siren_offset_sweep_vec,  MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "sweep_path", siren_offset_sweep_path, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
-  mrb_define_class_method(mrb, rclass, "loft",       siren_offset_loft,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
-  mrb_define_class_method(mrb, rclass, "offset",     siren_offset_offset,     MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "pipe",       siren_offset_pipe,       MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
+  mrb_define_class_method(mrb, rclass, "sweep_vec",       siren_offset_sweep_vec,       MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "sweep_path",      siren_offset_sweep_path,      MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
+  mrb_define_class_method(mrb, rclass, "loft",            siren_offset_loft,            MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
+  mrb_define_class_method(mrb, rclass, "offset_geomsurf", siren_offset_offset_geomsurf, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "offset",          siren_offset_offset,          MRB_ARGS_REQ(3) | MRB_ARGS_OPT(5));
+  mrb_define_class_method(mrb, rclass, "offset_shape",    siren_offset_offset_shape,    MRB_ARGS_REQ(3) | MRB_ARGS_OPT(4));
+  mrb_define_class_method(mrb, rclass, "pipe",            siren_offset_pipe,            MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
   return true;
 }
 
@@ -140,7 +142,7 @@ mrb_value siren_offset_loft(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, ts.Shape());
 }
 
-mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self)
+mrb_value siren_offset_offset_geomsurf(mrb_state* mrb, mrb_value self)
 {
   mrb_value target;
   mrb_float offset, tol;
@@ -165,6 +167,52 @@ mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, comp);
+}
+
+mrb_value siren_offset_offset(mrb_state* mrb, mrb_value self)
+{
+  mrb_value target;
+  mrb_float offset, tol;
+  mrb_int mode = (int)BRepOffset_Skin;
+  mrb_bool intersect = false, self_intersect = false;
+  mrb_int join = (int)GeomAbs_Arc;
+  mrb_bool thickening = false;
+  int argc = mrb_get_args(mrb, "off|ibbib", &target, &offset, &tol, &mode,
+      &intersect, &self_intersect, &join, &thickening);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, target);
+
+  BRepOffset_MakeOffset api;
+  api.Initialize(*shape, offset, tol, (BRepOffset_Mode)mode,
+      intersect, self_intersect, (GeomAbs_JoinType)join, thickening);
+  api.MakeOffsetShape();
+  if (api.IsDone()) {
+    return siren_shape_new(mrb, api.Shape());
+  }
+  else {
+    switch (api.Error()) {
+    default: break;
+    }
+  }
+  return mrb_nil_value();
+}
+
+mrb_value siren_offset_offset_shape(mrb_state* mrb, mrb_value self)
+{
+  mrb_value target;
+  mrb_float offset, tol;
+  mrb_int mode = (int)BRepOffset_Skin;
+  mrb_bool intersect = false, self_intersect = false;
+  mrb_int join = (int)GeomAbs_Arc;
+  int argc = mrb_get_args(mrb, "off|ibbi", &target, &offset, &tol, &mode,
+      &intersect, &self_intersect, &join);
+
+  TopoDS_Shape* shape = siren_shape_get(mrb, target);
+
+  TopoDS_Shape result = BRepOffsetAPI_MakeOffsetShape(*shape, offset, tol, (BRepOffset_Mode)mode,
+      intersect, self_intersect, (GeomAbs_JoinType)join);
+
+  return siren_shape_new(mrb, result);
 }
 
 mrb_value siren_offset_pipe(mrb_state* mrb, mrb_value self)
