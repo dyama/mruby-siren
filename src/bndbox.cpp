@@ -101,12 +101,20 @@ mrb_value siren_bndbox_to_s(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_bndbox_min(mrb_state* mrb, mrb_value self)
 {
-  return siren_pnt_to_ary(mrb, siren_bndbox_get(mrb, self)->CornerMin());
+  Bnd_Box* b = siren_bndbox_get(mrb, self);
+  if (b->IsVoid()) {
+    return mrb_nil_value();
+  }
+  return siren_pnt_to_ary(mrb, b->CornerMin());
 }
 
 mrb_value siren_bndbox_max(mrb_state* mrb, mrb_value self)
 {
-  return siren_pnt_to_ary(mrb, siren_bndbox_get(mrb, self)->CornerMax());
+  Bnd_Box* b = siren_bndbox_get(mrb, self);
+  if (b->IsVoid()) {
+    return mrb_nil_value();
+  }
+  return siren_pnt_to_ary(mrb, b->CornerMax());
 }
 
 mrb_value siren_bndbox_is_out(mrb_state* mrb, mrb_value self)
@@ -121,6 +129,9 @@ mrb_value siren_bndbox_is_out(mrb_state* mrb, mrb_value self)
 mrb_value siren_bndbox_center(mrb_state* mrb, mrb_value self)
 {
   Bnd_Box* b = siren_bndbox_get(mrb, self);
+  if (b->IsVoid()) {
+    return mrb_nil_value();
+  }
   Standard_Real xmin, ymin, zmin;
   Standard_Real xmax, ymax, zmax;
   b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
@@ -130,6 +141,9 @@ mrb_value siren_bndbox_center(mrb_state* mrb, mrb_value self)
 mrb_value siren_bndbox_xsize(mrb_state* mrb, mrb_value self)
 {
   Bnd_Box* b = siren_bndbox_get(mrb, self);
+  if (b->IsVoid()) {
+    return mrb_nil_value();
+  }
   Standard_Real xmin, ymin, zmin;
   Standard_Real xmax, ymax, zmax;
   b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
@@ -139,6 +153,9 @@ mrb_value siren_bndbox_xsize(mrb_state* mrb, mrb_value self)
 mrb_value siren_bndbox_ysize(mrb_state* mrb, mrb_value self)
 {
   Bnd_Box* b = siren_bndbox_get(mrb, self);
+  if (b->IsVoid()) {
+    return mrb_nil_value();
+  }
   Standard_Real xmin, ymin, zmin;
   Standard_Real xmax, ymax, zmax;
   b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
@@ -148,6 +165,9 @@ mrb_value siren_bndbox_ysize(mrb_state* mrb, mrb_value self)
 mrb_value siren_bndbox_zsize(mrb_state* mrb, mrb_value self)
 {
   Bnd_Box* b = siren_bndbox_get(mrb, self);
+  if (b->IsVoid()) {
+    return mrb_nil_value();
+  }
   Standard_Real xmin, ymin, zmin;
   Standard_Real xmax, ymax, zmax;
   b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
@@ -284,7 +304,12 @@ mrb_value siren_bndbox_dist(mrb_state* mrb, mrb_value self)
 {
   mrb_value other;
   int argc = mrb_get_args(mrb, "o", &other);
-  Standard_Real value = siren_bndbox_get(mrb, self)->Distance(*siren_bndbox_get(mrb, other));
+  Bnd_Box* b = siren_bndbox_get(mrb, self);
+  Bnd_Box* bb= siren_bndbox_get(mrb, other);
+  if (b->IsVoid() || bb->IsVoid()) {
+    return mrb_nil_value();
+  }
+  Standard_Real value = b->Distance(*bb);
   return mrb_float_value(mrb, value);
 }
 
