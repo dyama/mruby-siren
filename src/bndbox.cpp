@@ -59,7 +59,11 @@ bool siren_bndbox_install(mrb_state* mrb, struct RClass* rclass)
 
 mrb_value siren_bndbox_init(mrb_state* mrb, mrb_value self)
 {
-  mrb_raise(mrb, E_NOMETHOD_ERROR, "private method `new' called for BndBox:Class");
+  void* p = mrb_malloc(mrb, sizeof(Bnd_Box));
+  Bnd_Box* bndbox = new(p) Bnd_Box();
+  DATA_PTR(self) = bndbox;
+  DATA_TYPE(self) = &siren_bndbox_type;
+  return self;
 }
 
 void siren_bndbox_final(mrb_state* mrb, void* p)
@@ -72,21 +76,26 @@ mrb_value siren_bndbox_to_s(mrb_state* mrb, mrb_value self)
 {
   Bnd_Box* b = siren_bndbox_get(mrb, self);
   char str[128];
-  Standard_Real xmin, ymin, zmin, xmax, ymax, zmax;
-  b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
-  const int s = 16;
-  char sxmin[s]; char sxmax[s];
-  char symin[s]; char symax[s];
-  char szmin[s]; char szmax[s];
-  b->IsOpenXmin() ? snprintf(sxmin, s, "%s", "inf") : snprintf(sxmin, s, "%f", xmin);
-  b->IsOpenXmax() ? snprintf(sxmax, s, "%s", "inf") : snprintf(sxmax, s, "%f", xmax);
-  b->IsOpenYmin() ? snprintf(symin, s, "%s", "inf") : snprintf(symin, s, "%f", ymin);
-  b->IsOpenYmax() ? snprintf(symax, s, "%s", "inf") : snprintf(symax, s, "%f", ymax);
-  b->IsOpenZmin() ? snprintf(szmin, s, "%s", "inf") : snprintf(szmin, s, "%f", zmin);
-  b->IsOpenZmax() ? snprintf(szmax, s, "%s", "inf") : snprintf(szmax, s, "%f", zmax);
-  snprintf(str, sizeof(str),
-      "#<BndBox:0x%x xmin=%s, ymin=%s, zmin=%s, xmax=%s, ymax=%s, zmax=%s>",
-      (uintptr_t)mrb_cptr(self), sxmin, symin, szmin, sxmax, symax, szmax);
+  if (b->IsVoid()) {
+    snprintf(str, sizeof(str), "#<BndBox:0x%x (void)>", (uintptr_t)mrb_cptr(self));
+  }
+  else {
+    Standard_Real xmin, ymin, zmin, xmax, ymax, zmax;
+    b->Get(xmin, ymin, zmin, xmax, ymax, zmax);
+    const int s = 16;
+    char sxmin[s]; char sxmax[s];
+    char symin[s]; char symax[s];
+    char szmin[s]; char szmax[s];
+    b->IsOpenXmin() ? snprintf(sxmin, s, "%s", "inf") : snprintf(sxmin, s, "%f", xmin);
+    b->IsOpenXmax() ? snprintf(sxmax, s, "%s", "inf") : snprintf(sxmax, s, "%f", xmax);
+    b->IsOpenYmin() ? snprintf(symin, s, "%s", "inf") : snprintf(symin, s, "%f", ymin);
+    b->IsOpenYmax() ? snprintf(symax, s, "%s", "inf") : snprintf(symax, s, "%f", ymax);
+    b->IsOpenZmin() ? snprintf(szmin, s, "%s", "inf") : snprintf(szmin, s, "%f", zmin);
+    b->IsOpenZmax() ? snprintf(szmax, s, "%s", "inf") : snprintf(szmax, s, "%f", zmax);
+    snprintf(str, sizeof(str),
+        "#<BndBox:0x%x xmin=%s, ymin=%s, zmin=%s, xmax=%s, ymax=%s, zmax=%s>",
+        (uintptr_t)mrb_cptr(self), sxmin, symin, szmin, sxmax, symax, szmax);
+  }
   return mrb_str_new_cstr(mrb, str);
 }
 
