@@ -37,8 +37,8 @@ void siren_shape_final(mrb_state* mrb, void* p);
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass);
 static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };
 TopoDS_Shape* siren_shape_get(mrb_state* mrb, mrb_value obj);
-
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape);
+#define siren_is_shape(obj) (DATA_TYPE(obj) == &siren_shape_type)
 
 mrb_value siren_shape_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self);

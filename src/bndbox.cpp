@@ -26,6 +26,7 @@ bool siren_bndbox_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "to_s",       siren_bndbox_to_s,          MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "min",        siren_bndbox_min,           MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "max",        siren_bndbox_max,           MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "add",        siren_bndbox_add,           MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "out?",       siren_bndbox_is_out,        MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "center",     siren_bndbox_center,        MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "xsize",      siren_bndbox_xsize,         MRB_ARGS_NONE());
@@ -115,6 +116,28 @@ mrb_value siren_bndbox_max(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
   }
   return siren_pnt_to_ary(mrb, b->CornerMax());
+}
+
+mrb_value siren_bndbox_add(mrb_state* mrb, mrb_value self)
+{
+  mrb_value obj;
+  int argc = mrb_get_args(mrb, "o", &obj);
+
+  Bnd_Box* b = siren_bndbox_get(mrb, self);
+
+  if (siren_is_shape(obj)) {
+    TopoDS_Shape* s = siren_shape_get(mrb, obj);
+    BRepBndLib::Add(*s, *b);
+  }
+  else if (siren_is_bndbox(obj)) {
+    Bnd_Box* bb = siren_bndbox_get(mrb, obj);
+    b->Add(*bb);
+  }
+  else if (mrb_array_p(obj)) {
+    b->Add(siren_ary_to_pnt(mrb, obj));
+  }
+
+  return mrb_nil_value();
 }
 
 mrb_value siren_bndbox_is_out(mrb_state* mrb, mrb_value self)
