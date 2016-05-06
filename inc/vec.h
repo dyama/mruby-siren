@@ -62,9 +62,4 @@ mrb_value siren_vec_minus(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_multiply_scalar(mrb_state* mrb, mrb_value self);
 mrb_value siren_vec_devide_scalar(mrb_state* mrb, mrb_value self);
 
-mrb_value siren_vec_zero(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_xdir(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_ydir(mrb_state* mrb, mrb_value self);
-mrb_value siren_vec_zdir(mrb_state* mrb, mrb_value self);
-
 #endif
