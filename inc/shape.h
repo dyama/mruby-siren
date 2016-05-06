@@ -99,13 +99,4 @@ mrb_value siren_shape_set_convex(mrb_state* mrb, mrb_value self);
 // mrb_value siren_shape_compose(mrb_state* mrb, mrb_value self);
 // mrb_value siren_shape_compose_bang(mrb_state* mrb, mrb_value self);
 
-mrb_value siren_shape_is_vertex(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_is_edge(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_is_wire(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_is_face(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_is_shell(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_is_solid(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_is_compsolid(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_is_compound(mrb_state* mrb, mrb_value self);
-
 #endif
