@@ -330,21 +330,6 @@ mrb_value siren_vec_zdir(mrb_state* mrb, mrb_value self)
   return siren_vec_new(mrb, 0.0, 0.0, 1.0);
 }
 
-mrb_value siren_vec_xdir_neg(mrb_state* mrb, mrb_value self)
-{
-  return siren_vec_new(mrb, -1.0, 0.0, 0.0);
-}
-
-mrb_value siren_vec_ydir_neg(mrb_state* mrb, mrb_value self)
-{
-  return siren_vec_new(mrb, 0.0, -1.0, 0.0);
-}
-
-mrb_value siren_vec_zdir_neg(mrb_state* mrb, mrb_value self)
-{
-  return siren_vec_new(mrb, 0.0, 0.0, -1.0);
-}
-
 mrb_value siren_vec_cross(mrb_state* mrb, mrb_value self)
 {
   mrb_value other;
