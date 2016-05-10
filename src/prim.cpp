@@ -4,6 +4,8 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Prim");
   mrb_define_class_method(mrb, rclass, "box",       siren_prim_box,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "box2p",     siren_prim_box2p,     MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "boxax",     siren_prim_boxax,     MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, rclass, "sphere",    siren_prim_sphere,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "cylinder",  siren_prim_cylinder,  MRB_ARGS_REQ(5));
   mrb_define_class_method(mrb, rclass, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
@@ -35,6 +37,42 @@ mrb_value siren_prim_box(mrb_state* mrb, mrb_value self)
   }
 
   BRepPrimAPI_MakeBox api(op, sx, sy, sz);
+  return siren_shape_new(mrb, api.Shape());
+}
+
+mrb_value siren_prim_box2p(mrb_state* mrb, mrb_value self)
+{
+  mrb_value p1, p2;
+  int argc = mrb_get_args(mrb, "AA", &p1, &p2);
+
+  Standard_Real x1, y1, z1, x2, y2, z2;
+  siren_ary_to_xyz(mrb, p1, x1, y1, z1);
+  siren_ary_to_xyz(mrb, p2, x2, y2, z2);
+
+  gp_Pnt point1(x1, x1, x1);
+  gp_Pnt point2(x2, x2, x2);
+
+  BRepPrimAPI_MakeBox api(point1, point2);
+  return siren_shape_new(mrb, api.Shape());
+}
+
+mrb_value siren_prim_boxax(mrb_state* mrb, mrb_value self)
+{
+  mrb_value size, pos, dir;
+  int argc = mrb_get_args(mrb, "AAA", &size, &pos, &dir);
+
+  Standard_Real sx, sy, sz;
+  siren_ary_to_xyz(mrb, size, sx, sy, sz);
+
+  Standard_Real px, py, pz;
+  siren_ary_to_xyz(mrb, pos, px, py, pz);
+
+  Standard_Real dx, dy, dz;
+  siren_ary_to_xyz(mrb, dir, dx, dy, dz);
+
+  gp_Ax2 ax(gp_Pnt(px, py, pz), gp_Dir(dx, dy, dz));
+
+  BRepPrimAPI_MakeBox api(ax, sx, sy, sz);
   return siren_shape_new(mrb, api.Shape());
 }
 

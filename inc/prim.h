@@ -13,6 +13,8 @@
 bool siren_prim_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_prim_box        (mrb_state* mrb, mrb_value self);
+mrb_value siren_prim_box2p      (mrb_state* mrb, mrb_value self);
+mrb_value siren_prim_boxax      (mrb_state* mrb, mrb_value self);
 mrb_value siren_prim_sphere     (mrb_state* mrb, mrb_value self);
 mrb_value siren_prim_cylinder   (mrb_state* mrb, mrb_value self);
 mrb_value siren_prim_cone       (mrb_state* mrb, mrb_value self);
