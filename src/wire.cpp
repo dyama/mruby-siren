@@ -2,11 +2,11 @@
 
 void siren_wire_install(mrb_state* mrb, RObject* o)
 {
-  mrb_define_singleton_method(mrb, o, "edges", siren_wire_edges, MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "ordered_edges", siren_wire_ordered_edges, MRB_ARGS_NONE());
   return;
 }
 
-mrb_value siren_wire_edges(mrb_state* mrb, mrb_value self)
+mrb_value siren_wire_ordered_edges(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* s = siren_shape_get(mrb, self);
   TopoDS_Wire w = TopoDS::Wire(*s);
