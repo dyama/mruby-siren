@@ -52,9 +52,21 @@ renderer.setSize(w, h);
 renderer.setClearColor(0x333333);
 document.body.appendChild(renderer.domElement);
 
+var fps = 30;
+var now;
+var then = Date.now();
+var interval = 1000/fps;
+var delta;
+
 function render() {
   requestAnimationFrame(render);
-  renderer.render(scene, camera);
+  now = Date.now();
+  delta = now - then;
+  if (delta > interval) {
+    then = now - (delta % interval);
+    control.update();
+    renderer.render(scene, camera);
+  }
 }
 
 // OrbitControls
