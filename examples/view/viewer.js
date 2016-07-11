@@ -48,27 +48,6 @@ axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), 
 axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -length), 0x0000FF, true)); // -Z
 scene.add(axes);
 
-// MODEL(Face)
-for (var i = 0; i<fs.length; i++) {
-  var material = new THREE.MeshPhongMaterial({color: modelcolor});
-  material.side = THREE.DoubleSide;
-  var model = new THREE.Mesh(fs[i], material);
-  scene.add(model);
-  models.push(model);
-
-  // var edge = new THREE.EdgesHelper(model, "#3F3F3F");
-  // edge.material.linewidth = 4;
-  // scene.add(edge);
-}
-
-// MODEL(Edge)
-for (var i = 0; i<es.length; i++) {
-  var material = new THREE.LineBasicMaterial({linewidth: 4, color: 'red'});
-  var model = new THREE.Line(es[i], material);
-  scene.add(model);
-  models.push(model);
-}
-
 // EVENT
 window.addEventListener('resize', function() {
   w = window.innerWidth;
@@ -149,9 +128,9 @@ else {
 }
 
 // RENDERER
-var renderer = new THREE.WebGLRenderer({alpha: true});
+var renderer = new THREE.WebGLRenderer({alpha: false});
 renderer.setSize(w, h);
-renderer.setClearColor(0x000000, 0);
+renderer.setClearColor(0x333333);
 renderer.setFaceCulling(false);
 //renderer.setFaceCulling(THREE.CullFaceFrontBack);
 //renderer.setFaceCulling(THREE.CullFaceFront);
@@ -160,9 +139,6 @@ document.body.appendChild(renderer.domElement);
 
 function render() {
   requestAnimationFrame(render);
-  // model.rotation.x += 0.01;
-  // model.rotation.y += 0.01;
-  // model.translateX(0.01);
   renderer.render(scene, camera);
 }
 render();

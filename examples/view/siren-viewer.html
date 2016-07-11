@@ -4,77 +4,16 @@
     <title>siren viewer</title>
     <style>
       body {
-        background: -webkit-linear-gradient(#AAA, #666); /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(#AAA, #666); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(#AAA, #666); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(#EEE, #666); /* Standard syntax */
         margin: 0px;
-        overflow: hidden;
-      } 
-      hr {
-        border-width: 1px 0 0 0;
-        border-style: solid;
-        color: white;
-      }
-      input {
-        border-width: 1 1 1 1;
-        border-style: solid;
-        border-color: #393939;
-        border-radius: 3px;
-        // padding: 2 2 2 2;
-        margin: 1 1 1 1;
-      }
-      .panel {
-        position:absolute;
-        top:10px;
-        left:10px;
-        size:18pt;
-        color:white;
-        border-radius: 5px;
-        background: rgba(99, 99, 99, 0.8);
-        padding:5px;
-      }
-      .xyz {
-        text-align: right;
-      }
-      .textbox {
-        // background-color: #a5a5a5;
-        background-color: #eaeaea;
-        text-align: right;
-        width: 60px;
-      }
-      .textbox:hover {
-        background-color: white;
-      }
-      .button {
-        color: white;
-        background-color: #4f4f4f;
-      }
-      .button:hover {
-        color: pink;
-        background-color: #7f7f7f;
       }
     </style>
     <script type='text/javascript' src='https://rawgithub.com/mrdoob/three.js/master/build/three.min.js'></script>
     <script type='text/javascript' src='https://rawgithub.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>
   </head>
   <body>
+    <script type='text/javascript' src='viewer.js'></script>
     <script type='text/javascript' src='model.js'></script>
-    <script type='text/javascript' src='siren-viewer.js'></script>
-    <!--
-    <div class='panel'>
-      siren viewer<br />
-      <hr />
-      <div class='xyz'>
-        <input class="textbox" width=20 type=text placeholder="X" value="0.000" pattern="^ *-?\d*(\.\d*)? *$" /><br />
-        <input class="textbox" width=20 type=text placeholder="Y" value="0.000" pattern="^ *-?\d*(\.\d*)? *$" /><br />
-        <input class="textbox" width=20 type=text placeholder="Z" value="0.000" pattern="^ *-?\d*(\.\d*)? *$" /><br />
-      </div>
-      <hr />
-      <input class="button" type=button value='+' />
-      <input class="button" type=button value='-' />
-    </div>
-    -->
+    <script type='text/javascript' src='builder.js'></script>
   </body>
 </html>
 
