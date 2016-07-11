@@ -86,3 +86,12 @@ window.addEventListener('mouseup',   function(e) {
   down = false;
 }, false);
 
+document.getElementById('plane').addEventListener('click', function(e) {
+  var geom = new THREE.PlaneGeometry(10, 10, 1, 1);
+  var mesh = new THREE.Mesh(geom, material_face);
+  scene.add(mesh);
+  models.push(mesh);
+  control.detach();
+  control.attach(mesh);
+}, false);
+

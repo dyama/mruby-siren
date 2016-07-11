@@ -1,0 +1,43 @@
+hr {
+  border-width: 1px 0 0 0;
+  border-style: solid;
+  color: white;
+}
+input {
+  border-width: 1 1 1 1;
+  border-style: solid;
+  border-color: #393939;
+  border-radius: 3px;
+  // padding: 2 2 2 2;
+  margin: 1 1 1 1;
+}
+.panel {
+  position:absolute;
+  top:10px;
+  left:10px;
+  size:18pt;
+  color:white;
+  border-radius: 5px;
+  background: rgba(99, 99, 99, 0.8);
+  padding:5px;
+}
+.xyz {
+  text-align: right;
+}
+.textbox {
+  // background-color: #a5a5a5;
+  background-color: #eaeaea;
+  text-align: right;
+  width: 60px;
+}
+.textbox:hover {
+  background-color: white;
+}
+.button {
+  color: white;
+  background-color: #4f4f4f;
+}
+.button:hover {
+  color: pink;
+  background-color: #7f7f7f;
+}

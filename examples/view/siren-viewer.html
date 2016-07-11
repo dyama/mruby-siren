@@ -1,17 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset='utf-8' />
     <title>siren viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       body {
         margin: 0px;
       }
     </style>
+    <link rel="stylesheet" href="siren-viewer.css">
     <script type='text/javascript' src='lib/three.min.js'></script>
     <script type='text/javascript' src='lib/OrbitControls.js'></script>
     <script type='text/javascript' src='lib/TransformControls.js'></script>
   </head>
   <body>
+    <div class='panel'>
+      siren viewer<br />
+      <hr />
+      <input class="button" type="button" id="plane" value="plane" />
+    </div>
     <script type='text/javascript' src='config.js'></script>
     <script type='text/javascript' src='viewer.js'></script>
     <script type='text/javascript' src='model.js'></script>

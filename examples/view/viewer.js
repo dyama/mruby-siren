@@ -1,3 +1,6 @@
+// var view = document.getElementById("view");
+// var w = view.clientWidth;
+// var h = view.clientHeight;
 var w = window.innerWidth;
 var h = window.innerHeight;
 var aspect = w / h;
@@ -19,6 +22,8 @@ scene.add(supportLight);
 window.addEventListener('resize', function() {
   w = window.innerWidth;
   h = window.innerHeight;
+  // w = view.clientWidth;
+  // h = view.clientHeight;
   renderer.setSize(w, h);
   camera.aspect = aspect = w / h;
   camera.updateProjectionMatrix();
@@ -35,6 +40,7 @@ var renderer = new THREE.WebGLRenderer({alpha: false});
 renderer.setSize(w, h);
 renderer.setClearColor(0x333333);
 document.body.appendChild(renderer.domElement);
+// view.appendChild(renderer.domElement);
 
 var fps = 30;
 var now;
