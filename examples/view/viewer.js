@@ -113,19 +113,10 @@ window.addEventListener("click", function(e) {
 }, false);
 
 // CAMERA
-var camera;
-if (1) {
-  camera = new THREE.PerspectiveCamera(65, aspect, 1, 500000);
-  camera.position.set(-15, -25, 20);
-  camera.lookAt(new THREE.Vector3(40, 0, 0));
-  camera.up.set(0, 0, 1);
-}
-else {
-  var d = 100;
-  camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
-  camera.position.set(-15, -20, 20);
-  camera.lookAt(scene.position);
-}
+var camera = new THREE.PerspectiveCamera(65, aspect, 1, 500000);
+camera.position.set(-15, -25, 20);
+camera.lookAt(new THREE.Vector3(40, 0, 0));
+camera.up.set(0, 0, 1);
 
 // RENDERER
 var renderer = new THREE.WebGLRenderer({alpha: false});
