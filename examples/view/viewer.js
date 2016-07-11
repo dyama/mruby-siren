@@ -4,10 +4,6 @@ var aspect = w / h;
 
 var models = [];
 
-var modelcolor = 'slategray';
-var selectedcolor = 'red';
-var highlightcolor = 'royalblue';
-
 var scene = new THREE.Scene();
 
 // LIGHT
