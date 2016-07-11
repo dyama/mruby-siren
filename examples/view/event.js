@@ -1,8 +1,4 @@
 var shift = false;
-var down = 0;
-var button = 0;
-var drag = false;
-var prev;
 
 // Get objects by mouse position
 function get_objs(e) {
@@ -17,17 +13,7 @@ function get_objs(e) {
   return ray.intersectObjects(models);
 }
 
-window.addEventListener("click", function(e) {
-  if (!drag && e.button == 0) {
-    var objs = get_objs(e);
-    if (!shift) {
-      control.detach();
-    }
-    if (objs.length > 0) {
-      control.attach(objs[0].object);
-    }
-  }
-}, false);
+// Key events
 
 window.addEventListener('keydown', function(e) {
   down = e.keyCode;
@@ -75,24 +61,28 @@ window.addEventListener('keyup',   function(e) {
   }
 }, false);
 
-window.addEventListener('mousedown', function(e) {
-  prev = new THREE.Vector2(e.offsetX, e.offsetY);
-  button = e.button;
-}, false);
+// Mouse events
 
-window.addEventListener('mouseup',   function(e) {
-  button = -1;
-  delete prev;
+var down = false;
+
+window.addEventListener('mousedown', function(e) {
+  down = true;
 }, false);
 
 window.addEventListener("mousemove", function(e) {
-  if (button >= 0) {
-    var curr = new THREE.Vector2(e.offsetX, e.offsetY);
-    var dist = typeof(prev) != 'undefined' ? curr.distanceTo(prev) : 0;
-    drag = dist > 2;
+  drag = down;
+}, false);
+
+window.addEventListener('mouseup',   function(e) {
+  if (!drag && down) {
+    var objs = get_objs(e);
+    if (!shift) {
+      control.detach();
+    }
+    if (objs.length > 0) {
+      control.attach(objs[0].object);
+    }
   }
-  else {
-    drag = false;
-  }
+  down = false;
 }, false);
 
