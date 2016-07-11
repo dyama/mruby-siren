@@ -1,19 +1,14 @@
 var w = window.innerWidth;
 var h = window.innerHeight;
-var aspect = w/h;
+var aspect = w / h;
 
 var models = [];
+
 var modelcolor = 'slategray';
 var selectedcolor = 'red';
 var highlightcolor = 'royalblue';
 
 var scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0xffffff, 0, 20750);
-
-// var helper = new THREE.GridHelper(150, 50);
-// helper.color1.setHex(0xffffff);
-// helper.color2.setHex(0x7f7fff);
-// scene.add(helper);
 
 // LIGHT
 var dlight = new THREE.DirectionalLight('white');
@@ -23,30 +18,6 @@ scene.add(dlight);
 var supportLight = new THREE.DirectionalLight('white');
 supportLight.position.set(-0.5, -8, -1);
 scene.add(supportLight);
-
-// AXIS
-function buildAxis(src, dst, colorHex, dashed) {
-  var geom = new THREE.Geometry(), mat;
-  if(dashed) {
-    mat = new THREE.LineDashedMaterial({linewidth: 3, color: colorHex, dashSize: 1, gapSize: 1});
-  }
-  else {
-    mat = new THREE.LineBasicMaterial({linewidth: 3, color: colorHex});
-  }
-  geom.vertices.push(src.clone());
-  geom.vertices.push(dst.clone());
-  geom.computeLineDistances();
-  return new THREE.Line(geom, mat, THREE.LineSegments);
-}
-var length = 10;
-var axes = new THREE.Object3D();
-axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(length, 0, 0), 0xFF0000, false)); // +X
-axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(-length, 0, 0), 0xFF0000, true)); // -X
-axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, length, 0), 0x00FF00, false)); // +Y
-axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -length, 0), 0x00FF00, true)); // -Y
-axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), 0x0000FF, false)); // +Z
-axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -length), 0x0000FF, true)); // -Z
-scene.add(axes);
 
 // EVENT
 window.addEventListener('resize', function() {
@@ -69,49 +40,6 @@ function get_objs(e) {
   return ray.intersectObjects(models);
 }
 
-window.addEventListener("mousemove", function(e) {
-  var objs = get_objs(e);
-  update_color_all();
-  if (objs.length > 0) {
-    var model = objs[0].object;
-    if (!model.selected) {
-      model.material.color.set(highlightcolor);
-    }
-  }
-}, false);
-
-function update_color_all()
-{
-  for (var i = 0; i<models.length; i++) {
-    if (models[i].selected) {
-      models[i].material.color.set(selectedcolor);
-    }
-    else {
-      models[i].material.color.set(modelcolor);
-    }
-  }
-}
-
-function unselect_all()
-{
-  for (var i = 0; i<models.length; i++) {
-    models[i].selected = false;  
-  }
-}
-
-window.addEventListener("click", function(e) {
-  if (e.button == 0) {
-    var objs = get_objs(e);
-    if (objs.length == 0) {
-      unselect_all();
-    }
-    else {
-      objs[0].object.selected = true;
-    }
-    update_color_all();
-  }
-}, false);
-
 // CAMERA
 var camera = new THREE.PerspectiveCamera(65, aspect, 1, 500000);
 camera.position.set(-15, -25, 20);
@@ -122,16 +50,105 @@ camera.up.set(0, 0, 1);
 var renderer = new THREE.WebGLRenderer({alpha: false});
 renderer.setSize(w, h);
 renderer.setClearColor(0x333333);
-renderer.setFaceCulling(false);
-//renderer.setFaceCulling(THREE.CullFaceFrontBack);
-//renderer.setFaceCulling(THREE.CullFaceFront);
-//renderer.setFaceCulling(THREE.CullFaceBack);
 document.body.appendChild(renderer.domElement);
 
 function render() {
   requestAnimationFrame(render);
   renderer.render(scene, camera);
 }
+
+// OrbitControls
+var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+// TransformControls
+var control = new THREE.TransformControls( camera, renderer.domElement );
+control.addEventListener( 'change', render );
+scene.add(control);
+
 render();
 
-var controls = new THREE.OrbitControls(camera, renderer.domElement);
+window.addEventListener("click", function(e) {
+  if (!drag && e.button == 0) {
+    var objs = get_objs(e);
+    if (!shift) {
+      control.detach();
+    }
+    if (objs.length > 0) {
+      control.attach(objs[0].object);
+    }
+  }
+}, false);
+
+var shift = false;
+var down = 0;
+var button = 0;
+var drag = false;
+window.addEventListener('keydown', function(e) {
+  down = e.keyCode;
+  switch ( event.keyCode ) {
+    case 81: // Q
+      control.setSpace( control.space === "local" ? "world" : "local" );
+      break;
+    case 16: // shift
+      shift = true;
+      break;
+    case 17: // Ctrl
+      control.setTranslationSnap( 100 );
+      control.setRotationSnap( THREE.Math.degToRad( 15 ) );
+      break;
+    case 87: // W
+      control.setMode( "translate" );
+      break;
+    case 69: // E
+      control.setMode( "rotate" );
+      break;
+    case 82: // R
+      control.setMode( "scale" );
+      break;
+    case 187:
+    case 107: // +, =, num+
+      control.setSize( control.size + 0.1 );
+      break;
+    case 189:
+    case 109: // -, _, num-
+      control.setSize( Math.max( control.size - 0.1, 0.1 ) );
+      break;
+  }
+}, false);
+
+window.addEventListener('keyup',   function(e) {
+  down = 0;
+  switch ( event.keyCode ) {
+    case 16: // shift
+      shift = false;
+      break;
+    case 17: // Ctrl
+      control.setTranslationSnap( null );
+      control.setRotationSnap( null );
+      break;
+  }
+}, false);
+
+var prev;
+
+window.addEventListener('mousedown', function(e) {
+  prev = new THREE.Vector2(e.offsetX, e.offsetY);
+  button = e.button;
+}, false);
+
+window.addEventListener('mouseup',   function(e) {
+  button = -1;
+  delete prev;
+}, false);
+
+window.addEventListener("mousemove", function(e) {
+  if (button >= 0) {
+    var curr = new THREE.Vector2(e.offsetX, e.offsetY);
+    var dist = typeof(prev) != 'undefined' ? curr.distanceTo(prev) : 0;
+    drag = dist > 2;
+  }
+  else {
+    drag = false;
+  }
+}, false);
+
