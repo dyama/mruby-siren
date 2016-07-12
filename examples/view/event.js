@@ -86,6 +86,8 @@ window.addEventListener('mouseup',   function(e) {
   down = false;
 }, false);
 
+// Button events
+
 document.getElementById('plane').addEventListener('click', function(e) {
   var geom = new THREE.PlaneGeometry(10, 10, 1, 1);
   var mesh = new THREE.Mesh(geom, material_face);
@@ -95,3 +97,47 @@ document.getElementById('plane').addEventListener('click', function(e) {
   control.attach(mesh);
 }, false);
 
+document.getElementById('box').addEventListener('click', function(e) {
+  var geom = new THREE.BoxGeometry(10, 10, 10);
+  var mesh = new THREE.Mesh(geom, material_face);
+  scene.add(mesh);
+  models.push(mesh);
+  control.detach();
+  control.attach(mesh);
+}, false);
+
+document.getElementById('cone').addEventListener('click', function(e) {
+  var geom = new THREE.ConeGeometry(10, 30, 32);
+  var mesh = new THREE.Mesh(geom, material_face);
+  scene.add(mesh);
+  models.push(mesh);
+  control.detach();
+  control.attach(mesh);
+}, false);
+
+document.getElementById('cylinder').addEventListener('click', function(e) {
+  var geom = new THREE.CylinderGeometry(10, 10, 30, 32);
+  var mesh = new THREE.Mesh(geom, material_face);
+  scene.add(mesh);
+  models.push(mesh);
+  control.detach();
+  control.attach(mesh);
+}, false);
+
+document.getElementById('sphere').addEventListener('click', function(e) {
+  var geom = new THREE.SphereGeometry(10, 32, 32);
+  var mesh = new THREE.Mesh(geom, material_face);
+  scene.add(mesh);
+  models.push(mesh);
+  control.detach();
+  control.attach(mesh);
+}, false);
+
+document.getElementById('torus').addEventListener('click', function(e) {
+  var geom = new THREE.TorusGeometry(20, 5, 16, 100);
+  var mesh = new THREE.Mesh(geom, material_face);
+  scene.add(mesh);
+  models.push(mesh);
+  control.detach();
+  control.attach(mesh);
+}, false);
