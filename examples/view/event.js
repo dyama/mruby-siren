@@ -74,6 +74,11 @@ window.addEventListener("mousemove", function(e) {
 }, false);
 
 window.addEventListener('mouseup',   function(e) {
+  var panel = document.getElementById("panel");
+  if (e.clientX < panel.clientWidth && e.clientY < panel.clientHeight) {
+    down = false;
+    return;
+  }
   if (!drag && down) {
     var objs = get_objs(e);
     if (!shift) {
@@ -141,3 +146,17 @@ document.getElementById('torus').addEventListener('click', function(e) {
   control.detach();
   control.attach(mesh);
 }, false);
+
+document.getElementById('remove').addEventListener('click', function(e) {
+  if (typeof(control.object) == 'undefined') {
+    return;
+  }
+  var mesh = control.object;
+  scene.remove(mesh);
+  models = models.filter(function (e, i, a) {
+    return e != mesh;
+  });
+  control.detach();
+  mesh.geometry.dispose();
+}, true);
+
