@@ -181,6 +181,19 @@ document.getElementById('remove').addEventListener('click', function(e) {
   log('[remove] Done.');
 }, true);
 
+document.getElementById('boundbox').addEventListener('click', function(e) {
+  if (typeof(control.object) == 'undefined') {
+    log('[boundbox] No selected object.', true);
+    return;
+  }
+  var geom = control.object.geometry;
+  geom.computeBoundingBox();
+  var bnd = geom.boundingBox;
+  log('[boundbox] min:' + bnd.min.x + ',' + bnd.min.y + ',' + bnd.min.z);
+  log('[boundbox] max:' + bnd.max.x + ',' + bnd.max.y + ',' + bnd.max.z);
+  log('[boundsphere] R:' + geom.boundingSphere.radius);
+}, true);
+
 function log(msg, is_alert) {
   if (is_alert) {
     msg = '<span class="alert">' + msg + '</span>';
