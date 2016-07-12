@@ -147,6 +147,17 @@ document.getElementById('torus').addEventListener('click', function(e) {
   control.attach(mesh);
 }, false);
 
+document.getElementById('duplicate').addEventListener('click', function(e) {
+  if (typeof(control.object) == 'undefined') {
+    return;
+  }
+  var mesh = control.object.clone();
+  scene.add(mesh);
+  models.push(mesh);
+  control.detach();
+  control.attach(mesh);
+}, true);
+
 document.getElementById('remove').addEventListener('click', function(e) {
   if (typeof(control.object) == 'undefined') {
     return;
