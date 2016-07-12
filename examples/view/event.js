@@ -100,6 +100,7 @@ document.getElementById('plane').addEventListener('click', function(e) {
   models.push(mesh);
   control.detach();
   control.attach(mesh);
+  log('[plane] Done.');
 }, false);
 
 document.getElementById('box').addEventListener('click', function(e) {
@@ -109,6 +110,7 @@ document.getElementById('box').addEventListener('click', function(e) {
   models.push(mesh);
   control.detach();
   control.attach(mesh);
+  log('[box] Done.');
 }, false);
 
 document.getElementById('cone').addEventListener('click', function(e) {
@@ -118,6 +120,7 @@ document.getElementById('cone').addEventListener('click', function(e) {
   models.push(mesh);
   control.detach();
   control.attach(mesh);
+  log('[cone] Done.');
 }, false);
 
 document.getElementById('cylinder').addEventListener('click', function(e) {
@@ -127,6 +130,7 @@ document.getElementById('cylinder').addEventListener('click', function(e) {
   models.push(mesh);
   control.detach();
   control.attach(mesh);
+  log('[cylinder] Done.');
 }, false);
 
 document.getElementById('sphere').addEventListener('click', function(e) {
@@ -136,6 +140,7 @@ document.getElementById('sphere').addEventListener('click', function(e) {
   models.push(mesh);
   control.detach();
   control.attach(mesh);
+  log('[sphere] Done.');
 }, false);
 
 document.getElementById('torus').addEventListener('click', function(e) {
@@ -145,10 +150,12 @@ document.getElementById('torus').addEventListener('click', function(e) {
   models.push(mesh);
   control.detach();
   control.attach(mesh);
+  log('[torus] Done.');
 }, false);
 
 document.getElementById('duplicate').addEventListener('click', function(e) {
   if (typeof(control.object) == 'undefined') {
+    log('[duplicate] No selected object.', true);
     return;
   }
   var mesh = control.object.clone();
@@ -156,10 +163,12 @@ document.getElementById('duplicate').addEventListener('click', function(e) {
   models.push(mesh);
   control.detach();
   control.attach(mesh);
+  log('[duplicate] Done.');
 }, true);
 
 document.getElementById('remove').addEventListener('click', function(e) {
   if (typeof(control.object) == 'undefined') {
+    log('[remove] No selected object.', true);
     return;
   }
   var mesh = control.object;
@@ -169,5 +178,15 @@ document.getElementById('remove').addEventListener('click', function(e) {
   });
   control.detach();
   mesh.geometry.dispose();
+  log('[remove] Done.');
 }, true);
+
+function log(msg, is_alert) {
+  if (is_alert) {
+    msg = '<span class="alert">' + msg + '</span>';
+  }
+  var console = document.getElementById('log');
+  console.innerHTML = console.innerHTML + '<br />\n' + msg;
+  console.scrollTop = console.scrollHeight;
+}
 

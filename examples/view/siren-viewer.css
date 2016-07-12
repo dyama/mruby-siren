@@ -41,3 +41,19 @@ input {
   color: pink;
   background-color: #7f7f7f;
 }
+.log {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  size: 10pt;
+  color:white;
+  overflow: auto;
+  width: 600px;
+  height: 60px;
+  border-radius: 5px;
+  background: rgba(79, 79, 79, 0.8);
+  padding:5px;
+}
+.alert {
+  color: pink;
+}
