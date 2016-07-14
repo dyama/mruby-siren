@@ -64,6 +64,7 @@ window.addEventListener('keyup',   function(e) {
 // Mouse events
 
 var down = false;
+var drag = false;
 
 window.addEventListener('mousedown', function(e) {
   down = true;
