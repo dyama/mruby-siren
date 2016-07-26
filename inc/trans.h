@@ -38,8 +38,7 @@ mrb_value siren_trans_rotate_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_scale_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_scalef(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_set_scalef(mrb_state* mrb, mrb_value self);
-// mrb_value siren_trans_transfomation1_bang(mrb_state* mrb, mrb_value self);
-// mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self);
+mrb_value siren_trans_transform_bang(mrb_state* mrb, mrb_value self);
 mrb_value siren_trans_move_point(mrb_state* mrb, mrb_value self);
 
 #endif
