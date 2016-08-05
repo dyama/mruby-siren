@@ -5,7 +5,7 @@ class Shape
 
   # Explorer wrapper methods
 
-  def conpounds(filter = nil)
+  def compounds(filter = nil)
     if filter
       self.explore(ShapeType::COMPOUND, filter)
     else
