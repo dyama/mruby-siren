@@ -10,8 +10,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.license = 'MIT license'
 
   # define path
-  occlibpath = [ '/opt/occ690/lib' ]
-  occincpath = [ '/opt/occ690/inc' ]
+  occlibpath = [ '/opt/occ/700/lin64/gcc/lib' ]
+  occincpath = [ '/opt/occ/700/inc' ]
   sirenincpath = File.expand_path(File.dirname(__FILE__)) + '/inc'
 
   # OCCT dependencies
@@ -40,14 +40,13 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
        'TKNIS', 'TKVoxel' ]
 
   applicationFramework =
-    [ 'PTKernel', 'TKCDF', 'TKPShape', 'FWOSPlugin', 'TKLCAF',
-      'TKShapeSchema', 'TKPLCAF', 'TKCAF', 'TKBinL', 'TKTObj',
-      'TKXmlL', 'TKStdLSchema', 'TKPCAF', 'TKBin', 'TKBinTObj',
+    [ 'PTKernel', 'TKCDF', 'TKLCAF', 'TKCAF', 'TKBinL', 'TKTObj',
+      'TKXmlL', 'TKStdLSchema', 'TKBin', 'TKBinTObj',
       'TKXml', 'TKXmlTObj', 'TKStdSchema' ]
 
   dataExchange =
     [ 'TKXSBase', 'TKSTL', 'TKVRML', 'TKSTEPBase', 'TKXCAF', 'TKIGES',
-      'TKSTEP209', 'TKSTEPAttr', 'TKXCAFSchema', 'TKXmlXCAF', 'TKBinXCAF',
+      'TKSTEP209', 'TKSTEPAttr', 'TKXmlXCAF', 'TKBinXCAF',
       'TKXDEIGES', 'TKSTEP', 'TKXDESTEP' ]
 
   if true
