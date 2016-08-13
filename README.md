@@ -43,7 +43,7 @@ Dependencies
   * Source code: https://github.com/mruby/mruby
   * License: https://github.com/mruby/mruby/blob/master/MITL
 
-* Open CASCADE Technorogy 6.9.0 (for UNIX)
+* Open CASCADE Technorogy 7.0.0 (for UNIX)
   * Official page: http://www.opencascade.org/
   * Source code: http://www.opencascade.com/content/latest-release
   * License: http://www.opencascade.com/content/licensing
@@ -62,7 +62,7 @@ How to build
 If your OCCT installed path is not `/opt/occ<version no>`, you should change mrbgem.rake file in build/mrbgems/mruby-siren.
 Default install path is;
 
-  * /opt/occ690 ... for UNIX
+  * /opt/occ/700 ... for UNIX
   * E:/occ/OCE-0.170Mingw32 .. for MINGW32
 
 Usage
