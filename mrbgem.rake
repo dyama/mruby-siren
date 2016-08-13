@@ -66,6 +66,6 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   # Compiler option
   spec.cxx.flags << occincpath.map{|n| "-I\"#{n}\"" } << " -I\"#{sirenincpath}\"" <<
-    "-Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas"
+    "-Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -std=c++11"
 end
 

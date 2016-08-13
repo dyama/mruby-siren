@@ -154,7 +154,7 @@ mrb_value siren_build_arc(mrb_state* mrb, mrb_value self)
   mrb_float r, start_ang, term_ang;
   int argc = mrb_get_args(mrb, "AAAfff", &orig, &dir, &vx, &r, &start_ang, &term_ang);
   gp_Circ circle = gp_Circ(gp_Ax2(siren_ary_to_pnt(mrb, orig), siren_ary_to_dir(mrb, dir), siren_ary_to_dir(mrb, vx)), r);
-  Handle(Geom_Curve) gc = GC_MakeArcOfCircle(circle, start_ang, term_ang, Standard_True);
+  Handle(Geom_TrimmedCurve) gc = GC_MakeArcOfCircle(circle, start_ang, term_ang, Standard_True);
   TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
   return siren_shape_new(mrb, E);
 }
@@ -163,7 +163,7 @@ mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
 {
   mrb_value p1, p2, p3;
   int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
-  Handle(Geom_Curve) gc = GC_MakeArcOfCircle(
+  Handle(Geom_TrimmedCurve) gc = GC_MakeArcOfCircle(
       siren_ary_to_pnt(mrb, p1),
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));
@@ -176,7 +176,7 @@ mrb_value siren_build_circle(mrb_state* mrb, mrb_value self)
   mrb_value orig, dir;
   mrb_float r;
   int argc = mrb_get_args(mrb, "AAf", &orig, &dir, &r);
-  Handle(Geom_Curve) gc = GC_MakeCircle(
+  Handle(Geom_Circle) gc = GC_MakeCircle(
       siren_ary_to_pnt(mrb, orig),
       siren_ary_to_dir(mrb, dir),
       r);
@@ -188,7 +188,7 @@ mrb_value siren_build_circle3p(mrb_state* mrb, mrb_value self)
 {
   mrb_value p1, p2, p3;
   int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
-  Handle(Geom_Curve) gc = GC_MakeCircle(
+  Handle(Geom_Circle) gc = GC_MakeCircle(
       siren_ary_to_pnt(mrb, p1),
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));
