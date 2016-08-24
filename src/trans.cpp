@@ -47,9 +47,7 @@ bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "reverse"        , siren_trans_invert             , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "reverse!"       , siren_trans_invert_bang        , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "negative?"      , siren_trans_is_negative        , MRB_ARGS_NONE());
-
-//  mrb_define_method(mrb, rclass, "transfomation1!", siren_trans_transfomation1_bang, MRB_ARGS_REQ(3));
-//  mrb_define_method(mrb, rclass, "transfomation2!", siren_trans_transfomation2_bang, MRB_ARGS_REQ(6));
+  mrb_define_method(mrb, rclass, "transform!"     , siren_trans_transform_bang     , MRB_ARGS_REQ(6));
 
   mrb_define_method(mrb, rclass, "move_point"     , siren_trans_move_point         , MRB_ARGS_REQ(1));
   return true;
@@ -236,26 +234,23 @@ mrb_value siren_trans_is_negative(mrb_state* mrb, mrb_value self)
   return siren_trans_get(mrb, self)->IsNegative() ? mrb_true_value() : mrb_false_value();
 }
 
-/*
-mrb_value siren_trans_transfomation1_bang(mrb_state* mrb, mrb_value self)
+mrb_value siren_trans_transform_bang(mrb_state* mrb, mrb_value self)
 {
-  mrb_value op, zv, xv;
-  int argc = mrb_get_args(mrb, "AAA", &op, &zv, &xv);
+  mrb_value pos1, norm1, vdir1;
+  mrb_value pos2, norm2, vdir2;
+  int argc = mrb_get_args(mrb, "AAA|AAA", &pos1, &norm1, &vdir1, &pos2, &norm2, &vdir2);
   gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetTransformation(siren_ary_to_ax3(mrb, op, zv, xv));
+  if (argc == 3) {
+    trans->SetTransformation(siren_ary_to_ax3(mrb, pos1, norm1, vdir1));
+  }
+  else if (argc == 6) {
+    trans->SetTransformation(siren_ary_to_ax3(mrb, pos1, norm1, vdir1), siren_ary_to_ax3(mrb, pos2, norm2, vdir2));
+  }
+  else {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Number of arguments is wrong.");
+  }
   return self;
 }
-
-mrb_value siren_trans_transfomation2_bang(mrb_state* mrb, mrb_value self)
-{
-  mrb_value op1, zv1, xv1;
-  mrb_value op2, zv2, xv2;
-  int argc = mrb_get_args(mrb, "AAAAAA", &op1, &zv1, &xv1, &op2, &zv2, &xv2);
-  gp_Trsf* trans = siren_trans_get(mrb, self);
-  trans->SetTransformation(siren_ary_to_ax3(mrb, op1, zv1, xv1), siren_ary_to_ax3(mrb, op2, zv2, xv2));
-  return self;
-}
-*/
 
 mrb_value siren_trans_matrix(mrb_state* mrb, mrb_value self)
 {

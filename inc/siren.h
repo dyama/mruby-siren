@@ -23,7 +23,6 @@
 #include "mruby/variable.h"
 
 // OpenCASCADE libraries
-#include <config.h>
 #include <Standard.hxx>
 #include <Standard_TypeDef.hxx>
 #include <Standard_Macro.hxx>

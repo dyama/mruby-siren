@@ -29,7 +29,7 @@ mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self)
   TopoDS_Face face = TopoDS::Face(*shape);
   Handle(Geom_Surface) gsurf  = BRep_Tool::Surface(face);
   Handle(Geom_BSplineSurface) gbssurf = Handle(Geom_BSplineSurface)::DownCast(gsurf);
-  if (gbssurf == NULL || gbssurf.IsNull()) {
+  if (gbssurf.IsNull()) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape is not B-Spline surface.");
   }
 
