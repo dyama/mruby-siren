@@ -8,19 +8,19 @@ $start_len = 100.0
 
 def tree(cur_pt, dir, len)
   nxt_pt = cur_pt + dir * len
-  edges = [ Build::line(cur_pt, nxt_pt) ]
+  edges = [ Build.line(cur_pt, nxt_pt) ]
   len *= 0.75
   if len > $start_len / 10.0
-    edges.concat tree(nxt_pt, dir.rotate(Vec::ydir, 30.0.to_rad), len)
-    edges.concat tree(nxt_pt, dir.rotate(Vec::ydir, -30.0.to_rad), len)
+    edges.concat tree(nxt_pt, dir.rotate(Vec.ydir, 30.0.to_rad), len)
+    edges.concat tree(nxt_pt, dir.rotate(Vec.ydir, -30.0.to_rad), len)
   end
   return edges
 end
 
-lines = tree([].to_v, Vec::zdir, $start_len)
+lines = tree([0, 0, 0], Vec.zdir, $start_len)
 
 comp = Build.compound lines
-IGES.save [comp], "tree.igs"
+BRepIO.save comp, "tree.brep"
 
 puts "done."
 
