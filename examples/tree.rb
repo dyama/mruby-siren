@@ -17,7 +17,7 @@ def tree(cur_pt, dir, len)
   return edges
 end
 
-lines = tree([0, 0, 0], Vec.zdir, $start_len)
+lines = tree([0, 0, 0].to_v, Vec.zdir, $start_len)
 
 comp = Build.compound lines
 BRepIO.save comp, "tree.brep"
