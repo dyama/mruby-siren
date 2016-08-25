@@ -19,7 +19,7 @@ faces = []
 
 xtop_max = lpp + (loa - lpp) / 3.0
 
-# ƒpƒ‰ƒŒƒ‹ƒp[ƒg
+# ãƒ‘ãƒ©ãƒ¬ãƒ«ãƒ‘ãƒ¼ãƒˆ
 bilge = Build.arc [0, b2-br, br], Vec.xdir, -Vec.zdir, br, 0.0.to_rad, 90.0.to_rad
 para_bl = Build.line [0, 0], [0, b2-br]
 para_sl = Build.line [0, b2, br], [0, b2, d]
@@ -32,7 +32,7 @@ para = Offset.loft [parawa, parawf]
 lines << parawa << parawf
 faces << para
 
-# ƒAƒtƒgƒKƒ“ƒlƒ‹ƒ‰ƒCƒ“
+# ã‚¢ãƒ•ãƒˆã‚¬ãƒ³ãƒãƒ«ãƒ©ã‚¤ãƒ³
 av = [(pp_aft - ae) / 4.0, b2].to_v - [ae, b4].to_v
 av.normal!
 ptsa = [ [ae, b4, d], [pp_aft - (pp_aft - ae) / 2.0, b2, d]]
@@ -40,33 +40,33 @@ vcsa = [ av.to_a, [pp_len / 2.0, 0.0]]
 gunnela = Build.curve(ptsa, vcsa)
 lines << gunnela
 
-# ƒtƒHƒAƒKƒ“ƒlƒ‹ƒ‰ƒCƒ“
+# ãƒ•ã‚©ã‚¢ã‚¬ãƒ³ãƒãƒ«ãƒ©ã‚¤ãƒ³
 fv = [xtop_max - pp_fore, 0].to_v - [(xtop_max - pp_fore) * 3.0 / 4.0, b2].to_v
 ptsf = [[pp_fore + (xtop_max - pp_fore) / 3.0, b2, d], [xtop_max, 0, d] ]
 vcsf = [ [pp_len / 2.0, 0.0], fv.to_a ]
 gunnelf = Build.curve(ptsf, vcsf)
 lines << gunnelf
 
-# ƒTƒCƒhƒfƒbƒhƒtƒ‰ƒbƒgƒ‰ƒCƒ“
+# ã‚µã‚¤ãƒ‰ãƒ‡ãƒƒãƒ‰ãƒ•ãƒ©ãƒƒãƒˆãƒ©ã‚¤ãƒ³
 sdfpa = [pp_aft - (pp_aft - ae) / 2.0, b2, d]
 sdfpf = [pp_fore + (xtop_max - pp_fore) / 3.0, b2, d]
 sdfla = Build.curve [sdfpa, [pp_aft - (pp_aft-ae) / 3.0, b2, d / 2.0], [pp_aft, b2, br]], [[0,0,-1],nil,[1,0,0]]
 sdflf = Build.curve [[pp_fore, b2, br], sdfpf], [[1,0,0],[0,0,1]]
 lines << sdfla << sdflf
 
-# ƒ{ƒgƒ€ƒfƒbƒhƒtƒ‰ƒbƒgƒ‰ƒCƒ“
+# ãƒœãƒˆãƒ ãƒ‡ãƒƒãƒ‰ãƒ•ãƒ©ãƒƒãƒˆãƒ©ã‚¤ãƒ³
 blae = [-ae + -ae / 5.0, 0, 0]
 blfe = [lpp - (loa-lpp)/2.0, 0, 0]
 bdfla = Build.curve [blae, [pp_aft, b2 - br, 0]], [[1,0,0],[1,0,0]]
 bdflf = Build.curve [[pp_fore, b2 - br, 0], blfe], [[1,0,0],[1,-0.5,0]]
 lines << bdfla << bdflf
 
-# ƒgƒ‰ƒ“ƒTƒ€
+# ãƒˆãƒ©ãƒ³ã‚µãƒ 
 tsom_tl = Build.line([ae, 0, d], [ae, b4, d])
 tsom_bl = Build.curve [[ae, 0, d * 2.0 / 3.0], [ae, b4, d]], [[0,1,0], [0,0,1]]
 lines << tsom_tl << tsom_bl
 
-# ƒAƒtƒg ƒvƒƒtƒ@ƒCƒ‹
+# ã‚¢ãƒ•ãƒˆ ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«
 v1 = [-ae, 0, d / 2.0].to_v - [ae, 0, d * 2.0 / 3.0].to_v
 v1.normal!
 v2 = v1.rotate(Vec.ydir, 90.0.to_rad)
@@ -78,7 +78,7 @@ tp4 = Build.line [-ae + -ae / 5.0, 0, d / 4.0], blae
 aft_profile = Build.wire [tp, tp2, tp3, tp4], 0.01
 lines << aft_profile
 
-# ƒtƒHƒA ƒvƒƒtƒ@ƒCƒ‹
+# ãƒ•ã‚©ã‚¢ ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«
 p1 = blfe
 p2 = [loa, 0, d * 0.3]
 p3 = [lpp, 0, d / 4.0 * 2.5]
@@ -87,38 +87,38 @@ p5 = [xtop_max, 0, d]
 fore_profile = Build.curve [p1, p2, [xtop_max,0,d/2.0], p3, p4, p5], [[1,0,0], [0,0,1], nil, [0,0,1], [0,0,1], (p5.to_v - p4.to_v).to_a]
 lines << fore_profile
 
-# ƒ{ƒgƒ€–Ê(ƒAƒtƒg)
+# ãƒœãƒˆãƒ é¢(ã‚¢ãƒ•ãƒˆ)
 bottom_aft_plane_contour = Build.wire [bdfla, para_bl.translate([pp_aft]), Build.line(blae, [pp_aft])]
 bottom_aft_plane = Build.face bottom_aft_plane_contour, true
 faces << bottom_aft_plane
 
-# ƒ{ƒgƒ€–Ê(ƒtƒHƒA)
+# ãƒœãƒˆãƒ é¢(ãƒ•ã‚©ã‚¢)
 bottom_fore_plane_contour = Build.wire [bdflf, para_bl.translate([pp_fore]), Build.line(blfe, [pp_fore])]
 faces << Build.face(bottom_fore_plane_contour, true)
 
-# ƒTƒCƒh–Ê(ƒAƒtƒg)
+# ã‚µã‚¤ãƒ‰é¢(ã‚¢ãƒ•ãƒˆ)
 side_aft_plane_contour = Build.wire [sdfla, para_sl.translate([pp_aft]), Build.line([pp_aft,b2,d],sdfpa)]
 faces << Build.face(side_aft_plane_contour, true)
 
-# ƒTƒCƒh–Ê(ƒtƒHƒA)
+# ã‚µã‚¤ãƒ‰é¢(ãƒ•ã‚©ã‚¢)
 side_fore_plane_contour = Build.wire [sdflf, para_sl.translate([pp_fore]), Build.line([pp_fore,b2,d],sdfpf)]
 faces << Build.face(side_fore_plane_contour, true)
 
-# ƒgƒ‰ƒ“ƒTƒ€–Ê
+# ãƒˆãƒ©ãƒ³ã‚µãƒ é¢
 transom_plane_contour = Build.wire [tsom_tl, tsom_bl, Build.line([ae,0,d], [ae,0,d*2.0/3.0])], 0.01
 faces << Build.face(transom_plane_contour, true)
 
 if false
-  # ãb”Â–Ê
+  # ä¸Šç”²æ¿é¢
   updk_plane_contour = Build.wire [tsom_tl, gunnela, Build.line(sdfpa, sdfpf), gunnelf, Build.line([xtop_max,0,d], [ae, 0, d]) ], 0.01
   faces << Build.face(updk_plane_contour, true)
 
-  # CL–Ê
+  # CLé¢
   cl_plane_contour = Build.wire [aft_profile, Build.line([ae, 0, d], [xtop_max, 0, d]), fore_profile, Build.line(blfe, blae) ], 0.01
   faces << Build.face(cl_plane_contour, true)
 end
 
-# ƒAƒtƒg‹È–Ê
+# ã‚¢ãƒ•ãƒˆæ›²é¢
 fa = Filler.new
 [tsom_bl, gunnela, sdfla, bilge.translate([pp_aft]), bdfla, tp4, tp3, tp2].each do |edge|
   fa.add_bound edge, 0
@@ -128,7 +128,7 @@ if fa.done?
   faces << fa.face
 end
 
-# ƒtƒHƒA‹È–Ê
+# ãƒ•ã‚©ã‚¢æ›²é¢
 ff = Filler.new
 [bdflf, bilge.translate([pp_fore]), sdflf, gunnelf, fore_profile].each do |edge|
   ff.add_bound edge, 0
@@ -142,7 +142,7 @@ end
 # IGES.save [shell], "shell.igs"
 # solid = Build.solid shell
 
-# o—Í
+# å‡ºåŠ›
 comp = Build.compound(lines)
 BRepIO.save comp, "curve.brep"
 
