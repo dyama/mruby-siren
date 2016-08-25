@@ -1,54 +1,54 @@
 #!/usr/bin/siren
 
-# ”¼Œa‚ğw’è‚µ‚Ä“àÚ‰~ŒÊ‚ğì¬‚·‚é
+# åŠå¾„ã‚’æŒ‡å®šã—ã¦å†…æ¥å††å¼§ã‚’ä½œæˆã™ã‚‹
 def fillet(p1, p2, cp, r)
 
   ls1 = p1.to_v - cp.to_v
   ls2 = p2.to_v - cp.to_v
   cp = cp.to_v
 
-  # 2’¼ü‚Ì‚È‚·Šp“x
+  # 2ç›´ç·šã®ãªã™è§’åº¦
   ang_rad = ls1.angle(ls2)
   if ang_rad.abs < 0.001
     return nil
   end
 
-  # Œğ“_‚©‚çŠJnEI—¹“_‚Ü‚Å‚Ì‹——£
+  # äº¤ç‚¹ã‹ã‚‰é–‹å§‹ãƒ»çµ‚äº†ç‚¹ã¾ã§ã®è·é›¢
   a = Math.tan(Math::PI / 2 - ang_rad / 2) * r
 
-  # n“_
+  # å§‹ç‚¹
   startp = cp + (ls1.normal * a)
 
-  # I“_
+  # çµ‚ç‚¹
   termp = cp + (ls2.normal * a)
 
-  # 2“™•ªüƒxƒNƒgƒ‹
+  # 2ç­‰åˆ†ç·šãƒ™ã‚¯ãƒˆãƒ«
   v = (startp - cp).normal + (termp - cp).normal
   v.normal!
 
-  # Œğ“_‚©‚ç’†S“_‚Ü‚Å‚Ì‹——£
+  # äº¤ç‚¹ã‹ã‚‰ä¸­å¿ƒç‚¹ã¾ã§ã®è·é›¢
   b = r / Math.cos(Math::PI / 2 - ang_rad / 2);
 
-  # ’†S“_
+  # ä¸­å¿ƒç‚¹
   centerp = cp + (v * b);
 
-  # ’Ê‰ß“_
+  # é€šéç‚¹
   thrup = centerp + (-v * r);
 
   return Build.arc3p startp, thrup, termp
 end
 
-# ƒpƒCƒv‚ÌŒa
+# ãƒ‘ã‚¤ãƒ—ã®å¾„
 pipe_r = 1.0
 
-# ƒGƒ‹ƒ{‚ÌŒa
+# ã‚¨ãƒ«ãƒœã®å¾„
 elbow_r = 2.0
 
-# ƒpƒCƒv‚ÌŒo˜H
+# ãƒ‘ã‚¤ãƒ—ã®çµŒè·¯
 pts = [[0, 0, 0], [10, 0, 0], [10, 10, 6], [15, 10, 10], [20, 15, 10]]
 
 
-# Œo˜HƒpƒX‚ğì¬
+# çµŒè·¯ãƒ‘ã‚¹ã‚’ä½œæˆ
 edges = []
 pts.each_cons(3) do |ar|
   arc = fillet(ar[0], ar[2], ar[1], elbow_r)
@@ -62,11 +62,11 @@ end
 edges.push Build.line(edges.last.tp, pts.last)
 path = Build.wire edges, 0.01
 
-# ”zŠÇ‚Ìƒ‚ƒfƒ‹‰»
+# é…ç®¡ã®ãƒ¢ãƒ‡ãƒ«åŒ–
 profile = Build.circle [], [1], pipe_r
 pipe = Offset.pipe profile, path, 0, true
 
-# •Û‘¶
+# ä¿å­˜
 BRepIO.save pipe, "pipe.brep"
 
 puts "done"

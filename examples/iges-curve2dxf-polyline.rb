@@ -4,13 +4,13 @@
 # IGES curve to DXF polyline
 #
 
-# DXF ƒf[ƒ^—v‘f‚Ì‘®•t‚«o—Í
+# DXF ãƒ‡ãƒ¼ã‚¿è¦ç´ ã®æ›¸å¼ä»˜ãå‡ºåŠ›
 def ds(no, val)
   sprintf("%3d\n", no) +
     (val.is_a?(Float) ? sprintf("%14.6f\n", val) : "#{val}\n")
 end
 
-# Array ƒNƒ‰ƒXŠg’£
+# Array ã‚¯ãƒ©ã‚¹æ‹¡å¼µ
 class Array
   def to_dxf
     s = ""
@@ -20,17 +20,17 @@ class Array
   end
 end
 
-# Shape ƒNƒ‰ƒXŠg’£
+# Shape ã‚¯ãƒ©ã‚¹æ‹¡å¼µ
 class Shape
 
-  # ƒŒƒCƒ„[–¼ ƒAƒNƒZƒT
+  # ãƒ¬ã‚¤ãƒ¤ãƒ¼å ã‚¢ã‚¯ã‚»ã‚µ
   def layer; @layer end
   def layer=(value); @layer=value end
 
-  # DXF ƒ|ƒŠƒ‰ƒCƒ“o—Í
+  # DXF ãƒãƒªãƒ©ã‚¤ãƒ³å‡ºåŠ›
   def to_polyline
     s = ""
-    # ƒGƒbƒW’PˆÊ‚Åˆ—
+    # ã‚¨ãƒƒã‚¸å˜ä½ã§å‡¦ç†
     self.explore(ShapeType::EDGE) do |edge|
       s += ds 0, "POLYLINE"  
       s += ds 6, 3
@@ -38,7 +38,7 @@ class Shape
       s += ds 66, 1
       s += ds 70, 8
       s += [].to_dxf
-      # “_—ñ‰»
+      # ç‚¹åˆ—åŒ–
       edge.to_pts.each do |pnt|
         s += ds 0, "VERTEX"
         s += ds 8, @layer
@@ -54,7 +54,7 @@ end
 File.open("hammer.dxf", "w") do |f|
   f.write ds(0, "SECTION")
   f.write ds(2, "ENTITIES")
-  # IGES ‚Ì“Ç‚İ‚İEDXF ƒ|ƒŠƒ‰ƒCƒ“‚Ìo—Í
+  # IGES ã®èª­ã¿è¾¼ã¿ãƒ»DXF ãƒãƒªãƒ©ã‚¤ãƒ³ã®å‡ºåŠ›
   IGES.load("hammer.iges").each do |shape|
     shape.layer = "BASE"
     f.write shape.to_polyline
