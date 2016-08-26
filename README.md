@@ -35,6 +35,13 @@ You can find more examples code on Github page.
 
 https://github.com/dyama/mruby-siren/wiki/Sample
 
+Requirement
+-----------
+
+* Microsoft Windows
+* Mac OS X
+* Linux
+
 Dependencies
 ------------
 
