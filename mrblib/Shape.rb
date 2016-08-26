@@ -63,9 +63,9 @@ class Shape
 
   def vertices(filter = nil)
     if filter
-      self.explore(ShapeType::VERETEX, filter)
+      self.explore(ShapeType::VERTEX, filter)
     else
-      self.explore(ShapeType::VERETEX)
+      self.explore(ShapeType::VERTEX)
     end
   end
 
