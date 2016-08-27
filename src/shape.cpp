@@ -70,6 +70,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   MRB_ARGS_REQ(1));
 
   mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, rclass, "subshapes",  siren_shape_subshapes,  MRB_ARGS_OPT(2));
 
   mrb_define_method(mrb, rclass, "section",    siren_shape_section,    MRB_ARGS_REQ(1));
 
@@ -375,6 +376,27 @@ mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self)
   for (; ex.More(); ex.Next()) {
     mrb_int ai = mrb_gc_arena_save(mrb);
     mrb_ary_push(mrb, ar, siren_shape_new(mrb, ex.Current()));
+    mrb_gc_arena_restore(mrb, ai);
+  }
+  return ar;
+}
+
+mrb_value siren_shape_subshapes(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool ori, loc;
+  int argc = mrb_get_args(mrb, "|bb", &ori, &loc);
+  if (argc == 0) {
+    ori = TRUE;
+    loc = TRUE;
+  }
+  if (argc == 1) {
+    loc = TRUE;
+  }
+  TopoDS_Iterator it(*siren_shape_get(mrb, self), (Standard_Boolean)ori, (Standard_Boolean)loc);
+  mrb_value ar = mrb_ary_new(mrb);
+  for (; it.More(); it.Next()) {
+    mrb_int ai = mrb_gc_arena_save(mrb);
+    mrb_ary_push(mrb, ar, siren_shape_new(mrb, it.Value()));
     mrb_gc_arena_restore(mrb, ai);
   }
   return ar;

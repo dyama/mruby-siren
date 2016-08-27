@@ -70,6 +70,7 @@ mrb_value siren_shape_is_same(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_subshapes(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_shape_section(mrb_state* mrb, mrb_value self);
 
@@ -95,6 +96,7 @@ mrb_value siren_shape_is_infinite(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_set_infinite(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_convex(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_set_convex(mrb_state* mrb, mrb_value self);
+
 mrb_value siren_shape_next_trans(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_first_datum(mrb_state* mrb, mrb_value self);
 
