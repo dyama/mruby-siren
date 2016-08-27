@@ -3,6 +3,7 @@
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Build");
+  // Class method
   mrb_define_class_method(mrb, rclass, "copy",       siren_build_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "vertex",     siren_build_vertex,     MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "line",       siren_build_line,       MRB_ARGS_REQ(2));
@@ -24,6 +25,28 @@ bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "sewing",     siren_build_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "solid",      siren_build_solid,      MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "compound",   siren_build_compound,   MRB_ARGS_REQ(1));
+  // For mix-in
+  mrb_define_method      (mrb, rclass, "copy",       siren_build_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "vertex",     siren_build_vertex,     MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, rclass, "line",       siren_build_line,       MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "infline",    siren_build_infline,    MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "polyline",   siren_build_polyline,   MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, rclass, "curve",      siren_build_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "wire",       siren_build_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "arc",        siren_build_arc,        MRB_ARGS_REQ(6));
+  mrb_define_method      (mrb, rclass, "arc3p",      siren_build_arc3p,      MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, rclass, "circle",     siren_build_circle,     MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, rclass, "circle3p",   siren_build_circle3p,   MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, rclass, "plane",      siren_build_plane,      MRB_ARGS_REQ(7));
+  mrb_define_method      (mrb, rclass, "face",       siren_build_face,       MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "infplane",   siren_build_infplane,   MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "polygon",    siren_build_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "nurbscurve", siren_build_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
+  mrb_define_method      (mrb, rclass, "beziersurf", siren_build_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "nurbssurf",  siren_build_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "sewing",     siren_build_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "solid",      siren_build_solid,      MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, rclass, "compound",   siren_build_compound,   MRB_ARGS_REQ(1));
   return true;
 }
 

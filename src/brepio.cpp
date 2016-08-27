@@ -6,6 +6,9 @@ bool siren_brepio_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_class_method(mrb, rclass, "save", siren_brepio_save, MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "load", siren_brepio_load, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, rclass, "dump", siren_brepio_dump, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "save", siren_brepio_save, MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, rclass, "load", siren_brepio_load, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "dump", siren_brepio_dump, MRB_ARGS_REQ(1));
   return true;
 }
 
