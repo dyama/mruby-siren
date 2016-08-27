@@ -5,6 +5,10 @@
 
 module Siren
   [
+    # BRepIO package
+    [BRepIO, "save", "save_brep"],
+    [BRepIO, "load", "load_brep"],
+    [BRepIO, "dump", "dump"],
     # STEP package
     [STEP, "save", "save_step"],
     [STEP, "load", "load_step"],
@@ -23,7 +27,6 @@ module Siren
       package.send(method, *args)
     end
   end
-  include BRepIO
   include Build
   include Heal
   include Offset
