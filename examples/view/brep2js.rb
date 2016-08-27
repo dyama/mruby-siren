@@ -5,11 +5,11 @@ def brep2js(shape, path, face_defl=1.0, face_angle=5.0.to_rad, edge_defl=5.0.to_
   File.open(path, "w") do |f|
     f.write "var fs = [];\n"
     f.write "var es = [];\n"
-    if shape.explore(ShapeType::FACE).size > 0
+    if shape.faces.size > 0
       i = 0
       f.write "{\n"
       f.write "  var g = new THREE.Geometry();\n"
-      shape.explore(ShapeType::FACE) do |face|
+      shape.faces do |face|
         face.triangle(face_defl, face_angle).each do |m|
           f.write "  g.vertices.push(new THREE.Vector3(#{m[0][0]}, #{m[0][1]}, #{m[0][2]}));\n"
           f.write "  g.vertices.push(new THREE.Vector3(#{m[1][0]}, #{m[1][1]}, #{m[1][2]}));\n"
@@ -39,11 +39,9 @@ end
 
 model = nil
 if ARGV.size == 0
-  box = Prim::box [10, 10, 10], [5, 5, 5]
-  foo = Prim::cylinder [], Vec::zdir, 15, 10, Math::PI * 3.0 / 2.0
-  model = foo.fuse box
+  puts "There is no specified file."
 else
-  model = BRepIO::load ARGV[0]
+  model = BRepIO.load ARGV[0]
 end
 
 brep2js model, File.expand_path(File.dirname(__FILE__)) + "/model.js"

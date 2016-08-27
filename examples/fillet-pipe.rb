@@ -1,5 +1,7 @@
 #!/usr/bin/siren
 
+include Siren
+
 # 半径を指定して内接円弧を作成する
 def fillet(p1, p2, cp, r)
 
@@ -35,7 +37,7 @@ def fillet(p1, p2, cp, r)
   # 通過点
   thrup = centerp + (-v * r);
 
-  return Build.arc3p startp, thrup, termp
+  return arc3p startp, thrup, termp
 end
 
 # パイプの径
@@ -53,21 +55,21 @@ edges = []
 pts.each_cons(3) do |ar|
   arc = fillet(ar[0], ar[2], ar[1], elbow_r)
   if edges.size == 0
-    edges.push Build.line(ar[0], arc.sp)
+    edges.push line(ar[0], arc.sp)
   else
-    edges.push Build.line(edges.last.tp, arc.sp)
+    edges.push line(edges.last.tp, arc.sp)
   end
   edges.push arc
 end
-edges.push Build.line(edges.last.tp, pts.last)
-path = Build.wire edges, 0.01
+edges.push line(edges.last.tp, pts.last)
+path = wire edges, 0.01
 
 # 配管のモデル化
-profile = Build.circle [], [1], pipe_r
-pipe = Offset.pipe profile, path, 0, true
+profile = circle [], [1], pipe_r
+pipe = pipe profile, path, 0, true
 
 # 保存
-BRepIO.save pipe, "pipe.brep"
+save_brep pipe, "pipe.brep"
 
 puts "done"
 

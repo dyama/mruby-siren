@@ -31,8 +31,8 @@ class Shape
   def to_polyline
     s = ""
     # エッジ単位で処理
-    self.explore(ShapeType::EDGE) do |edge|
-      s += ds 0, "POLYLINE"  
+    self.edges do |edge|
+      s += ds 0, "POLYLINE"
       s += ds 6, 3
       s += ds 8, @layer
       s += ds 66, 1
