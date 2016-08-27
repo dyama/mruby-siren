@@ -31,6 +31,8 @@
 
 #include <TopExp_Explorer.hxx>
 
+#include <TopLoc_Datum3D.hxx>
+
 #include <BRepAlgoAPI_Section.hxx>
 
 void siren_shape_final(mrb_state* mrb, void* p);
@@ -94,7 +96,7 @@ mrb_value siren_shape_set_infinite(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_convex(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_set_convex(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_next_trans(mrb_state* mrb, mrb_value self);
-// mrb_value siren_shape_first_datum(mrb_state* mrb, mrb_value self);
+mrb_value siren_shape_first_datum(mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_shape_complement(mrb_state* mrb, mrb_value self);
 // mrb_value siren_shape_complement_bang(mrb_state* mrb, mrb_value self);

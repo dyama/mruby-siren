@@ -117,7 +117,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "convex=",     siren_shape_set_convex,     MRB_ARGS_REQ(1));
 
   mrb_define_method(mrb, rclass, "next_trans",  siren_shape_next_trans,  MRB_ARGS_NONE());
-//  mrb_define_method(mrb, rclass, "first_datum", siren_shape_first_datum,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, rclass, "first_datum", siren_shape_first_datum,  MRB_ARGS_NONE());
 
   return true;
 }
@@ -190,14 +190,14 @@ mrb_value siren_shape_next_trans(mrb_state* mrb, mrb_value self)
   return siren_trans_new(mrb, loc.Transformation());
 }
 
-// mrb_value siren_shape_first_datum(mrb_state* mrb, mrb_value self)
-// {
-//   TopoDS_Shape* shape = siren_shape_get(mrb, self);
-//   TopLoc_Location loc = shape->Location();
-//   const Handle(TopLoc_Datum3D)& datum = loc.FirstDatum();
-//   gp_Trsf t = datum->Transformation();
-//   return siren_trans_new(mrb, t);
-// }
+mrb_value siren_shape_first_datum(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  TopLoc_Location loc = shape->Location();
+  Handle(TopLoc_Datum3D) datum = loc.FirstDatum();
+  gp_Trsf t = datum->Transformation();
+  return siren_trans_new(mrb, t);
+}
 
 mrb_value siren_shape_set_trans(mrb_state* mrb, mrb_value self)
 {
