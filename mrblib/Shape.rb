@@ -15,9 +15,9 @@ class Shape
 
   def compsolids(filter = nil)
     if filter
-      self.explore(ShapeType::COMSOLID, filter)
+      self.explore(ShapeType::COMPSOLID, filter)
     else
-      self.explore(ShapeType::COMSOLID)
+      self.explore(ShapeType::COMPSOLID)
     end
   end
 
