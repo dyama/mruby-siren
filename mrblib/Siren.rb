@@ -25,6 +25,7 @@ module Siren
   end
   include BRepIO
   include Build
+  include Heal
   include Offset
   include Prim
 end

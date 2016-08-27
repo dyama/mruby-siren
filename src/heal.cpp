@@ -3,8 +3,12 @@
 bool siren_heal_install(mrb_state* mrb, struct RClass* rclass)
 {
   rclass = mrb_define_module(mrb, "Heal");
+  // Class method
   mrb_define_class_method(mrb, rclass, "outerwire", siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "fix", siren_heal_fix, MRB_ARGS_REQ(1));
+  // For mix-in
+  mrb_define_method      (mrb, rclass, "outerwire", siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "fix", siren_heal_fix, MRB_ARGS_REQ(1));
   return true;
 }
 
