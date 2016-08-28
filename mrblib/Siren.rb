@@ -27,6 +27,10 @@ module Siren
       package.send(method, *args)
     end
   end
+  extend Build
+  extend Heal
+  extend Offset
+  extend Prim
   include Build
   include Heal
   include Offset

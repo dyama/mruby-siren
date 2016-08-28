@@ -103,4 +103,14 @@ class Shape
     self.shapetype == ShapeType::VERTEX
   end
 
+  def dump_tree(d = 0)
+    hc = sprintf("%06X", self.hashcode(0xFFFFFF))
+    type = self.shapetype.to_sname
+    puts "  " * d + "%s:0x%s" % [type, hc]
+    d += 1
+    self.subshapes.each do |s|
+      s.dump_tree(d)
+    end
+  end
+
 end
