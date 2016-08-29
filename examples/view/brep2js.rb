@@ -44,7 +44,7 @@ else
   model = BRepIO.load ARGV[0]
 end
 
-if ARGV.size = 1
+if ARGV.size == 1
   brep2js model, File.expand_path(File.dirname(__FILE__)) + "/model.js"
 else
   brep2js model, File.expand_path(File.dirname(__FILE__)) + "/model.js", ARGV[1].to_f
