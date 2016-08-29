@@ -1,7 +1,7 @@
 #!/usr/bin/siren
 # coding: utf-8
 
-def brep2js(shape, path, face_defl=1.0, face_angle=5.0.to_rad, edge_defl=5.0.to_rad)
+def brep2js(shape, path, edge_defl=0.01, face_defl=1.0, face_angle=5.0.to_rad)
   File.open(path, "w") do |f|
     f.write "var fs = [];\n"
     f.write "var es = [];\n"
@@ -44,4 +44,9 @@ else
   model = BRepIO.load ARGV[0]
 end
 
-brep2js model, File.expand_path(File.dirname(__FILE__)) + "/model.js"
+if ARGV.size = 1
+  brep2js model, File.expand_path(File.dirname(__FILE__)) + "/model.js"
+else
+  brep2js model, File.expand_path(File.dirname(__FILE__)) + "/model.js", ARGV[1].to_f
+end
+
