@@ -132,8 +132,14 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
   intp.Perform();
   Handle(Geom_BSplineCurve) geSpl = intp.Curve();
 
-  TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(geSpl);
-  return siren_shape_new(mrb, shape);
+  if (geSpl.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
+    return mrb_nil_value();
+  }
+  else {
+    TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(geSpl);
+    return siren_shape_new(mrb, shape);
+  }
 }
 
 mrb_value siren_build_wire(mrb_state* mrb, mrb_value self)
@@ -178,8 +184,14 @@ mrb_value siren_build_arc(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "AAAfff", &orig, &dir, &vx, &r, &start_ang, &term_ang);
   gp_Circ circle = gp_Circ(gp_Ax2(siren_ary_to_pnt(mrb, orig), siren_ary_to_dir(mrb, dir), siren_ary_to_dir(mrb, vx)), r);
   Handle(Geom_TrimmedCurve) gc = GC_MakeArcOfCircle(circle, start_ang, term_ang, Standard_True);
-  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
-  return siren_shape_new(mrb, E);
+  if (gc.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
+    return mrb_nil_value();
+  }
+  else {
+    TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+    return siren_shape_new(mrb, E);
+  }
 }
 
 mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
@@ -191,7 +203,7 @@ mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));
   if (gc.IsNull()) {
-    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make an arc.");
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
     return mrb_nil_value();
   }
   else {
@@ -209,8 +221,14 @@ mrb_value siren_build_circle(mrb_state* mrb, mrb_value self)
       siren_ary_to_pnt(mrb, orig),
       siren_ary_to_dir(mrb, dir),
       r);
-  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
-  return siren_shape_new(mrb, E);
+  if (gc.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
+    return mrb_nil_value();
+  }
+  else {
+    TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+    return siren_shape_new(mrb, E);
+  }
 }
 
 mrb_value siren_build_circle3p(mrb_state* mrb, mrb_value self)
@@ -221,8 +239,14 @@ mrb_value siren_build_circle3p(mrb_state* mrb, mrb_value self)
       siren_ary_to_pnt(mrb, p1),
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));
-  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
-  return siren_shape_new(mrb, E);
+  if (gc.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
+    return mrb_nil_value();
+  }
+  else {
+    TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+    return siren_shape_new(mrb, E);
+  }
 }
 
 mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
