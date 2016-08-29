@@ -190,8 +190,14 @@ mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
       siren_ary_to_pnt(mrb, p1),
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));
-  TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
-  return siren_shape_new(mrb, E);
+  if (gc.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make an arc.");
+    return mrb_nil_value();
+  }
+  else {
+    TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
+    return siren_shape_new(mrb, E);
+  }
 }
 
 mrb_value siren_build_circle(mrb_state* mrb, mrb_value self)
