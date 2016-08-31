@@ -5,6 +5,11 @@
 #
 
 {
+  BRepIO: {
+    save: "save_brep",
+    load: "load_brep",
+    dump: "dump",
+  },
   IGES: {
     save: "save_iges",
     load: "load_iges"
