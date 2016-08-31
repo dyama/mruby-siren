@@ -4,11 +4,12 @@
 
 bool siren_step_install(mrb_state* mrb, struct RClass* rclass)
 {
-  rclass = mrb_define_module(mrb, "STEP");
-  mrb_define_class_method(mrb, rclass, "save",  siren_step_save, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "write", siren_step_save, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "load",  siren_step_load, MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "read",  siren_step_load, MRB_ARGS_REQ(1));
+  // Class method
+  mrb_define_class_method(mrb, rclass, "save_step",  siren_step_save, MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "load_step",  siren_step_load, MRB_ARGS_REQ(1));
+  // For mix-in
+  mrb_define_method      (mrb, rclass, "save_step",  siren_step_save, MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "load_step",  siren_step_load, MRB_ARGS_REQ(1));
   return true;
 }
 
@@ -27,8 +28,8 @@ mrb_value siren_step_save(mrb_state* mrb, mrb_value self)
   if (writer.Write(RSTRING_PTR(path)) != IFSelect_RetDone) {
     mrb_raisef(mrb, E_RUNTIME_ERROR, "Failed to write STEP to %S.", path);
   }
-  return mrb_nil_value();
   */
+  return mrb_nil_value();
 }
 
 mrb_value siren_step_load(mrb_state* mrb, mrb_value self)

@@ -42,9 +42,6 @@ extern "C" {
     struct RClass* _heal   = NULL;
     struct RClass* _bndbox = NULL;
     struct RClass* _filler = NULL;
-#ifdef SIREN_ENABLE_STEP
-    struct RClass* _step   = NULL;
-#endif
     siren_curve_install(mrb, _curve);
     siren_shape_install(mrb, _shape);
     siren_build_install(mrb, _build);
@@ -63,7 +60,7 @@ extern "C" {
     siren_stl_install(mrb, mod_siren);
 #endif
 #ifdef SIREN_ENABLE_STEP
-    siren_step_install(mrb, _step);
+    siren_step_install(mrb, mod_siren);
 #endif
     return;
   }

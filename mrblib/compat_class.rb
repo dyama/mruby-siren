@@ -5,14 +5,18 @@
 #
 
 {
+  IGES: {
+    save: "save_iges",
+    load: "load_iges"
+  },
   STL: {
     save: "save_stl",
     load: "load_stl"
   },
-  IGES: {
-    save: "save_iges",
-    load: "load_iges"
-  }
+  STEP: {
+    save: "save_step",
+    load: "load_step"
+  },
 }.each do |mod, ms|
   newmod = self.class.const_set mod, Module.new
   ms.each do |from, dest|

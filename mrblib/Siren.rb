@@ -9,9 +9,6 @@ module Siren
     [BRepIO, "save", "save_brep"],
     [BRepIO, "load", "load_brep"],
     [BRepIO, "dump", "dump"],
-    # STEP package
-    [STEP, "save", "save_step"],
-    [STEP, "load", "load_step"],
   ].each do |ary|
     package, method, export = ary
     define_method(export) do |*args|
