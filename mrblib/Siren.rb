@@ -12,9 +12,6 @@ module Siren
     # STEP package
     [STEP, "save", "save_step"],
     [STEP, "load", "load_step"],
-    # IGES package
-    [IGES, "save", "save_iges"],
-    [IGES, "load", "load_iges"],
   ].each do |ary|
     package, method, export = ary
     define_method(export) do |*args|

@@ -2,28 +2,26 @@
 
 bool siren_iges_install(mrb_state* mrb, struct RClass* rclass)
 {
-  rclass = mrb_define_module(mrb, "IGES");
-  mrb_define_class_method(mrb, rclass, "save", siren_iges_save, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "load", siren_iges_load, MRB_ARGS_REQ(1));
+  // Class method
+  mrb_define_class_method(mrb, rclass, "save_iges", siren_iges_save, MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "load_iges", siren_iges_load, MRB_ARGS_REQ(1));
+  // For mix-in
+  mrb_define_method      (mrb, rclass, "save_iges", siren_iges_save, MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "load_iges", siren_iges_load, MRB_ARGS_REQ(1));
   return true;
 }
 
 mrb_value siren_iges_save(mrb_state* mrb, mrb_value self)
 {
-  mrb_value shapes;
+  mrb_value target;
   mrb_value path;
-  int argc = mrb_get_args(mrb, "AS", &shapes, &path);
+  int argc = mrb_get_args(mrb, "oS", &target, &path);
 
   IGESControl_Controller::Init();
   IGESControl_Writer writer(Interface_Static::CVal("XSTEP.iges.unit"),
     Interface_Static::IVal("XSTEP.iges.writebrep.mode"));
 
-  for (int i=0; i < mrb_ary_len(mrb, shapes); i++) {
-    mrb_value target = mrb_ary_ref(mrb, shapes, i);
-    TopoDS_Shape* shape = siren_shape_get(mrb, target);
-    writer.AddShape(*shape);
-  }
-
+  writer.AddShape(*siren_shape_get(mrb, target));
   writer.ComputeModel();
 
   std::ofstream fst(RSTRING_PTR(path), std::ios_base::out);

@@ -7,11 +7,14 @@
 #include "brepio.h"
 #include "trans.h"
 #include "prim.h"
-#include "iges.h"
 #include "offset.h"
 #include "heal.h"
 #include "bndbox.h"
 #include "filler.h"
+
+#ifdef SIREN_ENABLE_IGES
+  #include "iges.h"
+#endif
 
 #ifdef SIREN_ENABLE_STL
   #include "stl.h"
@@ -35,7 +38,6 @@ extern "C" {
     struct RClass* _brepio = NULL;
     struct RClass* _trans  = NULL;
     struct RClass* _prim   = NULL;
-    struct RClass* _iges   = NULL;
     struct RClass* _offset = NULL;
     struct RClass* _heal   = NULL;
     struct RClass* _bndbox = NULL;
@@ -50,11 +52,13 @@ extern "C" {
     siren_brepio_install(mrb, _brepio);
     siren_trans_install(mrb, _trans);
     siren_prim_install(mrb, _prim);
-    siren_iges_install(mrb, _iges);
     siren_offset_install(mrb, _offset);
     siren_heal_install(mrb, _heal);
     siren_bndbox_install(mrb, _bndbox);
     siren_filler_install(mrb, _filler);
+#ifdef SIREN_ENABLE_IGES
+    siren_iges_install(mrb, mod_siren);
+#endif
 #ifdef SIREN_ENABLE_STL
     siren_stl_install(mrb, mod_siren);
 #endif
