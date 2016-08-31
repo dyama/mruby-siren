@@ -12,9 +12,6 @@ module Siren
     # STEP package
     [STEP, "save", "save_step"],
     [STEP, "load", "load_step"],
-    # STL package
-    [STL, "save", "save_stl"],
-    [STL, "load", "load_stl"],
     # IGES package
     [IGES, "save", "save_iges"],
     [IGES, "load", "load_iges"],
@@ -35,5 +32,11 @@ module Siren
   include Heal
   include Offset
   include Prim
+
+  def self.warn(*msg)
+    return if $VERBOSE.nil? && msg.empty?
+    $stderr.puts("siren: warning: " + msg.join)
+  end
+
 end
 

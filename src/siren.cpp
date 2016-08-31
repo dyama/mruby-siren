@@ -26,6 +26,8 @@ extern "C" {
   // initializer
   void mrb_mruby_siren_gem_init(mrb_state* mrb)
   {
+    struct RClass* mod_siren  = mrb_define_module(mrb, "Siren");
+
     struct RClass* _curve  = NULL;
     struct RClass* _shape  = NULL;
     struct RClass* _build  = NULL;
@@ -38,9 +40,6 @@ extern "C" {
     struct RClass* _heal   = NULL;
     struct RClass* _bndbox = NULL;
     struct RClass* _filler = NULL;
-#ifdef SIREN_ENABLE_STL
-    struct RClass* _stl    = NULL;
-#endif
 #ifdef SIREN_ENABLE_STEP
     struct RClass* _step   = NULL;
 #endif
@@ -57,7 +56,7 @@ extern "C" {
     siren_bndbox_install(mrb, _bndbox);
     siren_filler_install(mrb, _filler);
 #ifdef SIREN_ENABLE_STL
-    siren_stl_install(mrb, _stl);
+    siren_stl_install(mrb, mod_siren);
 #endif
 #ifdef SIREN_ENABLE_STEP
     siren_step_install(mrb, _step);
