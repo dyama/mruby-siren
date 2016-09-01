@@ -2,7 +2,6 @@
 
 bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
 {
-  rclass = mrb_define_module(mrb, "Build");
   // Class method
   mrb_define_class_method(mrb, rclass, "copy",       siren_build_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "vertex",     siren_build_vertex,     MRB_ARGS_REQ(1));

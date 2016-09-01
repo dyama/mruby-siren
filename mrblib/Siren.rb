@@ -5,10 +5,8 @@
 
 module Siren
 
-  extend Build
   extend Heal
   extend Offset
-  include Build
   include Heal
   include Offset
 

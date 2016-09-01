@@ -33,7 +33,6 @@ extern "C" {
 
     struct RClass* _curve  = NULL;
     struct RClass* _shape  = NULL;
-    struct RClass* _build  = NULL;
     struct RClass* _vec    = NULL;
     struct RClass* _trans  = NULL;
     struct RClass* _offset = NULL;
@@ -45,7 +44,7 @@ extern "C" {
     siren_shape_install(mrb, _shape);
     siren_vec_install(mrb, _vec);
     siren_trans_install(mrb, _trans);
-    siren_build_install(mrb, _build);
+    siren_build_install(mrb, mod_siren);
     siren_brepio_install(mrb, mod_siren);
     siren_prim_install(mrb, mod_siren);
     siren_offset_install(mrb, _offset);
