@@ -1,24 +1,11 @@
 #include "heal.h"
 
-bool siren_heal_install(mrb_state* mrb, struct RClass* rclass)
-{
-  rclass = mrb_define_module(mrb, "Heal");
-  // Class method
-  mrb_define_class_method(mrb, rclass, "outerwire", siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "fix", siren_heal_fix, MRB_ARGS_REQ(1));
-  // For mix-in
-  mrb_define_method      (mrb, rclass, "outerwire", siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "fix", siren_heal_fix, MRB_ARGS_REQ(1));
-  return true;
-}
-
 mrb_value siren_heal_outerwire(mrb_state* mrb, mrb_value self)
 {
-  mrb_value target;
   mrb_float tol = 1.0e-1;
-  int argc = mrb_get_args(mrb, "o|f", &target, &tol);
+  int argc = mrb_get_args(mrb, "|f", &tol);
 
-  TopoDS_Shape* shape = siren_shape_get(mrb, target);
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
 
   mrb_value res = mrb_nil_value();
 
@@ -39,9 +26,7 @@ mrb_value siren_heal_outerwire(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_heal_fix(mrb_state* mrb, mrb_value self)
 {
-  mrb_value target;
-  int argc = mrb_get_args(mrb, "o", &target);
-  TopoDS_Shape* shape = siren_shape_get(mrb, target);
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
   mrb_value res = mrb_nil_value();
 
   Handle(ShapeFix_Shape) sfs = new ShapeFix_Shape();

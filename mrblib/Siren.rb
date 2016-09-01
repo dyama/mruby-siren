@@ -5,9 +5,6 @@
 
 module Siren
 
-  extend Heal
-  include Heal
-
   def self.warn(*msg)
     return if $VERBOSE.nil? && msg.empty?
     $stderr.puts("siren: warning: " + msg.join)

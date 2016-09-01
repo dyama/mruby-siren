@@ -90,6 +90,11 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "projwire",   siren_bool_projwire,    MRB_ARGS_REQ(2));
 #endif
 
+#ifdef SIREN_ENABLE_SHHEALING
+  mrb_define_method(mrb, rclass, "outerwire",  siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, rclass, "fix",        siren_heal_fix, MRB_ARGS_REQ(1));
+#endif
+
   /* from BRepTools */
   mrb_define_method(mrb, rclass, "update!", siren_shape_update_bang, MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "clean!",  siren_shape_clean_bang,  MRB_ARGS_NONE());

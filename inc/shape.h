@@ -6,12 +6,16 @@
 #include "bndbox.h"
 #include "trans.h"
 
+#ifdef SIREN_ENABLE_SHHEALING
+  #include "heal.h"
+#endif
+
 #ifdef SIREN_ENABLE_GPROP
-#include "gprop.h"
+  #include "gprop.h"
 #endif
 
 #ifdef SIREN_ENABLE_BOOL
-#include "bool.h"
+  #include "bool.h"
 #endif
 
 #include "vertex.h"
