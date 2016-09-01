@@ -59,6 +59,15 @@
     solid:      "solid",
     compound:   "compound",
   },
+  Offset: {
+    sweep_vec:       "sweep_vec",
+    sweep_path:      "sweep_path",
+    loft:            "loft",
+    offset_geomsurf: "offset_geomsurf",
+    offset:          "offset",
+    offset_shape:    "offset_shape",
+    pipe:            "pipe",
+  },
 }.each do |mod, ms|
   newmod = self.class.const_set mod, Module.new
   ms.each do |from, dest|

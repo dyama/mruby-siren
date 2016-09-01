@@ -4,6 +4,7 @@
 // Configuration
 #define SIREN_ENABLE_GPROP
 #define SIREN_ENABLE_BOOL
+#define SIREN_ENABLE_OFFSET
 #define SIREN_ENABLE_STL
 #define SIREN_ENABLE_IGES
 #define SIREN_ENABLE_STEP

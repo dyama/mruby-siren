@@ -7,10 +7,13 @@
 #include "brep.h"
 #include "trans.h"
 #include "prim.h"
-#include "offset.h"
 #include "heal.h"
 #include "bndbox.h"
 #include "filler.h"
+
+#ifdef SIREN_ENABLE_OFFSET
+  #include "offset.h"
+#endif
 
 #ifdef SIREN_ENABLE_IGES
   #include "iges.h"
@@ -35,7 +38,6 @@ extern "C" {
     struct RClass* _shape  = NULL;
     struct RClass* _vec    = NULL;
     struct RClass* _trans  = NULL;
-    struct RClass* _offset = NULL;
     struct RClass* _heal   = NULL;
     struct RClass* _bndbox = NULL;
     struct RClass* _filler = NULL;
@@ -47,10 +49,13 @@ extern "C" {
     siren_build_install(mrb, mod_siren);
     siren_brep_install(mrb, mod_siren);
     siren_prim_install(mrb, mod_siren);
-    siren_offset_install(mrb, _offset);
     siren_heal_install(mrb, _heal);
     siren_bndbox_install(mrb, _bndbox);
     siren_filler_install(mrb, _filler);
+
+#ifdef SIREN_ENABLE_OFFSET
+    siren_offset_install(mrb, mod_siren);
+#endif
 #ifdef SIREN_ENABLE_IGES
     siren_iges_install(mrb, mod_siren);
 #endif

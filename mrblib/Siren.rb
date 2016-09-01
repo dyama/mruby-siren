@@ -6,9 +6,7 @@
 module Siren
 
   extend Heal
-  extend Offset
   include Heal
-  include Offset
 
   def self.warn(*msg)
     return if $VERBOSE.nil? && msg.empty?

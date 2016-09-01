@@ -2,7 +2,6 @@
 
 bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
 {
-  rclass = mrb_define_module(mrb, "Offset");
   // Class method
   mrb_define_class_method(mrb, rclass, "sweep_vec",       siren_offset_sweep_vec,       MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, rclass, "sweep_path",      siren_offset_sweep_path,      MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
