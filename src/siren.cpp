@@ -4,7 +4,7 @@
 #include "curve.h"
 #include "shape.h"
 #include "build.h"
-#include "brepio.h"
+#include "brep.h"
 #include "trans.h"
 #include "prim.h"
 #include "offset.h"
@@ -45,7 +45,7 @@ extern "C" {
     siren_vec_install(mrb, _vec);
     siren_trans_install(mrb, _trans);
     siren_build_install(mrb, mod_siren);
-    siren_brepio_install(mrb, mod_siren);
+    siren_brep_install(mrb, mod_siren);
     siren_prim_install(mrb, mod_siren);
     siren_offset_install(mrb, _offset);
     siren_heal_install(mrb, _heal);
