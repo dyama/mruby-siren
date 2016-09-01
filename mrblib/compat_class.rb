@@ -22,6 +22,20 @@
     save: "save_step",
     load: "load_step"
   },
+  Prim: {
+    box:        "box",
+    box2p:      "box2p",
+    boxax:      "boxax",
+    sphere:     "sphere",
+    cylinder:   "cylinder",
+    cone:       "cone",
+    torus:      "torus",
+    halfspace:  "halfspace",
+    prism:      "prism",
+    revol:      "revol",
+    revolution: "revolution",
+    wedge:      "wedge",
+  },
 }.each do |mod, ms|
   newmod = self.class.const_set mod, Module.new
   ms.each do |from, dest|

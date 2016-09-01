@@ -2,7 +2,6 @@
 
 bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
 {
-  rclass = mrb_define_module(mrb, "Prim");
   // Class method
   mrb_define_class_method(mrb, rclass, "box",       siren_prim_box,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, rclass, "box2p",     siren_prim_box2p,     MRB_ARGS_REQ(2));
