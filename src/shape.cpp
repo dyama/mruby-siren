@@ -154,8 +154,8 @@ void siren_shape_final(mrb_state* mrb, void* p)
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  RClass* krass = mrb_module_get(mrb, "ShapeType");
-  mrb_value shapetype = mrb_funcall(mrb, mrb_obj_value(krass), "to_s", 1, mrb_fixnum_value((int)shape->ShapeType()));
+  RClass* krass = mrb_class_get(mrb, "Shape");
+  mrb_value shapetype = mrb_funcall(mrb, mrb_obj_value(krass), "typename", 1, mrb_fixnum_value((int)shape->ShapeType()));
   mrb_value str = mrb_str_new_cstr(mrb, "#<Shape:");
   mrb_str_concat(mrb, str, mrb_ptr_to_str(mrb, mrb_cptr(self)));
   mrb_str_cat_lit(mrb, str, " @type=");
