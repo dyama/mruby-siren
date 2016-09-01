@@ -68,6 +68,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method(mrb, rclass, "partner?",   siren_shape_is_partner, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, rclass, "<=>",        siren_shape_is_equal,   MRB_ARGS_REQ(1));
 
   mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method(mrb, rclass, "subshapes",  siren_shape_subshapes,  MRB_ARGS_OPT(2));
