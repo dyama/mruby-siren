@@ -14,8 +14,8 @@ Example
 -------
 
     # Make two boxes
-    box1 = Prim.box [10, 10, 10]
-    box2 = Prim.box [10, 10, 10]
+    box1 = Siren.box [10, 10, 10]
+    box2 = Siren.box [10, 10, 10]
 
     # Move box2
     box2.translate! [5, 5, 5]
@@ -26,7 +26,7 @@ Example
     # Print volume of box
     p box3.volume # => 1875
 
-    box3.explore(ShapeType::FACE) do |face|
+    box3.faces do |face|
       # Print area of face
       p face.area
     end
@@ -84,7 +84,7 @@ Documentation
 * Tutorial: http://siren.xyz/tutorial.html
 * Wiki: https://github.com/dyama/mruby-siren/wiki.
   * Reference Manual: https://github.com/dyama/mruby-siren/wiki/Reference-manual
-  * Examples: https://github.com/dyama/mruby-siren/wiki/Sample
+  * Examples: https://github.com/dyama/mruby-siren/wiki/Example
 
 Lincense
 --------
