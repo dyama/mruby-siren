@@ -1,55 +1,57 @@
-#include "build.h"
+#include "topalgo.h"
 
-bool siren_build_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_topalgo_install(mrb_state* mrb, struct RClass* rclass)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "copy",       siren_build_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "vertex",     siren_build_vertex,     MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "line",       siren_build_line,       MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "infline",    siren_build_infline,    MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "polyline",   siren_build_polyline,   MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "curve",      siren_build_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "wire",       siren_build_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "arc",        siren_build_arc,        MRB_ARGS_REQ(6));
-  mrb_define_class_method(mrb, rclass, "arc3p",      siren_build_arc3p,      MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "circle",     siren_build_circle,     MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "circle3p",   siren_build_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "plane",      siren_build_plane,      MRB_ARGS_REQ(7));
-  mrb_define_class_method(mrb, rclass, "face",       siren_build_face,       MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "infplane",   siren_build_infplane,   MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "polygon",    siren_build_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "nurbscurve", siren_build_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
-  mrb_define_class_method(mrb, rclass, "beziersurf", siren_build_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "nurbssurf",  siren_build_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "sewing",     siren_build_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "solid",      siren_build_solid,      MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "compound",   siren_build_compound,   MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
+  mrb_define_class_method(mrb, rclass, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, rclass, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
+  mrb_define_class_method(mrb, rclass, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, rclass, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
+  mrb_define_class_method(mrb, rclass, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, rclass, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, rclass, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
   // For mix-in
-  mrb_define_method      (mrb, rclass, "copy",       siren_build_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "vertex",     siren_build_vertex,     MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, rclass, "line",       siren_build_line,       MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "infline",    siren_build_infline,    MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "polyline",   siren_build_polyline,   MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, rclass, "curve",      siren_build_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "wire",       siren_build_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "arc",        siren_build_arc,        MRB_ARGS_REQ(6));
-  mrb_define_method      (mrb, rclass, "arc3p",      siren_build_arc3p,      MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, rclass, "circle",     siren_build_circle,     MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, rclass, "circle3p",   siren_build_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, rclass, "plane",      siren_build_plane,      MRB_ARGS_REQ(7));
-  mrb_define_method      (mrb, rclass, "face",       siren_build_face,       MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "infplane",   siren_build_infplane,   MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "polygon",    siren_build_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "nurbscurve", siren_build_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
-  mrb_define_method      (mrb, rclass, "beziersurf", siren_build_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "nurbssurf",  siren_build_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "sewing",     siren_build_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "solid",      siren_build_solid,      MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, rclass, "compound",   siren_build_compound,   MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, rclass, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, rclass, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, rclass, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
+  mrb_define_method      (mrb, rclass, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, rclass, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, rclass, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, rclass, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
+  mrb_define_method      (mrb, rclass, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, rclass, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
+  mrb_define_method      (mrb, rclass, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, rclass, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, rclass, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
   return true;
 }
 
-mrb_value siren_build_copy(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_copy(mrb_state* mrb, mrb_value self)
 {
   mrb_value target;
   mrb_bool copy_geom;
@@ -62,7 +64,7 @@ mrb_value siren_build_copy(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, res);
 }
 
-mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_vertex(mrb_state* mrb, mrb_value self)
 {
   mrb_value pos;
   int argc = mrb_get_args(mrb, "A", &pos);
@@ -70,7 +72,7 @@ mrb_value siren_build_vertex(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, shape);
 }
 
-mrb_value siren_build_line(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_line(mrb_state* mrb, mrb_value self)
 {
   mrb_value sp, tp;
   int argc = mrb_get_args(mrb, "AA", &sp, &tp);
@@ -79,7 +81,7 @@ mrb_value siren_build_line(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, shape);
 }
 
-mrb_value siren_build_infline(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_infline(mrb_state* mrb, mrb_value self)
 {
   mrb_value orig, dir;
   int argc = mrb_get_args(mrb, "AA", &orig, &dir);
@@ -87,7 +89,7 @@ mrb_value siren_build_infline(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, shape);
 }
 
-mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_polyline(mrb_state* mrb, mrb_value self)
 {
   mrb_value ary;
   int argc = mrb_get_args(mrb, "A", &ary);
@@ -99,7 +101,7 @@ mrb_value siren_build_polyline(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, shape);
 }
 
-mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_curve(mrb_state* mrb, mrb_value self)
 {
   mrb_value pts, vecs;
   int argc = mrb_get_args(mrb, "A|A", &pts, &vecs);
@@ -141,7 +143,7 @@ mrb_value siren_build_curve(mrb_state* mrb, mrb_value self)
   }
 }
 
-mrb_value siren_build_wire(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_wire(mrb_state* mrb, mrb_value self)
 {
   mrb_value objs;
   mrb_float tol;
@@ -176,7 +178,7 @@ mrb_value siren_build_wire(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, mw.Shape());
 }
 
-mrb_value siren_build_arc(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_arc(mrb_state* mrb, mrb_value self)
 {
   mrb_value orig, dir, vx;
   mrb_float r, start_ang, term_ang;
@@ -193,7 +195,7 @@ mrb_value siren_build_arc(mrb_state* mrb, mrb_value self)
   }
 }
 
-mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_arc3p(mrb_state* mrb, mrb_value self)
 {
   mrb_value p1, p2, p3;
   int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
@@ -211,7 +213,7 @@ mrb_value siren_build_arc3p(mrb_state* mrb, mrb_value self)
   }
 }
 
-mrb_value siren_build_circle(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_circle(mrb_state* mrb, mrb_value self)
 {
   mrb_value orig, dir;
   mrb_float r;
@@ -230,7 +232,7 @@ mrb_value siren_build_circle(mrb_state* mrb, mrb_value self)
   }
 }
 
-mrb_value siren_build_circle3p(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_circle3p(mrb_state* mrb, mrb_value self)
 {
   mrb_value p1, p2, p3;
   int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
@@ -248,7 +250,7 @@ mrb_value siren_build_circle3p(mrb_state* mrb, mrb_value self)
   }
 }
 
-mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_plane(mrb_state* mrb, mrb_value self)
 {
   mrb_value pos, norm, vdir;
   mrb_float umin, umax, vmin, vmax;
@@ -258,7 +260,7 @@ mrb_value siren_build_plane(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, face.Shape());
 }
 
-mrb_value siren_build_face(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_face(mrb_state* mrb, mrb_value self)
 {
   mrb_value wire;
   mrb_bool force_plane;
@@ -272,7 +274,7 @@ mrb_value siren_build_face(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, face);
 }
 
-mrb_value siren_build_infplane(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_infplane(mrb_state* mrb, mrb_value self)
 {
   mrb_value orig, dir;
   int argc = mrb_get_args(mrb, "AA", &orig, &dir);
@@ -281,7 +283,7 @@ mrb_value siren_build_infplane(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, face);
 }
 
-mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_polygon(mrb_state* mrb, mrb_value self)
 {
   mrb_value pts;
   mrb_bool force_plane;
@@ -307,7 +309,7 @@ mrb_value siren_build_polygon(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, mf.Shape());
 }
 
-mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_nurbscurve(mrb_state* mrb, mrb_value self)
 {
   mrb_int d;
   mrb_value ks, ms, ps, ws;
@@ -349,7 +351,7 @@ mrb_value siren_build_nurbscurve(mrb_state* mrb, mrb_value self)
     return siren_shape_new(mrb, BRepBuilderAPI_MakeEdge(hgeom_bscurve));
 }
 
-mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self)
 {
   mrb_value ptary, wtary;
   int argc = mrb_get_args(mrb, "A|A", &ptary, &wtary);
@@ -386,7 +388,7 @@ mrb_value siren_build_beziersurf(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, BRepBuilderAPI_MakeFace(s, 1.0e-7));
 }
 
-mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self)
 {
   mrb_int _udeg, _vdeg;
   mrb_value _ar_ukm, _ar_vkm;
@@ -470,7 +472,7 @@ mrb_value siren_build_nurbssurf(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, shape);
 }
 
-mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_sewing(mrb_state* mrb, mrb_value self)
 {
   mrb_value ar;
   mrb_float tol;
@@ -500,7 +502,7 @@ mrb_value siren_build_sewing(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, sewer.SewedShape());
 }
 
-mrb_value siren_build_solid(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self)
 {
   mrb_value obj;
   int argc = mrb_get_args(mrb, "o", &obj);
@@ -519,7 +521,7 @@ mrb_value siren_build_solid(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, solid_maker.Solid());
 }
 
-mrb_value siren_build_compound(mrb_state* mrb, mrb_value self)
+mrb_value siren_topalgo_compound(mrb_state* mrb, mrb_value self)
 {
   mrb_value ary;
   int argc = mrb_get_args(mrb, "A", &ary);

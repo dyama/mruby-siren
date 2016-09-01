@@ -3,7 +3,7 @@
 
 #include "siren.h"
 #include "shape.h"
-#include "build.h"
+#include "topalgo.h"
 #include "vec.h"
 
 #include <TopoDS.hxx>

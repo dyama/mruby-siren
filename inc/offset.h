@@ -3,7 +3,7 @@
 
 #include "siren.h"
 #include "shape.h"
-#include "build.h"
+#include "topalgo.h"
 
 // sweep_vec
 #include <BRepOffsetAPI_MakePipe.hxx>
