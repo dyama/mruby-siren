@@ -113,4 +113,8 @@ class Shape
     end
   end
 
+  def clone(copy_geom = true)
+    Siren.copy(self, copy_geom)
+  end
+
 end
