@@ -12,8 +12,7 @@ class MqObject
       end
       pts = nos.map{|p| @vertex[p]}
       begin
-        # Build.polygon pts, false
-        Build.polygon pts, true
+        Siren.polygon pts, true
       rescue
         nil
       end
@@ -63,7 +62,7 @@ if models.size > 0
     fs += m.build
   end
 
-  BRepIO.save Build.compound(fs), "mqo.brep"
+  Siren.save_brep Siren.compound(fs), "mqo.brep"
   puts "done"
 end
 

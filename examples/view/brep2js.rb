@@ -22,17 +22,16 @@ def brep2js(shape, path, edge_defl=0.01, face_defl=1.0, face_angle=5.0.to_rad)
       end
       f.write "  fs.push(g);\n"
       f.write "}\n";
-    elsif shape.explore(ShapeType::EDGE, ShapeType::FACE).size > 0
-      shape.explore(ShapeType::EDGE, ShapeType::FACE) do |edge|
-        i = 0
-        f.write "{\n"
-        f.write "  var g = new THREE.Geometry();\n"
-        edge.to_pts(edge_defl).each do |pt|
-          f.write "  g.vertices.push(new THREE.Vector3(#{pt.x}, #{pt.y}, #{pt.z}));\n" 
-        end
-        f.write "  es.push(g);\n"
-        f.write "}\n";
+    end
+    shape.edges(ShapeType::FACE) do |edge|
+      i = 0
+      f.write "{\n"
+      f.write "  var g = new THREE.Geometry();\n"
+      edge.to_pts(edge_defl).each do |pt|
+        f.write "  g.vertices.push(new THREE.Vector3(#{pt.x}, #{pt.y}, #{pt.z}));\n" 
       end
+      f.write "  es.push(g);\n"
+      f.write "}\n";
     end
   end
 end
@@ -41,7 +40,7 @@ model = nil
 if ARGV.size == 0
   puts "There is no specified file."
 else
-  model = BRepIO.load ARGV[0]
+  model = Siren.load_model ARGV[0]
 end
 
 if ARGV.size == 1

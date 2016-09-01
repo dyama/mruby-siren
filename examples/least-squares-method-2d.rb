@@ -35,19 +35,19 @@ puts "b: #{b}"
 line = nil
 if a == 0 && b == 0
   puts "horizontal"
-  line = Build.infline [0.0, s[0].y], Vec::xdir
+  line = Siren.infline [0.0, s[0].y], Vec::xdir
 elsif a.nan? && b.nan?
   puts "vertical"
-  line = Build.infline [s[0].x, 0.0], Vec::ydir
+  line = Siren.infline [s[0].x, 0.0], Vec::ydir
 else
   p1 = [0.0, b]
   p2 = [100.0, a*100.0+b]
   dir = p2 - p1
-  line = Build.infline p1, dir
+  line = Siren.infline p1, dir
 end
 
-ps = s.map {|pt| Build.vertex pt}
+ps = s.map {|pt| Siren.vertex pt}
 ps << line
-comp = Build.compound ps
-BRepIO.save comp, "sample-line.brep"
+comp = Siren.compound ps
+Siren.save_brep comp, "sample-line.brep"
 
