@@ -78,7 +78,7 @@ mrb_value siren_bndbox_to_s(mrb_state* mrb, mrb_value self)
   Bnd_Box* b = siren_bndbox_get(mrb, self);
   char str[128];
   if (b->IsVoid()) {
-    snprintf(str, sizeof(str), "#<BndBox:0x%x (void)>", (uintptr_t)mrb_cptr(self));
+    snprintf(str, sizeof(str), "#<BndBox:0x%x (void)>", (unsigned int)(uintptr_t)mrb_cptr(self));
   }
   else {
     Standard_Real xmin, ymin, zmin, xmax, ymax, zmax;
@@ -95,7 +95,7 @@ mrb_value siren_bndbox_to_s(mrb_state* mrb, mrb_value self)
     b->IsOpenZmax() ? snprintf(szmax, s, "%s", "inf") : snprintf(szmax, s, "%f", zmax);
     snprintf(str, sizeof(str),
         "#<BndBox:0x%x xmin=%s, ymin=%s, zmin=%s, xmax=%s, ymax=%s, zmax=%s>",
-        (uintptr_t)mrb_cptr(self), sxmin, symin, szmin, sxmax, symax, szmax);
+        (unsigned int)(uintptr_t)mrb_cptr(self), sxmin, symin, szmin, sxmax, symax, szmax);
   }
   return mrb_str_new_cstr(mrb, str);
 }

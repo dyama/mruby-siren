@@ -36,6 +36,7 @@ bool siren_curve_install(mrb_state* mrb, struct RClass* rclass)
 mrb_value siren_curve_init(mrb_state* mrb, mrb_value self)
 {
   mrb_raise(mrb, E_NOMETHOD_ERROR, "private method `new' called for Curve:Class");
+  return mrb_nil_value();
 }
 
 void siren_curve_final(mrb_state* mrb, void* p)
