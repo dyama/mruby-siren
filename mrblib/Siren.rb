@@ -35,5 +35,25 @@ module Siren
     Siren.save_model(shape, path)
   end
 
+  def self.load_model(path)
+    e5 = path[-5, path.size].downcase
+    e4 = path[-4, path.size].downcase
+    if e5 == ".brep" || e4 == ".brp"
+      Siren.load_brep path
+    elsif e5 == ".iges" || e4 == ".igs"
+      Siren.load_iges path
+    elsif e5 == ".step" || e4 == ".stp"
+      Siren.load_step path
+    elsif e4 == ".stl"
+      Siren.load_stl path
+    else
+      raise TypeError
+    end
+  end
+
+  def load_model(path)
+    Siren.load_model(path)
+  end
+
 end
 
