@@ -1,5 +1,7 @@
 #include "iges.h"
 
+#ifdef SIREN_ENABLE_IGES
+
 bool siren_iges_install(mrb_state* mrb, struct RClass* rclass)
 {
   // Class method
@@ -79,3 +81,4 @@ mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
   return result;
 }
 
+#endif

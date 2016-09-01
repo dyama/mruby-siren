@@ -1,5 +1,6 @@
 #ifndef _IGES_H_
 #define _IGES_H_
+#ifdef SIREN_ENABLE_IGES
 
 #include "siren.h"
 #include "vec.h"
@@ -16,4 +17,5 @@ bool siren_iges_install(mrb_state* mrb, struct RClass* rclass);
 mrb_value siren_iges_save(mrb_state* mrb, mrb_value self);
 mrb_value siren_iges_load(mrb_state* mrb, mrb_value self);
 
+#endif
 #endif
