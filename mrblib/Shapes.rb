@@ -5,39 +5,39 @@
 class Array
 
   def to_curve
-    Build.curve self
+    Siren.curve self
   end
 
   def to_polyline
-    Build.polyline self
+    Siren.polyline self
   end
 
   def to_polygon
-    Build.polygon self
+    Siren.polygon self
   end
 
   def to_wire(tol = 0.001)
-    Build.wire self, tol
+    Siren.wire self, tol
   end
 
   def to_loft
-    
+    raise NotImplementedError
   end
 
   def to_revol
-
+    raise NotImplementedError
   end
 
   def to_shell
-    Build.shell self
+    Siren.shell self
   end
 
   def to_solid
-    Build.solid self.to_shell
+    Siren.solid self.to_shell
   end
 
   def to_comp
-    Build.compound self
+    Siren.compound self
   end
 
   def vertices;   self.map(&:vertices).flatten   end
@@ -48,6 +48,10 @@ class Array
   def solids;     self.map(&:solids).flatten     end
   def compsolids; self.map(&:compsolids).flatten end
   def compounds;  self.map(&:compounds).flatten  end
+
+  def bndbox
+    raise NotImplementedError
+  end
 
 end
 
