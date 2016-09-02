@@ -28,7 +28,7 @@ module Siren
   end
 
   def save_stl(*args)
-    Siren.save_stl *args
+    Siren.save_stl(*args)
   end
 
 end
