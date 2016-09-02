@@ -6,66 +6,49 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   # General spec
   spec.author  = 'dyama'
-  spec.summary = 'Lightweight 3D Geometry and Topology engine.'
+  spec.summary = 'Lightweight 3D operation environment.'
   spec.license = 'MIT license'
 
-  # define path
-  occlibpath = [ '/opt/occ/700/lin64/gcc/lib' ]
-  occincpath = [ '/opt/occ/700/inc' ]
-  sirenincpath = File.expand_path(File.dirname(__FILE__)) + '/inc'
-
-  # OCCT dependencies
+  siren_incpath = File.expand_path(File.dirname(__FILE__)) + '/inc'
   # Check http://dev.opencascade.org/doc/refman/html/index.html
-  thirdPartyLibs = [ 'tbb', 'gl2ps', 'freetype', 'freeimage' ]
+  thirdparty_libs = []
+  occt_libpaths   = []
+  occt_incpaths   = []
 
-  if ENV['OS'] == 'Windows_NT'
-    occlibpath = [ 'E:/occ/OCE-0.17-Mingw32/Win32/lib' ]
-    occincpath = [ 'E:/occ/OCE-0.17-Mingw32/include/oce' ]
-    thirdPartyLibs = [ 'freetype' ]
+  os = RbConfig::CONFIG['host_os'].downcase
+  case os
+  when /linux|solaris|bsd/
+    occt_libpaths = [ '/opt/occ/700/lin64/gcc/lib' ]
+    occt_incpaths = [ '/opt/occ/700/inc' ]
+  when /darwin|mac os/
+    occt_libpaths = [ '/usr/local/opt/opencascade/lib' ]
+    occt_incpaths = [ '/usr/local/opt/opencascade/include/opencascade' ]
+  when /mswin/
+    occt_libpaths = [ 'E:/occ/OCE-0.17-Mingw32/Win32/lib' ]
+    occt_incpaths = [ 'E:/occ/OCE-0.17-Mingw32/include/oce' ]
   end
 
-  foundationClasses =
-    [ 'TKernel', 'TKMath' ]
-
-  modelingData =
-    [ 'TKG2d', 'TKG3d', 'TKGeomBase', 'TKBRep' ]
-
-  modelingAlgorithms =
-    [ 'TKGeomAlgo', 'TKTopAlgo', 'TKBO', 'TKPrim',
-      'TKShHealing', 'TKHLR', 'TKMesh', 'TKBool',
-      'TKXMesh', 'TKFeat', 'TKFillet', 'TKOffset' ]
-
-  visualization =
-     [ 'TKService', 'TKV3d', 'TKOpenGl', 'TKMeshVS',
-       'TKNIS', 'TKVoxel' ]
-
-  applicationFramework =
-    [ 'PTKernel', 'TKCDF', 'TKLCAF', 'TKCAF', 'TKBinL', 'TKTObj',
-      'TKXmlL', 'TKStdLSchema', 'TKBin', 'TKBinTObj',
-      'TKXml', 'TKXmlTObj', 'TKStdSchema' ]
-
-  dataExchange =
-    [ 'TKXSBase', 'TKSTL', 'TKVRML', 'TKSTEPBase', 'TKXCAF', 'TKIGES',
-      'TKSTEP209', 'TKSTEPAttr', 'TKXmlXCAF', 'TKBinXCAF',
-      'TKXDEIGES', 'TKSTEP', 'TKXDESTEP' ]
-
-  if true
-    visualization = []
-    applicationFramework = []
-    dataExchange = [ 'TKXSBase', 'TKSTL', 'TKIGES', 'TKSTEP' ]
-    thirdPartyLibs = [ ]
-  end
-
-  allLibs =
-    thirdPartyLibs << foundationClasses << modelingData << modelingAlgorithms <<
-    visualization << applicationFramework << dataExchange
+  occt_libs = [
+    # Foundation classes
+    'TKernel', 'TKMath',
+    # Modeling data
+    'TKG2d', 'TKG3d', 'TKGeomBase', 'TKBRep',
+    # Modeling algorithms
+    'TKGeomAlgo', 'TKTopAlgo', 'TKBO', 'TKPrim',
+    'TKShHealing', 'TKHLR', 'TKMesh', 'TKBool',
+    'TKXMesh', 'TKFeat', 'TKFillet', 'TKOffset',
+    # Data excange
+    'TKXSBase', 'TKSTL', 'TKIGES', 'TKSTEP',
+    'TKSTEP209', 'TKSTEPAttr', 'TKSTEPBase',
+  ]
 
   # Linker option
-  spec.linker.library_paths << occlibpath
-  spec.linker.libraries << allLibs
+  spec.linker.library_paths << occt_libpaths
+  spec.linker.libraries << occt_libs << thirdparty_libs
 
   # Compiler option
-  spec.cxx.flags << occincpath.map{|n| "-I\"#{n}\"" } << " -I\"#{sirenincpath}\"" <<
+  spec.cxx.flags << occt_incpaths.map{|n| "-I\"#{n}\"" } << " -I\"#{siren_incpath}\"" <<
     "-Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -std=c++11"
+
 end
 
