@@ -9,7 +9,11 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.summary = 'Lightweight 3D operation environment.'
   spec.license = 'MIT license'
 
+  # siren configuration
+  spec.add_dependency 'mruby-io'
   siren_incpath = File.expand_path(File.dirname(__FILE__)) + '/inc'
+
+  # Open CASCADE Technology configuration
   # Check http://dev.opencascade.org/doc/refman/html/index.html
   thirdparty_libs = []
   occt_libpaths   = []
