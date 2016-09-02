@@ -9,7 +9,7 @@ def brep2js(shape, path, edge_defl=0.01, face_defl=1.0, face_angle=5.0.to_rad)
       i = 0
       f.write "{\n"
       f.write "  var g = new THREE.Geometry();\n"
-      shape.faces do |face|
+      shape.faces.each do |face|
         face.triangle(face_defl, face_angle).each do |m|
           f.write "  g.vertices.push(new THREE.Vector3(#{m[0][0]}, #{m[0][1]}, #{m[0][2]}));\n"
           f.write "  g.vertices.push(new THREE.Vector3(#{m[1][0]}, #{m[1][1]}, #{m[1][2]}));\n"
@@ -23,7 +23,7 @@ def brep2js(shape, path, edge_defl=0.01, face_defl=1.0, face_angle=5.0.to_rad)
       f.write "  fs.push(g);\n"
       f.write "}\n";
     end
-    shape.edges(Shape::FACE) do |edge|
+    shape.edges(Shape::FACE).each do |edge|
       i = 0
       f.write "{\n"
       f.write "  var g = new THREE.Geometry();\n"
