@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset='utf-8' />
+    <title>siren viewer</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+      body {
+        margin: 0px;
+      }
+    </style>
+    <script type='text/javascript' src='https://raw.githubusercontent.com/mrdoob/three.js/master/build/three.min.js'></script>
+    <script type='text/javascript' src='https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>
+    <script type='text/javascript' src='https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/STLLoader.js'></script>
+
+    <!--
+    <script type='text/javascript' src='https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/ColladaLoader.js'></script>
+    <script type='text/javascript' src='https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/OBJLoader.js'></script>
+    <script type='text/javascript' src='https://raw.githubusercontent.com/mrdoob/three.js/master/examples/js/loaders/OBJMTLLoader.js'></script>
+    -->
+  </head>
+  <body>
+  </body>
+    <script type='text/javascript'>
+    //<!--
+      var w = window.innerWidth;
+      var h = window.innerHeight;
+      var aspect = w / h;
+
+      var scene = new THREE.Scene();
+
+      // LIGHT
+      var dlight = new THREE.DirectionalLight('white');
+      dlight.position.set(2, 7, 10);
+      scene.add(dlight);
+
+      var supportLight = new THREE.DirectionalLight('white');
+      supportLight.position.set(-0.5, -8, -1);
+      scene.add(supportLight);
+
+      // EVENT
+      window.addEventListener('resize', function() {
+        w = window.innerWidth;
+        h = window.innerHeight;
+        renderer.setSize(w, h);
+        camera.aspect = aspect = w / h;
+        camera.updateProjectionMatrix();
+      }, false);
+
+      // CAMERA
+      var camera = new THREE.PerspectiveCamera(65, aspect, 1, 500000);
+      camera.position.set(-15, -25, 20);
+      camera.lookAt(new THREE.Vector3(40, 0, 0));
+      camera.up.set(0, 0, 1);
+
+      // RENDERER
+      var renderer = new THREE.WebGLRenderer({alpha: false});
+      renderer.setSize(w, h);
+      renderer.setClearColor(0x333333);
+      document.body.appendChild(renderer.domElement);
+
+      var fps = 30;
+      var now;
+      var then = Date.now();
+      var interval = 1000/fps;
+      var delta;
+
+      function render() {
+        requestAnimationFrame(render);
+        now = Date.now();
+        delta = now - then;
+        if (delta > interval) {
+          then = now - (delta % interval);
+          renderer.render(scene, camera);
+        }
+      }
+      // OrbitControls
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      render();
+
+      // Materials
+      var material_face = new THREE.MeshPhongMaterial({color: 'slategray'});
+      material_face.side = THREE.DoubleSide;
+      var material_edge = new THREE.LineBasicMaterial({linewidth: 2, color: 'red'});
+
+      function make_line(src, dst, colorHex, dashed) {
+        var geom = new THREE.Geometry(), mat;
+        if(dashed) {
+          mat = new THREE.LineDashedMaterial({linewidth: 1, color: colorHex, dashSize: 1, gapSize: 1});
+        }
+        else {
+          mat = new THREE.LineBasicMaterial({linewidth: 1, color: colorHex});
+        }
+        geom.vertices.push(src.clone());
+        geom.vertices.push(dst.clone());
+        geom.computeLineDistances();
+        return new THREE.Line(geom, mat, THREE.LineSegments);
+      }
+
+      // Axis
+      (function () {
+        var length = 10;
+        var axes = new THREE.Object3D();
+        axes.add(make_line(new THREE.Vector3(0, 0, 0), new THREE.Vector3(length, 0, 0), 0xFF0000, false)); // +X
+        axes.add(make_line(new THREE.Vector3(0, 0, 0), new THREE.Vector3(-length, 0, 0), 0xFF0000, true)); // -X
+        axes.add(make_line(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, length, 0), 0x00FF00, false)); // +Y
+        axes.add(make_line(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -length, 0), 0x00FF00, true)); // -Y
+        axes.add(make_line(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, length), 0x0000FF, false)); // +Z
+        axes.add(make_line(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -length), 0x0000FF, true)); // -Z
+        scene.add(axes);
+      })();
+
+      // Grid
+      (function () {
+        var grid = new THREE.Object3D();
+        var size_h = 10;
+        var size_w = 10;
+        var span   = 10;
+        var hlf_w = size_w / 2;
+        var max_w = hlf_w * span;
+        var min_w = hlf_w *-span;
+        var hlf_h = size_h / 2;
+        var max_h = hlf_h / 2 * span;
+        var min_h = hlf_h / 2 *-span;
+        var color = 0x5F5F5F;
+        var color_strong = 0xA0A0A0;
+        for (var i = 0; i <= size_w; i++) {
+          grid.add(make_line(
+                new THREE.Vector3(min_w, span * (i - hlf_w), 0),
+                new THREE.Vector3(max_w, span * (i - hlf_w), 0),
+                hlf_w == i ? color_strong : color, false));
+        }
+        for (var i = 0; i <= size_h; i++) {
+          grid.add(make_line(
+                new THREE.Vector3(span * (i - hlf_h), min_w, 0),
+                new THREE.Vector3(span * (i - hlf_h), max_w, 0),
+                hlf_h == i ? color_strong : color, false));
+        }
+        scene.add(grid);
+      })();
+
+      // STL loader
+      var loader = new THREE.STLLoader();
+      loader.load( './model.stl', function ( geometry ) {
+        var mesh = new THREE.Mesh( geometry, material_face );
+        scene.add( mesh  );
+      });
+
+      // var loader = new THREE.ColladaLoader();
+      // loader.load( './model.dae', function ( mesh ) {
+      //   scene.add( mesh  );
+      // });
+
+      // var loader = new THREE.MTLLoader( );
+      // loader.load(  './model.mtl', function(materials) {
+      //   materials.preload();
+      //   var objLoader = new THREE.OBJLoader();
+      //   objLoader.setMaterials(materials);
+      //   objLoader.load('model.obj', function(object) {
+      //   scene.add(object);
+      // });
+      // });
+
+      // -->
+    </script>
+</html>
