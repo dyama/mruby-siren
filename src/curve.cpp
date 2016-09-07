@@ -8,9 +8,7 @@
 mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {
   mrb_value obj;
-  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
-  struct RClass* cls_curve = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Curve")));
-  obj = mrb_instance_alloc(mrb, mrb_obj_value(cls_curve));
+  obj = mrb_instance_alloc(mrb, mrb_obj_value(siren_curve_rclass(mrb)));
   void* p = mrb_malloc(mrb, sizeof(Handle(Geom_Curve)));
   Handle(Geom_Curve)* hgcurve = new(p) Handle(Geom_Curve)();
   *hgcurve = *curve;
@@ -54,7 +52,13 @@ Handle(Geom_Curve)* siren_curve_get(mrb_state* mrb, mrb_value obj)
 {
   return static_cast<Handle(Geom_Curve)*>(mrb_get_datatype(mrb, obj, &siren_curve_type));
 }
- 
+
+struct RClass* siren_curve_rclass(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Curve")));
+}
+
 mrb_value siren_curve_geomtype(mrb_state* mrb, mrb_value self)
 {
   Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
