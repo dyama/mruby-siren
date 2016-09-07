@@ -11,7 +11,9 @@ mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z)
   mrb_ary_push(mrb, arg, mrb_float_value(mrb, x));
   mrb_ary_push(mrb, arg, mrb_float_value(mrb, y));
   mrb_ary_push(mrb, arg, mrb_float_value(mrb, z));
-  return mrb_class_new_instance(mrb, 1, &arg, mrb_class_get(mrb, "Vec"));
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  struct RClass* cls_vec = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Vec")));
+  return mrb_class_new_instance(mrb, 1, &arg, cls_vec);
 }
 
 mrb_value siren_vec_new(mrb_state* mrb, const gp_Vec& vec)
