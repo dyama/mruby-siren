@@ -19,9 +19,9 @@ mrb_value siren_vec_new(mrb_state* mrb, const gp_Vec& vec)
   return siren_vec_new(mrb, vec.X(), vec.Y(), vec.Z());
 }
 
-bool siren_vec_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_vec_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  rclass = mrb_define_class(mrb, "Vec", mrb->object_class);
+  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize",       siren_vec_init,             MRB_ARGS_NONE() | MRB_ARGS_OPT(1));
   mrb_define_method(mrb, rclass, "inspect",          siren_vec_to_s,             MRB_ARGS_NONE());

@@ -17,9 +17,9 @@ mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src)
   return res;
 }
 
-bool siren_trans_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_trans_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  rclass = mrb_define_class(mrb, "Trans", mrb->object_class);
+  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "Trans", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize"     , siren_trans_init               , MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "inspect"        , siren_trans_to_s               , MRB_ARGS_NONE());

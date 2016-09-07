@@ -35,10 +35,10 @@ puts "b: #{b}"
 line = nil
 if a == 0 && b == 0
   puts "horizontal"
-  line = Siren.infline [0.0, s[0].y], Vec::xdir
+  line = Siren.infline [0.0, s[0].y], Siren::Vec.xdir
 elsif a.nan? && b.nan?
   puts "vertical"
-  line = Siren.infline [s[0].x, 0.0], Vec::ydir
+  line = Siren.infline [s[0].x, 0.0], Siren::Vec.ydir
 else
   p1 = [0.0, b]
   p2 = [100.0, a*100.0+b]

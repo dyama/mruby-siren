@@ -37,9 +37,9 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
   return obj;
 }
 
-bool siren_shape_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  rclass = mrb_define_class(mrb, "Shape", mrb->object_class);
+  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "Shape", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_shape_init,       MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "inspect",    siren_shape_to_s,       MRB_ARGS_NONE());

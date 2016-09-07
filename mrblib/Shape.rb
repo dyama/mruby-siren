@@ -1,7 +1,7 @@
 #
 # Shape クラス拡張メソッド
 #
-class Shape
+class Siren::Shape
 
   COMPOUND  = 0
   COMPSOLID = 1
@@ -15,23 +15,23 @@ class Shape
 
   def self.typename(type)
     case type
-    when Shape::COMPOUND
+    when Siren::Shape::COMPOUND
       return "COMPOUND"
-    when Shape::COMPSOLID
+    when Siren::Shape::COMPSOLID
       return "COMPSOLID"
-    when Shape::SOLID
+    when Siren::Shape::SOLID
       return "SOLID"
-    when Shape::SHELL
+    when Siren::Shape::SHELL
       return "SHELL"
-    when Shape::FACE
+    when Siren::Shape::FACE
       return "FACE"
-    when Shape::WIRE
+    when Siren::Shape::WIRE
       return "WIRE"
-    when Shape::EDGE
+    when Siren::Shape::EDGE
       return "EDGE"
-    when Shape::VERTEX
+    when Siren::Shape::VERTEX
       return "VERTEX"
-    when Shape::SHAPE
+    when Siren::Shape::SHAPE
       return "SHAPE"
     else
       return "UNKNOWN"
@@ -42,105 +42,105 @@ class Shape
 
   def compounds(filter = nil)
     if filter
-      self.explore(Shape::COMPOUND, filter)
+      self.explore(Siren::Shape::COMPOUND, filter)
     else
-      self.explore(Shape::COMPOUND)
+      self.explore(Siren::Shape::COMPOUND)
     end
   end
 
   def compsolids(filter = nil)
     if filter
-      self.explore(Shape::COMPSOLID, filter)
+      self.explore(Siren::Shape::COMPSOLID, filter)
     else
-      self.explore(Shape::COMPSOLID)
+      self.explore(Siren::Shape::COMPSOLID)
     end
   end
 
   def solids(filter = nil)
     if filter
-      self.explore(Shape::SOLID, filter)
+      self.explore(Siren::Shape::SOLID, filter)
     else
-      self.explore(Shape::SOLID)
+      self.explore(Siren::Shape::SOLID)
     end
   end
 
   def shells(filter = nil)
     if filter
-      self.explore(Shape::SHELL, filter)
+      self.explore(Siren::Shape::SHELL, filter)
     else
-      self.explore(Shape::SHELL)
+      self.explore(Siren::Shape::SHELL)
     end
   end
 
   def faces(filter = nil)
     if filter
-      self.explore(Shape::FACE, filter)
+      self.explore(Siren::Shape::FACE, filter)
     else
-      self.explore(Shape::FACE)
+      self.explore(Siren::Shape::FACE)
     end
   end
 
   def wires(filter = nil)
     if filter
-      self.explore(Shape::WIRE, filter)
+      self.explore(Siren::Shape::WIRE, filter)
     else
-      self.explore(Shape::WIRE)
+      self.explore(Siren::Shape::WIRE)
     end
   end
 
   def edges(filter = nil)
     if filter
-      self.explore(Shape::EDGE, filter)
+      self.explore(Siren::Shape::EDGE, filter)
     else
-      self.explore(Shape::EDGE)
+      self.explore(Siren::Shape::EDGE)
     end
   end
 
   def vertices(filter = nil)
     if filter
-      self.explore(Shape::VERTEX, filter)
+      self.explore(Siren::Shape::VERTEX, filter)
     else
-      self.explore(Shape::VERTEX)
+      self.explore(Siren::Shape::VERTEX)
     end
   end
 
   # Type check methods
 
   def compound?
-    self.shapetype == Shape::COMPOUND
+    self.shapetype == Siren::Shape::COMPOUND
   end
 
   def compsolid?
-    self.shapetype == Shape::COMPSOLID
+    self.shapetype == Siren::Shape::COMPSOLID
   end
 
   def solid?
-    self.shapetype == Shape::SOLID
+    self.shapetype == Siren::Shape::SOLID
   end
 
   def shell?
-    self.shapetype == Shape::SHELL
+    self.shapetype == Siren::Shape::SHELL
   end
 
   def face?
-    self.shapetype == Shape::FACE
+    self.shapetype == Siren::Shape::FACE
   end
 
   def wire?
-    self.shapetype == Shape::WIRE
+    self.shapetype == Siren::Shape::WIRE
   end
 
   def edge?
-    self.shapetype == Shape::EDGE
+    self.shapetype == Siren::Shape::EDGE
   end
 
   def vertex?
-    self.shapetype == Shape::VERTEX
+    self.shapetype == Siren::Shape::VERTEX
   end
 
   def dump_tree(d = 0)
     hc = sprintf("%06X", self.hashcode(0xFFFFFF))
-    type = Shape.typename(self.shapetype)
+    type = Siren::Shape.typename(self.shapetype)
     puts "  " * d + "%s:0x%s" % [type, hc]
     d += 1
     self.subshapes.each do |s|

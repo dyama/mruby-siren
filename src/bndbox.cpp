@@ -17,9 +17,9 @@ Bnd_Box* siren_bndbox_get(mrb_state* mrb, mrb_value obj)
   return static_cast<Bnd_Box*>(mrb_get_datatype(mrb, obj, &siren_bndbox_type));
 }
 
-bool siren_bndbox_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_bndbox_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  rclass = mrb_define_class(mrb, "BndBox", mrb->object_class);
+  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "BndBox", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_bndbox_init,          MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "inspect",    siren_bndbox_to_s,          MRB_ARGS_NONE());

@@ -4,7 +4,7 @@
 class Array
 
   def to_v
-    Vec::new self
+    Siren::Vec.new self
   end
 
   def to(other)
@@ -36,7 +36,7 @@ class Array
   end
 
   def translate(t)
-    if t.is_a? Vec
+    if t.is_a? Siren::Vec
       v = t
     else
       v = t.to_v
@@ -68,15 +68,15 @@ class Array
     self.xyz = scale(op, f)
   end
 
-  def mirror(op, dir=Vec::zero)
-    if dir == Vec::zero
+  def mirror(op, dir = Siren::Vec.zero)
+    if dir == Siren::Vec.zero
       op.translate(self.to(op)).xyz
     else
       self.from(op).mirror(dir).xyz.translate(op).xyz
     end
   end
 
-  def mirror!(op, dir=Vec::zero)
+  def mirror!(op, dir = Siren::Vec.zero)
     self.xyz = mirror(op, dir)
   end
 

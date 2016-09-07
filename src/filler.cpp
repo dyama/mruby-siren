@@ -5,9 +5,9 @@ BRepFill_Filling* siren_filler_get(mrb_state* mrb, mrb_value obj)
   return static_cast<BRepFill_Filling*>(mrb_get_datatype(mrb, obj, &siren_filler_type));
 }
 
-bool siren_filler_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_filler_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  rclass = mrb_define_class(mrb, "Filler", mrb->object_class);
+  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "Filler", mrb->object_class);
   MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
   mrb_define_method(mrb, rclass, "initialize", siren_filler_init,      MRB_ARGS_OPT(10));
   mrb_define_method(mrb, rclass, "add_bound",  siren_filler_add_bound, MRB_ARGS_REQ(2));
