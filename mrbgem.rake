@@ -19,17 +19,20 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   occt_libpaths   = []
   occt_incpaths   = []
 
-  os = RbConfig::CONFIG['host_os'].downcase
-  case os
-  when /linux|solaris|bsd/
-    occt_libpaths = [ '/opt/occ/700/lin64/gcc/lib' ]
-    occt_incpaths = [ '/opt/occ/700/inc' ]
-  when /darwin|mac os/
-    occt_libpaths = [ '/usr/local/opt/opencascade/lib' ]
-    occt_incpaths = [ '/usr/local/opt/opencascade/include/opencascade' ]
-  when /mswin/
-    occt_libpaths = [ 'E:/occ/OCE-0.17-Mingw32/Win32/lib' ]
-    occt_incpaths = [ 'E:/occ/OCE-0.17-Mingw32/include/oce' ]
+  if occt_libpaths.size == 0 and occt_incpaths.size == 0
+    os = RbConfig::CONFIG['host_os'].downcase
+    case os
+    when /linux|solaris|bsd/
+      occt_libpaths = [ '/opt/occ/700/lin64/gcc/lib' ]
+      occt_incpaths = [ '/opt/occ/700/inc' ]
+    when /darwin|mac os/
+      occt_libpaths = [ '/usr/local/opt/opencascade/lib' ]
+      occt_incpaths = [ '/usr/local/opt/opencascade/include/opencascade' ]
+    when /mswin|mingw/
+      occt_libpaths = [ '\occ\700\mingw32\gcc\lib' ]
+      occt_incpaths = [ '\occ\700\inc' ]
+      spec.cxx.flags << '-D_USE_MATH_DEFINES -D__NO_INLINE__'
+    end
   end
 
   occt_libs = [

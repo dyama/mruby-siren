@@ -3,7 +3,7 @@ siren - Lightweight 3D operation environment
 
 ![siren logo](http://siren.xyz/res/siren_logo.png)
 
-**siren** is lightweight 3D operation environment powered by Open CASCADE Technorogy. siren is integrated to MRuby; lightweight Ruby interpreter environment, so it gives high-level 3D geometrical and topological operation with easy and simple scripting.
+**siren** is lightweight 3D operation environment powered by Open CASCADE Technorogy. siren is integrated to mruby; lightweight Ruby interpreter environment, so it gives high-level 3D geometrical and topological operation with easy and simple scripting.
 For example, you can get volume of shape, intersection lines of some shapes, center of gravity and a result of boolean operation. It supports IGES, STEP file with NURBS surface and curve.
 
 You can get more information at siren official page.
@@ -31,7 +31,7 @@ Example
       p face.area
     end
 
-You can find more examples code on Github page.
+You can find more examples code at the Github page.
 
 https://github.com/dyama/mruby-siren/wiki/Sample
 
@@ -50,14 +50,10 @@ Dependencies
   * Source code: https://github.com/mruby/mruby
   * License: https://github.com/mruby/mruby/blob/master/MITL
 
-* Open CASCADE Technorogy 7.0.0 (for UNIX)
+* Open CASCADE Technorogy 7.0.0
   * Official page: http://www.opencascade.org/
   * Source code: http://www.opencascade.com/content/latest-release
   * License: http://www.opencascade.com/content/licensing
-
-* Open CASCADE Community Edition 0.17 (for MINGW32)
-  * Source code: https://github.com/tpaviot/oce
-  * License: https://github.com/tpaviot/oce/blob/master/LICENSE_LGPL_21.txt
 
 How to build
 ------------
@@ -69,13 +65,29 @@ How to build
 If your OCCT installed path is not `/opt/occ<version no>`, you should change mrbgem.rake file in build/mrbgems/mruby-siren.
 Default install path is;
 
-  * /opt/occ/700 ... for UNIX
-  * E:/occ/OCE-0.170Mingw32 .. for MINGW32
+  * /opt/occ/700 ... for Linux
+  * /usr/local/opt/opencascade ... for Mac OS X
+  * \\occ\\700 .. for MinGW32
 
 Usage
 -----
-* Run build/host/bin/mirb.
-* Run build/host/bin/mruby with siren script.
+
+* Run <mruby-directory>/bin/mirb.
+
+    $ cd ~/mruby/bin
+    $ ./mirb
+
+* Run <mruby-directory>/bin/mruby with siren script.
+
+    $ cd ~/mruby/bin
+    $ ./mruby script.rb
+
+* To specify the library path
+
+    $ LD_LIBRARY_PATH=/opt/occ/700/lin64/gcc/lib ./mirb
+    $ LD_LIBRARY_PATH=/opt/occ/700/lin64/gcc/lib ./mruby script.rb
+
+Or add the library path to /etc/ld.so.conf.
 
 Documentation
 -------------
