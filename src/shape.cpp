@@ -33,9 +33,7 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
   *inner = shape; // Copy to inner native member
   DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(inner);
   DATA_TYPE(obj) = &siren_shape_type;
-
   siren_add_singleton_method(mrb, obj);
-
   return obj;
 }
 
@@ -156,7 +154,8 @@ void siren_shape_final(mrb_state* mrb, void* p)
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  RClass* krass = mrb_class_get(mrb, "Shape");
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  struct RClass* krass = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
   mrb_value shapetype = mrb_funcall(mrb, mrb_obj_value(krass), "typename", 1, mrb_fixnum_value((int)shape->ShapeType()));
   mrb_value str = mrb_str_new_cstr(mrb, "#<Shape:");
   mrb_str_concat(mrb, str, mrb_ptr_to_str(mrb, mrb_cptr(self)));
