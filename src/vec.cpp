@@ -5,15 +5,19 @@ gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj)
   return static_cast<gp_Vec*>(mrb_get_datatype(mrb, obj, &siren_vec_type));
 }
 
+struct RClass* siren_vec_rclass(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Vec")));
+}
+
 mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z)
 {
   mrb_value arg = mrb_ary_new(mrb);
   mrb_ary_push(mrb, arg, mrb_float_value(mrb, x));
   mrb_ary_push(mrb, arg, mrb_float_value(mrb, y));
   mrb_ary_push(mrb, arg, mrb_float_value(mrb, z));
-  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
-  struct RClass* cls_vec = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Vec")));
-  return mrb_class_new_instance(mrb, 1, &arg, cls_vec);
+  return mrb_class_new_instance(mrb, 1, &arg, siren_vec_rclass(mrb));
 }
 
 mrb_value siren_vec_new(mrb_state* mrb, const gp_Vec& vec)

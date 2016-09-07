@@ -7,6 +7,7 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* rclass);
 void siren_vec_final(mrb_state* mrb, void* p);
 static struct mrb_data_type siren_vec_type = { "Vec", siren_vec_final };
 gp_Vec* siren_vec_get(mrb_state* mrb, mrb_value obj);
+struct RClass* siren_vec_rclass(mrb_state* mrb);
 mrb_value siren_vec_new(mrb_state* mrb, double x, double y, double z);
 mrb_value siren_vec_new(mrb_state* mrb, const gp_Vec& vec);
 
