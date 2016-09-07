@@ -5,12 +5,16 @@ gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj)
   return static_cast<gp_Trsf*>(mrb_get_datatype(mrb, obj, &siren_trans_type));
 }
 
+struct RClass* siren_trans_rclass(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Trans")));
+}
+
 mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src)
 {
   mrb_value res;
-  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
-  struct RClass* cls_trans = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Trans")));
-  res = mrb_instance_alloc(mrb, mrb_obj_value(cls_trans));
+  res = mrb_instance_alloc(mrb, mrb_obj_value(siren_trans_rclass(mrb)));
   void* p = mrb_malloc(mrb, sizeof(gp_Trsf));
   gp_Trsf* trans = new(p) gp_Trsf();
   *trans = src;
