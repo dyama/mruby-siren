@@ -48,6 +48,11 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* rclass)
   mrb_define_method      (mrb, rclass, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, rclass, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
   mrb_define_method      (mrb, rclass, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
+
+  struct RClass* cls_shape = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(rclass), mrb_intern_lit(mrb, "Shape")));
+  mrb_define_method      (mrb, cls_shape, "volume",  siren_topalgo_volume,     MRB_ARGS_NONE());
+  mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
+  mrb_define_method      (mrb, cls_shape, "area",    siren_topalgo_area,       MRB_ARGS_NONE());
   return true;
 }
 
@@ -536,5 +541,32 @@ mrb_value siren_topalgo_compound(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, comp);
+}
+
+mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  GProp_GProps gprops;
+  BRepGProp::VolumeProperties(*shape, gprops);
+  Standard_Real vol = gprops.Mass();
+  return mrb_float_value(mrb, (mrb_float)vol);
+}
+
+mrb_value siren_topalgo_cog(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  GProp_GProps gprops;
+  BRepGProp::VolumeProperties(*shape, gprops);
+  gp_Pnt cog = gprops.CentreOfMass();
+  return siren_pnt_to_ary(mrb, cog);
+}
+
+mrb_value siren_topalgo_area(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  GProp_GProps gprops;
+  BRepGProp::SurfaceProperties(*shape, gprops);
+  Standard_Real area = gprops.Mass();
+  return mrb_float_value(mrb, area);
 }
 

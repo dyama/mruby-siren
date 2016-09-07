@@ -48,6 +48,9 @@
 // sewing
 #include <BRepBuilderAPI_Sewing.hxx>
 
+#include <GProp_GProps.hxx>
+#include <BRepGProp.hxx>
+
 #include <gp_Circ.hxx>
 #include <GC_MakeArcOfCircle.hxx>
 #include <GC_MakeCircle.hxx>
@@ -81,5 +84,10 @@ mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_sewing(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_compound(mrb_state* mrb, mrb_value self);
+
+// Instance methods for Siren::Shape class.
+mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_cog(mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_area(mrb_state* mrb, mrb_value self);
 
 #endif

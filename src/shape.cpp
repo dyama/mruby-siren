@@ -78,12 +78,6 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method(mrb, rclass, "reverse",    siren_shape_reverse,     MRB_ARGS_NONE());
   mrb_define_method(mrb, rclass, "reverse!",   siren_shape_reverse_bang,MRB_ARGS_NONE());
 
-#ifdef _GPROP_H_
-  mrb_define_method(mrb, rclass, "volume",     siren_gprop_volume,     MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "cog",        siren_gprop_cog,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "area",       siren_gprop_area,       MRB_ARGS_NONE());
-#endif
-
 #ifdef _BOOL_H_
   mrb_define_method(mrb, rclass, "common",     siren_bool_common,      MRB_ARGS_REQ(1));
   mrb_define_method(mrb, rclass, "fuse",       siren_bool_fuse,        MRB_ARGS_REQ(1));
