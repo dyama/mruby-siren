@@ -78,13 +78,6 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method(mrb, cls_shape, "reverse",    siren_shape_reverse,     MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "reverse!",   siren_shape_reverse_bang,MRB_ARGS_NONE());
 
-#ifdef _BOOL_H_
-  mrb_define_method(mrb, cls_shape, "common",     siren_bool_common,      MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls_shape, "fuse",       siren_bool_fuse,        MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls_shape, "cut",        siren_bool_cut,         MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls_shape, "projwire",   siren_bool_projwire,    MRB_ARGS_REQ(2));
-#endif
-
 #ifdef SIREN_ENABLE_SHHEALING
   mrb_define_method(mrb, cls_shape, "outerwire",  siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method(mrb, cls_shape, "fix",        siren_heal_fix, MRB_ARGS_REQ(1));

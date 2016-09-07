@@ -10,6 +10,10 @@
 #include "bndbox.h"
 #include "filler.h"
 
+#ifdef SIREN_ENABLE_BO
+  #include "bo.h"
+#endif
+
 #ifdef SIREN_ENABLE_SHHEALING
   #include "heal.h"
 #endif
@@ -52,6 +56,9 @@ extern "C" {
     siren_prim_install   (mrb, mod_siren);
 #ifdef SIREN_ENABLE_OFFSET
     siren_offset_install (mrb, mod_siren);
+#endif
+#ifdef SIREN_ENABLE_BO
+    siren_bo_install     (mrb, mod_siren);
 #endif
 #ifdef SIREN_ENABLE_IGES
     siren_iges_install   (mrb, mod_siren);

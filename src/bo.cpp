@@ -1,6 +1,17 @@
-#include "bool.h"
+#include "bo.h"
 
-mrb_value siren_bool_common(mrb_state* mrb, mrb_value self)
+bool siren_bo_install(mrb_state* mrb, struct RClass* mod_siren)
+{
+  struct RClass* cls_shape
+    = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
+  mrb_define_method(mrb, cls_shape, "common",     siren_bo_common,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "fuse",       siren_bo_fuse,        MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "cut",        siren_bo_cut,         MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "projwire",   siren_bo_projwire,    MRB_ARGS_REQ(2));
+  return true;
+}
+
+mrb_value siren_bo_common(mrb_state* mrb, mrb_value self)
 {
   mrb_value target;
   int argc = mrb_get_args(mrb, "o", &target);
@@ -15,7 +26,7 @@ mrb_value siren_bool_common(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, api.Shape());
 }
 
-mrb_value siren_bool_fuse(mrb_state* mrb, mrb_value self)
+mrb_value siren_bo_fuse(mrb_state* mrb, mrb_value self)
 {
   mrb_value target;
   int argc = mrb_get_args(mrb, "o", &target);
@@ -30,7 +41,7 @@ mrb_value siren_bool_fuse(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, api.Shape());
 }
 
-mrb_value siren_bool_cut(mrb_state* mrb, mrb_value self)
+mrb_value siren_bo_cut(mrb_state* mrb, mrb_value self)
 {
   mrb_value target;
   int argc = mrb_get_args(mrb, "o", &target);
@@ -45,7 +56,7 @@ mrb_value siren_bool_cut(mrb_state* mrb, mrb_value self)
   return siren_shape_new(mrb, api.Shape());
 }
 
-mrb_value siren_bool_projwire(mrb_state* mrb, mrb_value self)
+mrb_value siren_bo_projwire(mrb_state* mrb, mrb_value self)
 {
   mrb_value w, v;
   int argc = mrb_get_args(mrb, "oo", &w, &v);

@@ -3,7 +3,7 @@
 
 // Configuration
 #define SIREN_ENABLE_GPROP
-#define SIREN_ENABLE_BOOL
+#define SIREN_ENABLE_BO
 #define SIREN_ENABLE_OFFSET
 #define SIREN_ENABLE_SHHEALING
 #define SIREN_ENABLE_STL
