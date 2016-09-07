@@ -1,55 +1,56 @@
 #include "topalgo.h"
 
-bool siren_topalgo_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
-  mrb_define_class_method(mrb, rclass, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
-  mrb_define_class_method(mrb, rclass, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
-  mrb_define_class_method(mrb, rclass, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
+  mrb_define_class_method(mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, mod_siren, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, mod_siren, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
+  mrb_define_class_method(mrb, mod_siren, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
+  mrb_define_class_method(mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
   // For mix-in
-  mrb_define_method      (mrb, rclass, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, rclass, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, rclass, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
-  mrb_define_method      (mrb, rclass, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, rclass, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, rclass, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, rclass, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
-  mrb_define_method      (mrb, rclass, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
-  mrb_define_method      (mrb, rclass, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, rclass, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
+  mrb_define_method      (mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, mod_siren, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, mod_siren, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
+  mrb_define_method      (mrb, mod_siren, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
+  mrb_define_method      (mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
 
-  struct RClass* cls_shape = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(rclass), mrb_intern_lit(mrb, "Shape")));
+  struct RClass* cls_shape
+    = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
   mrb_define_method      (mrb, cls_shape, "volume",  siren_topalgo_volume,     MRB_ARGS_NONE());
   mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
   mrb_define_method      (mrb, cls_shape, "area",    siren_topalgo_area,       MRB_ARGS_NONE());

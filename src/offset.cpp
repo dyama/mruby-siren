@@ -1,23 +1,23 @@
 #include "offset.h"
 
-bool siren_offset_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_offset_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "sweep_vec",       siren_offset_sweep_vec,       MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "sweep_path",      siren_offset_sweep_path,      MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
-  mrb_define_class_method(mrb, rclass, "loft",            siren_offset_loft,            MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
-  mrb_define_class_method(mrb, rclass, "offset_geomsurf", siren_offset_offset_geomsurf, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, rclass, "offset",          siren_offset_offset,          MRB_ARGS_REQ(3) | MRB_ARGS_OPT(5));
-  mrb_define_class_method(mrb, rclass, "offset_shape",    siren_offset_offset_shape,    MRB_ARGS_REQ(3) | MRB_ARGS_OPT(4));
-  mrb_define_class_method(mrb, rclass, "pipe",            siren_offset_pipe,            MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
+  mrb_define_class_method(mrb, mod_siren, "sweep_vec",       siren_offset_sweep_vec,       MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "sweep_path",      siren_offset_sweep_path,      MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
+  mrb_define_class_method(mrb, mod_siren, "loft",            siren_offset_loft,            MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
+  mrb_define_class_method(mrb, mod_siren, "offset_geomsurf", siren_offset_offset_geomsurf, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "offset",          siren_offset_offset,          MRB_ARGS_REQ(3) | MRB_ARGS_OPT(5));
+  mrb_define_class_method(mrb, mod_siren, "offset_shape",    siren_offset_offset_shape,    MRB_ARGS_REQ(3) | MRB_ARGS_OPT(4));
+  mrb_define_class_method(mrb, mod_siren, "pipe",            siren_offset_pipe,            MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
   // For mix-in
-  mrb_define_method      (mrb, rclass, "sweep_vec",       siren_offset_sweep_vec,       MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "sweep_path",      siren_offset_sweep_path,      MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
-  mrb_define_method      (mrb, rclass, "loft",            siren_offset_loft,            MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
-  mrb_define_method      (mrb, rclass, "offset_geomsurf", siren_offset_offset_geomsurf, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, rclass, "offset",          siren_offset_offset,          MRB_ARGS_REQ(3) | MRB_ARGS_OPT(5));
-  mrb_define_method      (mrb, rclass, "offset_shape",    siren_offset_offset_shape,    MRB_ARGS_REQ(3) | MRB_ARGS_OPT(4));
-  mrb_define_method      (mrb, rclass, "pipe",            siren_offset_pipe,            MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
+  mrb_define_method      (mrb, mod_siren, "sweep_vec",       siren_offset_sweep_vec,       MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "sweep_path",      siren_offset_sweep_path,      MRB_ARGS_REQ(2) | MRB_ARGS_OPT(4));
+  mrb_define_method      (mrb, mod_siren, "loft",            siren_offset_loft,            MRB_ARGS_REQ(1) | MRB_ARGS_OPT(3));
+  mrb_define_method      (mrb, mod_siren, "offset_geomsurf", siren_offset_offset_geomsurf, MRB_ARGS_REQ(2) | MRB_ARGS_OPT(1));
+  mrb_define_method      (mrb, mod_siren, "offset",          siren_offset_offset,          MRB_ARGS_REQ(3) | MRB_ARGS_OPT(5));
+  mrb_define_method      (mrb, mod_siren, "offset_shape",    siren_offset_offset_shape,    MRB_ARGS_REQ(3) | MRB_ARGS_OPT(4));
+  mrb_define_method      (mrb, mod_siren, "pipe",            siren_offset_pipe,            MRB_ARGS_REQ(2) | MRB_ARGS_OPT(2));
   return true;
 }
 

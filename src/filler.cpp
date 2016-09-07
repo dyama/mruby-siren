@@ -7,17 +7,17 @@ BRepFill_Filling* siren_filler_get(mrb_state* mrb, mrb_value obj)
 
 bool siren_filler_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "Filler", mrb->object_class);
-  MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_filler_init,      MRB_ARGS_OPT(10));
-  mrb_define_method(mrb, rclass, "add_bound",  siren_filler_add_bound, MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "add",        siren_filler_add,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "build",      siren_filler_build,     MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "done?",      siren_filler_is_done,   MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "face",       siren_filler_face,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "g0error",    siren_filler_g0error,   MRB_ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "g1error",    siren_filler_g1error,   MRB_ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "g2error",    siren_filler_g2error,   MRB_ARGS_OPT(1));
+  struct RClass* cls_filler = mrb_define_class_under(mrb, mod_siren, "Filler", mrb->object_class);
+  MRB_SET_INSTANCE_TT(cls_filler, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_filler, "initialize", siren_filler_init,      MRB_ARGS_OPT(10));
+  mrb_define_method(mrb, cls_filler, "add_bound",  siren_filler_add_bound, MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_filler, "add",        siren_filler_add,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_filler, "build",      siren_filler_build,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_filler, "done?",      siren_filler_is_done,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_filler, "face",       siren_filler_face,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_filler, "g0error",    siren_filler_g0error,   MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_filler, "g1error",    siren_filler_g1error,   MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_filler, "g2error",    siren_filler_g2error,   MRB_ARGS_OPT(1));
   return true;
 }
 

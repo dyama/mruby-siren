@@ -1,15 +1,15 @@
 #include "brep.h"
 
-bool siren_brep_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_brep_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "save_brep", siren_brep_save, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "load_brep", siren_brep_load, MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, rclass, "dump",      siren_brep_dump, MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "save_brep", siren_brep_save, MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "load_brep", siren_brep_load, MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "dump",      siren_brep_dump, MRB_ARGS_REQ(1));
   // For mix-in
-  mrb_define_method      (mrb, rclass, "save_brep", siren_brep_save, MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "load_brep", siren_brep_load, MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, rclass, "dump",      siren_brep_dump, MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "save_brep", siren_brep_save, MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "load_brep", siren_brep_load, MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "dump",      siren_brep_dump, MRB_ARGS_REQ(1));
   return true;
 }
 

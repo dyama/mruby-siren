@@ -1,11 +1,11 @@
 #include "stl.h"
 
-bool siren_stl_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_stl_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "load_stl", siren_stl_load, MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "load_stl", siren_stl_load, MRB_ARGS_REQ(1));
   // For mix-in
-  mrb_define_method      (mrb, rclass, "load_stl", siren_stl_load, MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "load_stl", siren_stl_load, MRB_ARGS_REQ(1));
   return true;
 }
 

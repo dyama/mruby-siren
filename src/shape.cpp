@@ -39,86 +39,86 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 
 bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "Shape", mrb->object_class);
-  MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_shape_init,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "inspect",    siren_shape_to_s,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_s",       siren_shape_to_s,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "null?",      siren_shape_is_null,    MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "shapetype",  siren_shape_shapetype,  MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "pos",        siren_shape_pos,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "trans",      siren_shape_trans,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "trans=",     siren_shape_set_trans,  MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "bndbox",     siren_shape_bndbox,     MRB_ARGS_NONE());
+  struct RClass* cls_shape = mrb_define_class_under(mrb, mod_siren, "Shape", mrb->object_class);
+  MRB_SET_INSTANCE_TT(cls_shape, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_shape, "initialize", siren_shape_init,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "inspect",    siren_shape_to_s,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "to_s",       siren_shape_to_s,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "null?",      siren_shape_is_null,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "shapetype",  siren_shape_shapetype,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "pos",        siren_shape_pos,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "trans",      siren_shape_trans,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "trans=",     siren_shape_set_trans,  MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "bndbox",     siren_shape_bndbox,     MRB_ARGS_NONE());
 
-  mrb_define_method(mrb, rclass, "translate!", siren_shape_translate_bang, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "rotate!",    siren_shape_rotate_bang,    MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "scale!",     siren_shape_scale_bang,     MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "mirror!",    siren_shape_mirror_bang,    MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "move!",      siren_shape_move_bang,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "translate!", siren_shape_translate_bang, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "rotate!",    siren_shape_rotate_bang,    MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, cls_shape, "scale!",     siren_shape_scale_bang,     MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_shape, "mirror!",    siren_shape_mirror_bang,    MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_shape, "move!",      siren_shape_move_bang,      MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "translate",  siren_shape_translate,  MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "rotate",     siren_shape_rotate,     MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "scale",      siren_shape_scale,      MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "mirror",     siren_shape_mirror,     MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "move",       siren_shape_move,       MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "translate",  siren_shape_translate,  MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "rotate",     siren_shape_rotate,     MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, cls_shape, "scale",      siren_shape_scale,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_shape, "mirror",     siren_shape_mirror,     MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_shape, "move",       siren_shape_move,       MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "hashcode",   siren_shape_hashcode,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "hashcode",   siren_shape_hashcode,   MRB_ARGS_NONE());
 
-  mrb_define_method(mrb, rclass, "partner?",   siren_shape_is_partner, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "same?",      siren_shape_is_same,    MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "equal?",     siren_shape_is_equal,   MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "<=>",        siren_shape_is_equal,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "partner?",   siren_shape_is_partner, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "same?",      siren_shape_is_same,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "equal?",     siren_shape_is_equal,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "<=>",        siren_shape_is_equal,   MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "explore",    siren_shape_explore,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "subshapes",  siren_shape_subshapes,  MRB_ARGS_OPT(2));
+  mrb_define_method(mrb, cls_shape, "explore",    siren_shape_explore,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_shape, "subshapes",  siren_shape_subshapes,  MRB_ARGS_OPT(2));
 
-  mrb_define_method(mrb, rclass, "section",    siren_shape_section,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "section",    siren_shape_section,    MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "reverse",    siren_shape_reverse,     MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "reverse!",   siren_shape_reverse_bang,MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "reverse",    siren_shape_reverse,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "reverse!",   siren_shape_reverse_bang,MRB_ARGS_NONE());
 
 #ifdef _BOOL_H_
-  mrb_define_method(mrb, rclass, "common",     siren_bool_common,      MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "fuse",       siren_bool_fuse,        MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "cut",        siren_bool_cut,         MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "projwire",   siren_bool_projwire,    MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_shape, "common",     siren_bool_common,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "fuse",       siren_bool_fuse,        MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "cut",        siren_bool_cut,         MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "projwire",   siren_bool_projwire,    MRB_ARGS_REQ(2));
 #endif
 
 #ifdef SIREN_ENABLE_SHHEALING
-  mrb_define_method(mrb, rclass, "outerwire",  siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method(mrb, rclass, "fix",        siren_heal_fix, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "outerwire",  siren_heal_outerwire, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_shape, "fix",        siren_heal_fix, MRB_ARGS_REQ(1));
 #endif
 
   /* from BRepTools */
-  mrb_define_method(mrb, rclass, "update!", siren_shape_update_bang, MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "clean!",  siren_shape_clean_bang,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "update!", siren_shape_update_bang, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "clean!",  siren_shape_clean_bang,  MRB_ARGS_NONE());
 
   /* frag accessors */
-  mrb_define_method(mrb, rclass, "lock?",       siren_shape_is_lock,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "lock",        siren_shape_is_lock,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "lock=",       siren_shape_set_lock,       MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "modify?",     siren_shape_is_modify,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "modify",      siren_shape_is_modify,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "modify=",     siren_shape_set_modify,     MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "check?",      siren_shape_is_check,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "check",       siren_shape_is_check,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "check=",      siren_shape_set_check,      MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "orientable?", siren_shape_is_orientable,  MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "orientable",  siren_shape_is_orientable,  MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "orientable=", siren_shape_set_orientable, MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "close?",      siren_shape_is_close,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "close",       siren_shape_is_close,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "close=",      siren_shape_set_close,      MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "infinite?",   siren_shape_is_infinite,    MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "infinite",    siren_shape_is_infinite,    MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "infinite=",   siren_shape_set_infinite,   MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "convex?",     siren_shape_is_convex,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "convex",      siren_shape_is_convex,      MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "convex=",     siren_shape_set_convex,     MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "lock?",       siren_shape_is_lock,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "lock",        siren_shape_is_lock,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "lock=",       siren_shape_set_lock,       MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "modify?",     siren_shape_is_modify,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "modify",      siren_shape_is_modify,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "modify=",     siren_shape_set_modify,     MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "check?",      siren_shape_is_check,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "check",       siren_shape_is_check,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "check=",      siren_shape_set_check,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "orientable?", siren_shape_is_orientable,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "orientable",  siren_shape_is_orientable,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "orientable=", siren_shape_set_orientable, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "close?",      siren_shape_is_close,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "close",       siren_shape_is_close,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "close=",      siren_shape_set_close,      MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "infinite?",   siren_shape_is_infinite,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "infinite",    siren_shape_is_infinite,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "infinite=",   siren_shape_set_infinite,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_shape, "convex?",     siren_shape_is_convex,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "convex",      siren_shape_is_convex,      MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "convex=",     siren_shape_set_convex,     MRB_ARGS_REQ(1));
 
-  mrb_define_method(mrb, rclass, "next_trans",  siren_shape_next_trans,  MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "first_datum", siren_shape_first_datum,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "next_trans",  siren_shape_next_trans,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "first_datum", siren_shape_first_datum,  MRB_ARGS_NONE());
 
   return true;
 }

@@ -21,37 +21,37 @@ mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src)
 
 bool siren_trans_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  struct RClass* rclass = mrb_define_class_under(mrb, mod_siren, "Trans", mrb->object_class);
-  MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize"     , siren_trans_init               , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "inspect"        , siren_trans_to_s               , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_s"           , siren_trans_to_s               , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_a"           , siren_trans_matrix             , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_ary"         , siren_trans_matrix             , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "matrix"         , siren_trans_matrix             , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "matrix="        , siren_trans_set_matrix         , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "multiply"       , siren_trans_multiply           , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "multiply!"      , siren_trans_multiply_bang      , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "power"          , siren_trans_power              , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "power!"         , siren_trans_power_bang         , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "translate!"     , siren_trans_translate_bang     , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "translatef"     , siren_trans_translatef         , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "translatef="    , siren_trans_set_translatef     , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "mirror!"        , siren_trans_mirror_bang        , MRB_ARGS_REQ(1) | MRB_ARGS_OPT(2));
-  mrb_define_method(mrb, rclass, "rotate!"        , siren_trans_rotate_bang        , MRB_ARGS_REQ(3));
-//  mrb_define_method(mrb, rclass, "rotatef"        , siren_trans_rotatef            , MRB_ARGS_NONE());
-//  mrb_define_method(mrb, rclass, "rotatef="       , siren_trans_set_rotatef        , MRB_ARGS_REQ(3));
-  mrb_define_method(mrb, rclass, "scale!"         , siren_trans_scale_bang         , MRB_ARGS_REQ(2));
-  mrb_define_method(mrb, rclass, "scalef"         , siren_trans_scalef             , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "scalef="        , siren_trans_set_scalef         , MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, rclass, "invert"         , siren_trans_invert             , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "invert!"        , siren_trans_invert_bang        , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "reverse"        , siren_trans_invert             , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "reverse!"       , siren_trans_invert_bang        , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "negative?"      , siren_trans_is_negative        , MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "transform!"     , siren_trans_transform_bang     , MRB_ARGS_REQ(6));
+  struct RClass* cls_trans = mrb_define_class_under(mrb, mod_siren, "Trans", mrb->object_class);
+  MRB_SET_INSTANCE_TT(cls_trans, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_trans, "initialize"     , siren_trans_init               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "inspect"        , siren_trans_to_s               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "to_s"           , siren_trans_to_s               , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "to_a"           , siren_trans_matrix             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "to_ary"         , siren_trans_matrix             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "matrix"         , siren_trans_matrix             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "matrix="        , siren_trans_set_matrix         , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "multiply"       , siren_trans_multiply           , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "multiply!"      , siren_trans_multiply_bang      , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "power"          , siren_trans_power              , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "power!"         , siren_trans_power_bang         , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "translate!"     , siren_trans_translate_bang     , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "translatef"     , siren_trans_translatef         , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "translatef="    , siren_trans_set_translatef     , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "mirror!"        , siren_trans_mirror_bang        , MRB_ARGS_REQ(1) | MRB_ARGS_OPT(2));
+  mrb_define_method(mrb, cls_trans, "rotate!"        , siren_trans_rotate_bang        , MRB_ARGS_REQ(3));
+//  mrb_define_method(mrb, cls_trans, "rotatef"        , siren_trans_rotatef            , MRB_ARGS_NONE());
+//  mrb_define_method(mrb, cls_trans, "rotatef="       , siren_trans_set_rotatef        , MRB_ARGS_REQ(3));
+  mrb_define_method(mrb, cls_trans, "scale!"         , siren_trans_scale_bang         , MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_trans, "scalef"         , siren_trans_scalef             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "scalef="        , siren_trans_set_scalef         , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "invert"         , siren_trans_invert             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "invert!"        , siren_trans_invert_bang        , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "reverse"        , siren_trans_invert             , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "reverse!"       , siren_trans_invert_bang        , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "negative?"      , siren_trans_is_negative        , MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_trans, "transform!"     , siren_trans_transform_bang     , MRB_ARGS_REQ(6));
 
-  mrb_define_method(mrb, rclass, "move_point"     , siren_trans_move_point         , MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_trans, "move_point"     , siren_trans_move_point         , MRB_ARGS_REQ(1));
   return true;
 }
 

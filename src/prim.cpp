@@ -1,33 +1,33 @@
 #include "prim.h"
 
-bool siren_prim_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_prim_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "box",       siren_prim_box,       MRB_ARGS_OPT(2));
-  mrb_define_class_method(mrb, rclass, "box2p",     siren_prim_box2p,     MRB_ARGS_OPT(2));
-  mrb_define_class_method(mrb, rclass, "boxax",     siren_prim_boxax,     MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, rclass, "sphere",    siren_prim_sphere,    MRB_ARGS_OPT(2));
-  mrb_define_class_method(mrb, rclass, "cylinder",  siren_prim_cylinder,  MRB_ARGS_REQ(5));
-  mrb_define_class_method(mrb, rclass, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
-  mrb_define_class_method(mrb, rclass, "torus",     siren_prim_torus,     MRB_ARGS_REQ(5));
-  mrb_define_class_method(mrb, rclass, "halfspace", siren_prim_halfspace, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
-  mrb_define_class_method(mrb, rclass, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
-  mrb_define_class_method(mrb, rclass, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
-  mrb_define_class_method(mrb, rclass, "wedge",     siren_prim_wedge,     MRB_ARGS_NONE());
+  mrb_define_class_method(mrb, mod_siren, "box",       siren_prim_box,       MRB_ARGS_OPT(2));
+  mrb_define_class_method(mrb, mod_siren, "box2p",     siren_prim_box2p,     MRB_ARGS_OPT(2));
+  mrb_define_class_method(mrb, mod_siren, "boxax",     siren_prim_boxax,     MRB_ARGS_REQ(3));
+  mrb_define_class_method(mrb, mod_siren, "sphere",    siren_prim_sphere,    MRB_ARGS_OPT(2));
+  mrb_define_class_method(mrb, mod_siren, "cylinder",  siren_prim_cylinder,  MRB_ARGS_REQ(5));
+  mrb_define_class_method(mrb, mod_siren, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
+  mrb_define_class_method(mrb, mod_siren, "torus",     siren_prim_torus,     MRB_ARGS_REQ(5));
+  mrb_define_class_method(mrb, mod_siren, "halfspace", siren_prim_halfspace, MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
+  mrb_define_class_method(mrb, mod_siren, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
+  mrb_define_class_method(mrb, mod_siren, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
+  mrb_define_class_method(mrb, mod_siren, "wedge",     siren_prim_wedge,     MRB_ARGS_NONE());
   // For mix-in
-  mrb_define_method      (mrb, rclass, "box",       siren_prim_box,       MRB_ARGS_OPT(2));
-  mrb_define_method      (mrb, rclass, "box2p",     siren_prim_box2p,     MRB_ARGS_OPT(2));
-  mrb_define_method      (mrb, rclass, "boxax",     siren_prim_boxax,     MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, rclass, "sphere",    siren_prim_sphere,    MRB_ARGS_OPT(2));
-  mrb_define_method      (mrb, rclass, "cylinder",  siren_prim_cylinder,  MRB_ARGS_REQ(5));
-  mrb_define_method      (mrb, rclass, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
-  mrb_define_method      (mrb, rclass, "torus",     siren_prim_torus,     MRB_ARGS_REQ(5));
-  mrb_define_method      (mrb, rclass, "halfspace", siren_prim_halfspace, MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
-  mrb_define_method      (mrb, rclass, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
-  mrb_define_method      (mrb, rclass, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
-  mrb_define_method      (mrb, rclass, "wedge",     siren_prim_wedge,     MRB_ARGS_NONE());
+  mrb_define_method      (mrb, mod_siren, "box",       siren_prim_box,       MRB_ARGS_OPT(2));
+  mrb_define_method      (mrb, mod_siren, "box2p",     siren_prim_box2p,     MRB_ARGS_OPT(2));
+  mrb_define_method      (mrb, mod_siren, "boxax",     siren_prim_boxax,     MRB_ARGS_REQ(3));
+  mrb_define_method      (mrb, mod_siren, "sphere",    siren_prim_sphere,    MRB_ARGS_OPT(2));
+  mrb_define_method      (mrb, mod_siren, "cylinder",  siren_prim_cylinder,  MRB_ARGS_REQ(5));
+  mrb_define_method      (mrb, mod_siren, "cone",      siren_prim_cone,      MRB_ARGS_REQ(6));
+  mrb_define_method      (mrb, mod_siren, "torus",     siren_prim_torus,     MRB_ARGS_REQ(5));
+  mrb_define_method      (mrb, mod_siren, "halfspace", siren_prim_halfspace, MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
+  mrb_define_method      (mrb, mod_siren, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
+  mrb_define_method      (mrb, mod_siren, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
+  mrb_define_method      (mrb, mod_siren, "wedge",     siren_prim_wedge,     MRB_ARGS_NONE());
   return true;
 }
 

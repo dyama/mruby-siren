@@ -2,14 +2,14 @@
 
 #ifdef SIREN_ENABLE_IGES
 
-bool siren_iges_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_iges_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "save_iges", siren_iges_save, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "load_iges", siren_iges_load, MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "save_iges", siren_iges_save, MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "load_iges", siren_iges_load, MRB_ARGS_REQ(1));
   // For mix-in
-  mrb_define_method      (mrb, rclass, "save_iges", siren_iges_save, MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "load_iges", siren_iges_load, MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "save_iges", siren_iges_save, MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "load_iges", siren_iges_load, MRB_ARGS_REQ(1));
   return true;
 }
 

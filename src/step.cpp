@@ -2,14 +2,14 @@
 
 #ifdef SIREN_ENABLE_STEP
 
-bool siren_step_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_step_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
-  mrb_define_class_method(mrb, rclass, "save_step",  siren_step_save, MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, rclass, "load_step",  siren_step_load, MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "save_step",  siren_step_save, MRB_ARGS_REQ(2));
+  mrb_define_class_method(mrb, mod_siren, "load_step",  siren_step_load, MRB_ARGS_REQ(1));
   // For mix-in
-  mrb_define_method      (mrb, rclass, "save_step",  siren_step_save, MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, rclass, "load_step",  siren_step_load, MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "save_step",  siren_step_save, MRB_ARGS_REQ(2));
+  mrb_define_method      (mrb, mod_siren, "load_step",  siren_step_load, MRB_ARGS_REQ(1));
   return true;
 }
 
