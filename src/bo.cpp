@@ -2,8 +2,7 @@
 
 bool siren_bo_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  struct RClass* cls_shape
-    = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
+  struct RClass* cls_shape = siren_shape_rclass(mrb);
   mrb_define_method(mrb, cls_shape, "common",     siren_bo_common,      MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_shape, "fuse",       siren_bo_fuse,        MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_shape, "cut",        siren_bo_cut,         MRB_ARGS_REQ(1));

@@ -25,8 +25,7 @@ void siren_add_singleton_method(mrb_state* mrb, mrb_value& self)
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
   mrb_value obj;
-  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
-  struct RClass* cls_shape = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
+  struct RClass* cls_shape = siren_shape_rclass(mrb);
   obj = mrb_instance_alloc(mrb, mrb_obj_value(cls_shape));
   void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
   TopoDS_Shape* inner = new(p) TopoDS_Shape();
@@ -35,6 +34,12 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
   DATA_TYPE(obj) = &siren_shape_type;
   siren_add_singleton_method(mrb, obj);
   return obj;
+}
+
+struct RClass* siren_shape_rclass(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
 }
 
 bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
@@ -141,9 +146,8 @@ void siren_shape_final(mrb_state* mrb, void* p)
 mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
-  struct RClass* krass = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
-  mrb_value shapetype = mrb_funcall(mrb, mrb_obj_value(krass), "typename", 1, mrb_fixnum_value((int)shape->ShapeType()));
+  struct RClass* cls_shape = siren_shape_rclass(mrb);
+  mrb_value shapetype = mrb_funcall(mrb, mrb_obj_value(cls_shape), "typename", 1, mrb_fixnum_value((int)shape->ShapeType()));
   mrb_value str = mrb_str_new_cstr(mrb, "#<Shape:");
   mrb_str_concat(mrb, str, mrb_ptr_to_str(mrb, mrb_cptr(self)));
   mrb_str_cat_lit(mrb, str, " @type=");
