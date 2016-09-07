@@ -19,18 +19,18 @@ mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
   return obj;
 }
 
-bool siren_curve_install(mrb_state* mrb, struct RClass* rclass)
+bool siren_curve_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  rclass = mrb_define_class(mrb, "Curve", mrb->object_class);
-  MRB_SET_INSTANCE_TT(rclass, MRB_TT_DATA);
-  mrb_define_method(mrb, rclass, "initialize", siren_curve_init,     MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "type",       siren_curve_geomtype, MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "inspect",    siren_curve_to_s, MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "to_s",       siren_curve_to_s, MRB_ARGS_NONE());
+  struct RClass* cls_curve = mrb_define_class_under(mrb, mod_siren, "Curve", mrb->object_class);
+  MRB_SET_INSTANCE_TT(cls_curve, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_curve, "initialize", siren_curve_init,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_curve, "type",       siren_curve_geomtype, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_curve, "inspect",    siren_curve_to_s, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_curve, "to_s",       siren_curve_to_s, MRB_ARGS_NONE());
 
   // circle
-  mrb_define_method(mrb, rclass, "radius",  siren_curve_circle_get_radius, MRB_ARGS_NONE());
-  mrb_define_method(mrb, rclass, "radius=", siren_curve_circle_set_radius, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_curve, "radius",  siren_curve_circle_get_radius, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_curve, "radius=", siren_curve_circle_set_radius, MRB_ARGS_NONE());
 
   return true;
 }
