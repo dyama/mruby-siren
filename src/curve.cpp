@@ -8,7 +8,9 @@
 mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {
   mrb_value obj;
-  obj = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Curve")));
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  struct RClass* cls_curve = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Curve")));
+  obj = mrb_instance_alloc(mrb, mrb_obj_value(cls_curve));
   void* p = mrb_malloc(mrb, sizeof(Handle(Geom_Curve)));
   Handle(Geom_Curve)* hgcurve = new(p) Handle(Geom_Curve)();
   *hgcurve = *curve;

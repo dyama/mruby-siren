@@ -3,7 +3,9 @@
 mrb_value siren_bndbox_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
   mrb_value obj;
-  obj = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "BndBox")));
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  struct RClass* cls_bnd = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "BndBox")));
+  obj = mrb_instance_alloc(mrb, mrb_obj_value(cls_bnd));
   void* p = mrb_malloc(mrb, sizeof(Bnd_Box));
   Bnd_Box* inner = new(p) Bnd_Box();
   BRepBndLib::Add(shape, *inner);

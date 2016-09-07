@@ -25,7 +25,9 @@ void siren_add_singleton_method(mrb_state* mrb, mrb_value& self)
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
   mrb_value obj;
-  obj = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Shape")));
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  struct RClass* cls_shape = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shape")));
+  obj = mrb_instance_alloc(mrb, mrb_obj_value(cls_shape));
   void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
   TopoDS_Shape* inner = new(p) TopoDS_Shape();
   *inner = shape; // Copy to inner native member

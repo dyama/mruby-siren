@@ -8,7 +8,9 @@ gp_Trsf* siren_trans_get(mrb_state* mrb, mrb_value obj)
 mrb_value siren_trans_new(mrb_state* mrb, const gp_Trsf& src)
 {
   mrb_value res;
-  res = mrb_instance_alloc(mrb, mrb_obj_value(mrb_class_get(mrb, "Trans")));
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  struct RClass* cls_trans = mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Trans")));
+  res = mrb_instance_alloc(mrb, mrb_obj_value(cls_trans));
   void* p = mrb_malloc(mrb, sizeof(gp_Trsf));
   gp_Trsf* trans = new(p) gp_Trsf();
   *trans = src;
