@@ -10,6 +10,7 @@ void siren_bndbox_final(mrb_state* mrb, void* p);
 static struct mrb_data_type siren_bndbox_type = { "BndBox", siren_bndbox_final };
 mrb_value siren_bndbox_new(mrb_state* mrb, const TopoDS_Shape& shape);
 Bnd_Box* siren_bndbox_get(mrb_state* mrb, mrb_value obj);
+struct RClass* siren_bndbox_rclass(mrb_state* mrb);
 #define siren_is_bndbox(obj) (DATA_TYPE(obj) == &siren_bndbox_type)
 
 mrb_value siren_bndbox_init(mrb_state* mrb, mrb_value self);
