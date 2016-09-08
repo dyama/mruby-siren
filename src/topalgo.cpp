@@ -4,7 +4,7 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   // Class method
   mrb_define_class_method(mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, mod_siren, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "vertex",     siren_topalgo_vertex,     MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, mod_siren, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, mod_siren, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
@@ -72,8 +72,12 @@ mrb_value siren_topalgo_copy(mrb_state* mrb, mrb_value self)
 mrb_value siren_topalgo_vertex(mrb_state* mrb, mrb_value self)
 {
   mrb_value pos;
-  int argc = mrb_get_args(mrb, "A", &pos);
-  TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(siren_ary_to_pnt(mrb, pos));
+  int argc = mrb_get_args(mrb, "|A", &pos);
+  gp_Pnt pnt(0., 0., 0.);
+  if (argc) {
+    pnt = siren_ary_to_pnt(mrb, pos);
+  }
+  TopoDS_Shape shape = BRepBuilderAPI_MakeVertex(pnt);
   return siren_shape_new(mrb, shape);
 }
 
