@@ -138,18 +138,38 @@ class Siren::Shape
     self.shapetype == Siren::Shape::VERTEX
   end
 
-  def dump_tree(d = 0)
+  def dump_tree(current_depth = 0, limit = Float::INFINITY)
     hc = sprintf("%06X", self.hashcode(0xFFFFFF))
     type = Siren::Shape.typename(self.shapetype)
-    puts "  " * d + "%s:0x%s" % [type, hc]
-    d += 1
-    self.subshapes.each do |s|
-      s.dump_tree(d)
+    puts "  " * current_depth + "%s:0x%s" % [type, hc]
+    current_depth += 1
+    if current_depth > limit
+      puts "  " * current_depth + "..."
+    else
+      self.subshapes.each do |s|
+        s.dump_tree(current_depth, limit)
+      end
     end
   end
 
   def clone(copy_geom = true)
     Siren.copy(self, copy_geom)
+  end
+
+  def to_a
+    if self.compound?
+      ar = []
+      self.subshapes.each do |s|
+        if s.compound?
+          ar << s.to_a
+        else
+          ar.push s
+        end
+      end
+      return ar
+    else
+      return [self]
+    end
   end
 
 end
