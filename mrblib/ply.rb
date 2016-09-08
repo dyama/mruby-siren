@@ -10,7 +10,7 @@ module Siren
           m[0,3]
         }
       }.flatten(1)
-      es = shape.edges(Siren::Shape::WIRE).map{|e|
+      es = shape.edges(Siren::Shape::FACE).map{|e|
         e.to_pts(deflect)
       }
       vs = [fs, es].flatten(2).sort.uniq
