@@ -15,8 +15,6 @@ bool siren_step_install(mrb_state* mrb, struct RClass* mod_siren)
 
 mrb_value siren_step_save(mrb_state* mrb, mrb_value self)
 {
-  mrb_raise(mrb, E_NOTIMP_ERROR, "This method is not implemented.");
-  /*
   mrb_value s;
   mrb_value path;
   int argc = mrb_get_args(mrb, "oS", &s, &path);
@@ -28,7 +26,6 @@ mrb_value siren_step_save(mrb_state* mrb, mrb_value self)
   if (writer.Write(RSTRING_PTR(path)) != IFSelect_RetDone) {
     mrb_raisef(mrb, E_RUNTIME_ERROR, "Failed to write STEP to %S.", path);
   }
-  */
   return mrb_nil_value();
 }
 
