@@ -138,17 +138,17 @@ class Siren::Shape
     self.shapetype == Siren::Shape::VERTEX
   end
 
-  def dump_tree(current_depth = 0, limit = Float::INFINITY)
+  def dump_tree(current_depth = 0, &limit)
     hc = sprintf("%06X", self.hashcode(0xFFFFFF))
     type = Siren::Shape.typename(self.shapetype)
     puts "  " * current_depth + "%s:0x%s" % [type, hc]
+    if limit && limit.call(current_depth, self)
+      # puts "  " * current_depth + "..."
+      return
+    end
     current_depth += 1
-    if current_depth > limit
-      puts "  " * current_depth + "..."
-    else
-      self.subshapes.each do |s|
-        s.dump_tree(current_depth, limit)
-      end
+    self.subshapes.each do |s|
+      s.dump_tree(current_depth, &limit)
     end
   end
 
