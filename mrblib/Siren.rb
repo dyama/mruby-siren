@@ -21,6 +21,8 @@ module Siren
       Siren.save_step shape, path
     elsif e4 == ".stl"
       Siren.save_stl shape, path
+    elsif e4 == ".ply"
+      Siren.save_ply shape, path
     else
       raise TypeError
     end
