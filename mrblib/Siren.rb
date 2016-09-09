@@ -23,6 +23,10 @@ module Siren
       Siren.save_stl shape, path
     elsif e4 == ".ply"
       Siren.save_ply shape, path
+    elsif e4 == ".dxf"
+      Siren.save_dxf shape, path
+    elsif e4 == ".dat"
+      Siren.save_plot shape, path
     else
       raise TypeError
     end
