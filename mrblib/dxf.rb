@@ -6,8 +6,8 @@ module Siren
   def self.save_dxf(shape, path, deflect = 1.0, angle = 5.0.to_rad)
     File.open(path, "w") do |f|
       @ff = f
-      def w(code, data, ff)
-        f.write "% 3d\n#{data}\n" % [code]
+      def w(code, data)
+        @ff.write "% 3d\n#{data}\n" % [code]
       end
       def wp(pt, ofs = 0)
         w 10 + ofs, pt.x
