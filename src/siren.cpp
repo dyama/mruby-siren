@@ -43,14 +43,18 @@ extern "C" {
   {
     // Siren module
     mod_siren  = mrb_define_module(mrb, "Siren");
-    // classes
+
+    // Class
     siren_bndbox_install (mrb, mod_siren);
     siren_curve_install  (mrb, mod_siren);
-    siren_filler_install (mrb, mod_siren);
     siren_shape_install  (mrb, mod_siren);
     siren_trans_install  (mrb, mod_siren);
     siren_vec_install    (mrb, mod_siren);
-    // methods
+
+    // API class
+    siren_filler_install (mrb, mod_siren);
+
+    // Method
     siren_topalgo_install(mrb, mod_siren);
     siren_brep_install   (mrb, mod_siren);
     siren_prim_install   (mrb, mod_siren);
@@ -69,6 +73,7 @@ extern "C" {
 #ifdef SIREN_ENABLE_STEP
     siren_step_install   (mrb, mod_siren);
 #endif
+
     return;
   }
 

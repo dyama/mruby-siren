@@ -37,10 +37,12 @@ mrb_value siren_iges_save(mrb_state* mrb, mrb_value self)
 mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
 {
   mrb_value path;
-  mrb_bool oneshape;
-  int argc = mrb_get_args(mrb, "S|b", &path, &oneshape);
-  if (argc == 1)
-    oneshape = 0;
+  mrb_bool as_ary;
+  int argc = mrb_get_args(mrb, "S|b", &path, &as_ary);
+
+  if (argc == 1) {
+    as_ary = FALSE;
+  }
 
   IGESControl_Reader iges_reader;
   int stat = iges_reader.ReadFile((Standard_CString)RSTRING_PTR(path));
@@ -54,25 +56,26 @@ mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
       mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to TransferRoots() with an IGES.");
     }
 
-    if (oneshape) {
-      // As one shape
-      result = siren_shape_new(mrb, iges_reader.OneShape());
-    }
-    else {
-      // Some shapes
+    if (as_ary) {
+      // Return array
       result = mrb_ary_new(mrb);
       for (int i=1; i <= iges_reader.NbShapes(); i++) {
         try {
-          mrb_value mrshape = siren_shape_new(mrb, iges_reader.Shape(i));
+          TopoDS_Shape shape = iges_reader.Shape(i);
+          mrb_value mrshape = siren_shape_new(mrb, shape);
           mrb_ary_push(mrb, result, mrshape);
         }
         catch(...) {
-          // Add nil value at raise exception.
-          mrb_ary_push(mrb, result, mrb_nil_value());
+          mrb_warn(mrb, "Failed to get entitiy at %d.", i);
         }
       }
-      if (mrb_ary_len(mrb, result) < 1)
+      if (mrb_ary_len(mrb, result) < 1) {
         result = mrb_nil_value();
+      }
+    }
+    else {
+      // As one shape
+      result = siren_shape_new(mrb, iges_reader.OneShape());
     }
   }
   else {
