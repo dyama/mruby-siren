@@ -20,8 +20,9 @@ mrb_value siren_iges_save(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "oS", &target, &path);
 
   IGESControl_Controller::Init();
-  IGESControl_Writer writer(Interface_Static::CVal("XSTEP.iges.unit"),
-    Interface_Static::IVal("XSTEP.iges.writebrep.mode"));
+//  IGESControl_Writer writer(Interface_Static::CVal("XSTEP.iges.unit"),
+//    Interface_Static::IVal("XSTEP.iges.writebrep.mode"));
+  IGESControl_Writer writer(Interface_Static::CVal("XSTEP.iges.unit"), 1);  // the second argument "1" sets the OCCT => IGES conversion method to "BRep"  
 
   writer.AddShape(*siren_shape_get(mrb, target));
   writer.ComputeModel();
