@@ -59,4 +59,12 @@ class Siren::Vec
     Siren::Vec.z
   end
 
+  def to_s
+    "#<Vec:0x%x @x=%f, @y=%f, @z=%f>" % [self.object_id, self.x, self.y, self.z]
+  end
+
+  def inspect
+    self.to_s
+  end
+
 end

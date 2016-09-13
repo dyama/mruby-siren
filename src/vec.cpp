@@ -30,8 +30,6 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* mod_siren)
   struct RClass* cls_vec = mrb_define_class_under(mrb, mod_siren, "Vec", mrb->object_class);
   MRB_SET_INSTANCE_TT(cls_vec, MRB_TT_DATA);
   mrb_define_method(mrb, cls_vec, "initialize",       siren_vec_init,             MRB_ARGS_NONE() | MRB_ARGS_OPT(1));
-  mrb_define_method(mrb, cls_vec, "inspect",          siren_vec_to_s,             MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_vec, "to_s",             siren_vec_to_s,             MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_vec, "x",                siren_vec_x,                MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_vec, "x=",               siren_vec_x_set,            MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_vec, "y",                siren_vec_y,                MRB_ARGS_NONE());
@@ -107,15 +105,6 @@ void siren_vec_final(mrb_state* mrb, void* p)
 {
   gp_Vec* v = static_cast<gp_Vec*>(p);
   mrb_free(mrb, v);
-}
-
-mrb_value siren_vec_to_s(mrb_state* mrb, mrb_value self)
-{
-  gp_Vec* vec = siren_vec_get(mrb, self);
-  char str[128];
-  snprintf(str, sizeof(str), "#<Vec:0x%x @x=%f, @y=%f, @z=%f>",
-      (unsigned int)(uintptr_t)mrb_cptr(self), vec->X(), vec->Y(), vec->Z());
-  return mrb_str_new_cstr(mrb, str);
 }
 
 mrb_value siren_vec_x(mrb_state* mrb, mrb_value self)
