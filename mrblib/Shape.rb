@@ -150,6 +150,35 @@ class Siren::Shape
     self.subshapes.each do |s|
       s.dump_tree(current_depth, &limit)
     end
+    nil
+  end
+
+  def dump_compound
+    self.dump_tree{|depth, child| child.compound?}
+  end
+
+  def dump_solid
+    self.dump_tree{|depth, child| child.solid?}
+  end
+
+  def dump_shell
+    self.dump_tree{|depth, child| child.sell?}
+  end
+
+  def dump_face
+    self.dump_tree{|depth, child| child.face?}
+  end
+
+  def dump_wire
+    self.dump_tree{|depth, child| child.wire?}
+  end
+
+  def dump_edge
+    self.dump_tree{|depth, child| child.edge?}
+  end
+
+  def dump_vertex
+    self.dump_tree{|depth, child| child.vertex?}
   end
 
   def clone(copy_geom = true)
