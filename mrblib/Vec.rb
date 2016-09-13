@@ -59,12 +59,19 @@ class Siren::Vec
     Siren::Vec.z
   end
 
+  ##
+  # Return this object as a string.
   def to_s
     "#<Vec:0x%x @x=%f, @y=%f, @z=%f>" % [self.object_id, self.x, self.y, self.z]
   end
+  alias_method :inspect, :to_s
 
-  def inspect
-    self.to_s
+  ##
+  # Return x, y and z values of this object as an array.
+  def to_a
+    [self.x, self.y, self.z]
   end
+  alias_method :to_ary, :to_a
+  alias_method :xyz,    :to_a
 
 end
