@@ -140,36 +140,48 @@ mrb_value siren_topalgo_curve(mrb_state* mrb, mrb_value self)
   for (int i=0; i<psize; i++) {
     pary->SetValue(i+1, siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, pts, i)));
   }
-  GeomAPI_Interpolate intp(pary, Standard_False, 1.0e-7);
 
-  if (argc == 2) {
-    TColgp_Array1OfVec vec(1, psize);
-    Handle(TColStd_HArray1OfBoolean) use = new TColStd_HArray1OfBoolean(1, psize);
+  try {
+    Standard_Real tolerance = 1.0e-7;
+    Standard_Boolean periodic_flag = Standard_False;
 
-    for (int i=0; i<psize; i++) {
-      mrb_value avec = mrb_ary_ref(mrb, vecs, i);
-      if (mrb_nil_p(avec)) {
-        use->SetValue(i+1, Standard_False);
+    // Raise exception when got pary has same points.
+    GeomAPI_Interpolate intp(pary, periodic_flag, tolerance);
+
+    if (argc == 2) {
+      TColgp_Array1OfVec vec(1, psize);
+      Handle(TColStd_HArray1OfBoolean) use = new TColStd_HArray1OfBoolean(1, psize);
+
+      for (int i=0; i<psize; i++) {
+        mrb_value avec = mrb_ary_ref(mrb, vecs, i);
+        if (mrb_nil_p(avec)) {
+          use->SetValue(i+1, Standard_False);
+        }
+        else {
+          vec.SetValue(i+1, siren_ary_to_vec(mrb, avec));
+          use->SetValue(i+1, Standard_True);
+        }
       }
-      else {
-        vec.SetValue(i+1, siren_ary_to_vec(mrb, avec));
-        use->SetValue(i+1, Standard_True);
-      }
+      intp.Load(vec, use, Standard_True);
     }
-    intp.Load(vec, use, Standard_True);
-  }
 
-  intp.Perform();
-  Handle(Geom_BSplineCurve) geSpl = intp.Curve();
+    intp.Perform();
+    if (!intp.IsDone()) {
+      mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
+    }
 
-  if (geSpl.IsNull()) {
-    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
-    return mrb_nil_value();
-  }
-  else {
+    Handle(Geom_BSplineCurve) geSpl = intp.Curve();
+    if (geSpl.IsNull()) {
+      mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
+    }
+
     TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(geSpl);
     return siren_shape_new(mrb, shape);
   }
+  catch (...) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve. Incorrect points specified.");
+  }
+  return mrb_nil_value();
 }
 
 mrb_value siren_topalgo_wire(mrb_state* mrb, mrb_value self)
