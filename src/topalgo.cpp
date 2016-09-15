@@ -93,6 +93,11 @@ mrb_value siren_topalgo_line(mrb_state* mrb, mrb_value self)
   if (argc > 1) {
     T = siren_ary_to_pnt(mrb, tp);
   }
+  Standard_Real linear_tolerance = 1.0e-7;
+  if (S.IsEqual(T, linear_tolerance)) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR,
+        "Specified terminal point same as the start point.");
+  }
   TopoDS_Shape shape = BRepBuilderAPI_MakeEdge(S, T);
   return siren_shape_new(mrb, shape);
 }
