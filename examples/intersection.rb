@@ -11,7 +11,7 @@ pln = infplane [0, 0, 0], [0.5, 0.3, 0.8].to_v.normal
 int_curve = tor.section(pln)
 
 faces = []
-int_curve.edges do |e|
+int_curve.edges.each do |e|
   w = wire [e]
   faces << face(w, true)
 end
