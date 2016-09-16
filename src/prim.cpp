@@ -53,7 +53,10 @@ mrb_value siren_prim_box(mrb_state* mrb, mrb_value self)
   else {
     op = gp_Pnt(0., 0., 0.);
   }
-
+  if (std::fabs(sx * sy * sz) == 0.0) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR,
+      "Failed to make solid. Incorrect size specified.");
+  }
   BRepPrimAPI_MakeBox api(op, sx, sy, sz);
   return siren_shape_new(mrb, api.Shape());
 }
