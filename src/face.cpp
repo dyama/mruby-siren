@@ -55,26 +55,30 @@ mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_face_split(mrb_state* mrb, mrb_value self)
 {
-  mrb_value wire;
-  int argc = mrb_get_args(mrb, "o", &wire);
+  mrb_value obj;
+  int argc = mrb_get_args(mrb, "o", &obj);
 
-  TopoDS_Shape* sface = siren_shape_get(mrb, self);
-  TopoDS_Shape* swire = siren_shape_get(mrb, wire);
+  TopoDS_Face face = TopoDS::Face(*siren_shape_get(mrb, self));
+  BRepFeat_SplitShape splitter(face);
 
-  TopoDS_Face _face = TopoDS::Face(*sface);
-  BRepFeat_SplitShape splitter(_face);
-
-  TopExp_Explorer ex(*swire, TopAbs_WIRE);
-  for (; ex.More(); ex.Next()) {
-    TopoDS_Wire e = TopoDS::Wire(ex.Current());
-    splitter.Add(e, _face);
+  TopoDS_Shape shape = *siren_shape_get(mrb, obj);
+  switch (shape.ShapeType()) {
+  case TopAbs_WIRE:
+    splitter.Add(TopoDS::Wire(shape), face);
+    break;
+  case TopAbs_EDGE:
+    splitter.Add(TopoDS::Edge(shape), face);
+    break;
+  case TopAbs_COMPOUND:
+    splitter.Add(TopoDS::Compound(shape), face);
+    break;
+  default:
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Incorrect argument specified.");
   }
-
   splitter.Build();
   if (!splitter.IsDone()) {
-    return mrb_nil_value();
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to split the face.");
   }
-
   return siren_shape_new(mrb, splitter.Shape());
 }
 
