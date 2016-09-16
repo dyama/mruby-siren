@@ -116,6 +116,11 @@ mrb_value siren_prim_sphere(mrb_state* mrb, mrb_value self)
     op = gp_Pnt(0., 0., 0.);
   }
 
+  if (r < 0) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make solid."
+      " Specified radius value below 0.");
+  }
+
   BRepPrimAPI_MakeSphere api(op, r);
   return siren_shape_new(mrb, api.Shape());
 }
