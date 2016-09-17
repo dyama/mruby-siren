@@ -5,6 +5,7 @@ void siren_face_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "normal", siren_face_normal, MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "to_bezier", siren_face_to_bezier, MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "split", siren_face_split, MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "cut", siren_face_cut, MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "triangle", siren_face_triangle, MRB_ARGS_REQ(2));
   return;
 }
@@ -81,6 +82,26 @@ mrb_value siren_face_split(mrb_state* mrb, mrb_value self)
   }
   return siren_shape_new(mrb, splitter.Shape());
 }
+
+mrb_value siren_face_cut(mrb_state* mrb, mrb_value self)
+{
+  mrb_value obj;
+  int argc = mrb_get_args(mrb, "o", &obj);
+
+  TopoDS_Shape shape = *siren_shape_get(mrb, self);
+  TopoDS_Shape tool = *siren_shape_get(mrb, obj);
+  switch (tool.ShapeType()) {  
+    case TopAbs_COMPOUND:
+    // TODO:  in this case, make the union (fuse) of the compound first, and then apply cut.
+    case TopAbs_SOLID:
+      shape = BRepAlgoAPI_Cut(shape,tool);
+      break;
+    default:
+      mrb_raise(mrb, E_ARGUMENT_ERROR, "Incorrect argument specified.");
+  }
+  return siren_shape_new(mrb,shape);
+}
+
 
 mrb_value siren_face_triangle(mrb_state* mrb, mrb_value self)
 {
