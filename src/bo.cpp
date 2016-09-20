@@ -31,8 +31,7 @@ mrb_value siren_bo_fuse(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "o", &target);
   TopoDS_Shape* S1 = siren_shape_get(mrb, self);
   TopoDS_Shape* S2 = siren_shape_get(mrb, target);
-  BRepAlgoAPI_Common api(*S1, *S2);
-  api.SetOperation(BOPAlgo_FUSE);
+  BRepAlgoAPI_Fuse api(*S1, *S2);
   api.Build();
   if (api.ErrorStatus()) {
     return mrb_nil_value();
@@ -46,8 +45,7 @@ mrb_value siren_bo_cut(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "o", &target);
   TopoDS_Shape* S1 = siren_shape_get(mrb, self);
   TopoDS_Shape* S2 = siren_shape_get(mrb, target);
-  BRepAlgoAPI_Common api(*S1, *S2);
-  api.SetOperation(BOPAlgo_CUT);
+  BRepAlgoAPI_Cut api(*S1, *S2);
   api.Build();
   if (api.ErrorStatus()) {
     return mrb_nil_value();
