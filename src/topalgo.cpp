@@ -293,12 +293,19 @@ mrb_value siren_topalgo_circle3p(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_topalgo_plane(mrb_state* mrb, mrb_value self)
 {
-  mrb_value pos, norm, vdir;
+  mrb_value pos, norm, vx;
   mrb_float umin, umax, vmin, vmax;
-  int argc = mrb_get_args(mrb, "AAAffff", &pos, &norm, &vdir, &umin, &umax, &vmin, &vmax);
-  gp_Pln _pln(siren_ary_to_ax2(mrb, pos, norm, vdir));
-  BRepBuilderAPI_MakeFace face(_pln, umin, umax, vmin, vmax);
-  return siren_shape_new(mrb, face.Shape());
+  int argc = mrb_get_args(mrb, "AAAffff", &pos, &norm, &vx, &umin, &umax, &vmin, &vmax);
+  try {
+    gp_Pln _pln(siren_ary_to_ax2(mrb, pos, norm, vx));
+    BRepBuilderAPI_MakeFace face(_pln, umin, umax, vmin, vmax);
+    return siren_shape_new(mrb, face.Shape());
+  }
+  catch (...) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a plane. "
+        "vx has same value with the normal vector.");
+    return mrb_nil_value();
+  }
 }
 
 mrb_value siren_topalgo_face(mrb_state* mrb, mrb_value self)
