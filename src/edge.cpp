@@ -93,7 +93,7 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
 mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
 {
   mrb_value xyz;
-  mrb_float tol;
+  mrb_float tol = 1.0e-7;
   int argc = mrb_get_args(mrb, "A|f", &xyz, &tol);
 
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
