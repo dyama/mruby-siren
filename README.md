@@ -31,6 +31,8 @@ Example
       p face.area
     end
 
+![Fused shape](http://siren.xyz/wp-content/uploads/2016/01/twoboxes.jpg)
+
 You can find more examples code at the Github page.
 
 https://github.com/dyama/mruby-siren/wiki/Sample
