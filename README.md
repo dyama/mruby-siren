@@ -33,7 +33,7 @@ Example
 
 You can find more examples code at the Github page.
 
-https://github.com/dyama/mruby-siren/wiki/Sample
+https://github.com/dyama/mruby-siren/wiki/Example
 
 Requirement
 -----------
