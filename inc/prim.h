@@ -9,6 +9,7 @@
 #include <BRepPrimAPI_MakeCone.hxx>
 #include <BRepPrimAPI_MakeTorus.hxx>
 #include <BRepPrimAPI_MakeHalfSpace.hxx>
+#include <BRepPrimAPI_MakeWedge.hxx>
 
 bool siren_prim_install(mrb_state* mrb, struct RClass* rclass);
 

@@ -14,7 +14,7 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, mod_siren, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
   mrb_define_class_method(mrb, mod_siren, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
-  mrb_define_class_method(mrb, mod_siren, "wedge",     siren_prim_wedge,     MRB_ARGS_NONE());
+  mrb_define_class_method(mrb, mod_siren, "wedge",     siren_prim_wedge,     MRB_ARGS_OPT(7));
   // For mix-in
   mrb_define_method      (mrb, mod_siren, "box",       siren_prim_box,       MRB_ARGS_OPT(2));
   mrb_define_method      (mrb, mod_siren, "box2p",     siren_prim_box2p,     MRB_ARGS_OPT(2));
@@ -27,7 +27,7 @@ bool siren_prim_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "prism",     siren_prim_prism,     MRB_ARGS_NONE());
   mrb_define_method      (mrb, mod_siren, "revol",     siren_prim_revol,     MRB_ARGS_NONE());
   mrb_define_method      (mrb, mod_siren, "revolution",siren_prim_revolution,MRB_ARGS_NONE());
-  mrb_define_method      (mrb, mod_siren, "wedge",     siren_prim_wedge,     MRB_ARGS_NONE());
+  mrb_define_method      (mrb, mod_siren, "wedge",     siren_prim_wedge,     MRB_ARGS_OPT(7));
   return true;
 }
 
@@ -207,7 +207,16 @@ mrb_value siren_prim_revolution(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_prim_wedge(mrb_state* mrb, mrb_value self)
 {
-  mrb_raise(mrb, E_NOTIMP_ERROR, "Not implemented.");
+  mrb_float dx = 1.0, dy = 1.0, dz = 1.0, x = 0.5, z = 0.5, X = 0.5, Z = 0.5;
+  int argc = mrb_get_args(mrb, "|fffffff", &dx, &dy, &dz, &x, &z, &X, &Z);
+  try {
+    BRepPrimAPI_MakeWedge api(dx, dy, dz, x, z, X, Z);
+    TopoDS_Shape s = api.Shape();
+    return siren_shape_new(mrb, s);
+  }
+  catch (...) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a wedge.");
+  }
   return mrb_nil_value();
 }
 
