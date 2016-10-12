@@ -59,11 +59,8 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
 mrb_value siren_topalgo_copy(mrb_state* mrb, mrb_value self)
 {
   mrb_value target;
-  mrb_bool copy_geom;
+  mrb_bool copy_geom = (mrb_bool)Standard_True;
   int argc = mrb_get_args(mrb, "o|b", &target, &copy_geom);
-  if (argc < 2) {
-    copy_geom = true;
-  }
   TopoDS_Shape* src = siren_shape_get(mrb, target);
   TopoDS_Shape res = BRepBuilderAPI_Copy(*src, (Standard_Boolean)copy_geom);
   return siren_shape_new(mrb, res);
@@ -334,11 +331,8 @@ mrb_value siren_topalgo_infplane(mrb_state* mrb, mrb_value self)
 mrb_value siren_topalgo_polygon(mrb_state* mrb, mrb_value self)
 {
   mrb_value pts;
-  mrb_bool force_plane;
+  mrb_bool force_plane = (mrb_bool)Standard_True;
   int argc = mrb_get_args(mrb, "A|b", &pts, &force_plane);
-  if (argc < 2) {
-    force_plane = true;
-  }
 
   BRepBuilderAPI_MakePolygon mp;
 

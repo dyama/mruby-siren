@@ -38,12 +38,8 @@ mrb_value siren_iges_save(mrb_state* mrb, mrb_value self)
 mrb_value siren_iges_load(mrb_state* mrb, mrb_value self)
 {
   mrb_value path;
-  mrb_bool as_ary;
+  mrb_bool as_ary = FALSE;
   int argc = mrb_get_args(mrb, "S|b", &path, &as_ary);
-
-  if (argc == 1) {
-    as_ary = FALSE;
-  }
 
   IGESControl_Reader iges_reader;
   int stat = iges_reader.ReadFile((Standard_CString)RSTRING_PTR(path));
