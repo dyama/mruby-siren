@@ -17,11 +17,29 @@
 #include   <Geom_OffsetCurve.hxx>
 #include   <ShapeExtend_ComplexCurve.hxx>
 
+enum SrGCT_GeomCurveType {
+  SrGCT_UNKNOWN      = 0,
+  SrGCT_BEZIERCURVE  = 1,
+  SrGCT_BSPLINECURVE = 2,
+  SrGCT_TRIMMEDCURVE = 3,
+  SrGCT_BOUNDEDCURVE = 4,
+  SrGCT_CIRCLE       = 5,
+  SrGCT_ELLIPSE      = 6,
+  SrGCT_HYPERBOLA    = 7,
+  SrGCT_PARABOLA     = 8,
+  SrGCT_CONIC        = 9,
+  SrGCT_LINE         = 10,
+  SrGCT_OFFSETCURVE  = 11,
+  SrGCT_COMPLEXCURVE = 12
+};
+
 void siren_curve_final(mrb_state* mrb, void* p);
 bool siren_curve_install(mrb_state* mrb, struct RClass* rclass);
 static struct mrb_data_type siren_curve_type = { "Curve", siren_curve_final };
 Handle(Geom_Curve)* siren_curve_get(mrb_state* mrb, mrb_value obj);
 struct RClass* siren_curve_rclass(mrb_state* mrb);
+
+SrGCT_GeomCurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc);
 
 mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve);
 mrb_value siren_curve_init(mrb_state* mrb, mrb_value self);
