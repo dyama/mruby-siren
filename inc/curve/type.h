@@ -1,6 +1,8 @@
 #ifndef _CURVE_TYPE_H_
 #define _CURVE_TYPE_H_
 
+#include <Geom_Curve.hxx>
+
 enum SrCT_CurveType {
   SrCT_UNKNOWN      = 0,
   SrCT_BEZIERCURVE  = 1,
@@ -16,5 +18,7 @@ enum SrCT_CurveType {
   SrCT_OFFSETCURVE  = 11,
   SrCT_COMPLEXCURVE = 12
 };
+
+SrCT_CurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc);
 
 #endif
