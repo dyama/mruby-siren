@@ -32,7 +32,9 @@ void siren_curve_add_singleton_method(mrb_state* mrb, mrb_value& self)
     case SrCT_ELLIPSE:      siren_ellipse_install(mrb, mrb_obj_ptr(self));      break;
     case SrCT_HYPERBOLA:    siren_hyperbola_install(mrb, mrb_obj_ptr(self));    break;
     case SrCT_PARABOLA:     siren_parabola_install(mrb, mrb_obj_ptr(self));     break;
+    */
     case SrCT_LINE:         siren_line_install(mrb, mrb_obj_ptr(self));         break;
+    /*
     case SrCT_OFFSETCURVE:  siren_offsetcurve_install(mrb, mrb_obj_ptr(self));  break;
     case SrCT_COMPLEXCURVE: siren_complexcurve_install(mrb, mrb_obj_ptr(self)); break;
     */
