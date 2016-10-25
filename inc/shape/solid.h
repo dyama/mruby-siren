@@ -1,5 +1,5 @@
-#ifndef _SOLID_H_
-#define _SOLID_H_
+#ifndef _SHAPE_SOLID_H_
+#define _SHAPE_SOLID_H_
 
 #include "siren.h"
 

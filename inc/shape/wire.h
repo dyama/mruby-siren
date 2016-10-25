@@ -1,5 +1,5 @@
-#ifndef _WIRE_H_
-#define _WIRE_H_
+#ifndef _SHAPE_WIRE_H_
+#define _SHAPE_WIRE_H_
 
 #include "siren.h"
 #include "shape.h"

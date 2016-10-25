@@ -1,5 +1,5 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef _SHAPE_SHELL_H_
+#define _SHAPE_SHELL_H_
 
 #include "siren.h"
 

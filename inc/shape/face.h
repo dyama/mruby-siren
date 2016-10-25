@@ -1,5 +1,5 @@
-#ifndef _SINGLETON_FACE_H_
-#define _SINGLETON_FACE_H_
+#ifndef _SHAPE_FACE_H_
+#define _SHAPE_FACE_H_
 
 #include "siren.h"
 #include "shape.h"

@@ -1,5 +1,5 @@
-#ifndef _COMPSOLID_H_
-#define _COMPSOLID_H_
+#ifndef _SHAPE_COMPSOLID_H_
+#define _SHAPE_COMPSOLID_H_
 
 #include "siren.h"
 

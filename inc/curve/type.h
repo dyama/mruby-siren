@@ -1,5 +1,5 @@
-#ifndef _CURVETYPE_H_
-#define _CURVETYPE_H_
+#ifndef _CURVE_TYPE_H_
+#define _CURVE_TYPE_H_
 
 enum SrCT_CurveType {
   SrCT_UNKNOWN      = 0,

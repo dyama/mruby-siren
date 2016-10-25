@@ -1,5 +1,5 @@
-#ifndef _COMPOUND_H_
-#define _COMPOUND_H_
+#ifndef _SHAPE_COMPOUND_H_
+#define _SHAPE_COMPOUND_H_
 
 #include "siren.h"
 
