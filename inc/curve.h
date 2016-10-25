@@ -12,11 +12,11 @@
 #include   <Geom_Ellipse.hxx>
 #include   <Geom_Hyperbola.hxx>
 #include   <Geom_Parabola.hxx>
-#include <Geom_Line.hxx>
 #include <Geom_OffsetCurve.hxx>
 #include <ShapeExtend_ComplexCurve.hxx>
 
 #include "curve/circle.h"
+#include "curve/line.h"
 
 void siren_curve_final(mrb_state* mrb, void* p);
 bool siren_curve_install(mrb_state* mrb, struct RClass* rclass);
