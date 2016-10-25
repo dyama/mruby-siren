@@ -5,7 +5,7 @@
 
 #include "shape.h"
 
-void siren_add_singleton_method(mrb_state* mrb, mrb_value& self)
+void siren_shape_add_singleton_method(mrb_state* mrb, mrb_value& self)
 {
   TopoDS_Shape* S = siren_shape_get(mrb, self);
   switch (S->ShapeType()) {
@@ -32,7 +32,7 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
   *inner = shape; // Copy to inner native member
   DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(inner);
   DATA_TYPE(obj) = &siren_shape_type;
-  siren_add_singleton_method(mrb, obj);
+  siren_shape_add_singleton_method(mrb, obj);
   return obj;
 }
 
