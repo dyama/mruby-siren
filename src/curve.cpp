@@ -14,48 +14,70 @@ mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
   *hgcurve = *curve;
   DATA_PTR(obj)  = hgcurve;
   DATA_TYPE(obj) = &siren_curve_type;
+  siren_curve_add_singleton_method(mrb, obj);
   return obj;
 }
 
-SrGCT_GeomCurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc)
+void siren_curve_add_singleton_method(mrb_state* mrb, mrb_value& self)
+{
+  Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
+  switch (siren_curve_geomtype_native(hgc)) {
+    /*
+    case SrCT_BEZIERCURVE:  siren_beziercurve_install(mrb, mrb_obj_ptr(self));  break;
+    case SrCT_BSPLINECURVE: siren_bsplinecurve_install(mrb, mrb_obj_ptr(self)); break;
+    case SrCT_TRIMMEDCURVE: siren_trimmedcurve_install(mrb, mrb_obj_ptr(self)); break;
+    case SrCT_CIRCLE:       siren_circle_install(mrb, mrb_obj_ptr(self));       break;
+    case SrCT_ELLIPSE:      siren_ellipse_install(mrb, mrb_obj_ptr(self));      break;
+    case SrCT_HYPERBOLA:    siren_hyperbola_install(mrb, mrb_obj_ptr(self));    break;
+    case SrCT_PARABOLA:     siren_parabola_install(mrb, mrb_obj_ptr(self));     break;
+    case SrCT_LINE:         siren_line_install(mrb, mrb_obj_ptr(self));         break;
+    case SrCT_OFFSETCURVE:  siren_offsetcurve_install(mrb, mrb_obj_ptr(self));  break;
+    case SrCT_COMPLEXCURVE: siren_complexcurve_install(mrb, mrb_obj_ptr(self)); break;
+    */
+    default: break;
+  }
+  return;
+}
+
+SrCT_CurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc)
 {
   //if (!Handle(Geom_BoundedCurve)::DownCast(hgc).IsNull()) {
     if (!Handle(Geom_BezierCurve)::DownCast(hgc).IsNull()) {
-      return SrGCT_BEZIERCURVE;
+      return SrCT_BEZIERCURVE;
     }
     if (!Handle(Geom_BSplineCurve)::DownCast(hgc).IsNull()) {
-      return SrGCT_BSPLINECURVE;
+      return SrCT_BSPLINECURVE;
     }
     if (!Handle(Geom_TrimmedCurve)::DownCast(hgc).IsNull()) {
-      return SrGCT_TRIMMEDCURVE;
+      return SrCT_TRIMMEDCURVE;
     }
-  //  return SrGCT_BOUNDEDCURVE;
+  //  return SrCT_BOUNDEDCURVE;
   //}
   //if (!Handle(Geom_Conic)::DownCast(hgc).IsNull()) {
     if (!Handle(Geom_Circle)::DownCast(hgc).IsNull()) {
-      return SrGCT_CIRCLE;
+      return SrCT_CIRCLE;
     }
     if (!Handle(Geom_Ellipse)::DownCast(hgc).IsNull()) {
-      return SrGCT_ELLIPSE;
+      return SrCT_ELLIPSE;
     }
     if (!Handle(Geom_Hyperbola)::DownCast(hgc).IsNull()) {
-      return SrGCT_HYPERBOLA;
+      return SrCT_HYPERBOLA;
     }
     if (!Handle(Geom_Parabola)::DownCast(hgc).IsNull()) {
-      return SrGCT_PARABOLA;
+      return SrCT_PARABOLA;
     }
-  //  return SrGCT_CONIC;
+  //  return SrCT_CONIC;
   //}
   if (!Handle(Geom_Line)::DownCast(hgc).IsNull()) {
-    return SrGCT_LINE;
+    return SrCT_LINE;
   }
   if (!Handle(Geom_OffsetCurve)::DownCast(hgc).IsNull()) {
-    return SrGCT_OFFSETCURVE;
+    return SrCT_OFFSETCURVE;
   }
   if (!Handle(ShapeExtend_ComplexCurve)::DownCast(hgc).IsNull()) {
-    return SrGCT_COMPLEXCURVE;
+    return SrCT_COMPLEXCURVE;
   }
-  return SrGCT_UNKNOWN;
+  return SrCT_UNKNOWN;
 }
 
 bool siren_curve_install(mrb_state* mrb, struct RClass* mod_siren)
