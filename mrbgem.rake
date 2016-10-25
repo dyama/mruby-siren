@@ -11,7 +11,11 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   # siren configuration
   spec.add_dependency 'mruby-io'
-  siren_incpath = File.expand_path(File.dirname(__FILE__)) + '/inc'
+  siren_basedir  = File.expand_path(File.dirname(__FILE__))
+  siren_incdir   = siren_basedir + '/inc'
+  siren_incpaths = []
+  siren_incpaths << siren_incdir
+  siren_incpaths << siren_incdir + '/curve'
 
   # Open CASCADE Technology configuration
   # Check http://dev.opencascade.org/doc/refman/html/index.html
@@ -31,7 +35,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
     when /mswin|mingw/
       occt_libpaths = [ '\occ\700\mingw32\gcc\lib' ]
       occt_incpaths = [ '\occ\700\inc' ]
-      spec.cxx.flags << '-D_USE_MATH_DEFINES -D__NO_INLINE__'
+      spec.cxx.flags << '-D_USE_MATH_DEFINES'
+      spec.cxx.flags << '-D__NO_INLINE__'
     end
   end
 
@@ -54,8 +59,12 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.linker.libraries << occt_libs << thirdparty_libs
 
   # Compiler option
-  spec.cxx.flags << occt_incpaths.map{|n| "-I\"#{n}\"" } << " -I\"#{siren_incpath}\"" <<
-    "-Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -std=c++11"
+  spec.cxx.flags << "-Wno-unused-function"
+  spec.cxx.flags << "-Wno-unused-variable"
+  spec.cxx.flags << "-Wno-unknown-pragmas"
+  spec.cxx.flags << "-std=c++11"
+  spec.cxx.include_paths << occt_incpaths
+  spec.cxx.include_paths << siren_incpaths
 
 end
 

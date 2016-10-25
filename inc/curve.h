@@ -2,7 +2,7 @@
 #define _CURVE_H_
 
 #include "siren.h"
-#include "curvetype.h"
+#include "curve/type.h"
 
 #include <Geom_Curve.hxx>
 #include   <Geom_BoundedCurve.hxx>
