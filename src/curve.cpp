@@ -26,7 +26,9 @@ void siren_curve_add_singleton_method(mrb_state* mrb, mrb_value& self)
     case SrCT_BEZIERCURVE:  siren_beziercurve_install(mrb, mrb_obj_ptr(self));  break;
     case SrCT_BSPLINECURVE: siren_bsplinecurve_install(mrb, mrb_obj_ptr(self)); break;
     case SrCT_TRIMMEDCURVE: siren_trimmedcurve_install(mrb, mrb_obj_ptr(self)); break;
+    */
     case SrCT_CIRCLE:       siren_circle_install(mrb, mrb_obj_ptr(self));       break;
+    /*
     case SrCT_ELLIPSE:      siren_ellipse_install(mrb, mrb_obj_ptr(self));      break;
     case SrCT_HYPERBOLA:    siren_hyperbola_install(mrb, mrb_obj_ptr(self));    break;
     case SrCT_PARABOLA:     siren_parabola_install(mrb, mrb_obj_ptr(self));     break;
@@ -90,7 +92,7 @@ bool siren_curve_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method(mrb, cls_curve, "to_s",       siren_curve_to_s, MRB_ARGS_NONE());
 
   // circle
-  mrb_define_method(mrb, cls_curve, "radius",  siren_curve_circle_get_radius, MRB_ARGS_NONE());
+  //mrb_define_method(mrb, cls_curve, "radius",  siren_curve_circle_get_radius, MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_curve, "radius=", siren_curve_circle_set_radius, MRB_ARGS_NONE());
 
   return true;
@@ -144,16 +146,16 @@ mrb_value siren_curve_to_s(mrb_state* mrb, mrb_value self)
   return str;
 }
 
-mrb_value siren_curve_circle_get_radius(mrb_state* mrb, mrb_value self)
-{
-  Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
-  Handle(Geom_Circle) circle = Handle(Geom_Circle)::DownCast(hgc);
-  if (circle.IsNull()) {
-    mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not circle.");
-  }
-  Standard_Real r = circle->Radius();
-  return mrb_float_value(mrb, r);
-}
+// mrb_value siren_curve_circle_get_radius(mrb_state* mrb, mrb_value self)
+// {
+//   Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
+//   Handle(Geom_Circle) circle = Handle(Geom_Circle)::DownCast(hgc);
+//   if (circle.IsNull()) {
+//     mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not circle.");
+//   }
+//   Standard_Real r = circle->Radius();
+//   return mrb_float_value(mrb, r);
+// }
 
 mrb_value siren_curve_circle_set_radius(mrb_state* mrb, mrb_value self)
 {

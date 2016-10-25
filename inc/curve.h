@@ -10,13 +10,14 @@
 #include     <Geom_BSplineCurve.hxx>
 #include     <Geom_TrimmedCurve.hxx>
 #include   <Geom_Conic.hxx>
-#include     <Geom_Circle.hxx>
 #include     <Geom_Ellipse.hxx>
 #include     <Geom_Hyperbola.hxx>
 #include     <Geom_Parabola.hxx>
 #include   <Geom_Line.hxx>
 #include   <Geom_OffsetCurve.hxx>
 #include   <ShapeExtend_ComplexCurve.hxx>
+
+#include "curve/circle.h"
 
 void siren_curve_final(mrb_state* mrb, void* p);
 bool siren_curve_install(mrb_state* mrb, struct RClass* rclass);
@@ -32,7 +33,7 @@ mrb_value siren_curve_to_s(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_curve_geomtype(mrb_state* mrb, mrb_value self);
 
-mrb_value siren_curve_circle_get_radius(mrb_state* mrb, mrb_value self);
+//mrb_value siren_curve_circle_get_radius(mrb_state* mrb, mrb_value self);
 mrb_value siren_curve_circle_set_radius(mrb_state* mrb, mrb_value self);
 
 #endif

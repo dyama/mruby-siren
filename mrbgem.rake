@@ -11,11 +11,10 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   # siren configuration
   spec.add_dependency 'mruby-io'
-  siren_basedir  = File.expand_path(File.dirname(__FILE__))
-  siren_incdir   = siren_basedir + '/inc'
+  siren_incdir   = "#{dir}/inc"
   siren_incpaths = []
   siren_incpaths << siren_incdir
-  siren_incpaths << siren_incdir + '/curve'
+  siren_incpaths << Dir.glob("#{siren_incdir}/*/").map{|f| f.relative_path_from(dir)}
 
   # Open CASCADE Technology configuration
   # Check http://dev.opencascade.org/doc/refman/html/index.html
@@ -66,7 +65,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.cxx.include_paths << occt_incpaths
   spec.cxx.include_paths << siren_incpaths
   spec.objs << Dir.glob("#{dir}/src/*.{c,cpp}").map { |f| objfile(f.relative_path_from(dir).pathmap("#{build_dir}/%X")) }
-  spec.objs << Dir.glob("#{dir}/src/shape/*.{c,cpp}").map { |f| objfile(f.relative_path_from(dir).pathmap("#{build_dir}/%X")) }
+  spec.objs << Dir.glob("#{dir}/src/*/*.{c,cpp}").map { |f| objfile(f.relative_path_from(dir).pathmap("#{build_dir}/%X")) }
 
 end
 
