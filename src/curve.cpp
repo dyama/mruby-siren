@@ -106,9 +106,12 @@ mrb_value siren_curve_to_s(mrb_state* mrb, mrb_value self)
   mrb_value str = mrb_str_new_cstr(mrb, "#<Curve:");
   mrb_str_concat(mrb, str, mrb_ptr_to_str(mrb, mrb_cptr(self)));
   mrb_str_cat_lit(mrb, str, " @type=");
+
   mrb_value type = mrb_funcall(mrb, self, "type", 0);
-  mrb_value stype = mrb_funcall(mrb, type, "to_gcname", 0);
-  mrb_str_append(mrb, str, stype);
+  struct RClass* cls_curve = siren_curve_rclass(mrb);
+  mrb_value curvetype = mrb_funcall(mrb, mrb_obj_value(cls_curve), "typename", 1, type);
+
+  mrb_str_append(mrb, str, curvetype);
   mrb_str_cat_lit(mrb, str, ">");
   return str;
 }
