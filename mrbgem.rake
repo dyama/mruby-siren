@@ -65,6 +65,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.cxx.flags << "-std=c++11"
   spec.cxx.include_paths << occt_incpaths
   spec.cxx.include_paths << siren_incpaths
+  spec.objs << Dir.glob("#{dir}/src/*.{c,cpp}").map { |f| objfile(f.relative_path_from(dir).pathmap("#{build_dir}/%X")) }
+  spec.objs << Dir.glob("#{dir}/src/shape/*.{c,cpp}").map { |f| objfile(f.relative_path_from(dir).pathmap("#{build_dir}/%X")) }
 
 end
 
