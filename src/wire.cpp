@@ -1,4 +1,4 @@
-#include "wire.h"
+#include "shape/wire.h"
 
 void siren_wire_install(mrb_state* mrb, RObject* o)
 {

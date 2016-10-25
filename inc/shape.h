@@ -10,14 +10,14 @@
   #include "heal.h"
 #endif
 
-#include "vertex.h"
-#include "edge.h"
-#include "wire.h"
-#include "face.h"
-#include "shell.h"
-#include "solid.h"
-#include "compsolid.h"
-#include "compound.h"
+#include "shape/vertex.h"
+#include "shape/edge.h"
+#include "shape/wire.h"
+#include "shape/face.h"
+#include "shape/shell.h"
+#include "shape/solid.h"
+#include "shape/compsolid.h"
+#include "shape/compound.h"
 
 #include <gp_Ax1.hxx>
 #include <gp_Ax2.hxx>

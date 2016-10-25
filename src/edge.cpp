@@ -1,4 +1,4 @@
-#include "edge.h"
+#include "shape/edge.h"
 
 void siren_edge_install(mrb_state* mrb, RObject* o)
 {

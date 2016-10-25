@@ -1,4 +1,4 @@
-#include "face.h"
+#include "shape/face.h"
 
 void siren_face_install(mrb_state* mrb, RObject* o)
 {

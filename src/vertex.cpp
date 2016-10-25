@@ -1,4 +1,4 @@
-#include "vertex.h"
+#include "shape/vertex.h"
 
 void siren_vertex_install(mrb_state* mrb, RObject* o)
 {
