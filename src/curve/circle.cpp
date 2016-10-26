@@ -41,6 +41,13 @@ mrb_value siren_circle_center(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_circle_center_set(mrb_state* mrb, mrb_value self)
 {
-  return mrb_nil_value();
+  mrb_value pos;
+  int argc = mrb_get_args(mrb, "A", &pos);
+  gp_Pnt p = siren_ary_to_pnt(mrb, pos);
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  gp_Circ circ = circle->Circ();
+  circ.SetLocation(p);
+  circle->SetCirc(circ);
+  return pos;
 }
 
