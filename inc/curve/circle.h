@@ -21,5 +21,6 @@ mrb_value siren_circle_dir(mrb_state* mrb, mrb_value self);
 mrb_value siren_circle_dir_set(mrb_state* mrb, mrb_value self);
 mrb_value siren_circle_dist(mrb_state* mrb, mrb_value self);
 mrb_value siren_circle_distdist(mrb_state* mrb, mrb_value self);
+mrb_value siren_circle_contain(mrb_state* mrb, mrb_value self);
 
 #endif

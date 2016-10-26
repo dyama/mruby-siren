@@ -24,6 +24,7 @@ void siren_circle_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "dir=",     siren_circle_dir_set,    MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "dist",     siren_circle_dist,       MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "distdist", siren_circle_distdist,   MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "contain",  siren_circle_contain,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   return;
 }
 
@@ -137,3 +138,13 @@ mrb_value siren_circle_distdist(mrb_state* mrb, mrb_value self)
   return mrb_float_value(mrb, circ.SquareDistance(p));
 }
 
+mrb_value siren_circle_contain(mrb_state* mrb, mrb_value self)
+{
+  mrb_value pos;
+  mrb_float lintol = 1.0e-7;
+  int argc = mrb_get_args(mrb, "A|f", &pos, &lintol);
+  gp_Pnt p = siren_ary_to_pnt(mrb, pos);
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  gp_Circ circ = circle->Circ();
+  return circ.Contains(p, lintol) ? mrb_true_value() : mrb_false_value();
+}
