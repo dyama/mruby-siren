@@ -6,7 +6,7 @@
 
 #include <Geom_TrimmedCurve.hxx>
 
-// void siren_trimmedcurve_install(mrb_state* mrb, RObject* o);
-// Handle(Geom_TrimmedCurve) siren_trimmedcurve_get(mrb_state* mrb, mrb_value self);
+void siren_trimmedcurve_install(mrb_state* mrb, RObject* o);
+Handle(Geom_TrimmedCurve) siren_trimmedcurve_get(mrb_state* mrb, mrb_value self);
 
 #endif

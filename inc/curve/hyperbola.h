@@ -6,7 +6,7 @@
 
 #include <Geom_Hyperbola.hxx>
 
-// void siren_hyperbola_install(mrb_state* mrb, RObject* o);
-// Handle(Geom_Hyperbola) siren_hyperbola_get(mrb_state* mrb, mrb_value self);
+void siren_hyperbola_install(mrb_state* mrb, RObject* o);
+Handle(Geom_Hyperbola) siren_hyperbola_get(mrb_state* mrb, mrb_value self);
 
 #endif

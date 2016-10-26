@@ -6,7 +6,7 @@
 
 #include <Geom_BezierCurve.hxx>
 
-// void siren_beziercurve_install(mrb_state* mrb, RObject* o);
-// Handle(Geom_BezierCurve) siren_beziercurve_get(mrb_state* mrb, mrb_value self);
+void siren_beziercurve_install(mrb_state* mrb, RObject* o);
+Handle(Geom_BezierCurve) siren_beziercurve_get(mrb_state* mrb, mrb_value self);
 
 #endif
