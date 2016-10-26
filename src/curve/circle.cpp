@@ -72,6 +72,15 @@ mrb_value siren_circle_normal(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_circle_normal_set(mrb_state* mrb, mrb_value self)
 {
-  return mrb_nil_value();
+  mrb_value norm;
+  int argc = mrb_get_args(mrb, "A", &norm);
+  gp_Dir dir = siren_ary_to_dir(mrb, norm);
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  gp_Circ circ = circle->Circ();
+  gp_Ax1 axis = circ.Axis();
+  axis.SetDirection(dir);
+  circ.SetAxis(axis);
+  circle->SetCirc(circ);
+  return norm;
 }
 
