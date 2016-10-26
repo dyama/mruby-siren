@@ -1,41 +1,32 @@
 #include "siren.h"
 #include "curve/type.h"
 
-SrCT_CurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc)
+GeomAbs_CurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc)
 {
   Handle(Standard_Type) type = hgc->DynamicType();
   /* Geom_BoundedCurve */
   if (STANDARD_TYPE(Geom_BezierCurve) == type) {
-    return SrCT_BEZIERCURVE;
+    return GeomAbs_BezierCurve;
   }
   if (STANDARD_TYPE(Geom_BSplineCurve) == type) {
-    return SrCT_BSPLINECURVE;
-  }
-  if (STANDARD_TYPE(Geom_TrimmedCurve) == type) {
-    return SrCT_TRIMMEDCURVE;
+    return GeomAbs_BSplineCurve;
   }
   /* Geom_Conic */
   if (STANDARD_TYPE(Geom_Circle) == type) {
-    return SrCT_CIRCLE;
+    return GeomAbs_Circle;
   }
   if (STANDARD_TYPE(Geom_Ellipse) == type) {
-    return SrCT_ELLIPSE;
+    return GeomAbs_Ellipse;
   }
   if (STANDARD_TYPE(Geom_Hyperbola) == type) {
-    return SrCT_HYPERBOLA;
+    return GeomAbs_Hyperbola;
   }
   if (STANDARD_TYPE(Geom_Parabola) == type) {
-    return SrCT_PARABOLA;
+    return GeomAbs_Parabola;
   }
-  /* Other */
+  /* Line */
   if (STANDARD_TYPE(Geom_Line) == type) {
-    return SrCT_LINE;
+    return GeomAbs_Line;
   }
-  if (STANDARD_TYPE(Geom_OffsetCurve) == type) {
-    return SrCT_OFFSETCURVE;
-  }
-  if (STANDARD_TYPE(ShapeExtend_ComplexCurve) == type) {
-    return SrCT_COMPLEXCURVE;
-  }
-  return SrCT_UNKNOWN;
+  return GeomAbs_OtherCurve;
 }

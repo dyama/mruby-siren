@@ -3,19 +3,15 @@
 #
 class Siren::Curve
 
-  UNKNOWN   = 0
-  BEZIER    = 1
-  BSPLINE   = 2
-  TRIMMED   = 3
-  BOUNDED   = 4
-  CIRCLE    = 5
-  ELLIPSE   = 6
-  HYPERBOLA = 7
-  PARABOLA  = 8
-  CONIC     = 9
-  LINE      = 10
-  OFFSET    = 11
-  COMPLEX   = 12
+  LINE      = 0
+  CIRCLE    = 1
+  ELLIPSE   = 2
+  HYPERBOLA = 3
+  PARABOLA  = 4
+  BEZIER    = 5
+  BSPLINE   = 6
+  OFFSET    = 7
+  OTHER     = 8
 
   #
   # ジオメトリカーブタイプ(番号)をカーブ名文字列にする
@@ -26,10 +22,6 @@ class Siren::Curve
       return "BEZIER"
     when Siren::Curve::BSPLINE
       return "BSPLINE"
-    when Siren::Curve::TRIMMED
-      return "TRIMMED"
-    when Siren::Curve::BOUNDED
-      return "BOUNDED"
     when Siren::Curve::CIRCLE
       return "CIRCLE"
     when Siren::Curve::ELLIPSE
@@ -38,14 +30,10 @@ class Siren::Curve
       return "HYPERBOLA"
     when Siren::Curve::PARABOLA
       return "PARABOLA"
-    when Siren::Curve::CONIC
-      return "CONIC"
     when Siren::Curve::LINE
       return "LINE"
     when Siren::Curve::OFFSET
       return "OFFSET"
-    when Siren::Curve::COMPLEX
-      return "COMPLEX"
     else
       return "UNKNOWN"
     end

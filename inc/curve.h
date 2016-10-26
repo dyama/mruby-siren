@@ -2,18 +2,17 @@
 #define _CURVE_H_
 
 #include "siren.h"
-#include "curve/type.h"
 
-#include "curve/beziercurve.h"
-#include "curve/bsplinecurve.h"
+#include <GeomAbs_CurveType.hxx>
+
+#include "curve/line.h"
 #include "curve/circle.h"
-#include "curve/complexcurve.h"
 #include "curve/ellipse.h"
 #include "curve/hyperbola.h"
-#include "curve/line.h"
-#include "curve/offsetcurve.h"
 #include "curve/parabola.h"
-#include "curve/trimmedcurve.h"
+#include "curve/beziercurve.h"
+#include "curve/bsplinecurve.h"
+#include "curve/offsetcurve.h"
 
 void siren_curve_final(mrb_state* mrb, void* p);
 bool siren_curve_install(mrb_state* mrb, struct RClass* rclass);

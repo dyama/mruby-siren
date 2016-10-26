@@ -22,16 +22,14 @@ void siren_curve_add_singleton_method(mrb_state* mrb, mrb_value& self)
 {
   Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
   switch (siren_curve_geomtype_native(hgc)) {
-    case SrCT_BEZIERCURVE:  siren_beziercurve_install(mrb, mrb_obj_ptr(self));  break;
-    case SrCT_BSPLINECURVE: siren_bsplinecurve_install(mrb, mrb_obj_ptr(self)); break;
-    case SrCT_TRIMMEDCURVE: siren_trimmedcurve_install(mrb, mrb_obj_ptr(self)); break;
-    case SrCT_CIRCLE:       siren_circle_install(mrb, mrb_obj_ptr(self));       break;
-    case SrCT_ELLIPSE:      siren_ellipse_install(mrb, mrb_obj_ptr(self));      break;
-    case SrCT_HYPERBOLA:    siren_hyperbola_install(mrb, mrb_obj_ptr(self));    break;
-    case SrCT_PARABOLA:     siren_parabola_install(mrb, mrb_obj_ptr(self));     break;
-    case SrCT_LINE:         siren_line_install(mrb, mrb_obj_ptr(self));         break;
-    case SrCT_OFFSETCURVE:  siren_offsetcurve_install(mrb, mrb_obj_ptr(self));  break;
-    case SrCT_COMPLEXCURVE: siren_complexcurve_install(mrb, mrb_obj_ptr(self)); break;
+    case GeomAbs_Line:         siren_line_install(mrb, mrb_obj_ptr(self));         break;
+    case GeomAbs_Circle:       siren_circle_install(mrb, mrb_obj_ptr(self));       break;
+    case GeomAbs_Ellipse:      siren_ellipse_install(mrb, mrb_obj_ptr(self));      break;
+    case GeomAbs_Hyperbola:    siren_hyperbola_install(mrb, mrb_obj_ptr(self));    break;
+    case GeomAbs_Parabola:     siren_parabola_install(mrb, mrb_obj_ptr(self));     break;
+    case GeomAbs_BezierCurve:  siren_beziercurve_install(mrb, mrb_obj_ptr(self));  break;
+    case GeomAbs_BSplineCurve: siren_bsplinecurve_install(mrb, mrb_obj_ptr(self)); break;
+    case GeomAbs_OffsetCurve:  siren_offsetcurve_install(mrb, mrb_obj_ptr(self));  break;
     default: break;
   }
   return;
