@@ -68,6 +68,15 @@ inline mrb_value siren_pnt_to_ary(mrb_state* mrb, const gp_Pnt& pnt)
   return mrb_ary_new_from_values(mrb, 3, res);
 }
 
+inline mrb_value siren_dir_to_ary(mrb_state* mrb, const gp_Dir& dir)
+{
+  mrb_value res[3];
+  res[0] = mrb_float_value(mrb, dir.X());
+  res[1] = mrb_float_value(mrb, dir.Y());
+  res[2] = mrb_float_value(mrb, dir.Z());
+  return mrb_ary_new_from_values(mrb, 3, res);
+}
+
 inline mrb_value siren_vec_to_ary(mrb_state* mrb, const gp_Vec& vec)
 {
   mrb_value res[3];

@@ -17,6 +17,8 @@ void siren_circle_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "center",  siren_circle_center, MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "center=", siren_circle_center_set, MRB_ARGS_REQ(1));
   mrb_define_singleton_method(mrb, o, "length",  siren_circle_length, MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "normal",  siren_circle_normal, MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "normal=", siren_circle_normal_set, MRB_ARGS_REQ(1));
   return;
 }
 
@@ -56,5 +58,20 @@ mrb_value siren_circle_length(mrb_state* mrb, mrb_value self)
 {
   Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
   return mrb_float_value(mrb, circle->Circ().Length());
+}
+
+mrb_value siren_circle_normal(mrb_state* mrb, mrb_value self)
+{
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  // Returns the main axis of the circle.
+  // It is the axis perpendicular to the plane of the circle,
+  // passing through the "Location" point (center) of the circle.
+  gp_Ax1 axis = circle->Circ().Axis();
+  return siren_dir_to_ary(mrb, axis.Direction());
+}
+
+mrb_value siren_circle_normal_set(mrb_state* mrb, mrb_value self)
+{
+  return mrb_nil_value();
 }
 
