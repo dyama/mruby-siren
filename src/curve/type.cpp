@@ -3,40 +3,38 @@
 
 SrCT_CurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc)
 {
-  //if (!Handle(Geom_BoundedCurve)::DownCast(hgc).IsNull()) {
-    if (!Handle(Geom_BezierCurve)::DownCast(hgc).IsNull()) {
-      return SrCT_BEZIERCURVE;
-    }
-    if (!Handle(Geom_BSplineCurve)::DownCast(hgc).IsNull()) {
-      return SrCT_BSPLINECURVE;
-    }
-    if (!Handle(Geom_TrimmedCurve)::DownCast(hgc).IsNull()) {
-      return SrCT_TRIMMEDCURVE;
-    }
-  //  return SrCT_BOUNDEDCURVE;
-  //}
-  //if (!Handle(Geom_Conic)::DownCast(hgc).IsNull()) {
-    if (!Handle(Geom_Circle)::DownCast(hgc).IsNull()) {
-      return SrCT_CIRCLE;
-    }
-    if (!Handle(Geom_Ellipse)::DownCast(hgc).IsNull()) {
-      return SrCT_ELLIPSE;
-    }
-    if (!Handle(Geom_Hyperbola)::DownCast(hgc).IsNull()) {
-      return SrCT_HYPERBOLA;
-    }
-    if (!Handle(Geom_Parabola)::DownCast(hgc).IsNull()) {
-      return SrCT_PARABOLA;
-    }
-  //  return SrCT_CONIC;
-  //}
-  if (!Handle(Geom_Line)::DownCast(hgc).IsNull()) {
+  Handle(Standard_Type) type = hgc->DynamicType();
+  /* Geom_BoundedCurve */
+  if (STANDARD_TYPE(Geom_BezierCurve) == type) {
+    return SrCT_BEZIERCURVE;
+  }
+  if (STANDARD_TYPE(Geom_BSplineCurve) == type) {
+    return SrCT_BSPLINECURVE;
+  }
+  if (STANDARD_TYPE(Geom_TrimmedCurve) == type) {
+    return SrCT_TRIMMEDCURVE;
+  }
+  /* Geom_Conic */
+  if (STANDARD_TYPE(Geom_Circle) == type) {
+    return SrCT_CIRCLE;
+  }
+  if (STANDARD_TYPE(Geom_Ellipse) == type) {
+    return SrCT_ELLIPSE;
+  }
+  if (STANDARD_TYPE(Geom_Hyperbola) == type) {
+    return SrCT_HYPERBOLA;
+  }
+  if (STANDARD_TYPE(Geom_Parabola) == type) {
+    return SrCT_PARABOLA;
+  }
+  /* Other */
+  if (STANDARD_TYPE(Geom_Line) == type) {
     return SrCT_LINE;
   }
-  if (!Handle(Geom_OffsetCurve)::DownCast(hgc).IsNull()) {
+  if (STANDARD_TYPE(Geom_OffsetCurve) == type) {
     return SrCT_OFFSETCURVE;
   }
-  if (!Handle(ShapeExtend_ComplexCurve)::DownCast(hgc).IsNull()) {
+  if (STANDARD_TYPE(ShapeExtend_ComplexCurve) == type) {
     return SrCT_COMPLEXCURVE;
   }
   return SrCT_UNKNOWN;
