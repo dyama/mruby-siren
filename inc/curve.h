@@ -4,19 +4,16 @@
 #include "siren.h"
 #include "curve/type.h"
 
-#include <Geom_BoundedCurve.hxx>
-#include   <Geom_BezierCurve.hxx>
-#include   <Geom_BSplineCurve.hxx>
-#include   <Geom_TrimmedCurve.hxx>
-#include <Geom_Conic.hxx>
-#include   <Geom_Ellipse.hxx>
-#include   <Geom_Hyperbola.hxx>
-#include   <Geom_Parabola.hxx>
-#include <Geom_OffsetCurve.hxx>
-#include <ShapeExtend_ComplexCurve.hxx>
-
+#include "curve/beziercurve.h"
+#include "curve/bsplinecurve.h"
 #include "curve/circle.h"
+#include "curve/complexcurve.h"
+#include "curve/ellipse.h"
+#include "curve/hyperbola.h"
 #include "curve/line.h"
+#include "curve/offsetcurve.h"
+#include "curve/parabola.h"
+#include "curve/trimmedcurve.h"
 
 void siren_curve_final(mrb_state* mrb, void* p);
 bool siren_curve_install(mrb_state* mrb, struct RClass* rclass);
