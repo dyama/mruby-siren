@@ -15,6 +15,6 @@ mrb_value siren_circle_center(mrb_state* mrb, mrb_value self);
 mrb_value siren_circle_center_set(mrb_state* mrb, mrb_value self);
 // mrb_value siren_circle_area(mrb_state* mrb, mrb_value self);
 // mrb_value siren_circle_axis(mrb_state* mrb, mrb_value self);
-// mrb_value siren_circle_length(mrb_state* mrb, mrb_value self);
+mrb_value siren_circle_length(mrb_state* mrb, mrb_value self);
 
 #endif
