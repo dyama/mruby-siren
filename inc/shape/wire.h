@@ -15,5 +15,6 @@
 void siren_wire_install(mrb_state* mrb, RObject* o);
 
 mrb_value siren_wire_ordered_edges(mrb_state* mrb, mrb_value self);
+mrb_value siren_wire_curves(mrb_state* mrb, mrb_value self);
 
 #endif

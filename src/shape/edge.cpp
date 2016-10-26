@@ -244,7 +244,7 @@ mrb_value siren_edge_split(mrb_state* mrb, mrb_value self)
 {
   mrb_float param;
   int argc = mrb_get_args(mrb, "f", &param);
-  Standard_Real first, last; 
+  Standard_Real first, last;
   TopoDS_Shape* s = siren_shape_get(mrb, self);
   TopoDS_Edge e = TopoDS::Edge(*s);
   Handle(Geom_Curve) gc  = BRep_Tool::Curve(e, first, last);
@@ -264,7 +264,7 @@ mrb_value siren_edge_trim(mrb_state* mrb, mrb_value self)
   if (first2 == last2) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified parameter has same value.");
   }
-  Standard_Real first, last; 
+  Standard_Real first, last;
   TopoDS_Shape* s = siren_shape_get(mrb, self);
   TopoDS_Edge e = TopoDS::Edge(*s);
   Handle(Geom_Curve) gc  = BRep_Tool::Curve(e, first, last);
