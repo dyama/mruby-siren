@@ -20,6 +20,8 @@ void siren_circle_install(mrb_state* mrb, RObject* o)
   mrb_define_singleton_method(mrb, o, "length",  siren_circle_length,     MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "normal",  siren_circle_normal,     MRB_ARGS_NONE());
   mrb_define_singleton_method(mrb, o, "normal=", siren_circle_normal_set, MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "dir",     siren_circle_dir,        MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "dir=",    siren_circle_dir_set,    MRB_ARGS_REQ(1));
   return;
 }
 
@@ -91,3 +93,24 @@ mrb_value siren_circle_normal_set(mrb_state* mrb, mrb_value self)
   return norm;
 }
 
+mrb_value siren_circle_dir(mrb_state* mrb, mrb_value self)
+{
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  gp_Ax1 axis = circle->Circ().XAxis();
+  return siren_dir_to_ary(mrb, axis.Direction());
+}
+
+mrb_value siren_circle_dir_set(mrb_state* mrb, mrb_value self)
+{
+  mrb_value val;
+  int argc = mrb_get_args(mrb, "A", &val);
+  gp_Dir dir = siren_ary_to_dir(mrb, val);
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  gp_Circ circ = circle->Circ();
+  gp_Ax2 axis;
+  axis.SetAxis(circ.Axis());
+  axis.SetXDirection(dir);
+  circ.SetPosition(axis);
+  circle->SetCirc(circ);
+  return val;
+}
