@@ -12,16 +12,18 @@ Handle(Geom_Circle) siren_circle_get(mrb_state* mrb, mrb_value self)
 
 void siren_circle_install(mrb_state* mrb, RObject* o)
 {
-  mrb_define_singleton_method(mrb, o, "radius",  siren_circle_radius,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "radius=", siren_circle_radius_set, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "center",  siren_circle_center,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "center=", siren_circle_center_set, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "area",    siren_circle_area,       MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "length",  siren_circle_length,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "normal",  siren_circle_normal,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "normal=", siren_circle_normal_set, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "dir",     siren_circle_dir,        MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "dir=",    siren_circle_dir_set,    MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "radius",   siren_circle_radius,     MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "radius=",  siren_circle_radius_set, MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "center",   siren_circle_center,     MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "center=",  siren_circle_center_set, MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "area",     siren_circle_area,       MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "length",   siren_circle_length,     MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "normal",   siren_circle_normal,     MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "normal=",  siren_circle_normal_set, MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "dir",      siren_circle_dir,        MRB_ARGS_NONE());
+  mrb_define_singleton_method(mrb, o, "dir=",     siren_circle_dir_set,    MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "dist",     siren_circle_dist,       MRB_ARGS_REQ(1));
+  mrb_define_singleton_method(mrb, o, "distdist", siren_circle_distdist,   MRB_ARGS_REQ(1));
   return;
 }
 
@@ -114,3 +116,24 @@ mrb_value siren_circle_dir_set(mrb_state* mrb, mrb_value self)
   circle->SetCirc(circ);
   return val;
 }
+
+mrb_value siren_circle_dist(mrb_state* mrb, mrb_value self)
+{
+  mrb_value pos;
+  int argc = mrb_get_args(mrb, "A", &pos);
+  gp_Pnt p = siren_ary_to_pnt(mrb, pos);
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  gp_Circ circ = circle->Circ();
+  return mrb_float_value(mrb, circ.Distance(p));
+}
+
+mrb_value siren_circle_distdist(mrb_state* mrb, mrb_value self)
+{
+  mrb_value pos;
+  int argc = mrb_get_args(mrb, "A", &pos);
+  gp_Pnt p = siren_ary_to_pnt(mrb, pos);
+  Handle(Geom_Circle) circle = siren_circle_get(mrb, self);
+  gp_Circ circ = circle->Circ();
+  return mrb_float_value(mrb, circ.SquareDistance(p));
+}
+
