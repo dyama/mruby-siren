@@ -7,8 +7,8 @@
 
 static struct mrb_data_type siren_circle_type = { "Circle", siren_curve_final };
 bool siren_circle_install(mrb_state* mrb, struct RClass* mod_siren);
-Handle(Geom_Circle) siren_circle_get(mrb_state* mrb, mrb_value self);
-mrb_value siren_circle_new(mrb_state* mrb, const Handle(Geom_Curve)* curve);
+opencascade::handle<Geom_Circle> siren_circle_get(mrb_state* mrb, mrb_value self);
+mrb_value siren_circle_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve);
 
 mrb_value siren_circle_radius(mrb_state* mrb, mrb_value self);
 mrb_value siren_circle_radius_set(mrb_state* mrb, mrb_value self);

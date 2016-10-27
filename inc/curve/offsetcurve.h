@@ -7,7 +7,7 @@
 
 static struct mrb_data_type siren_offsetcurve_type = { "OffsetCurve", siren_curve_final };
 bool siren_offsetcurve_install(mrb_state* mrb, struct RClass* mod_siren);
-Handle(Geom_OffsetCurve) siren_offsetcurve_get(mrb_state* mrb, mrb_value self);
-mrb_value siren_offsetcurve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve);
+opencascade::handle<Geom_OffsetCurve> siren_offsetcurve_get(mrb_state* mrb, mrb_value self);
+mrb_value siren_offsetcurve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve);
 
 #endif

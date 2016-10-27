@@ -17,9 +17,9 @@ static struct mrb_data_type siren_curve_type = { "Curve", siren_curve_final };
 #include "curve/bsplinecurve.h"
 #include "curve/offsetcurve.h"
 
-inline GeomAbs_CurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc)
+inline GeomAbs_CurveType siren_curve_geomtype_native(opencascade::handle<Geom_Curve> hgc)
 {
-  Handle(Standard_Type) type = hgc->DynamicType();
+  opencascade::handle<Standard_Type> type = hgc->DynamicType();
   /* Geom_BoundedCurve */
   if (STANDARD_TYPE(Geom_BezierCurve) == type)  { return GeomAbs_BezierCurve; }
   if (STANDARD_TYPE(Geom_BSplineCurve) == type) { return GeomAbs_BSplineCurve; }
@@ -34,10 +34,10 @@ inline GeomAbs_CurveType siren_curve_geomtype_native(Handle(Geom_Curve) hgc)
 }
 
 bool siren_curve_install(mrb_state* mrb, struct RClass* rclass);
-Handle(Geom_Curve)* siren_curve_get(mrb_state* mrb, mrb_value obj);
+opencascade::handle<Geom_Curve>* siren_curve_get(mrb_state* mrb, mrb_value obj);
 struct RClass* siren_curve_rclass(mrb_state* mrb);
 
-mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve);
+mrb_value siren_curve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve);
 mrb_value siren_curve_init(mrb_state* mrb, mrb_value self);
 
 #endif

@@ -5,24 +5,24 @@
 
 #include "curve.h"
 
-mrb_value siren_line_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
+mrb_value siren_line_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve)
 {
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
   mrb_value obj;
   obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Line")));
-  void* p = mrb_malloc(mrb, sizeof(Handle(Geom_Curve)));
-  Handle(Geom_Curve)* hgcurve = new(p) Handle(Geom_Curve)();
+  void* p = mrb_malloc(mrb, sizeof(opencascade::handle<Geom_Curve>));
+  opencascade::handle<Geom_Curve>* hgcurve = new(p) opencascade::handle<Geom_Curve>();
   *hgcurve = *curve;
   DATA_PTR(obj) = hgcurve;
   DATA_TYPE(obj) = &siren_line_type;
   return obj;
 }
 
-Handle(Geom_Line) siren_line_get(mrb_state* mrb, mrb_value self)
+opencascade::handle<Geom_Line> siren_line_get(mrb_state* mrb, mrb_value self)
 {
-  Handle(Geom_Curve) hgc = *static_cast<Handle(Geom_Curve)*>(mrb_get_datatype(mrb, self, &siren_line_type));
+  opencascade::handle<Geom_Curve> hgc = *static_cast<opencascade::handle<Geom_Curve>*>(mrb_get_datatype(mrb, self, &siren_line_type));
   if (hgc.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Curve."); }
-  Handle(Geom_Line) line = Handle(Geom_Line)::DownCast(hgc);
+  opencascade::handle<Geom_Line> line = opencascade::handle<Geom_Line>::DownCast(hgc);
   if (line.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Line."); }
   return line;
 }
@@ -46,7 +46,7 @@ struct RClass* siren_line_rclass(mrb_state* mrb)
 
 mrb_value siren_line_dir(mrb_state* mrb, mrb_value self)
 {
-  Handle(Geom_Line) line = siren_line_get(mrb, self);
+  opencascade::handle<Geom_Line> line = siren_line_get(mrb, self);
   return siren_dir_to_ary(mrb, line->Lin().Direction());
 }
 

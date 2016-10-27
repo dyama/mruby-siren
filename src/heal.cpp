@@ -29,7 +29,7 @@ mrb_value siren_heal_fix(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   mrb_value res = mrb_nil_value();
 
-  Handle(ShapeFix_Shape) sfs = new ShapeFix_Shape();
+  opencascade::handle<ShapeFix_Shape> sfs = new ShapeFix_Shape();
   sfs->Init(*shape);
   sfs->SetPrecision(1.0);
   sfs->SetMinTolerance(1.0e-6);

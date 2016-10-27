@@ -19,7 +19,7 @@ void siren_edge_install(mrb_state* mrb, RObject* o)
     TopoDS_Shape* shape = siren_shape_get(mrb, self);
     TopoDS_Edge edge = TopoDS::Edge(*shape);
     Standard_Real first, last;
-    Handle(Geom_Curve) hgcurve = BRep_Tool::Curve(edge, first, last);
+    opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
     mrb_obj_iv_set(mrb, o, mrb_intern_lit(mrb, "@curve"), siren_curve_new(mrb, &hgcurve));
     mrb_define_singleton_method(mrb, o, "curve", siren_edge_curve, MRB_ARGS_NONE());
   }
@@ -152,12 +152,12 @@ mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   TopoDS_Edge edge = TopoDS::Edge(*shape);
   Standard_Real first, last;
-  Handle(Geom_Curve) hgcurve = BRep_Tool::Curve(edge, first, last);
+  opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
 #if 0
-  Handle(Geom_TrimmedCurve) hgtc = new Geom_TrimmedCurve(hgcurve, first, last);
-  Handle(Geom_BSplineCurve) hgbc = Handle(Geom_BSplineCurve)::DownCast(hgtc->BasisCurve());
+  opencascade::handle<Geom_TrimmedCurve> hgtc = new Geom_TrimmedCurve(hgcurve, first, last);
+  opencascade::handle<Geom_BSplineCurve> hgbc = opencascade::handle<Geom_BSplineCurve>::DownCast(hgtc->BasisCurve());
 #else
-  Handle(Geom_BSplineCurve) hgbc = Handle(Geom_BSplineCurve)::DownCast(hgcurve);
+  opencascade::handle<Geom_BSplineCurve> hgbc = opencascade::handle<Geom_BSplineCurve>::DownCast(hgcurve);
 #endif
   if (hgbc.IsNull()) {
     // Failed to downcast to BSplineCurve
@@ -247,7 +247,7 @@ mrb_value siren_edge_split(mrb_state* mrb, mrb_value self)
   Standard_Real first, last;
   TopoDS_Shape* s = siren_shape_get(mrb, self);
   TopoDS_Edge e = TopoDS::Edge(*s);
-  Handle(Geom_Curve) gc  = BRep_Tool::Curve(e, first, last);
+  opencascade::handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
   if (param <= first || param >= last) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified parameter is out of range of curve parameter.");
   }
@@ -267,7 +267,7 @@ mrb_value siren_edge_trim(mrb_state* mrb, mrb_value self)
   Standard_Real first, last;
   TopoDS_Shape* s = siren_shape_get(mrb, self);
   TopoDS_Edge e = TopoDS::Edge(*s);
-  Handle(Geom_Curve) gc  = BRep_Tool::Curve(e, first, last);
+  opencascade::handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
   TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(gc, first2, last2);
   return siren_shape_new(mrb, edge);
 }

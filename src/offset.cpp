@@ -86,13 +86,13 @@ mrb_value siren_offset_sweep_path(mrb_state* mrb, mrb_value self)
       }
     }
 
-    //Handle(Law_Linear) law = new Law_Linear();
+    //opencascade::handle<Law_Linear> law = new Law_Linear();
     //law->Set(fparam, scale_first, lparam, scale_last);
 
-    Handle(Law_S) law = new Law_S();
+    opencascade::handle<Law_S> law = new Law_S();
     law->Set(fparam, scale_first, lparam, scale_last);
 
-    //Handle(Law_Composite) law = new Law_Composite(fparam, lparam, 1.0e-6);
+    //opencascade::handle<Law_Composite> law = new Law_Composite(fparam, lparam, 1.0e-6);
 
     // get start point
     TopoDS_Vertex pfirst; {
@@ -168,8 +168,8 @@ mrb_value siren_offset_offset_geomsurf(mrb_state* mrb, mrb_value self)
 
   for (; exp.More(); exp.Next()) {
     TopoDS_Face face = TopoDS::Face(exp.Current());
-    Handle(Geom_Surface) gs = BRep_Tool::Surface(face);
-    Handle(Geom_OffsetSurface) gos = new Geom_OffsetSurface(gs, offset);
+    opencascade::handle<Geom_Surface> gs = BRep_Tool::Surface(face);
+    opencascade::handle<Geom_OffsetSurface> gos = new Geom_OffsetSurface(gs, offset);
     TopoDS_Face newface = BRepBuilderAPI_MakeFace(gos, tol);
     B.Add(comp, newface);
   }

@@ -194,7 +194,7 @@ mrb_value siren_shape_first_datum(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   TopLoc_Location loc = shape->Location();
-  Handle(TopLoc_Datum3D) datum = loc.FirstDatum();
+  opencascade::handle<TopLoc_Datum3D> datum = loc.FirstDatum();
   gp_Trsf t = datum->Transformation();
   return siren_trans_new(mrb, t);
 }

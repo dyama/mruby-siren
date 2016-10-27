@@ -5,7 +5,7 @@
 
 #include "curve.h"
 
-mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
+mrb_value siren_curve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve)
 {
   GeomAbs_CurveType type = siren_curve_geomtype_native(*curve);
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
@@ -22,8 +22,8 @@ mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
   }
   // rIght?
   mrb_value obj = mrb_instance_alloc(mrb, mrb_obj_value(siren_curve_rclass(mrb)));
-  void* p = mrb_malloc(mrb, sizeof(Handle(Geom_Curve)));
-  Handle(Geom_Curve)* hgcurve = new(p) Handle(Geom_Curve)();
+  void* p = mrb_malloc(mrb, sizeof(opencascade::handle<Geom_Curve>));
+  opencascade::handle<Geom_Curve>* hgcurve = new(p) opencascade::handle<Geom_Curve>();
   *hgcurve = *curve;
   DATA_PTR(obj) = hgcurve;
   DATA_TYPE(obj) = &siren_curve_type;
@@ -57,16 +57,16 @@ mrb_value siren_curve_init(mrb_state* mrb, mrb_value self)
 
 void siren_curve_final(mrb_state* mrb, void* p)
 {
-  Handle(Geom_Curve)* hgcurve = static_cast<Handle(Geom_Curve)*>(p);
+  opencascade::handle<Geom_Curve>* hgcurve = static_cast<opencascade::handle<Geom_Curve>*>(p);
   if (!(*hgcurve).IsNull()) {
     (*hgcurve).Nullify();
   }
   mrb_free(mrb, p);
 }
 
-Handle(Geom_Curve)* siren_curve_get(mrb_state* mrb, mrb_value obj)
+opencascade::handle<Geom_Curve>* siren_curve_get(mrb_state* mrb, mrb_value obj)
 {
-  return static_cast<Handle(Geom_Curve)*>(mrb_get_datatype(mrb, obj, &siren_curve_type));
+  return static_cast<opencascade::handle<Geom_Curve>*>(mrb_get_datatype(mrb, obj, &siren_curve_type));
 }
 
 struct RClass* siren_curve_rclass(mrb_state* mrb)

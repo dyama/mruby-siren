@@ -133,7 +133,7 @@ mrb_value siren_topalgo_curve(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "A|A", &pts, &vecs);
 
   int psize = mrb_ary_len(mrb, pts);
-  Handle(TColgp_HArray1OfPnt) pary = new TColgp_HArray1OfPnt(1, psize);
+  opencascade::handle<TColgp_HArray1OfPnt> pary = new TColgp_HArray1OfPnt(1, psize);
   for (int i=0; i<psize; i++) {
     pary->SetValue(i+1, siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, pts, i)));
   }
@@ -147,7 +147,7 @@ mrb_value siren_topalgo_curve(mrb_state* mrb, mrb_value self)
 
     if (argc == 2) {
       TColgp_Array1OfVec vec(1, psize);
-      Handle(TColStd_HArray1OfBoolean) use = new TColStd_HArray1OfBoolean(1, psize);
+      opencascade::handle<TColStd_HArray1OfBoolean> use = new TColStd_HArray1OfBoolean(1, psize);
 
       for (int i=0; i<psize; i++) {
         mrb_value avec = mrb_ary_ref(mrb, vecs, i);
@@ -167,7 +167,7 @@ mrb_value siren_topalgo_curve(mrb_state* mrb, mrb_value self)
       mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
     }
 
-    Handle(Geom_BSplineCurve) geSpl = intp.Curve();
+    opencascade::handle<Geom_BSplineCurve> geSpl = intp.Curve();
     if (geSpl.IsNull()) {
       mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
     }
@@ -187,7 +187,7 @@ mrb_value siren_topalgo_wire(mrb_state* mrb, mrb_value self)
   mrb_float tol;
   int argc = mrb_get_args(mrb, "A|f", &objs, &tol);
   ShapeFix_Wire sfw;
-  Handle(ShapeExtend_WireData) wd = new ShapeExtend_WireData();
+  opencascade::handle<ShapeExtend_WireData> wd = new ShapeExtend_WireData();
   BRepBuilderAPI_MakeWire mw;
   ShapeFix_ShapeTolerance FTol;
   int osize = mrb_ary_len(mrb, objs);
@@ -222,7 +222,7 @@ mrb_value siren_topalgo_arc(mrb_state* mrb, mrb_value self)
   mrb_float r, start_ang, term_ang;
   int argc = mrb_get_args(mrb, "AAAfff", &orig, &dir, &vx, &r, &start_ang, &term_ang);
   gp_Circ circle = gp_Circ(gp_Ax2(siren_ary_to_pnt(mrb, orig), siren_ary_to_dir(mrb, dir), siren_ary_to_dir(mrb, vx)), r);
-  Handle(Geom_TrimmedCurve) gc = GC_MakeArcOfCircle(circle, start_ang, term_ang, Standard_True);
+  opencascade::handle<Geom_TrimmedCurve> gc = GC_MakeArcOfCircle(circle, start_ang, term_ang, Standard_True);
   if (gc.IsNull()) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve.");
     return mrb_nil_value();
@@ -237,7 +237,7 @@ mrb_value siren_topalgo_arc3p(mrb_state* mrb, mrb_value self)
 {
   mrb_value p1, p2, p3;
   int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
-  Handle(Geom_TrimmedCurve) gc = GC_MakeArcOfCircle(
+  opencascade::handle<Geom_TrimmedCurve> gc = GC_MakeArcOfCircle(
       siren_ary_to_pnt(mrb, p1),
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));
@@ -256,7 +256,7 @@ mrb_value siren_topalgo_circle(mrb_state* mrb, mrb_value self)
   mrb_value orig, dir;
   mrb_float r;
   int argc = mrb_get_args(mrb, "AAf", &orig, &dir, &r);
-  Handle(Geom_Circle) gc = GC_MakeCircle(
+  opencascade::handle<Geom_Circle> gc = GC_MakeCircle(
       siren_ary_to_pnt(mrb, orig),
       siren_ary_to_dir(mrb, dir),
       r);
@@ -274,7 +274,7 @@ mrb_value siren_topalgo_circle3p(mrb_state* mrb, mrb_value self)
 {
   mrb_value p1, p2, p3;
   int argc = mrb_get_args(mrb, "AAA", &p1, &p2, &p3);
-  Handle(Geom_Circle) gc = GC_MakeCircle(
+  opencascade::handle<Geom_Circle> gc = GC_MakeCircle(
       siren_ary_to_pnt(mrb, p1),
       siren_ary_to_pnt(mrb, p2),
       siren_ary_to_pnt(mrb, p3));
@@ -384,7 +384,7 @@ mrb_value siren_topalgo_nurbscurve(mrb_state* mrb, mrb_value self)
     mults.SetValue(i, (Standard_Integer)mrb_fixnum(mult));
   }
 
-  Handle(Geom_BSplineCurve) hgeom_bscurve = new Geom_BSplineCurve(
+  opencascade::handle<Geom_BSplineCurve> hgeom_bscurve = new Geom_BSplineCurve(
       poles, weights, knots, mults, (Standard_Integer)d, Standard_False);
 
   if (argc == 7)
@@ -410,7 +410,7 @@ mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self)
     }
   }
 
-  Handle(Geom_BezierSurface) s = NULL;
+  opencascade::handle<Geom_BezierSurface> s = NULL;
 
   if (argc == 2) {
     TColStd_Array2OfReal weights(0, rlen-1, 0, clen-1);
@@ -482,14 +482,14 @@ mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self)
     }
   }
 
-  Handle(Geom_BSplineSurface) hg_bssurf = new Geom_BSplineSurface(poles, weights, uknots, vknots, umults, vmults, udeg, vdeg);
+  opencascade::handle<Geom_BSplineSurface> hg_bssurf = new Geom_BSplineSurface(poles, weights, uknots, vknots, umults, vmults, udeg, vdeg);
   TopoDS_Shape shape;
   if (has_contour) {
     TopoDS_Shape* s = siren_shape_get(mrb, _wire);
     TopoDS_Wire w = TopoDS::Wire(*s);
     shape = BRepBuilderAPI_MakeFace(hg_bssurf, w, Standard_True);
     // Fix a face
-    Handle(ShapeFix_Shape) sfs = new ShapeFix_Shape();
+    opencascade::handle<ShapeFix_Shape> sfs = new ShapeFix_Shape();
     sfs->Init(shape);
     sfs->FixFaceTool()->FixAddNaturalBoundMode() = 1;
     sfs->FixFaceTool()->FixIntersectingWiresMode() = 1;

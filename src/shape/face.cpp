@@ -15,7 +15,7 @@ mrb_value siren_face_normal(mrb_state* mrb, mrb_value self)
   TopoDS_Face f = TopoDS::Face(*c);
   Standard_Real umin, umax, vmin, vmax;
   BRepTools::UVBounds(f, umin, umax, vmin, vmax);
-  Handle(Geom_Surface) gsurf = BRep_Tool::Surface(f);
+  opencascade::handle<Geom_Surface> gsurf = BRep_Tool::Surface(f);
   GeomLProp_SLProps props(gsurf, umin, vmin, 1, 0.01);
   gp_Dir n = props.Normal();
   return siren_vec_new(mrb, n.X(), n.Y(), n.Z());
@@ -27,8 +27,8 @@ mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self)
 
   TopExp_Explorer ex(*shape, TopAbs_FACE);
   TopoDS_Face face = TopoDS::Face(*shape);
-  Handle(Geom_Surface) gsurf  = BRep_Tool::Surface(face);
-  Handle(Geom_BSplineSurface) gbssurf = Handle(Geom_BSplineSurface)::DownCast(gsurf);
+  opencascade::handle<Geom_Surface> gsurf  = BRep_Tool::Surface(face);
+  opencascade::handle<Geom_BSplineSurface> gbssurf = opencascade::handle<Geom_BSplineSurface>::DownCast(gsurf);
   if (gbssurf.IsNull()) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape is not B-Spline surface.");
   }
@@ -44,7 +44,7 @@ mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self)
 
   for (int r = ary.LowerRow(); r <= ary.UpperRow(); r++) {
     for (int c = ary.LowerCol(); c <= ary.UpperCol(); c++) {
-      Handle(Geom_BezierSurface) gbzsurf = ary.Value(r, c);
+      opencascade::handle<Geom_BezierSurface> gbzsurf = ary.Value(r, c);
       TopoDS_Face patch = BRepBuilderAPI_MakeFace(gbzsurf, 1.0e-1);
       B.Add(comp, patch);
     }
@@ -108,7 +108,7 @@ mrb_value siren_face_triangle(mrb_state* mrb, mrb_value self)
 
     TopLoc_Location loc;
     // Do triangulation
-    Handle(Poly_Triangulation) poly = BRep_Tool::Triangulation(face, loc);
+    opencascade::handle<Poly_Triangulation> poly = BRep_Tool::Triangulation(face, loc);
     if (poly.IsNull()) {
       continue;
     }
