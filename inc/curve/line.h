@@ -9,5 +9,7 @@
 
 static struct mrb_data_type siren_line_type = { "Line", siren_curve_final };
 bool siren_line_install(mrb_state* mrb, struct RClass* mod_siren);
+Handle(Geom_Line) siren_line_get(mrb_state* mrb, mrb_value self);
+mrb_value siren_line_new(mrb_state* mrb, const Handle(Geom_Curve)* curve);
 
 #endif
