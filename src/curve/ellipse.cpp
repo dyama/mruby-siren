@@ -15,7 +15,7 @@ Handle(Geom_Ellipse) siren_ellipse_get(mrb_state* mrb, mrb_value self)
   return ellipse;
 }
 
-void siren_ellipse_install(mrb_state* mrb, RObject* o)
+bool siren_ellipse_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  return;
+  return true;
 }

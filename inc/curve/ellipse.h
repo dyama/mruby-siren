@@ -2,11 +2,13 @@
 #define _CURVE_ELLIPSE_H_
 
 #include "siren.h"
+#include "curve.h"
 #include "curve/type.h"
 
 #include <Geom_Ellipse.hxx>
 
-void siren_ellipse_install(mrb_state* mrb, RObject* o);
+static struct mrb_data_type siren_ellipse_type = { "Ellipse", siren_curve_final };
+bool siren_ellipse_install(mrb_state* mrb, struct RClass* mod_siren);
 Handle(Geom_Ellipse) siren_ellipse_get(mrb_state* mrb, mrb_value self);
 
 #endif

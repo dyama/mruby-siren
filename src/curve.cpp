@@ -7,32 +7,36 @@
 
 mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {
+  GeomAbs_CurveType type = siren_curve_geomtype_native(*curve);
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
   mrb_value obj;
-  obj = mrb_instance_alloc(mrb, mrb_obj_value(siren_curve_rclass(mrb)));
+  switch (type) {
+    case GeomAbs_Line:         obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Line"))); break;
+    case GeomAbs_Circle:       obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Circle"))); break;
+    case GeomAbs_Ellipse:      obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Ellipse"))); break;
+    case GeomAbs_Hyperbola:    obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Hyperbola"))); break;
+    case GeomAbs_Parabola:     obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Parabola"))); break;
+    case GeomAbs_BezierCurve:  obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "BezierCurve"))); break;
+    case GeomAbs_BSplineCurve: obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "BSplineCurve"))); break;
+    case GeomAbs_OffsetCurve:  obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "OffsetCurve"))); break;
+    default: obj = mrb_instance_alloc(mrb, mrb_obj_value(siren_curve_rclass(mrb))); break;
+  }
   void* p = mrb_malloc(mrb, sizeof(Handle(Geom_Curve)));
   Handle(Geom_Curve)* hgcurve = new(p) Handle(Geom_Curve)();
   *hgcurve = *curve;
-  DATA_PTR(obj)  = hgcurve;
-  DATA_TYPE(obj) = &siren_curve_type;
-  siren_curve_add_singleton_method(mrb, obj);
-  return obj;
-}
-
-void siren_curve_add_singleton_method(mrb_state* mrb, mrb_value& self)
-{
-  Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
-  switch (siren_curve_geomtype_native(hgc)) {
-    case GeomAbs_Line:         siren_line_install(mrb, mrb_obj_ptr(self));         break;
-    case GeomAbs_Circle:       siren_circle_install(mrb, mrb_obj_ptr(self));       break;
-    case GeomAbs_Ellipse:      siren_ellipse_install(mrb, mrb_obj_ptr(self));      break;
-    case GeomAbs_Hyperbola:    siren_hyperbola_install(mrb, mrb_obj_ptr(self));    break;
-    case GeomAbs_Parabola:     siren_parabola_install(mrb, mrb_obj_ptr(self));     break;
-    case GeomAbs_BezierCurve:  siren_beziercurve_install(mrb, mrb_obj_ptr(self));  break;
-    case GeomAbs_BSplineCurve: siren_bsplinecurve_install(mrb, mrb_obj_ptr(self)); break;
-    case GeomAbs_OffsetCurve:  siren_offsetcurve_install(mrb, mrb_obj_ptr(self));  break;
-    default: break;
+  DATA_PTR(obj) = hgcurve;
+  switch (type) {
+    case GeomAbs_Line:         DATA_TYPE(obj) = &siren_line_type;         break;
+    case GeomAbs_Circle:       DATA_TYPE(obj) = &siren_circle_type;       break;
+    case GeomAbs_Ellipse:      DATA_TYPE(obj) = &siren_ellipse_type;      break;
+    case GeomAbs_Hyperbola:    DATA_TYPE(obj) = &siren_hyperbola_type;    break;
+    case GeomAbs_Parabola:     DATA_TYPE(obj) = &siren_parabola_type;     break;
+    case GeomAbs_BezierCurve:  DATA_TYPE(obj) = &siren_beziercurve_type;  break;
+    case GeomAbs_BSplineCurve: DATA_TYPE(obj) = &siren_bsplinecurve_type; break;
+    case GeomAbs_OffsetCurve:  DATA_TYPE(obj) = &siren_offsetcurve_type;  break;
+    default: DATA_TYPE(obj) = &siren_curve_type; printf("curvetype"); break;
   }
-  return;
+  return obj;
 }
 
 bool siren_curve_install(mrb_state* mrb, struct RClass* mod_siren)
@@ -40,9 +44,17 @@ bool siren_curve_install(mrb_state* mrb, struct RClass* mod_siren)
   struct RClass* cls_curve = mrb_define_class_under(mrb, mod_siren, "Curve", mrb->object_class);
   MRB_SET_INSTANCE_TT(cls_curve, MRB_TT_DATA);
   mrb_define_method(mrb, cls_curve, "initialize", siren_curve_init,     MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_curve, "type",       siren_curve_geomtype, MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_curve, "inspect",    siren_curve_to_s, MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_curve, "to_s",       siren_curve_to_s, MRB_ARGS_NONE());
+
+  // Define derived classes for Siren::Curve
+  siren_line_install(mrb, mod_siren);
+  siren_circle_install(mrb, mod_siren);
+  siren_ellipse_install(mrb, mod_siren);
+  siren_hyperbola_install(mrb, mod_siren);
+  siren_parabola_install(mrb, mod_siren);
+  siren_beziercurve_install(mrb, mod_siren);
+  siren_bsplinecurve_install(mrb, mod_siren);
+  siren_offsetcurve_install(mrb, mod_siren);
+
   return true;
 }
 
@@ -70,27 +82,5 @@ struct RClass* siren_curve_rclass(mrb_state* mrb)
 {
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
   return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Curve")));
-}
-
-mrb_value siren_curve_geomtype(mrb_state* mrb, mrb_value self)
-{
-  Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
-  int type = siren_curve_geomtype_native(hgc);
-  return mrb_fixnum_value(type);
-}
-
-mrb_value siren_curve_to_s(mrb_state* mrb, mrb_value self)
-{
-  mrb_value str = mrb_str_new_cstr(mrb, "#<Curve:");
-  mrb_str_concat(mrb, str, mrb_ptr_to_str(mrb, mrb_cptr(self)));
-  mrb_str_cat_lit(mrb, str, " @type=");
-
-  mrb_value type = mrb_funcall(mrb, self, "type", 0);
-  struct RClass* cls_curve = siren_curve_rclass(mrb);
-  mrb_value curvetype = mrb_funcall(mrb, mrb_obj_value(cls_curve), "typename", 1, type);
-
-  mrb_str_append(mrb, str, curvetype);
-  mrb_str_cat_lit(mrb, str, ">");
-  return str;
 }
 

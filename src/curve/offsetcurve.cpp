@@ -15,7 +15,7 @@ Handle(Geom_OffsetCurve) siren_offsetcurve_get(mrb_state* mrb, mrb_value self)
   return offsetcurve;
 }
 
-void siren_offsetcurve_install(mrb_state* mrb, RObject* o)
+bool siren_offsetcurve_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  return;
+  return true;
 }

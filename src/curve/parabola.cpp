@@ -15,7 +15,7 @@ Handle(Geom_Parabola) siren_parabola_get(mrb_state* mrb, mrb_value self)
   return parabola;
 }
 
-void siren_parabola_install(mrb_state* mrb, RObject* o)
+bool siren_parabola_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  return;
+  return true;
 }

@@ -10,22 +10,27 @@ Handle(Geom_Circle) siren_circle_get(mrb_state* mrb, mrb_value self)
   return circle;
 }
 
-void siren_circle_install(mrb_state* mrb, RObject* o)
+bool siren_circle_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  mrb_define_singleton_method(mrb, o, "radius",   siren_circle_radius,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "radius=",  siren_circle_radius_set, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "center",   siren_circle_center,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "center=",  siren_circle_center_set, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "area",     siren_circle_area,       MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "length",   siren_circle_length,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "normal",   siren_circle_normal,     MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "normal=",  siren_circle_normal_set, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "dir",      siren_circle_dir,        MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "dir=",     siren_circle_dir_set,    MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "dist",     siren_circle_dist,       MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "distdist", siren_circle_distdist,   MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "contain",  siren_circle_contain,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  return;
+  struct RClass* cls_curve = siren_curve_rclass(mrb);
+  struct RClass* cls_circle = mrb_define_class_under(mrb, mod_siren, "Circle", mrb->object_class);
+  MRB_SET_INSTANCE_TT(cls_circle, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_circle, "initialize", siren_curve_init, MRB_ARGS_NONE());
+
+  mrb_define_method(mrb, cls_circle, "radius",   siren_circle_radius,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_circle, "radius=",  siren_circle_radius_set, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_circle, "center",   siren_circle_center,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_circle, "center=",  siren_circle_center_set, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_circle, "area",     siren_circle_area,       MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_circle, "length",   siren_circle_length,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_circle, "normal",   siren_circle_normal,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_circle, "normal=",  siren_circle_normal_set, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_circle, "dir",      siren_circle_dir,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_circle, "dir=",     siren_circle_dir_set,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_circle, "dist",     siren_circle_dist,       MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_circle, "distdist", siren_circle_distdist,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_circle, "contain",  siren_circle_contain,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  return true;
 }
 
 mrb_value siren_circle_radius(mrb_state* mrb, mrb_value self)

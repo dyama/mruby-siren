@@ -15,7 +15,7 @@ Handle(Geom_BSplineCurve) siren_bsplinecurve_get(mrb_state* mrb, mrb_value self)
   return bsplinecurve;
 }
 
-void siren_bsplinecurve_install(mrb_state* mrb, RObject* o)
+bool siren_bsplinecurve_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  return;
+  return true;
 }

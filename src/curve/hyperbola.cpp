@@ -15,7 +15,7 @@ Handle(Geom_Hyperbola) siren_hyperbola_get(mrb_state* mrb, mrb_value self)
   return hyperbola;
 }
 
-void siren_hyperbola_install(mrb_state* mrb, RObject* o)
+bool siren_hyperbola_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  return;
+  return true;
 }

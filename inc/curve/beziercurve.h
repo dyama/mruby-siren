@@ -2,11 +2,13 @@
 #define _CURVE_BEZIERCURVE_H_
 
 #include "siren.h"
+#include "curve.h"
 #include "curve/type.h"
 
 #include <Geom_BezierCurve.hxx>
 
-void siren_beziercurve_install(mrb_state* mrb, RObject* o);
+static struct mrb_data_type siren_beziercurve_type = { "BezierCurve", siren_curve_final };
+bool siren_beziercurve_install(mrb_state* mrb, struct RClass* mod_siren);
 Handle(Geom_BezierCurve) siren_beziercurve_get(mrb_state* mrb, mrb_value self);
 
 #endif

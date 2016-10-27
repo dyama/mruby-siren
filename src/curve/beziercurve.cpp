@@ -15,7 +15,7 @@ Handle(Geom_BezierCurve) siren_beziercurve_get(mrb_state* mrb, mrb_value self)
   return beziercurve;
 }
 
-void siren_beziercurve_install(mrb_state* mrb, RObject* o)
+bool siren_beziercurve_install(mrb_state* mrb, struct RClass* mod_siren)
 {
-  return;
+  return true;
 }
