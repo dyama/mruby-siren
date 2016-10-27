@@ -9,10 +9,12 @@ mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {
   GeomAbs_CurveType type = siren_curve_geomtype_native(*curve);
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  if (type == GeomAbs_Circle) {
+    return siren_circle_new(mrb, curve);
+  }
   mrb_value obj;
   switch (type) {
     case GeomAbs_Line:         obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Line"))); break;
-    case GeomAbs_Circle:       obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Circle"))); break;
     case GeomAbs_Ellipse:      obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Ellipse"))); break;
     case GeomAbs_Hyperbola:    obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Hyperbola"))); break;
     case GeomAbs_Parabola:     obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Parabola"))); break;
@@ -27,7 +29,6 @@ mrb_value siren_curve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
   DATA_PTR(obj) = hgcurve;
   switch (type) {
     case GeomAbs_Line:         DATA_TYPE(obj) = &siren_line_type;         break;
-    case GeomAbs_Circle:       DATA_TYPE(obj) = &siren_circle_type;       break;
     case GeomAbs_Ellipse:      DATA_TYPE(obj) = &siren_ellipse_type;      break;
     case GeomAbs_Hyperbola:    DATA_TYPE(obj) = &siren_hyperbola_type;    break;
     case GeomAbs_Parabola:     DATA_TYPE(obj) = &siren_parabola_type;     break;

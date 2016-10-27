@@ -1,12 +1,24 @@
 #include "curve/circle.h"
 
+mrb_value siren_circle_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  mrb_value obj;
+  obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Circle")));
+  void* p = mrb_malloc(mrb, sizeof(Handle(Geom_Curve)));
+  Handle(Geom_Curve)* hgcurve = new(p) Handle(Geom_Curve)();
+  *hgcurve = *curve;
+  DATA_PTR(obj) = hgcurve;
+  DATA_TYPE(obj) = &siren_circle_type;
+  return obj;
+}
+
 Handle(Geom_Circle) siren_circle_get(mrb_state* mrb, mrb_value self)
 {
-  Handle(Geom_Curve) hgc = *siren_curve_get(mrb, self);
+  Handle(Geom_Curve) hgc = *static_cast<Handle(Geom_Curve)*>(mrb_get_datatype(mrb, self, &siren_circle_type));
+  if (hgc.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Curve."); }
   Handle(Geom_Circle) circle = Handle(Geom_Circle)::DownCast(hgc);
-  if (circle.IsNull()) {
-    mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not circle.");
-  }
+  if (circle.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Circle."); }
   return circle;
 }
 
