@@ -2,8 +2,6 @@
 #define _CURVE_CIRCLE_H_
 
 #include "siren.h"
-#include "curve.h"
-#include "curve/type.h"
 
 #include <Geom_Circle.hxx>
 

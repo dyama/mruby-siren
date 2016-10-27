@@ -3,7 +3,7 @@
  * Implementation of singleton methods for ELLIPSE
  */
 
-#include "curve/ellipse.h"
+#include "curve.h"
 
 mrb_value siren_ellipse_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {

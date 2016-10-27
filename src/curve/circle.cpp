@@ -1,4 +1,4 @@
-#include "curve/circle.h"
+#include "curve.h"
 
 mrb_value siren_circle_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {

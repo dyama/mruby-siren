@@ -3,7 +3,7 @@
  * Implementation of singleton methods for PARABOLA
  */
 
-#include "curve/parabola.h"
+#include "curve.h"
 
 mrb_value siren_parabola_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {

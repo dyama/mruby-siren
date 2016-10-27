@@ -3,7 +3,7 @@
  * Implementation of singleton methods for HYPERBOLA
  */
 
-#include "curve/hyperbola.h"
+#include "curve.h"
 
 mrb_value siren_hyperbola_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {

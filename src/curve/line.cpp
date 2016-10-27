@@ -3,7 +3,7 @@
  * Implementation of singleton methods for LINE
  */
 
-#include "curve/line.h"
+#include "curve.h"
 
 mrb_value siren_line_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {

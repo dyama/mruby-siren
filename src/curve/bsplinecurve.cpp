@@ -3,7 +3,7 @@
  * Implementation of singleton methods for BSPLINECURVE
  */
 
-#include "curve/bsplinecurve.h"
+#include "curve.h"
 
 mrb_value siren_bsplinecurve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {

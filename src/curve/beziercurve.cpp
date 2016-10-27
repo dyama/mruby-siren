@@ -3,7 +3,7 @@
  * Implementation of singleton methods for BEZIERCURVE
  */
 
-#include "curve/beziercurve.h"
+#include "curve.h"
 
 mrb_value siren_beziercurve_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 {
