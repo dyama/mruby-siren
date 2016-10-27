@@ -20,7 +20,7 @@ mrb_value siren_line_new(mrb_state* mrb, const Handle(Geom_Curve)* curve)
 
 Handle(Geom_Line) siren_line_get(mrb_state* mrb, mrb_value self)
 {
-  Handle(Geom_Curve) hgc = *static_cast<Handle(Geom_Curve)*>(mrb_get_datatype(mrb, self, &siren_circle_type));
+  Handle(Geom_Curve) hgc = *static_cast<Handle(Geom_Curve)*>(mrb_get_datatype(mrb, self, &siren_line_type));
   if (hgc.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Curve."); }
   Handle(Geom_Line) line = Handle(Geom_Line)::DownCast(hgc);
   if (line.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Line."); }
