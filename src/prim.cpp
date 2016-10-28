@@ -170,7 +170,7 @@ mrb_value siren_prim_halfspace(mrb_state* mrb, mrb_value self)
   mrb_value surf, refpnt;
   int argc = mrb_get_args(mrb, "oA", &surf, &refpnt);
   TopoDS_Shape* shape = siren_shape_get(mrb, surf);
-  if (shape == NULL || shape->IsNull()) {
+  if (shape == nullptr || shape->IsNull()) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape is incorrect.");
   }
   TopoDS_Solid solid;

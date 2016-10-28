@@ -32,7 +32,7 @@ mrb_value siren_filler_init(mrb_state* mrb, mrb_value self)
       &tol2d, &tol3d, &tolang, &tolcurv, &maxdeg, &maxsegs);
 
   void* p = mrb_malloc(mrb, sizeof(BRepFill_Filling));
-  BRepFill_Filling* inner = NULL;
+  BRepFill_Filling* inner = nullptr;
 
   switch (argc) {
     case 1:

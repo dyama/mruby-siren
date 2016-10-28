@@ -410,7 +410,7 @@ mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self)
     }
   }
 
-  opencascade::handle<Geom_BezierSurface> s = NULL;
+  opencascade::handle<Geom_BezierSurface> s = nullptr;
 
   if (argc == 2) {
     TColStd_Array2OfReal weights(0, rlen-1, 0, clen-1);
