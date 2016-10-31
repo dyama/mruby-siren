@@ -26,6 +26,7 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, mod_siren, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
+  mrb_define_class_method(mrb, mod_siren, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(2));
   // For mix-in
   mrb_define_method      (mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "vertex",     siren_topalgo_vertex,     MRB_ARGS_REQ(1));
@@ -49,6 +50,7 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
   mrb_define_method      (mrb, mod_siren, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
+  mrb_define_method      (mrb, mod_siren, "curve",      siren_topalgo_curve,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(2));
 
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
@@ -608,5 +610,34 @@ mrb_value siren_topalgo_area(mrb_state* mrb, mrb_value self)
   BRepGProp::SurfaceProperties(*shape, gprops);
   Standard_Real area = gprops.Mass();
   return mrb_float_value(mrb, area);
+}
+
+mrb_value siren_topalgo_curve(mrb_state* mrb, mrb_value self)
+{
+  mrb_value curve;
+  mrb_float sp = 0.0, tp = 1.0;
+  int argc = mrb_get_args(mrb, "o|ff", &curve, &sp, &tp);
+  opencascade::handle<Geom_Curve>* phgcurve
+    = static_cast<opencascade::handle<Geom_Curve>*>(DATA_PTR(curve));
+  TopoDS_Shape edge;
+  if (argc == 1) {
+    edge = BRepBuilderAPI_MakeEdge(*phgcurve);
+  }
+  else if (argc == 2) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR,
+        "The start parameter specified without a terminal parameter.");
+  }
+  else {
+    try {
+      edge = BRepBuilderAPI_MakeEdge(*phgcurve, sp, tp);
+      if (edge.IsNull()) {
+        mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to make Edge from the Curve.");
+      }
+    }
+    catch (...) {
+      mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to make Edge from the Curve.");
+    }
+  }
+  return siren_shape_new(mrb, edge);
 }
 
