@@ -18,7 +18,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, mod_siren, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
   mrb_define_class_method(mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, mod_siren, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
   mrb_define_class_method(mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "sew",        siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
@@ -43,7 +42,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
   mrb_define_method      (mrb, mod_siren, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
   mrb_define_method      (mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, mod_siren, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
   mrb_define_method      (mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
@@ -354,48 +352,6 @@ mrb_value siren_topalgo_polygon(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, mf.Shape());
-}
-
-mrb_value siren_topalgo_nurbscurve(mrb_state* mrb, mrb_value self)
-{
-  mrb_int d;
-  mrb_value ks, ms, ps, ws;
-  mrb_float first, last;
-  int argc = mrb_get_args(mrb, "iAAA|Aff", &d, &ks, &ms, &ps, &ws, &first, &last);
-
-  int plen = mrb_ary_len(mrb, ps);
-
-  TColgp_Array1OfPnt poles(0, plen - 1);
-  TColStd_Array1OfReal weights(0, plen - 1);
-  for (int i=0; i < plen; i++) {
-    poles.SetValue(i, siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, ps, i)));
-    if (argc >= 5) {
-      mrb_value w = mrb_ary_ref(mrb, ws, i);
-      weights.SetValue(i, mrb_float(w));
-    }
-    else {
-      weights.SetValue(i, 1.0);
-    }
-  }
-
-  int klen = mrb_ary_len(mrb, ks);
-  TColStd_Array1OfReal knots(0, klen - 1);
-  TColStd_Array1OfInteger mults(0, klen - 1);
-
-  for (int i=0; i < klen; i++) {
-    mrb_value knot = mrb_ary_ref(mrb, ks, i);
-    knots.SetValue(i, mrb_float(knot));
-    mrb_value mult = mrb_ary_ref(mrb, ms, i);
-    mults.SetValue(i, (Standard_Integer)mrb_fixnum(mult));
-  }
-
-  opencascade::handle<Geom_BSplineCurve> hgeom_bscurve = new Geom_BSplineCurve(
-      poles, weights, knots, mults, (Standard_Integer)d, Standard_False);
-
-  if (argc == 7)
-    return siren_shape_new(mrb, BRepBuilderAPI_MakeEdge(hgeom_bscurve, first, last));
-  else
-    return siren_shape_new(mrb, BRepBuilderAPI_MakeEdge(hgeom_bscurve));
 }
 
 mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self)
