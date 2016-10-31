@@ -31,7 +31,10 @@
 #include <Poly_Triangle.hxx>
 #include <Poly_Array1OfTriangle.hxx>
 
-void siren_face_install(mrb_state* mrb, RObject* o);
+static struct mrb_data_type siren_face_type = { "Face", siren_shape_final };
+bool siren_face_install(mrb_state* mrb, struct RClass* mod_siren);
+TopoDS_Face siren_face_get(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_new(mrb_state* mrb, const TopoDS_Shape* src);
 
 mrb_value siren_face_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self);

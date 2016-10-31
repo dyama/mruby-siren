@@ -1,18 +1,49 @@
 #include "shape/face.h"
 
-void siren_face_install(mrb_state* mrb, RObject* o)
+mrb_value siren_face_new(mrb_state* mrb, const TopoDS_Shape* src)
 {
-  mrb_define_singleton_method(mrb, o, "normal", siren_face_normal, MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "to_bezier", siren_face_to_bezier, MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "split", siren_face_split, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "triangle", siren_face_triangle, MRB_ARGS_REQ(2));
-  return;
+  mrb_value obj;
+  struct RClass* cls_shape = siren_shape_rclass(mrb);
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Face")));
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
+  TopoDS_Shape* inner = new(p) TopoDS_Shape();
+  *inner = *src; // Copy to inner native member
+  DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(inner);
+  DATA_TYPE(obj) = &siren_face_type;
+  return obj;
+}
+
+TopoDS_Face siren_face_get(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, self, &siren_face_type));
+  TopoDS_Face face = TopoDS::Face(*shape);
+  if (face.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Face."); }
+  return face;
+}
+
+bool siren_face_install(mrb_state* mrb, struct RClass* mod_siren)
+{
+  struct RClass* cls_shape = siren_shape_rclass(mrb);
+  struct RClass* cls_face = mrb_define_class_under(mrb, mod_siren, "Face", cls_shape);
+  MRB_SET_INSTANCE_TT(cls_face, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_face, "initialize", siren_shape_init,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_face, "normal",     siren_face_normal,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_face, "to_bezier",  siren_face_to_bezier, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_face, "split",      siren_face_split,     MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_face, "triangle",   siren_face_triangle,  MRB_ARGS_REQ(2));
+  return true;
+}
+
+struct RClass* siren_face_rclass(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Face")));
 }
 
 mrb_value siren_face_normal(mrb_state* mrb, mrb_value self)
 {
-  TopoDS_Shape* c = siren_shape_get(mrb, self);
-  TopoDS_Face f = TopoDS::Face(*c);
+  TopoDS_Face f = siren_face_get(mrb, self);
   Standard_Real umin, umax, vmin, vmax;
   BRepTools::UVBounds(f, umin, umax, vmin, vmax);
   opencascade::handle<Geom_Surface> gsurf = BRep_Tool::Surface(f);
@@ -23,10 +54,7 @@ mrb_value siren_face_normal(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self)
 {
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-
-  TopExp_Explorer ex(*shape, TopAbs_FACE);
-  TopoDS_Face face = TopoDS::Face(*shape);
+  TopoDS_Face face = siren_face_get(mrb, self);
   opencascade::handle<Geom_Surface> gsurf  = BRep_Tool::Surface(face);
   opencascade::handle<Geom_BSplineSurface> gbssurf = opencascade::handle<Geom_BSplineSurface>::DownCast(gsurf);
   if (gbssurf.IsNull()) {
@@ -58,7 +86,7 @@ mrb_value siren_face_split(mrb_state* mrb, mrb_value self)
   mrb_value obj;
   int argc = mrb_get_args(mrb, "o", &obj);
 
-  TopoDS_Face face = TopoDS::Face(*siren_shape_get(mrb, self));
+  TopoDS_Face face = siren_face_get(mrb, self);
   BRepFeat_SplitShape splitter(face);
 
   TopoDS_Shape shape = *siren_shape_get(mrb, obj);
@@ -87,78 +115,70 @@ mrb_value siren_face_triangle(mrb_state* mrb, mrb_value self)
   mrb_float deflection, angle;
   int argc = mrb_get_args(mrb, "ff", &deflection, &angle);
 
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-
-  TopExp_Explorer ex(*shape, TopAbs_FACE);
-
   mrb_value result = mrb_ary_new(mrb);
 
-  for (; ex.More(); ex.Next()) {
+  TopoDS_Face face = siren_face_get(mrb, self);
+  BRepTools::Update(face);
 
-    TopoDS_Face face = TopoDS::Face(ex.Current());
-    BRepTools::Update(face);
+  BRepMesh_IncrementalMesh imesh(face, deflection, Standard_False, angle);
+  imesh.Perform();
+  if (!imesh.IsDone()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to incremantal mesh.");
+  }
 
-    BRepMesh_IncrementalMesh imesh(face, deflection, Standard_False, angle);
-    imesh.Perform();
-    if (!imesh.IsDone()) {
-      continue;
+  TopoDS_Face face2 = TopoDS::Face(imesh.Shape());
+
+  TopLoc_Location loc;
+  // Do triangulation
+  opencascade::handle<Poly_Triangulation> poly = BRep_Tool::Triangulation(face2, loc);
+  if (poly.IsNull()) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to triangulation.");
+  }
+
+  const Poly_Array1OfTriangle& tris = poly->Triangles();
+
+  for (Standard_Integer i = tris.Lower(); i <= tris.Upper(); i++) {
+
+    const Poly_Triangle& tri = tris.Value(i);
+
+    // Node indexes
+    Standard_Integer n1, n2, n3;
+    if (face2.Orientation() != TopAbs_REVERSED) {
+      tri.Get(n1, n2, n3);
+    }
+    else {
+      tri.Get(n3, n2, n1);
     }
 
-    face = TopoDS::Face(imesh.Shape());
+    gp_Pnt p1 = poly->Nodes().Value(n1);
+    gp_Pnt p2 = poly->Nodes().Value(n2);
+    gp_Pnt p3 = poly->Nodes().Value(n3);
 
-    TopLoc_Location loc;
-    // Do triangulation
-    opencascade::handle<Poly_Triangulation> poly = BRep_Tool::Triangulation(face, loc);
-    if (poly.IsNull()) {
-      continue;
-    }
+    p1.Transform(loc);
+    p2.Transform(loc);
+    p3.Transform(loc);
 
-    const Poly_Array1OfTriangle& tris = poly->Triangles();
+    gp_Vec u = gp_Vec(p2.XYZ() - p1.XYZ());
+    gp_Vec v = gp_Vec(p3.XYZ() - p1.XYZ());
 
-    for (Standard_Integer i = tris.Lower(); i <= tris.Upper(); i++) {
-
-      const Poly_Triangle& tri = tris.Value(i);
-
-      // Node indexes
-      Standard_Integer n1, n2, n3;
-      if (face.Orientation() != TopAbs_REVERSED) {
-        tri.Get(n1, n2, n3);
-      }
-      else {
-        tri.Get(n3, n2, n1);
-      }
-
-      gp_Pnt p1 = poly->Nodes().Value(n1);
-      gp_Pnt p2 = poly->Nodes().Value(n2);
-      gp_Pnt p3 = poly->Nodes().Value(n3);
-
-      p1.Transform(loc);
-      p2.Transform(loc);
-      p3.Transform(loc);
-
-      gp_Vec u = gp_Vec(p2.XYZ() - p1.XYZ());
-      gp_Vec v = gp_Vec(p3.XYZ() - p1.XYZ());
-
-      gp_Vec norm(
+    gp_Vec norm(
         u.Y() * v.Z() - u.Z() * v.Y(),
         u.Z() * v.X() - u.X() * v.Z(),
         u.X() * v.Y() - u.Y() * v.X());
-      if (norm.Magnitude() <= 0) {
-        continue;
-      }
-      norm.Normalize();
-
-      mrb_value trimesh = mrb_ary_new(mrb);
-      mrb_ary_push(mrb, trimesh, siren_pnt_to_ary(mrb, p1));
-      mrb_ary_push(mrb, trimesh, siren_pnt_to_ary(mrb, p2));
-      mrb_ary_push(mrb, trimesh, siren_pnt_to_ary(mrb, p3));
-      mrb_ary_push(mrb, trimesh, siren_vec_to_ary(mrb, u));
-      mrb_ary_push(mrb, trimesh, siren_vec_to_ary(mrb, v));
-      mrb_ary_push(mrb, trimesh, siren_vec_to_ary(mrb, norm));
-
-      mrb_ary_push(mrb, result, trimesh);
-
+    if (norm.Magnitude() <= 0) {
+      continue;
     }
+    norm.Normalize();
+
+    mrb_value trimesh = mrb_ary_new(mrb);
+    mrb_ary_push(mrb, trimesh, siren_pnt_to_ary(mrb, p1));
+    mrb_ary_push(mrb, trimesh, siren_pnt_to_ary(mrb, p2));
+    mrb_ary_push(mrb, trimesh, siren_pnt_to_ary(mrb, p3));
+    mrb_ary_push(mrb, trimesh, siren_vec_to_ary(mrb, u));
+    mrb_ary_push(mrb, trimesh, siren_vec_to_ary(mrb, v));
+    mrb_ary_push(mrb, trimesh, siren_vec_to_ary(mrb, norm));
+
+    mrb_ary_push(mrb, result, trimesh);
   }
 
   return result;
