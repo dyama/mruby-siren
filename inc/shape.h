@@ -10,6 +10,9 @@
   #include "heal.h"
 #endif
 
+void siren_shape_final(mrb_state* mrb, void* p);
+static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };
+
 #include "shape/vertex.h"
 #include "shape/edge.h"
 #include "shape/wire.h"
@@ -31,9 +34,7 @@
 
 #include <BRepAlgoAPI_Section.hxx>
 
-void siren_shape_final(mrb_state* mrb, void* p);
 bool siren_shape_install(mrb_state* mrb, struct RClass* rclass);
-static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };
 TopoDS_Shape* siren_shape_get(mrb_state* mrb, mrb_value obj);
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape);
 struct RClass* siren_shape_rclass(mrb_state* mrb);

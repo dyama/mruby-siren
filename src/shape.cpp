@@ -9,7 +9,6 @@ void siren_shape_add_singleton_method(mrb_state* mrb, mrb_value& self)
 {
   TopoDS_Shape* S = siren_shape_get(mrb, self);
   switch (S->ShapeType()) {
-  case TopAbs_VERTEX:    siren_vertex_install(mrb, mrb_obj_ptr(self));    break;
   case TopAbs_EDGE:      siren_edge_install(mrb, mrb_obj_ptr(self));      break;
   case TopAbs_WIRE:      siren_wire_install(mrb, mrb_obj_ptr(self));      break;
   case TopAbs_FACE:      siren_face_install(mrb, mrb_obj_ptr(self));      break;
@@ -24,8 +23,14 @@ void siren_shape_add_singleton_method(mrb_state* mrb, mrb_value& self)
 
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
-  mrb_value obj;
   struct RClass* cls_shape = siren_shape_rclass(mrb);
+
+  switch (shape.ShapeType()) {
+    case TopAbs_VERTEX:    return siren_vertex_new(mrb, &shape); break;
+  default: break;
+  }
+
+  mrb_value obj;
   obj = mrb_instance_alloc(mrb, mrb_obj_value(cls_shape));
   void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
   TopoDS_Shape* inner = new(p) TopoDS_Shape();
@@ -47,8 +52,8 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
   struct RClass* cls_shape = mrb_define_class_under(mrb, mod_siren, "Shape", mrb->object_class);
   MRB_SET_INSTANCE_TT(cls_shape, MRB_TT_DATA);
   mrb_define_method(mrb, cls_shape, "initialize", siren_shape_init,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_shape, "inspect",    siren_shape_to_s,       MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_shape, "to_s",       siren_shape_to_s,       MRB_ARGS_NONE());
+  //mrb_define_method(mrb, cls_shape, "inspect",    siren_shape_to_s,       MRB_ARGS_NONE());
+  //mrb_define_method(mrb, cls_shape, "to_s",       siren_shape_to_s,       MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "null?",      siren_shape_is_null,    MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "shapetype",  siren_shape_shapetype,  MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "pos",        siren_shape_pos,        MRB_ARGS_NONE());
@@ -117,6 +122,8 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
 
   mrb_define_method(mrb, cls_shape, "next_trans",  siren_shape_next_trans,  MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "first_datum", siren_shape_first_datum,  MRB_ARGS_NONE());
+
+  siren_vertex_install(mrb, mod_siren);
 
   return true;
 }
