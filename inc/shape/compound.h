@@ -11,5 +11,6 @@ bool siren_compound_install(mrb_state* mrb, struct RClass* mod_siren);
 TopoDS_Compound siren_compound_get(mrb_state* mrb, mrb_value self);
 mrb_value siren_compound_new(mrb_state* mrb, const TopoDS_Shape* src);
 mrb_value siren_compound_obj(mrb_state* mrb);
+struct RClass* siren_compound_rclass(mrb_state* mrb);
 
 #endif

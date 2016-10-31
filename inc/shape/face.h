@@ -3,7 +3,6 @@
 
 #include "siren.h"
 #include "shape.h"
-#include "topalgo.h"
 #include "vec.h"
 
 #include <TopoDS.hxx>
@@ -36,6 +35,7 @@ bool siren_face_install(mrb_state* mrb, struct RClass* mod_siren);
 TopoDS_Face siren_face_get(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_new(mrb_state* mrb, const TopoDS_Shape* src);
 mrb_value siren_face_obj(mrb_state* mrb);
+struct RClass* siren_face_rclass(mrb_state* mrb);
 
 mrb_value siren_face_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self);

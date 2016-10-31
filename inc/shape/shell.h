@@ -11,5 +11,6 @@ bool siren_shell_install(mrb_state* mrb, struct RClass* mod_siren);
 TopoDS_Shell siren_shell_get(mrb_state* mrb, mrb_value self);
 mrb_value siren_shell_new(mrb_state* mrb, const TopoDS_Shape* src);
 mrb_value siren_shell_obj(mrb_state* mrb);
+struct RClass* siren_shell_rclass(mrb_state* mrb);
 
 #endif
