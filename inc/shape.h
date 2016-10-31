@@ -41,7 +41,6 @@ struct RClass* siren_shape_rclass(mrb_state* mrb);
 
 mrb_value siren_shape_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self);
-mrb_value siren_shape_shapetype(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_pos(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_trans(mrb_state* mrb, mrb_value self);
 mrb_value siren_shape_set_trans(mrb_state* mrb, mrb_value self);

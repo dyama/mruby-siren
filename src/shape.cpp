@@ -41,7 +41,6 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
   MRB_SET_INSTANCE_TT(cls_shape, MRB_TT_DATA);
   mrb_define_method(mrb, cls_shape, "initialize", siren_shape_init,       MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "null?",      siren_shape_is_null,    MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_shape, "shapetype",  siren_shape_shapetype,  MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "pos",        siren_shape_pos,        MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "trans",      siren_shape_trans,      MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_shape, "trans=",     siren_shape_set_trans,  MRB_ARGS_REQ(1));
@@ -137,13 +136,6 @@ mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   return shape->IsNull() ? mrb_true_value() : mrb_false_value();
-}
-
-mrb_value siren_shape_shapetype(mrb_state* mrb, mrb_value self)
-{
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  int type = (int)shape->ShapeType();
-  return mrb_fixnum_value(type);
 }
 
 mrb_value siren_shape_pos(mrb_state* mrb, mrb_value self)
