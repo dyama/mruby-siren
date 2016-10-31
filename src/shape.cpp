@@ -16,7 +16,6 @@ void siren_shape_add_singleton_method(mrb_state* mrb, mrb_value& self)
 {
   TopoDS_Shape* S = siren_shape_get(mrb, self);
   switch (S->ShapeType()) {
-  case TopAbs_COMPSOLID: siren_compsolid_install(mrb, mrb_obj_ptr(self)); break;
   case TopAbs_COMPOUND:  siren_compound_install(mrb, mrb_obj_ptr(self));  break;
   default: break;
   }

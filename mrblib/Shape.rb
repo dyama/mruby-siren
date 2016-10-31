@@ -4,7 +4,6 @@
 class Siren::Shape
 
   COMPOUND  = 0
-  COMPSOLID = 1
   SOLID     = 2
   SHELL     = 3
   FACE      = 4
@@ -17,8 +16,6 @@ class Siren::Shape
     case type
     when Siren::Shape::COMPOUND
       return "COMPOUND"
-    when Siren::Shape::COMPSOLID
-      return "COMPSOLID"
     when Siren::Shape::SOLID
       return "SOLID"
     when Siren::Shape::SHELL
@@ -45,14 +42,6 @@ class Siren::Shape
       self.explore(Siren::Shape::COMPOUND, filter)
     else
       self.explore(Siren::Shape::COMPOUND)
-    end
-  end
-
-  def compsolids(filter = nil)
-    if filter
-      self.explore(Siren::Shape::COMPSOLID, filter)
-    else
-      self.explore(Siren::Shape::COMPSOLID)
     end
   end
 
@@ -108,10 +97,6 @@ class Siren::Shape
 
   def compound?
     self.shapetype == Siren::Shape::COMPOUND
-  end
-
-  def compsolid?
-    self.shapetype == Siren::Shape::COMPSOLID
   end
 
   def solid?
