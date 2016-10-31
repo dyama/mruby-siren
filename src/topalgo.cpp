@@ -21,6 +21,7 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "nurbscurve", siren_topalgo_nurbscurve, MRB_ARGS_REQ(4) | MRB_ARGS_OPT(3));
   mrb_define_class_method(mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
+  mrb_define_class_method(mrb, mod_siren, "sew",        siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "sewing",     siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "shell",      siren_topalgo_sewing,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
@@ -50,9 +51,11 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
 
   struct RClass* cls_shape = siren_shape_rclass(mrb);
-  mrb_define_method      (mrb, cls_shape, "volume",  siren_topalgo_volume,     MRB_ARGS_NONE());
   mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
-  mrb_define_method      (mrb, cls_shape, "area",    siren_topalgo_area,       MRB_ARGS_NONE());
+  struct RClass* cls_face = siren_face_rclass(mrb);
+  mrb_define_method      (mrb, cls_face, "area",    siren_topalgo_area,        MRB_ARGS_NONE());
+  struct RClass* cls_solid = siren_solid_rclass(mrb);
+  mrb_define_method      (mrb, cls_solid, "volume",  siren_topalgo_volume,     MRB_ARGS_NONE());
   return true;
 }
 
