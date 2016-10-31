@@ -1,47 +1,66 @@
 #include "shape/edge.h"
 
-void siren_edge_install(mrb_state* mrb, RObject* o)
+mrb_value siren_edge_new(mrb_state* mrb, const TopoDS_Shape* src)
 {
-  mrb_define_singleton_method(mrb, o, "sp",        siren_edge_sp,        MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "tp",        siren_edge_tp,        MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "to_pts",    siren_edge_to_pts,    MRB_ARGS_OPT(1));
-  mrb_define_singleton_method(mrb, o, "param",     siren_edge_param,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_singleton_method(mrb, o, "to_xyz",    siren_edge_to_xyz,    MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "curvature", siren_edge_curvature, MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "tangent",   siren_edge_tangent,   MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "nurbs_def", siren_edge_nurbs_def, MRB_ARGS_NONE());
-  mrb_define_singleton_method(mrb, o, "extrema",   siren_edge_extrema,   MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "split",     siren_edge_split,     MRB_ARGS_REQ(1));
-  mrb_define_singleton_method(mrb, o, "trim",      siren_edge_trim,      MRB_ARGS_REQ(2));
+  mrb_value obj;
+  struct RClass* cls_shape = siren_shape_rclass(mrb);
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Edge")));
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
+  TopoDS_Shape* inner = new(p) TopoDS_Shape();
+  *inner = *src; // Copy to inner native member
+  DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(inner);
+  DATA_TYPE(obj) = &siren_edge_type;
+  return obj;
+}
 
-  mrb_value self = mrb_obj_value(o);
-  {
-    TopoDS_Shape* shape = siren_shape_get(mrb, self);
-    TopoDS_Edge edge = TopoDS::Edge(*shape);
-    Standard_Real first, last;
-    opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
-    mrb_obj_iv_set(mrb, o, mrb_intern_lit(mrb, "@curve"), siren_curve_new(mrb, &hgcurve));
-    mrb_define_singleton_method(mrb, o, "curve", siren_edge_curve, MRB_ARGS_NONE());
-  }
-  mrb_define_singleton_method(mrb, o, "terms", siren_edge_terms, MRB_ARGS_NONE());
+TopoDS_Edge siren_edge_get(mrb_state* mrb, mrb_value self)
+{
+  TopoDS_Shape* shape = static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, self, &siren_edge_type));
+  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  if (edge.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Edge."); }
+  return edge;
+}
 
-  mrb_define_singleton_method(mrb, o, "length", siren_edge_length, MRB_ARGS_NONE());
+bool siren_edge_install(mrb_state* mrb, struct RClass* mod_siren)
+{
+  struct RClass* cls_shape = siren_shape_rclass(mrb);
+  struct RClass* cls_edge = mrb_define_class_under(mrb, mod_siren, "Edge", cls_shape);
+  MRB_SET_INSTANCE_TT(cls_edge, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_edge, "initialize", siren_shape_init,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_edge, "sp",         siren_edge_sp,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_edge, "tp",         siren_edge_tp,        MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_edge, "to_pts",     siren_edge_to_pts,    MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_edge, "param",      siren_edge_param,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_edge, "to_xyz",     siren_edge_to_xyz,    MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_edge, "curvature",  siren_edge_curvature, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_edge, "tangent",    siren_edge_tangent,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_edge, "nurbs_def",  siren_edge_nurbs_def, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_edge, "extrema",    siren_edge_extrema,   MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_edge, "split",      siren_edge_split,     MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cls_edge, "trim",       siren_edge_trim,      MRB_ARGS_REQ(2));
+  mrb_define_method(mrb, cls_edge, "terms",      siren_edge_terms,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_edge, "length",     siren_edge_length,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_edge, "curve",      siren_edge_curve,     MRB_ARGS_NONE());
+  return true;
+}
 
-  return;
+struct RClass* siren_edge_rclass(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Edge")));
 }
 
 mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self)
 {
-  TopoDS_Shape* c = siren_shape_get(mrb, self);
-  BRepAdaptor_Curve bracurve(TopoDS::Edge(*c));
+  BRepAdaptor_Curve bracurve(siren_edge_get(mrb, self));
   gp_Pnt sp = bracurve.Value(bracurve.FirstParameter());
   return siren_pnt_to_ary(mrb, sp);
 }
 
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self)
 {
-  TopoDS_Shape* c = siren_shape_get(mrb, self);
-  BRepAdaptor_Curve bracurve(TopoDS::Edge(*c));
+  BRepAdaptor_Curve bracurve(siren_edge_get(mrb, self));
   gp_Pnt tp = bracurve.Value(bracurve.LastParameter());
   return siren_pnt_to_ary(mrb, tp);
 }
@@ -50,13 +69,10 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
 {
   mrb_float deflect;
   int argc = mrb_get_args(mrb, "|f", &deflect);
-
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-
   if (argc != 1) {
     deflect = 1.0e-1;
   }
-  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  TopoDS_Edge edge = siren_edge_get(mrb, self);
   BRepAdaptor_Curve adaptor(edge);
   double first_param, last_param;
   first_param = adaptor.FirstParameter();
@@ -94,8 +110,7 @@ mrb_value siren_edge_param(mrb_state* mrb, mrb_value self)
   mrb_float tol = 1.0e-7;
   int argc = mrb_get_args(mrb, "A|f", &xyz, &tol);
 
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  TopoDS_Edge edge = siren_edge_get(mrb, self);
 
   ShapeAnalysis_Curve ana;
   BRepAdaptor_Curve gcurve(edge);
@@ -115,8 +130,7 @@ mrb_value siren_edge_to_xyz(mrb_state* mrb, mrb_value self)
 {
   mrb_float param;
   int argc = mrb_get_args(mrb, "f", &param);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  BRepAdaptor_Curve C(TopoDS::Edge(*shape));
+  BRepAdaptor_Curve C(siren_edge_get(mrb, self));
   gp_Pnt p;
   gp_Vec v1, v2;
   C.D2(param, p, v1, v2);
@@ -127,8 +141,7 @@ mrb_value siren_edge_curvature(mrb_state* mrb, mrb_value self)
 {
   mrb_float param;
   int argc = mrb_get_args(mrb, "f", &param);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  BRepAdaptor_Curve C(TopoDS::Edge(*shape));
+  BRepAdaptor_Curve C(siren_edge_get(mrb, self));
   gp_Pnt p;
   gp_Vec v1, v2;
   C.D2(param, p, v1, v2);
@@ -139,8 +152,7 @@ mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self)
 {
   mrb_float param;
   int argc = mrb_get_args(mrb, "f", &param);
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  BRepAdaptor_Curve C(TopoDS::Edge(*shape));
+  BRepAdaptor_Curve C(siren_edge_get(mrb, self));
   gp_Pnt p;
   gp_Vec v1, v2;
   C.D2(param, p, v1, v2);
@@ -149,8 +161,7 @@ mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
 {
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  TopoDS_Edge edge = siren_edge_get(mrb, self);
   Standard_Real first, last;
   opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
 #if 0
@@ -198,8 +209,7 @@ mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_edge_terms(mrb_state* mrb, mrb_value self)
 {
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  TopoDS_Edge edge = TopoDS::Edge(*shape);
+  TopoDS_Edge edge = siren_edge_get(mrb, self);
   Standard_Real first, last;
   BRep_Tool::Curve(edge, first, last);
   mrb_value res = mrb_ary_new(mrb);
@@ -210,19 +220,27 @@ mrb_value siren_edge_terms(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_edge_curve(mrb_state* mrb, mrb_value self)
 {
-  return mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@curve"));
+  TopoDS_Edge edge = siren_edge_get(mrb, self);
+  // // set property
+  // Standard_Real first, last;
+  // opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
+  // mrb_obj_iv_set(mrb, mrb_obj_value(cls_edge), mrb_intern_lit(mrb, "@curve"), siren_curve_new(mrb, &hgcurve));
+  // // get property
+  // return mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@curve"));
+  Standard_Real first, last;
+  opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
+  return siren_curve_new(mrb, &hgcurve);
 }
 
 mrb_value siren_edge_extrema(mrb_state* mrb, mrb_value self)
 {
   mrb_value other;
   int argc = mrb_get_args(mrb, "o", &other);
-  TopoDS_Shape* s = siren_shape_get(mrb, other);
-  TopoDS_Edge e2 = TopoDS::Edge(*s);
+  TopoDS_Edge e2 = siren_edge_get(mrb, other);
   if (e2.IsNull()) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape type is not edge.");
   }
-  TopoDS_Edge e1 = TopoDS::Edge(*siren_shape_get(mrb, self));
+  TopoDS_Edge e1 = siren_edge_get(mrb, self);
   BRepExtrema_ExtCC ext(e1, e2);
   if (!ext.IsDone()) {
     mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to get extrema points.");
@@ -245,8 +263,7 @@ mrb_value siren_edge_split(mrb_state* mrb, mrb_value self)
   mrb_float param;
   int argc = mrb_get_args(mrb, "f", &param);
   Standard_Real first, last;
-  TopoDS_Shape* s = siren_shape_get(mrb, self);
-  TopoDS_Edge e = TopoDS::Edge(*s);
+  TopoDS_Edge e = siren_edge_get(mrb, self);
   opencascade::handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
   if (param <= first || param >= last) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified parameter is out of range of curve parameter.");
@@ -265,8 +282,7 @@ mrb_value siren_edge_trim(mrb_state* mrb, mrb_value self)
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified parameter has same value.");
   }
   Standard_Real first, last;
-  TopoDS_Shape* s = siren_shape_get(mrb, self);
-  TopoDS_Edge e = TopoDS::Edge(*s);
+  TopoDS_Edge e = siren_edge_get(mrb, self);
   opencascade::handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
   TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(gc, first2, last2);
   return siren_shape_new(mrb, edge);
