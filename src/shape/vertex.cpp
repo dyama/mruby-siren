@@ -53,3 +53,9 @@ mrb_value siren_vertex_to_v(mrb_state* mrb, mrb_value self)
   return siren_vec_new(mrb, p.X(), p.Y(), p.Z());
 }
 
+mrb_value siren_vertex_obj(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Vertex"));
+}
+

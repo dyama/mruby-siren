@@ -326,9 +326,38 @@ mrb_value siren_shape_is_equal(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_shape_explore(mrb_state* mrb, mrb_value self)
 {
-  mrb_int type, avoid;
+  mrb_value klass;
+  mrb_int avoid;
   mrb_value block;
-  int argc = mrb_get_args(mrb, "i|i&", &type, &avoid, &block);
+  int argc = mrb_get_args(mrb, "C|i&", &klass, &avoid, &block);
+
+  mrb_value mtype;
+  TopAbs_ShapeEnum type = TopAbs_COMPOUND;
+  if (mrb_bool(mrb_funcall(mrb, klass, "==", 1, siren_compound_obj(mrb)))) {
+    type = TopAbs_COMPOUND;
+  }
+  else if (mrb_bool(mrb_funcall(mrb, klass, "==", 1, siren_solid_obj(mrb)))) {
+    type = TopAbs_SOLID;
+  }
+  else if (mrb_bool(mrb_funcall(mrb, klass, "==", 1, siren_shell_obj(mrb)))) {
+    type = TopAbs_SHELL;
+  }
+  else if (mrb_bool(mrb_funcall(mrb, klass, "==", 1, siren_face_obj(mrb)))) {
+    type = TopAbs_FACE;
+  }
+  else if (mrb_bool(mrb_funcall(mrb, klass, "==", 1, siren_wire_obj(mrb)))) {
+    type = TopAbs_WIRE;
+  }
+  else if (mrb_bool(mrb_funcall(mrb, klass, "==", 1, siren_edge_obj(mrb)))) {
+    type = TopAbs_EDGE;
+  }
+  else if (mrb_bool(mrb_funcall(mrb, klass, "==", 1, siren_vertex_obj(mrb)))) {
+    type = TopAbs_VERTEX;
+  }
+  else {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Type error.");
+  }
+
   TopExp_Explorer ex;
   if (argc == 1)
     ex.Init(*siren_shape_get(mrb, self), (TopAbs_ShapeEnum)type);

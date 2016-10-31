@@ -37,3 +37,9 @@ struct RClass* siren_solid_rclass(mrb_state* mrb)
   return mrb_class_ptr(mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Solid")));
 }
 
+mrb_value siren_solid_obj(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Solid"));
+}
+

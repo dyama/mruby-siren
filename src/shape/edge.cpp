@@ -306,3 +306,8 @@ mrb_value siren_edge_length(mrb_state* mrb, mrb_value self)
   return mrb_float_value(mrb, res);
 }
 
+mrb_value siren_edge_obj(mrb_state* mrb)
+{
+  struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
+  return mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Edge"));
+}

@@ -3,70 +3,61 @@
 #
 class Siren::Shape
 
-  COMPOUND  = 0
-  SOLID     = 2
-  SHELL     = 3
-  FACE      = 4
-  WIRE      = 5
-  EDGE      = 6
-  VERTEX    = 7
-  SHAPE     = 8
-
   # Explorer wrapper methods
 
   def compounds(filter = nil)
     if filter
-      self.explore(Siren::Shape::COMPOUND, filter)
+      self.explore(Siren::Compound, filter)
     else
-      self.explore(Siren::Shape::COMPOUND)
+      self.explore(Siren::Compound)
     end
   end
 
   def solids(filter = nil)
     if filter
-      self.explore(Siren::Shape::SOLID, filter)
+      self.explore(Siren::Solid, filter)
     else
-      self.explore(Siren::Shape::SOLID)
+      self.explore(Siren::Solid)
     end
   end
 
   def shells(filter = nil)
     if filter
-      self.explore(Siren::Shape::SHELL, filter)
+      self.explore(Siren::Shell, filter)
     else
-      self.explore(Siren::Shape::SHELL)
+      self.explore(Siren::Shell)
     end
   end
 
   def faces(filter = nil)
     if filter
-      self.explore(Siren::Shape::FACE, filter)
+      self.explore(Siren::Face, filter)
     else
-      self.explore(Siren::Shape::FACE)
+      self.explore(Siren::Face)
     end
   end
 
   def wires(filter = nil)
     if filter
-      self.explore(Siren::Shape::WIRE, filter)
+      self.explore(Siren::Wire, filter)
     else
-      self.explore(Siren::Shape::WIRE)
+      self.explore(Siren::Wire)
     end
   end
 
   def edges(filter = nil)
     if filter
-      self.explore(Siren::Shape::EDGE, filter)
+      self.explore(Siren::Edge, filter)
     else
-      self.explore(Siren::Shape::EDGE)
+      self.explore(Siren::Edge)
     end
   end
 
   def vertices(filter = nil)
     if filter
-      self.explore(Siren::Shape::VERTEX, filter)
+      self.explore(Siren::Vertex, filter)
     else
-      self.explore(Siren::Shape::VERTEX)
+      self.explore(Siren::Vertex)
     end
   end
 
