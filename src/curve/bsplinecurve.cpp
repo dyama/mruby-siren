@@ -1,6 +1,5 @@
 /**
  * bsplinecurve.cpp
- * Implementation of singleton methods for BSPLINECURVE
  */
 
 #include "curve.h"
@@ -32,6 +31,62 @@ bool siren_bsplinecurve_install(mrb_state* mrb, struct RClass* mod_siren)
   struct RClass* cls_curve = siren_curve_rclass(mrb);
   struct RClass* cls_bsplinecurve = mrb_define_class_under(mrb, mod_siren, "BSplineCurve", cls_curve);
   MRB_SET_INSTANCE_TT(cls_bsplinecurve, MRB_TT_DATA);
-  mrb_define_method(mrb, cls_bsplinecurve, "initialize", siren_curve_init, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_bsplinecurve, "initialize", siren_curve_init,           MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_bsplinecurve, "degree",     siren_bsplinecurve_degree,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_bsplinecurve, "knots",      siren_bsplinecurve_knots,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_bsplinecurve, "mults",      siren_bsplinecurve_mults,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_bsplinecurve, "poles",      siren_bsplinecurve_poles,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_bsplinecurve, "weights",    siren_bsplinecurve_weights, MRB_ARGS_NONE());
   return true;
 }
+
+mrb_value siren_bsplinecurve_degree(mrb_state* mrb, mrb_value self)
+{
+  opencascade::handle<Geom_BSplineCurve> curve = siren_bsplinecurve_get(mrb, self);
+  return mrb_fixnum_value((int)curve->Degree());
+}
+
+mrb_value siren_bsplinecurve_knots(mrb_state* mrb, mrb_value self)
+{
+  opencascade::handle<Geom_BSplineCurve> curve = siren_bsplinecurve_get(mrb, self);
+  mrb_value knots = mrb_ary_new(mrb);
+  for (int i = 1; i <= curve->NbKnots(); i++) {
+    mrb_ary_push(mrb, knots, mrb_float_value(mrb, curve->Knot(i)));
+  }
+  return knots;
+}
+
+mrb_value siren_bsplinecurve_mults(mrb_state* mrb, mrb_value self)
+{
+  opencascade::handle<Geom_BSplineCurve> curve = siren_bsplinecurve_get(mrb, self);
+  mrb_value mults = mrb_ary_new(mrb);
+  for (int i = 1; i <= curve->NbKnots(); i++) {
+    mrb_ary_push(mrb, mults, mrb_fixnum_value(curve->Multiplicity(i)));
+  }
+  return mults;
+}
+
+mrb_value siren_bsplinecurve_poles(mrb_state* mrb, mrb_value self)
+{
+  opencascade::handle<Geom_BSplineCurve> curve = siren_bsplinecurve_get(mrb, self);
+  mrb_value poles = mrb_ary_new(mrb);
+  for (int i = 1; i <= curve->NbPoles(); i++) {
+    mrb_value item = mrb_ary_new(mrb);
+    mrb_ary_push(mrb, item, mrb_float_value(mrb, curve->Pole(i).X()));
+    mrb_ary_push(mrb, item, mrb_float_value(mrb, curve->Pole(i).Y()));
+    mrb_ary_push(mrb, item, mrb_float_value(mrb, curve->Pole(i).Z()));
+    mrb_ary_push(mrb, poles, item);
+  }
+  return poles;
+}
+
+mrb_value siren_bsplinecurve_weights(mrb_state* mrb, mrb_value self)
+{
+  opencascade::handle<Geom_BSplineCurve> curve = siren_bsplinecurve_get(mrb, self);
+  mrb_value weights = mrb_ary_new(mrb);
+  for (int i = 1; i <= curve->NbPoles(); i++) {
+    mrb_ary_push(mrb, weights, mrb_float_value(mrb, curve->Weight(i)));
+  }
+  return weights;
+}
+

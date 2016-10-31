@@ -13,5 +13,10 @@ weights = [1.0, 1.0, 1.0, 1.0]
 
 c = nurbscurve degree, knots, mults, poles#, weights
 p c
-p c.nurbs_def
+p c.curve.class
+p c.curve.degree
+p c.curve.knots
+p c.curve.mults
+p c.curve.poles
+p c.curve.weights
 

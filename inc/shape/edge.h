@@ -20,12 +20,6 @@
 #include <ShapeAnalysis_Curve.hxx>
 #include <BRepAdaptor_Curve.hxx>
 
-// nurbs def
-#include <Geom_Curve.hxx>
-#include <BRep_Tool.hxx>
-#include <Geom_TrimmedCurve.hxx>
-#include <Geom_BSplineCurve.hxx>
-
 #include <BRepExtrema_ExtCC.hxx>
 
 static struct mrb_data_type siren_edge_type = { "Edge", siren_shape_final };
@@ -42,8 +36,6 @@ mrb_value siren_edge_param(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_to_xyz(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_curvature(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self);
-
-mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_edge_terms(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_curve(mrb_state* mrb, mrb_value self);

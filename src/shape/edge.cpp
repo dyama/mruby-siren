@@ -35,7 +35,6 @@ bool siren_edge_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method(mrb, cls_edge, "to_xyz",     siren_edge_to_xyz,    MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_edge, "curvature",  siren_edge_curvature, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_edge, "tangent",    siren_edge_tangent,   MRB_ARGS_REQ(1));
-  mrb_define_method(mrb, cls_edge, "nurbs_def",  siren_edge_nurbs_def, MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_edge, "extrema",    siren_edge_extrema,   MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_edge, "split",      siren_edge_split,     MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_edge, "trim",       siren_edge_trim,      MRB_ARGS_REQ(2));
@@ -157,54 +156,6 @@ mrb_value siren_edge_tangent(mrb_state* mrb, mrb_value self)
   gp_Vec v1, v2;
   C.D2(param, p, v1, v2);
   return siren_vec_new(mrb, v1.X(), v1.Y(), v1.Z());
-}
-
-mrb_value siren_edge_nurbs_def(mrb_state* mrb, mrb_value self)
-{
-  TopoDS_Edge edge = siren_edge_get(mrb, self);
-  Standard_Real first, last;
-  opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
-#if 0
-  opencascade::handle<Geom_TrimmedCurve> hgtc = new Geom_TrimmedCurve(hgcurve, first, last);
-  opencascade::handle<Geom_BSplineCurve> hgbc = opencascade::handle<Geom_BSplineCurve>::DownCast(hgtc->BasisCurve());
-#else
-  opencascade::handle<Geom_BSplineCurve> hgbc = opencascade::handle<Geom_BSplineCurve>::DownCast(hgcurve);
-#endif
-  if (hgbc.IsNull()) {
-    // Failed to downcast to BSplineCurve
-    return mrb_nil_value();
-  }
-  mrb_value res = mrb_ary_new(mrb);
-  // degree
-  mrb_ary_push(mrb, res, mrb_fixnum_value((int)hgbc->Degree()));
-  // knots
-  mrb_value knots = mrb_ary_new(mrb);
-  for (int i=1; i <= hgbc->NbKnots(); i++) {
-    mrb_ary_push(mrb, knots, mrb_float_value(mrb, hgbc->Knot(i)));
-  }
-  mrb_ary_push(mrb, res, knots);
-  // mults
-  mrb_value mults = mrb_ary_new(mrb);
-  for (int i=1; i <= hgbc->NbKnots(); i++) {
-    mrb_ary_push(mrb, mults, mrb_fixnum_value(hgbc->Multiplicity(i)));
-  }
-  mrb_ary_push(mrb, res, mults);
-  // poles
-  mrb_value poles = mrb_ary_new(mrb);
-  for (int i=1; i <= hgbc->NbPoles(); i++) {
-    mrb_ary_push(mrb, poles, siren_vec_new(mrb, hgbc->Pole(i).X(), hgbc->Pole(i).Y(), hgbc->Pole(i).Z()));
-  }
-  mrb_ary_push(mrb, res, poles);
-  // weights
-  mrb_value weights = mrb_ary_new(mrb);
-  for (int i=1; i <= hgbc->NbPoles(); i++) {
-    mrb_ary_push(mrb, weights, mrb_float_value(mrb, hgbc->Weight(i)));
-  }
-  mrb_ary_push(mrb, res, weights);
-  // params
-  mrb_ary_push(mrb, res, mrb_float_value(mrb, first));
-  mrb_ary_push(mrb, res, mrb_float_value(mrb, last));
-  return res;
 }
 
 mrb_value siren_edge_terms(mrb_state* mrb, mrb_value self)
