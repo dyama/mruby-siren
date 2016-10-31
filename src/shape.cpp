@@ -15,7 +15,6 @@ TopoDS_Shape* siren_shape_get(mrb_state* mrb, mrb_value obj)
 mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
   struct RClass* cls_shape = siren_shape_rclass(mrb);
-
   switch (shape.ShapeType()) {
     case TopAbs_VERTEX:   return siren_vertex_new(mrb, &shape);   break;
     case TopAbs_EDGE:     return siren_edge_new(mrb, &shape);     break;
@@ -26,15 +25,8 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
     case TopAbs_COMPOUND: return siren_compound_new(mrb, &shape); break;
     default: break;
   }
-
-  mrb_value obj;
-  obj = mrb_instance_alloc(mrb, mrb_obj_value(cls_shape));
-  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
-  TopoDS_Shape* inner = new(p) TopoDS_Shape();
-  *inner = shape; // Copy to inner native member
-  DATA_PTR(obj)  = const_cast<TopoDS_Shape*>(inner);
-  DATA_TYPE(obj) = &siren_shape_type;
-  return obj;
+  mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make Shape object.");
+  return mrb_nil_value();
 }
 
 struct RClass* siren_shape_rclass(mrb_state* mrb)
@@ -139,28 +131,6 @@ void siren_shape_final(mrb_state* mrb, void* p)
   TopoDS_Shape* s = static_cast<TopoDS_Shape*>(p);
   s->Nullify();
   mrb_free(mrb, s);
-}
-
-/*
- * Document-method: to_s
- *
- * call-seq:
- *   shape.to_s -> String
- *
- * Return the string.
- *
- */
-mrb_value siren_shape_to_s(mrb_state* mrb, mrb_value self)
-{
-  TopoDS_Shape* shape = siren_shape_get(mrb, self);
-  struct RClass* cls_shape = siren_shape_rclass(mrb);
-  mrb_value shapetype = mrb_funcall(mrb, mrb_obj_value(cls_shape), "typename", 1, mrb_fixnum_value((int)shape->ShapeType()));
-  mrb_value str = mrb_str_new_cstr(mrb, "#<Shape:");
-  mrb_str_concat(mrb, str, mrb_ptr_to_str(mrb, mrb_cptr(self)));
-  mrb_str_cat_lit(mrb, str, " @type=");
-  mrb_str_append(mrb, str, shapetype);
-  mrb_str_cat_lit(mrb, str, ">");
-  return str;
 }
 
 mrb_value siren_shape_is_null(mrb_state* mrb, mrb_value self)

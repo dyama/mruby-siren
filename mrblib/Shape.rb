@@ -12,29 +12,6 @@ class Siren::Shape
   VERTEX    = 7
   SHAPE     = 8
 
-  def self.typename(type)
-    case type
-    when Siren::Shape::COMPOUND
-      return "COMPOUND"
-    when Siren::Shape::SOLID
-      return "SOLID"
-    when Siren::Shape::SHELL
-      return "SHELL"
-    when Siren::Shape::FACE
-      return "FACE"
-    when Siren::Shape::WIRE
-      return "WIRE"
-    when Siren::Shape::EDGE
-      return "EDGE"
-    when Siren::Shape::VERTEX
-      return "VERTEX"
-    when Siren::Shape::SHAPE
-      return "SHAPE"
-    else
-      return "UNKNOWN"
-    end
-  end
-
   # Explorer wrapper methods
 
   def compounds(filter = nil)
@@ -96,36 +73,36 @@ class Siren::Shape
   # Type check methods
 
   def compound?
-    self.shapetype == Siren::Shape::COMPOUND
+    self.is_a? Siren::Compound
   end
 
   def solid?
-    self.shapetype == Siren::Shape::SOLID
+    self.is_a? Siren::Solid
   end
 
   def shell?
-    self.shapetype == Siren::Shape::SHELL
+    self.is_a? Siren::Shell
   end
 
   def face?
-    self.shapetype == Siren::Shape::FACE
+    self.is_a? Siren::Face
   end
 
   def wire?
-    self.shapetype == Siren::Shape::WIRE
+    self.is_a? Siren::Wire
   end
 
   def edge?
-    self.shapetype == Siren::Shape::EDGE
+    self.is_a? Siren::Edge
   end
 
   def vertex?
-    self.shapetype == Siren::Shape::VERTEX
+    self.is_a? Siren::Vertex
   end
 
   def dump_tree(current_depth = 0, &limit)
     hc = sprintf("%06X", self.hashcode(0xFFFFFF))
-    type = Siren::Shape.typename(self.shapetype)
+    type = self.class.to_s
     puts "  " * current_depth + "%s:0x%s" % [type, hc]
     if limit && limit.call(current_depth, self)
       # puts "  " * current_depth + "..."
