@@ -59,20 +59,20 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_topalgo_copy     (mrb_state* mrb, mrb_value self);
 
-mrb_value siren_topalgo_vertex   (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_line     (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_infline  (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_polyline (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_curve    (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_wire     (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_arc      (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_arc3p    (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_circle   (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_circle3p (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_plane    (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_face     (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_infplane (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_polygon  (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_vertex     (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_line       (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_infline    (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_polyline   (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_interpolate(mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_wire       (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_arc        (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_arc3p      (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_circle     (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_circle3p   (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_plane      (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_face       (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_infplane   (mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_polygon    (mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_topalgo_beziercurve(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_nurbscurve(mrb_state* mrb, mrb_value self);

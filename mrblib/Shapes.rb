@@ -4,10 +4,6 @@
 #
 class Array
 
-  def to_curve
-    Siren.curve self
-  end
-
   def to_polyline
     Siren.polyline self
   end
