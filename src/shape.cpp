@@ -5,11 +5,17 @@
 
 #include "shape.h"
 
+TopoDS_Shape* siren_shape_get(mrb_state* mrb, mrb_value obj)
+{
+  // return static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, &siren_shape_type));
+  // Get ptr without type checking.
+  return static_cast<TopoDS_Shape*>(DATA_PTR(obj));
+}
+
 void siren_shape_add_singleton_method(mrb_state* mrb, mrb_value& self)
 {
   TopoDS_Shape* S = siren_shape_get(mrb, self);
   switch (S->ShapeType()) {
-  case TopAbs_WIRE:      siren_wire_install(mrb, mrb_obj_ptr(self));      break;
   case TopAbs_FACE:      siren_face_install(mrb, mrb_obj_ptr(self));      break;
   case TopAbs_SHELL:     siren_shell_install(mrb, mrb_obj_ptr(self));     break;
   case TopAbs_SOLID:     siren_solid_install(mrb, mrb_obj_ptr(self));     break;
@@ -27,6 +33,7 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
   switch (shape.ShapeType()) {
     case TopAbs_VERTEX: return siren_vertex_new(mrb, &shape); break;
     case TopAbs_EDGE:   return siren_edge_new(mrb, &shape);   break;
+    case TopAbs_WIRE:   return siren_wire_new(mrb, &shape);   break;
   default: break;
   }
 
@@ -123,6 +130,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
 
   siren_vertex_install(mrb, mod_siren);
   siren_edge_install(mrb, mod_siren);
+  siren_wire_install(mrb, mod_siren);
 
   return true;
 }
@@ -219,11 +227,6 @@ mrb_value siren_shape_bndbox(mrb_state* mrb, mrb_value self)
 {
   TopoDS_Shape* shape = siren_shape_get(mrb, self);
   return siren_bndbox_new(mrb, *shape);
-}
-
-TopoDS_Shape* siren_shape_get(mrb_state* mrb, mrb_value obj)
-{
-  return static_cast<TopoDS_Shape*>(mrb_get_datatype(mrb, obj, &siren_shape_type));
 }
 
 mrb_value siren_shape_translate_bang(mrb_state* mrb, mrb_value self)

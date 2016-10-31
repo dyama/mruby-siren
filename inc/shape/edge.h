@@ -32,7 +32,6 @@ static struct mrb_data_type siren_edge_type = { "Edge", siren_shape_final };
 bool siren_edge_install(mrb_state* mrb, struct RClass* mod_siren);
 TopoDS_Edge siren_edge_get(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_new(mrb_state* mrb, const TopoDS_Shape* src);
-//void siren_edge_install(mrb_state* mrb, RObject* o);
 
 mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self);
