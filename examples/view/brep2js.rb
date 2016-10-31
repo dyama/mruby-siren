@@ -23,7 +23,7 @@ def brep2js(shape, path, edge_defl=0.01, face_defl=1.0, face_angle=5.0.to_rad)
       f.write "  fs.push(g);\n"
       f.write "}\n";
     end
-    shape.edges(Siren::Shape::FACE).each do |edge|
+    shape.edges(Siren::Face).each do |edge|
       i = 0
       f.write "{\n"
       f.write "  var g = new THREE.Geometry();\n"

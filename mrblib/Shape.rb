@@ -6,58 +6,58 @@ class Siren::Shape
   # Explorer wrapper methods
 
   def compounds(filter = nil)
-    if filter
-      self.explore(Siren::Compound, filter)
-    else
+    if filter.nil?
       self.explore(Siren::Compound)
+    else
+      self.explore(Siren::Compound, filter)
     end
   end
 
   def solids(filter = nil)
-    if filter
-      self.explore(Siren::Solid, filter)
-    else
+    if filter.nil?
       self.explore(Siren::Solid)
+    else
+      self.explore(Siren::Solid, filter)
     end
   end
 
   def shells(filter = nil)
-    if filter
-      self.explore(Siren::Shell, filter)
-    else
+    if filter.nil?
       self.explore(Siren::Shell)
+    else
+      self.explore(Siren::Shell, filter)
     end
   end
 
   def faces(filter = nil)
-    if filter
-      self.explore(Siren::Face, filter)
-    else
+    if filter.nil?
       self.explore(Siren::Face)
+    else
+      self.explore(Siren::Face, filter)
     end
   end
 
   def wires(filter = nil)
-    if filter
-      self.explore(Siren::Wire, filter)
-    else
+    if filter.nil?
       self.explore(Siren::Wire)
+    else
+      self.explore(Siren::Wire, filter)
     end
   end
 
   def edges(filter = nil)
-    if filter
-      self.explore(Siren::Edge, filter)
-    else
+    if filter.nil?
       self.explore(Siren::Edge)
+    else
+      self.explore(Siren::Edge, filter)
     end
   end
 
   def vertices(filter = nil)
-    if filter
-      self.explore(Siren::Vertex, filter)
-    else
+    if filter.nil?
       self.explore(Siren::Vertex)
+    else
+      self.explore(Siren::Vertex, filter)
     end
   end
 

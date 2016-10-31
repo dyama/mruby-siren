@@ -16,12 +16,12 @@ module Siren
       end
       w 0, "SECTION"
       w 2, "ENTITIES"
-      shape.vertices(Siren::Shape::EDGE).each do |e|
+      shape.vertices(Siren::Edge).each do |e|
         w 0, "POINT"
         w 8, "0"
         wp e.xyz
       end
-      shape.edges(Siren::Shape::FACE).each do |e|
+      shape.edges(Siren::Face).each do |e|
         ps = e.to_pts(deflect)
         if ps.size == 2
           w 0, "LINE"
