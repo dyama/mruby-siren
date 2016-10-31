@@ -11,12 +11,23 @@ mults = [3, 1, 3]
 poles = [[10, 0, 7], [7, 0, 7], [3, 0, 8], [0, 0, 7]]
 weights = [1.0, 1.0, 1.0, 1.0]
 
-c = nurbscurve degree, knots, mults, poles#, weights
-p c
-p c.curve.class
-p c.curve.degree
-p c.curve.knots
-p c.curve.mults
-p c.curve.poles
-p c.curve.weights
-
+if false
+  e = nurbscurve degree, knots, mults, poles#, weights
+  p e
+  p e.curve.class
+  p e.curve.degree
+  p e.curve.knots
+  p e.curve.mults
+  p e.curve.poles
+  p e.curve.weights
+else
+  c = BSplineCurve.new degree, knots, mults, poles, weights
+  p c
+  p c.class
+  p c.degree
+  p c.knots
+  p c.mults
+  p c.poles
+  p c.weights
+  p curve(c, 0, 1).terms
+end
