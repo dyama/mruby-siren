@@ -144,9 +144,9 @@ end
 # solid = solid shell
 
 # 出力
-comp = compound(lines)
+comp = Compound.new lines
 save_brep comp, "curves.brep"
 
-comp = compound(faces)
+comp = Compound.new faces
 save_brep comp, "faces.brep"
 

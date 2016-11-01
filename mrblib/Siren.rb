@@ -104,13 +104,5 @@ module Siren
     Siren.vertex *args
   end
 
-  def self.compound(*args)
-    Compound.new *args
-  end
-
-  def compound(*args)
-    Siren.compound *args
-  end
-
 end
 

@@ -33,7 +33,7 @@ class Array
   end
 
   def to_comp
-    Siren.compound self
+    Siren::Compound.new self
   end
 
   def vertices;   self.map(&:vertices).flatten   end
@@ -42,7 +42,6 @@ class Array
   def faces;      self.map(&:faces).flatten      end
   def shells;     self.map(&:shells).flatten     end
   def solids;     self.map(&:solids).flatten     end
-  def compsolids; self.map(&:compsolids).flatten end
   def compounds;  self.map(&:compounds).flatten  end
 
   def bndbox

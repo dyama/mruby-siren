@@ -62,7 +62,7 @@ if models.size > 0
     fs += m.build
   end
 
-  Siren.save_brep Siren.compound(fs), "mqo.brep"
+  Siren.save_brep Siren::Compound.new(fs), "mqo.brep"
   puts "done"
 end
 

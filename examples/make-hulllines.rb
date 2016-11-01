@@ -25,7 +25,7 @@ def make_hulllines(hs)
     break if line.edges.size == 0
     sls << line
   end
-  save_brep compound(wls + sls), "hull-lines.brep"
+  save_brep Compound.new(wls + sls), "hull-lines.brep"
 end
 
 if !File.exist? "face.brep"

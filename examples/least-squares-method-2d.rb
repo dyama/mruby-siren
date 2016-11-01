@@ -48,6 +48,6 @@ end
 
 ps = s.map {|pt| Siren.vertex pt}
 ps << line
-comp = Siren.compound ps
+comp = Siren::Compound.new ps
 Siren.save_brep comp, "sample-line.brep"
 

@@ -16,7 +16,7 @@ int_curve.edges.each do |e|
   faces << face(w, true)
 end
 
-comp = compound faces
+comp = Compound.new faces
 save_brep comp, "int.brep"
 save_brep tor, "torus.brep"
 
