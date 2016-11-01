@@ -7,4 +7,15 @@ class Siren::Shell
     self.faces.inject { |e| e.area }
   end
 
+  def self.tol
+    @@tol
+  end
+
+  def self.tol=(val)
+    @@tol = val
+  end
+
+  @@tol = 1.0e-7
+
 end
+
