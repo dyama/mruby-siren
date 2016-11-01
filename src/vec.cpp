@@ -80,19 +80,38 @@ bool siren_vec_install(mrb_state* mrb, struct RClass* mod_siren)
 
 mrb_value siren_vec_init(mrb_state* mrb, mrb_value self)
 {
-  mrb_value ary;
-  int argc = mrb_get_args(mrb, "|A", &ary);
+  mrb_value* a;
+  mrb_int len;
+  int argc = mrb_get_args(mrb, "*", &a, &len);
 
-  void* p = mrb_malloc(mrb, sizeof(gp_Vec));
-  gp_Vec* vec;
-  if (argc == 1) {
-    gp_Vec v = siren_ary_to_vec(mrb, ary);
-    vec = new(p) gp_Vec(v.X(), v.Y(), v.Z());
+  Standard_Real x = 0.0, y = 0.0, z = 0.0;
+  if (len > 0 && mrb_array_p(a[0])) {
+    gp_Pnt p = siren_ary_to_pnt(mrb, a[0]);
+    x = p.X(); y = p.Y(); z = p.Z();
   }
   else {
-    vec = new(p) gp_Vec(0., 0., 0.);
+    if (len >= 1) {
+      if (mrb_fixnum_p(a[0]))
+        x = mrb_fixnum(a[0]);
+      else if mrb_float_p(a[0])
+        x = mrb_float(a[0]);
+    }
+    if (len >= 2) {
+      if (mrb_fixnum_p(a[1]))
+        y = mrb_fixnum(a[1]);
+      else if (mrb_float_p(a[1]))
+        y = mrb_float(a[1]);
+    }
+    if (len >= 3) {
+      if (mrb_fixnum_p(a[2]))
+        z = mrb_fixnum(a[2]);
+      else if (mrb_float_p(a[2]))
+        z = mrb_float(a[2]);
+    }
   }
 
+  void* p = mrb_malloc(mrb, sizeof(gp_Vec));
+  gp_Vec* vec = new(p) gp_Vec(x, y, z);
   DATA_PTR(self) = vec;
   DATA_TYPE(self) = &siren_vec_type;
   return self;
