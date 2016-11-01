@@ -413,8 +413,12 @@ mrb_value siren_shape_subshapes(mrb_state* mrb, mrb_value self)
   if (argc == 1) {
     loc = TRUE;
   }
-  TopoDS_Iterator it(*siren_shape_get(mrb, self), (Standard_Boolean)ori, (Standard_Boolean)loc);
   mrb_value ar = mrb_ary_new(mrb);
+  TopoDS_Shape* shape = siren_shape_get(mrb, self);
+  if (!shape || shape->IsNull()) {
+    return ar;
+  }
+  TopoDS_Iterator it(*shape, (Standard_Boolean)ori, (Standard_Boolean)loc);
   for (; it.More(); it.Next()) {
     mrb_int ai = mrb_gc_arena_save(mrb);
     mrb_ary_push(mrb, ar, siren_shape_new(mrb, it.Value()));
