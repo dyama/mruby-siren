@@ -104,5 +104,13 @@ module Siren
     Siren.vertex *args
   end
 
+  def self.sew(*args)
+    Siren::Shell.sew *args
+  end
+
+  def sew(*args)
+    Siren.sew *args
+  end
+
 end
 

@@ -19,8 +19,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, mod_siren, "sew",        siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, mod_siren, "shell",      siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   // For mix-in
   mrb_define_method      (mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
@@ -38,8 +36,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, mod_siren, "sew",        siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, mod_siren, "shell",      siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
 
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
@@ -452,32 +448,6 @@ mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self)
   }
 
   return siren_shape_new(mrb, shape);
-}
-
-mrb_value siren_topalgo_shell(mrb_state* mrb, mrb_value self)
-{
-  mrb_value ar;
-  mrb_float tol;
-  int argc = mrb_get_args(mrb, "A|f", &ar, &tol);
-  BRepBuilderAPI_Sewing sewer;
-  sewer.Init();
-  if (argc == 2 && tol >= 0) {
-    sewer.SetTolerance(tol);
-  }
-  int psize = mrb_ary_len(mrb, ar);
-  for (int i=0; i<psize; i++) {
-    mrb_value item = mrb_ary_ref(mrb, ar, i);
-    TopoDS_Shape* shape = siren_shape_get(mrb, item);
-    if (shape->IsNull()) {
-      continue;
-    }
-    TopExp_Explorer ex(*shape, TopAbs_FACE);
-    for (; ex.More(); ex.Next()) {
-      sewer.Add(ex.Current());
-    }
-  }
-  sewer.Perform();
-  return siren_shape_new(mrb, sewer.SewedShape());
 }
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self)

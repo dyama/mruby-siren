@@ -43,9 +43,6 @@
 #include <Geom_BSplineSurface.hxx>
 #include <ShapeFix_Shape.hxx>
 
-// sewing
-#include <BRepBuilderAPI_Sewing.hxx>
-
 #include <GProp_GProps.hxx>
 #include <BRepGProp.hxx>
 
@@ -74,8 +71,6 @@ mrb_value siren_topalgo_polygon    (mrb_state* mrb, mrb_value self);
 // mrb_value siren_topalgo_rectangle(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self);
-
-mrb_value siren_topalgo_shell(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self);
