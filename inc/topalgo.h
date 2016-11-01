@@ -77,7 +77,6 @@ mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_topalgo_shell(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_compound(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_cog(mrb_state* mrb, mrb_value self);

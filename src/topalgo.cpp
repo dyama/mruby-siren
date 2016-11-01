@@ -22,7 +22,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "sew",        siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "shell",      siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
-  mrb_define_class_method(mrb, mod_siren, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
   // For mix-in
   mrb_define_method      (mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
@@ -43,7 +42,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "sew",        siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "shell",      siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
-  mrb_define_method      (mrb, mod_siren, "compound",   siren_topalgo_compound,   MRB_ARGS_REQ(1));
 
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
@@ -501,23 +499,6 @@ mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
 
   return siren_shape_new(mrb, solid_maker.Solid());
-}
-
-mrb_value siren_topalgo_compound(mrb_state* mrb, mrb_value self)
-{
-  mrb_value ary;
-  int argc = mrb_get_args(mrb, "A", &ary);
-
-  TopoDS_Compound comp;
-  BRep_Builder B;
-  B.MakeCompound(comp);
-
-  for (int i = 0; i < mrb_ary_len(mrb, ary); i++) {
-    TopoDS_Shape* shape = siren_shape_get(mrb, mrb_ary_ref(mrb, ary, i));
-    B.Add(comp, *shape);
-  }
-
-  return siren_shape_new(mrb, comp);
 }
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self)
