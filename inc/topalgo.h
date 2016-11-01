@@ -75,17 +75,14 @@ mrb_value siren_topalgo_infplane   (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_polygon    (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_curve      (mrb_state* mrb, mrb_value self);
 
-// mrb_value siren_topalgo_beziercurve(mrb_state* mrb, mrb_value self);
 // mrb_value siren_topalgo_rectangle(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self);
-// mrb_value siren_topalgo_shell(mrb_state* mrb, mrb_value self);
 
-mrb_value siren_topalgo_sewing(mrb_state* mrb, mrb_value self);
+mrb_value siren_topalgo_shell(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_compound(mrb_state* mrb, mrb_value self);
 
-// Instance methods for Siren::Shape class.
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_cog(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_area(mrb_state* mrb, mrb_value self);

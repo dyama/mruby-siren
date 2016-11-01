@@ -13,4 +13,6 @@ mrb_value siren_compound_new(mrb_state* mrb, const TopoDS_Shape* src);
 mrb_value siren_compound_obj(mrb_state* mrb);
 struct RClass* siren_compound_rclass(mrb_state* mrb);
 
+mrb_value siren_compound_init(mrb_state* mrb, mrb_value self);
+
 #endif
