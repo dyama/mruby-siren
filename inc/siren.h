@@ -32,8 +32,9 @@
 #include <TopoDS.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Compound.hxx>
-
 #include <gp_Pnt.hxx>
+
+using namespace opencascade;
 
 #include "common.h"
 

@@ -174,12 +174,12 @@ mrb_value siren_edge_curve(mrb_state* mrb, mrb_value self)
   TopoDS_Edge edge = siren_edge_get(mrb, self);
   // // set property
   // Standard_Real first, last;
-  // opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
+  // handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
   // mrb_obj_iv_set(mrb, mrb_obj_value(cls_edge), mrb_intern_lit(mrb, "@curve"), siren_curve_new(mrb, &hgcurve));
   // // get property
   // return mrb_iv_get(mrb, self, mrb_intern_lit(mrb, "@curve"));
   Standard_Real first, last;
-  opencascade::handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
+  handle<Geom_Curve> hgcurve = BRep_Tool::Curve(edge, first, last);
   return siren_curve_new(mrb, &hgcurve);
 }
 
@@ -215,7 +215,7 @@ mrb_value siren_edge_split(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "f", &param);
   Standard_Real first, last;
   TopoDS_Edge e = siren_edge_get(mrb, self);
-  opencascade::handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
+  handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
   if (param <= first || param >= last) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified parameter is out of range of curve parameter.");
   }
@@ -234,7 +234,7 @@ mrb_value siren_edge_trim(mrb_state* mrb, mrb_value self)
   }
   Standard_Real first, last;
   TopoDS_Edge e = siren_edge_get(mrb, self);
-  opencascade::handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
+  handle<Geom_Curve> gc  = BRep_Tool::Curve(e, first, last);
   TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(gc, first2, last2);
   return siren_shape_new(mrb, edge);
 }

@@ -5,24 +5,24 @@
 
 #include "curve.h"
 
-mrb_value siren_hyperbola_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve)
+mrb_value siren_hyperbola_new(mrb_state* mrb, const handle<Geom_Curve>* curve)
 {
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
   mrb_value obj;
   obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Hyperbola")));
-  void* p = mrb_malloc(mrb, sizeof(opencascade::handle<Geom_Curve>));
-  opencascade::handle<Geom_Curve>* hgcurve = new(p) opencascade::handle<Geom_Curve>();
+  void* p = mrb_malloc(mrb, sizeof(handle<Geom_Curve>));
+  handle<Geom_Curve>* hgcurve = new(p) handle<Geom_Curve>();
   *hgcurve = *curve;
   DATA_PTR(obj) = hgcurve;
   DATA_TYPE(obj) = &siren_hyperbola_type;
   return obj;
 }
 
-opencascade::handle<Geom_Hyperbola> siren_hyperbola_get(mrb_state* mrb, mrb_value self)
+handle<Geom_Hyperbola> siren_hyperbola_get(mrb_state* mrb, mrb_value self)
 {
-  opencascade::handle<Geom_Curve> hgc = *static_cast<opencascade::handle<Geom_Curve>*>(mrb_get_datatype(mrb, self, &siren_hyperbola_type));
+  handle<Geom_Curve> hgc = *static_cast<handle<Geom_Curve>*>(mrb_get_datatype(mrb, self, &siren_hyperbola_type));
   if (hgc.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Curve."); }
-  opencascade::handle<Geom_Hyperbola> hyperbola = opencascade::handle<Geom_Hyperbola>::DownCast(hgc);
+  handle<Geom_Hyperbola> hyperbola = handle<Geom_Hyperbola>::DownCast(hgc);
   if (hyperbola.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Hyperbola."); }
   return hyperbola;
 }

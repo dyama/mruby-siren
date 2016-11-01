@@ -4,24 +4,24 @@
 
 #include "curve.h"
 
-mrb_value siren_bzcurve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve)
+mrb_value siren_bzcurve_new(mrb_state* mrb, const handle<Geom_Curve>* curve)
 {
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
   mrb_value obj;
   obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "BzCurve")));
-  void* p = mrb_malloc(mrb, sizeof(opencascade::handle<Geom_Curve>));
-  opencascade::handle<Geom_Curve>* hgcurve = new(p) opencascade::handle<Geom_Curve>();
+  void* p = mrb_malloc(mrb, sizeof(handle<Geom_Curve>));
+  handle<Geom_Curve>* hgcurve = new(p) handle<Geom_Curve>();
   *hgcurve = *curve;
   DATA_PTR(obj) = hgcurve;
   DATA_TYPE(obj) = &siren_bzcurve_type;
   return obj;
 }
 
-opencascade::handle<Geom_BezierCurve> siren_bzcurve_get(mrb_state* mrb, mrb_value self)
+handle<Geom_BezierCurve> siren_bzcurve_get(mrb_state* mrb, mrb_value self)
 {
-  opencascade::handle<Geom_Curve> hgc = *static_cast<opencascade::handle<Geom_Curve>*>(mrb_get_datatype(mrb, self, &siren_bzcurve_type));
+  handle<Geom_Curve> hgc = *static_cast<handle<Geom_Curve>*>(mrb_get_datatype(mrb, self, &siren_bzcurve_type));
   if (hgc.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Curve."); }
-  opencascade::handle<Geom_BezierCurve> bzcurve = opencascade::handle<Geom_BezierCurve>::DownCast(hgc);
+  handle<Geom_BezierCurve> bzcurve = handle<Geom_BezierCurve>::DownCast(hgc);
   if (bzcurve.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not BzCurve."); }
   return bzcurve;
 }
@@ -53,7 +53,7 @@ mrb_value siren_bzcurve_init(mrb_state* mrb, mrb_value self)
       weights.SetValue(i + 1, mrb_float(w));
     }
   }
-  opencascade::handle<Geom_Curve> curve = nullptr;
+  handle<Geom_Curve> curve = nullptr;
   try {
     if (has_weight) {
       curve = new Geom_BezierCurve(poles, weights);
@@ -65,8 +65,8 @@ mrb_value siren_bzcurve_init(mrb_state* mrb, mrb_value self)
   catch (...) {
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a BzCurve.");
   }
-  void* p = mrb_malloc(mrb, sizeof(opencascade::handle<Geom_Curve>));
-  opencascade::handle<Geom_Curve>* hgcurve = new(p) opencascade::handle<Geom_Curve>();
+  void* p = mrb_malloc(mrb, sizeof(handle<Geom_Curve>));
+  handle<Geom_Curve>* hgcurve = new(p) handle<Geom_Curve>();
   *hgcurve = curve;
   DATA_PTR(self) = hgcurve;
   DATA_TYPE(self) = &siren_bzcurve_type;

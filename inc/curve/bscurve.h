@@ -7,8 +7,8 @@
 
 static struct mrb_data_type siren_bscurve_type = { "BSCurve", siren_curve_final };
 bool siren_bscurve_install(mrb_state* mrb, struct RClass* mod_siren);
-opencascade::handle<Geom_BSplineCurve> siren_bscurve_get(mrb_state* mrb, mrb_value self);
-mrb_value siren_bscurve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve);
+handle<Geom_BSplineCurve> siren_bscurve_get(mrb_state* mrb, mrb_value self);
+mrb_value siren_bscurve_new(mrb_state* mrb, const handle<Geom_Curve>* curve);
 
 mrb_value siren_bscurve_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_bscurve_degree(mrb_state* mrb, mrb_value self);
