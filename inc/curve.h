@@ -14,7 +14,7 @@ static struct mrb_data_type siren_curve_type = { "Curve", siren_curve_final };
 #include "curve/hyperbola.h"
 #include "curve/parabola.h"
 #include "curve/bzcurve.h"
-#include "curve/bsplinecurve.h"
+#include "curve/bscurve.h"
 #include "curve/offsetcurve.h"
 
 inline GeomAbs_CurveType siren_curve_geomtype_native(opencascade::handle<Geom_Curve> hgc)

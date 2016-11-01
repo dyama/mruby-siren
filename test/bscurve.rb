@@ -12,7 +12,7 @@ poles = [[10, 0, 7], [7, 0, 7], [3, 0, 8], [0, 0, 7]]
 weights = [1.0, 1.2, 1.0, 1.0]
 
 if true
-  e = nurbscurve degree, knots, mults, poles, weights, 0.1, 1.2
+  e = bscurve degree, knots, mults, poles, weights, 0.1, 1.2
   p e
   p e.curve.class
   p e.curve.degree
@@ -21,7 +21,7 @@ if true
   p e.curve.poles
   p e.curve.weights
 else
-  c = BSplineCurve.new degree, knots, mults, poles, weights
+  c = BSCurve.new degree, knots, mults, poles, weights
   p c
   p c.class
   p c.degree

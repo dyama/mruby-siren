@@ -56,12 +56,12 @@ module Siren
     Siren.load_model(path)
   end
 
-  def self.nurbscurve(*args)
+  def self.bscurve(*args)
     c = nil
     if args.size == 4
-      c = BSplineCurve.new *args
+      c = BSCurve.new *args
     else
-      c = BSplineCurve.new *(args[0..4])
+      c = BSCurve.new *(args[0..4])
     end
     if args.size == 7
       Siren.curve c, args[5], args[6]
@@ -70,8 +70,8 @@ module Siren
     end
   end
 
-  def nurbscurve(*args)
-    Siren.nurbscurve *args
+  def bscurve(*args)
+    Siren.bscurve *args
   end
 
 end

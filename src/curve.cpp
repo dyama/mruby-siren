@@ -16,7 +16,7 @@ mrb_value siren_curve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>*
     case GeomAbs_Hyperbola:    return siren_hyperbola_new(mrb, curve); break;
     case GeomAbs_Parabola:     return siren_parabola_new(mrb, curve); break;
     case GeomAbs_BezierCurve:  return siren_bzcurve_new(mrb, curve); break;
-    case GeomAbs_BSplineCurve: return siren_bsplinecurve_new(mrb, curve); break;
+    case GeomAbs_BSplineCurve: return siren_bscurve_new(mrb, curve); break;
     case GeomAbs_OffsetCurve:  return siren_offsetcurve_new(mrb, curve); break;
     default: break;
   }
@@ -43,7 +43,7 @@ bool siren_curve_install(mrb_state* mrb, struct RClass* mod_siren)
   siren_hyperbola_install(mrb, mod_siren);
   siren_parabola_install(mrb, mod_siren);
   siren_bzcurve_install(mrb, mod_siren);
-  siren_bsplinecurve_install(mrb, mod_siren);
+  siren_bscurve_install(mrb, mod_siren);
   siren_offsetcurve_install(mrb, mod_siren);
 
   return true;
