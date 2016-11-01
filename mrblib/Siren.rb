@@ -64,9 +64,9 @@ module Siren
       c = BSCurve.new *(args[0..4])
     end
     if args.size == 7 # with limit paramters
-      Siren.curve c, args[5], args[6]
+      Edge.new c, args[5], args[6]
     else
-      Siren.curve c
+      Edge.new c
     end
   end
 
@@ -82,9 +82,9 @@ module Siren
       c = BzCurve.new *(args[0..1])
     end
     if args.size == 4 # with limit parameters
-      Siren.curve c, args[-2], args[-1]
+      Edge.new c, args[-2], args[-1]
     else
-      Siren.curve c
+      Edge.new c
     end
   end
 

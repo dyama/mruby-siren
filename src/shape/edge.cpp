@@ -27,7 +27,7 @@ bool siren_edge_install(mrb_state* mrb, struct RClass* mod_siren)
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   struct RClass* cls_edge = mrb_define_class_under(mrb, mod_siren, "Edge", cls_shape);
   MRB_SET_INSTANCE_TT(cls_edge, MRB_TT_DATA);
-  mrb_define_method(mrb, cls_edge, "initialize", siren_shape_init,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_edge, "initialize", siren_edge_init,      MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_edge, "sp",         siren_edge_sp,        MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_edge, "tp",         siren_edge_tp,        MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_edge, "to_pts",     siren_edge_to_pts,    MRB_ARGS_OPT(1));
@@ -42,6 +42,40 @@ bool siren_edge_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method(mrb, cls_edge, "length",     siren_edge_length,    MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_edge, "curve",      siren_edge_curve,     MRB_ARGS_NONE());
   return true;
+}
+
+mrb_value siren_edge_init(mrb_state* mrb, mrb_value self)
+{
+  mrb_value curve;
+  mrb_float sp = 0.0, tp = 1.0;
+  int argc = mrb_get_args(mrb, "o|ff", &curve, &sp, &tp);
+  opencascade::handle<Geom_Curve>* phgcurve
+    = static_cast<opencascade::handle<Geom_Curve>*>(DATA_PTR(curve));
+  TopoDS_Shape edge;
+  if (argc == 1) {
+    edge = BRepBuilderAPI_MakeEdge(*phgcurve);
+  }
+  else if (argc == 2) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR,
+        "The start parameter specified without a terminal parameter.");
+  }
+  else {
+    try {
+      edge = BRepBuilderAPI_MakeEdge(*phgcurve, sp, tp);
+      if (edge.IsNull()) {
+        mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to make Edge from the Curve.");
+      }
+    }
+    catch (...) {
+      mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to make Edge from the Curve.");
+    }
+  }
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
+  TopoDS_Shape* inner = new(p) TopoDS_Shape();
+  *inner = edge; // Copy to inner native member
+  DATA_PTR(self)  = const_cast<TopoDS_Shape*>(inner);
+  DATA_TYPE(self) = &siren_edge_type;
+  return self;
 }
 
 struct RClass* siren_edge_rclass(mrb_state* mrb)

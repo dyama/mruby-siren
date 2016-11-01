@@ -21,6 +21,6 @@ else
   # p c.degree
   # p c.poles
   # p c.weights
-  p curve(c, 0, 1).terms
+  p Edge.new(c, 0, 1).terms
 end
 

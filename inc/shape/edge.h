@@ -29,6 +29,7 @@ mrb_value siren_edge_new(mrb_state* mrb, const TopoDS_Shape* src);
 mrb_value siren_edge_obj(mrb_state* mrb);
 struct RClass* siren_edge_rclass(mrb_state* mrb);
 
+mrb_value siren_edge_init(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_sp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self);
 mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self);

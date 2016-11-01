@@ -70,7 +70,6 @@ mrb_value siren_topalgo_plane      (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_face       (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_infplane   (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_polygon    (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_curve      (mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_topalgo_rectangle(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self);
