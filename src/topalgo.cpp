@@ -21,7 +21,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "sew",        siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "shell",      siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
   // For mix-in
   mrb_define_method      (mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
@@ -41,7 +40,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "sew",        siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "shell",      siren_topalgo_shell,      MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, mod_siren, "solid",      siren_topalgo_solid,      MRB_ARGS_REQ(1));
 
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
@@ -480,25 +478,6 @@ mrb_value siren_topalgo_shell(mrb_state* mrb, mrb_value self)
   }
   sewer.Perform();
   return siren_shape_new(mrb, sewer.SewedShape());
-}
-
-mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self)
-{
-  mrb_value obj;
-  int argc = mrb_get_args(mrb, "o", &obj);
-
-  TopoDS_Shape* shape = siren_shape_get(mrb, obj);
-
-  BRepBuilderAPI_MakeSolid solid_maker;
-
-  for (TopExp_Explorer ex(*shape, TopAbs_SHELL); ex.More(); ex.Next()) {
-    TopoDS_Shell shell = TopoDS::Shell(ex.Current());
-    solid_maker.Add(shell);
-  }
-  if (!solid_maker.IsDone())
-    return mrb_nil_value();
-
-  return siren_shape_new(mrb, solid_maker.Solid());
 }
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self)

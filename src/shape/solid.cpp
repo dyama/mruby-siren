@@ -27,7 +27,7 @@ bool siren_solid_install(mrb_state* mrb, struct RClass* mod_siren)
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   struct RClass* cls_solid = mrb_define_class_under(mrb, mod_siren, "Solid", cls_shape);
   MRB_SET_INSTANCE_TT(cls_solid, MRB_TT_DATA);
-  mrb_define_method(mrb, cls_solid, "initialize", siren_shape_init,  MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_solid, "initialize", siren_solid_init,  MRB_ARGS_NONE());
   return true;
 }
 
@@ -41,5 +41,29 @@ mrb_value siren_solid_obj(mrb_state* mrb)
 {
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
   return mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Solid"));
+}
+
+mrb_value siren_solid_init(mrb_state* mrb, mrb_value self)
+{
+  mrb_value* a;
+  mrb_int len;
+  int argc = mrb_get_args(mrb, "*", &a, &len);
+
+  BRepBuilderAPI_MakeSolid solid_maker;
+  for (int i = 0; i < len; i++) {
+    TopoDS_Shell shell = siren_shell_get(mrb, a[i]);
+    solid_maker.Add(shell);
+  }
+  if (!solid_maker.IsDone()) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to make a Solid.");
+  }
+  TopoDS_Shape shape = solid_maker.Shape();
+
+  void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
+  TopoDS_Shape* inner = new(p) TopoDS_Shape();
+  *inner = shape; // Copy to inner native member
+  DATA_PTR(self)  = const_cast<TopoDS_Shape*>(inner);
+  DATA_TYPE(self) = &siren_solid_type;
+  return self;
 }
 

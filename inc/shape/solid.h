@@ -13,4 +13,6 @@ mrb_value siren_solid_new(mrb_state* mrb, const TopoDS_Shape* src);
 mrb_value siren_solid_obj(mrb_state* mrb);
 struct RClass* siren_solid_rclass(mrb_state* mrb);
 
+mrb_value siren_solid_init(mrb_state* mrb, mrb_value self);
+
 #endif
