@@ -63,7 +63,7 @@ module Siren
     else
       c = BSCurve.new *(args[0..4])
     end
-    if args.size == 7
+    if args.size == 7 # with limit paramters
       Siren.curve c, args[5], args[6]
     else
       Siren.curve c
@@ -72,6 +72,24 @@ module Siren
 
   def bscurve(*args)
     Siren.bscurve *args
+  end
+
+  def self.bzcurve(*args)
+    c = nil
+    if args.size <= 2
+      c = BzCurve.new *args
+    else
+      c = BzCurve.new *(args[0..1])
+    end
+    if args.size == 4 # with limit parameters
+      Siren.curve c, args[-2], args[-1]
+    else
+      Siren.curve c
+    end
+  end
+
+  def bzcurve(*args)
+    Siren.bzcurve *args
   end
 
 end
