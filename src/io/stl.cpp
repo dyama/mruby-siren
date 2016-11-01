@@ -1,4 +1,4 @@
-#include "stl.h"
+#include "io/stl.h"
 
 bool siren_stl_install(mrb_state* mrb, struct RClass* mod_siren)
 {

@@ -23,15 +23,15 @@
 #endif
 
 #ifdef SIREN_ENABLE_IGES
-  #include "iges.h"
+  #include "io/iges.h"
 #endif
 
 #ifdef SIREN_ENABLE_STL
-  #include "stl.h"
+  #include "io/stl.h"
 #endif
 
 #ifdef SIREN_ENABLE_STEP
-  #include "step.h"
+  #include "io/step.h"
 #endif
 
 extern "C" {

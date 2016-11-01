@@ -1,4 +1,4 @@
-#include "iges.h"
+#include "io/iges.h"
 
 #ifdef SIREN_ENABLE_IGES
 

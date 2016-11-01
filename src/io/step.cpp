@@ -1,4 +1,4 @@
-#include "step.h"
+#include "io/step.h"
 
 #ifdef SIREN_ENABLE_STEP
 
