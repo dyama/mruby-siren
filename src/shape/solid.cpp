@@ -60,7 +60,9 @@ mrb_value siren_solid_init(mrb_state* mrb, mrb_value self)
     mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to make a Solid.");
   }
   TopoDS_Shape shape = solid_maker.Shape();
-
+  if (shape.IsNull()) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to make a Solid.");
+  }
   void* p = mrb_malloc(mrb, sizeof(TopoDS_Shape));
   TopoDS_Shape* inner = new(p) TopoDS_Shape();
   *inner = shape; // Copy to inner native member
