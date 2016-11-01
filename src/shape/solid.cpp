@@ -48,7 +48,9 @@ mrb_value siren_solid_init(mrb_state* mrb, mrb_value self)
   mrb_value* a;
   mrb_int len;
   int argc = mrb_get_args(mrb, "*", &a, &len);
-
+  if (len == 0) {
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "No shapes specified.");
+  }
   BRepBuilderAPI_MakeSolid solid_maker;
   for (int i = 0; i < len; i++) {
     TopoDS_Shell shell = siren_shell_get(mrb, a[i]);
