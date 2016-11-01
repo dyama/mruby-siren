@@ -1,41 +1,42 @@
 /**
- * beziercurve.cpp
+ * bzcurve.cpp
  */
 
 #include "curve.h"
 
-mrb_value siren_beziercurve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve)
+mrb_value siren_bzcurve_new(mrb_state* mrb, const opencascade::handle<Geom_Curve>* curve)
 {
   struct RClass* mod_siren = mrb_module_get(mrb, "Siren");
   mrb_value obj;
-  obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "BezierCurve")));
+  obj = mrb_instance_alloc(mrb, mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "BzCurve")));
   void* p = mrb_malloc(mrb, sizeof(opencascade::handle<Geom_Curve>));
   opencascade::handle<Geom_Curve>* hgcurve = new(p) opencascade::handle<Geom_Curve>();
   *hgcurve = *curve;
   DATA_PTR(obj) = hgcurve;
-  DATA_TYPE(obj) = &siren_beziercurve_type;
+  DATA_TYPE(obj) = &siren_bzcurve_type;
   return obj;
 }
 
-opencascade::handle<Geom_BezierCurve> siren_beziercurve_get(mrb_state* mrb, mrb_value self)
+opencascade::handle<Geom_BezierCurve> siren_bzcurve_get(mrb_state* mrb, mrb_value self)
 {
-  opencascade::handle<Geom_Curve> hgc = *static_cast<opencascade::handle<Geom_Curve>*>(mrb_get_datatype(mrb, self, &siren_beziercurve_type));
+  opencascade::handle<Geom_Curve> hgc = *static_cast<opencascade::handle<Geom_Curve>*>(mrb_get_datatype(mrb, self, &siren_bzcurve_type));
   if (hgc.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not Curve."); }
-  opencascade::handle<Geom_BezierCurve> beziercurve = opencascade::handle<Geom_BezierCurve>::DownCast(hgc);
-  if (beziercurve.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not BezierCurve."); }
-  return beziercurve;
+  opencascade::handle<Geom_BezierCurve> bzcurve = opencascade::handle<Geom_BezierCurve>::DownCast(hgc);
+  if (bzcurve.IsNull()) { mrb_raise(mrb, E_RUNTIME_ERROR, "The geometry type is not BzCurve."); }
+  return bzcurve;
 }
 
-bool siren_beziercurve_install(mrb_state* mrb, struct RClass* mod_siren)
+bool siren_bzcurve_install(mrb_state* mrb, struct RClass* mod_siren)
 {
   struct RClass* cls_curve = siren_curve_rclass(mrb);
-  struct RClass* cls_beziercurve = mrb_define_class_under(mrb, mod_siren, "BezierCurve", cls_curve);
-  MRB_SET_INSTANCE_TT(cls_beziercurve, MRB_TT_DATA);
-  mrb_define_method(mrb, cls_beziercurve, "initialize", siren_beziercurve_init, MRB_ARGS_NONE());
+  struct RClass* cls_bzcurve = mrb_define_class_under(mrb, mod_siren, "BzCurve", cls_curve);
+  MRB_SET_INSTANCE_TT(cls_bzcurve, MRB_TT_DATA);
+  mrb_define_method(mrb, cls_bzcurve, "initialize", siren_bzcurve_init,   MRB_ARGS_NONE());
+  // mrb_define_method(mrb, cls_bzcurve, "degree",     siren_bzcurve_degree, MRB_ARGS_NONE());
   return true;
 }
 
-mrb_value siren_beziercurve_init(mrb_state* mrb, mrb_value self)
+mrb_value siren_bzcurve_init(mrb_state* mrb, mrb_value self)
 {
   mrb_value ps, ws;
   int argc = mrb_get_args(mrb, "A|A", &ps, &ws);
@@ -62,13 +63,13 @@ mrb_value siren_beziercurve_init(mrb_state* mrb, mrb_value self)
     }
   }
   catch (...) {
-    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a BezierCurve.");
+    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a BzCurve.");
   }
   void* p = mrb_malloc(mrb, sizeof(opencascade::handle<Geom_Curve>));
   opencascade::handle<Geom_Curve>* hgcurve = new(p) opencascade::handle<Geom_Curve>();
   *hgcurve = curve;
   DATA_PTR(self) = hgcurve;
-  DATA_TYPE(self) = &siren_beziercurve_type;
+  DATA_TYPE(self) = &siren_bzcurve_type;
   return self;
 }
 

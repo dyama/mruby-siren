@@ -16,7 +16,7 @@ if false
   p e.curve.poles
   p e.curve.weights
 else
-  c = BezierCurve.new poles, weights
+  c = BzCurve.new poles, weights
   p c
   p c.class
   # p c.degree

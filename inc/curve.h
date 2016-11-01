@@ -13,7 +13,7 @@ static struct mrb_data_type siren_curve_type = { "Curve", siren_curve_final };
 #include "curve/ellipse.h"
 #include "curve/hyperbola.h"
 #include "curve/parabola.h"
-#include "curve/beziercurve.h"
+#include "curve/bzcurve.h"
 #include "curve/bsplinecurve.h"
 #include "curve/offsetcurve.h"
 
