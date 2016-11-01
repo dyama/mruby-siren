@@ -92,5 +92,17 @@ module Siren
     Siren.bzcurve *args
   end
 
+  def self.vertex(*args)
+    if args.size == 0
+      Siren::Vertex.new
+    else
+      Siren::Vertex.new *args
+    end
+  end
+
+  def vertex(*args)
+    Siren.vertex *args
+  end
+
 end
 

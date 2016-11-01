@@ -5,9 +5,7 @@
 #include "vec.h"
 #include "shape.h"
 
-#include <BRep_Builder.hxx>
 #include <BRepBuilderAPI.hxx>
-#include <BRepBuilderAPI_MakeVertex.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakeWire.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
@@ -59,7 +57,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* rclass);
 
 mrb_value siren_topalgo_copy     (mrb_state* mrb, mrb_value self);
 
-mrb_value siren_topalgo_vertex     (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_line       (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_infline    (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_polyline   (mrb_state* mrb, mrb_value self);

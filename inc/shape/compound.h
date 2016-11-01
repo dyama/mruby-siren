@@ -5,6 +5,7 @@
 
 #include <TopoDS.hxx>
 #include <TopoDS_Compound.hxx>
+#include <BRep_Builder.hxx>
 
 static struct mrb_data_type siren_compound_type = { "Compound", siren_shape_final };
 bool siren_compound_install(mrb_state* mrb, struct RClass* mod_siren);

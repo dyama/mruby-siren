@@ -5,6 +5,7 @@
 
 #include <TopoDS.hxx>
 #include <TopoDS_Vertex.hxx>
+#include <BRepBuilderAPI_MakeVertex.hxx>
 
 static struct mrb_data_type siren_vertex_type = { "Vertex", siren_shape_final };
 bool siren_vertex_install(mrb_state* mrb, struct RClass* mod_siren);

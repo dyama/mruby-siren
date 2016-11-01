@@ -47,7 +47,7 @@ mrb_value siren_vertex_init(mrb_state* mrb, mrb_value self)
   int argc = mrb_get_args(mrb, "*", &a, &len);
 
   Standard_Real x = 0.0, y = 0.0, z = 0.0;
-  if (mrb_array_p(a[0])) {
+  if (len > 0 && mrb_array_p(a[0])) {
     gp_Pnt p = siren_ary_to_pnt(mrb, a[0]);
     x = p.X(); y = p.Y(); z = p.Z();
   }
