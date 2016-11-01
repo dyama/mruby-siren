@@ -17,7 +17,6 @@ mrb_value siren_bo_common(mrb_state* mrb, mrb_value self)
   TopoDS_Shape* S1 = siren_shape_get(mrb, self);
   TopoDS_Shape* S2 = siren_shape_get(mrb, target);
   BRepAlgoAPI_Common api(*S1, *S2);
-  api.SetOperation(BOPAlgo_COMMON);
   api.Build();
   if (api.ErrorStatus()) {
     return mrb_nil_value();
