@@ -14,5 +14,7 @@ mrb_value siren_compound_obj(mrb_state* mrb);
 struct RClass* siren_compound_rclass(mrb_state* mrb);
 
 mrb_value siren_compound_init(mrb_state* mrb, mrb_value self);
+mrb_value siren_compound_push(mrb_state* mrb, mrb_value self);
+mrb_value siren_compound_delete(mrb_state* mrb, mrb_value self);
 
 #endif
