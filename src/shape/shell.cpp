@@ -30,7 +30,8 @@ bool siren_shell_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method(mrb, cls_shell, "initialize", siren_shape_init,  MRB_ARGS_NONE());
 
   auto obj_shell = mrb_obj_ptr(siren_shell_obj(mrb));
-  mrb_define_singleton_method(mrb, obj_shell, "sew", siren_shell_sew, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_singleton_method(mrb, obj_shell, "make", siren_shell_make, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
+  mrb_define_singleton_method(mrb, obj_shell, "sew",  siren_shell_make, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   return true;
 }
 
@@ -46,7 +47,7 @@ mrb_value siren_shell_obj(mrb_state* mrb)
   return mrb_const_get(mrb, mrb_obj_value(mod_siren), mrb_intern_lit(mrb, "Shell"));
 }
 
-mrb_value siren_shell_sew(mrb_state* mrb, mrb_value self)
+mrb_value siren_shell_make(mrb_state* mrb, mrb_value self)
 {
   mrb_value ary;
   mrb_float tol;
