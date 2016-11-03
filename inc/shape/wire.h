@@ -10,6 +10,10 @@
 #include <TopoDS_Wire.hxx>
 #include <TopoDS_Edge.hxx>
 
+// #include <ShapeFix_Wire.hxx>
+// #include <ShapeExtend_WireData.hxx>
+#include <BRepBuilderAPI_MakeWire.hxx>
+#include <ShapeFix_ShapeTolerance.hxx>
 #include <BRepTools_WireExplorer.hxx>
 
 static struct mrb_data_type siren_wire_type = { "Wire", siren_shape_final };

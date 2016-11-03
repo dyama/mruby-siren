@@ -8,7 +8,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "infline",    siren_topalgo_infline,    MRB_ARGS_OPT(2));
   mrb_define_class_method(mrb, mod_siren, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, mod_siren, "interpolate",siren_topalgo_interpolate,MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, mod_siren, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
   mrb_define_class_method(mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
@@ -25,7 +24,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "infline",    siren_topalgo_infline,    MRB_ARGS_REQ(2));
   mrb_define_method      (mrb, mod_siren, "polyline",   siren_topalgo_polyline,   MRB_ARGS_REQ(1));
   mrb_define_method      (mrb, mod_siren, "interpolate",siren_topalgo_interpolate,MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, mod_siren, "wire",       siren_topalgo_wire,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "arc",        siren_topalgo_arc,        MRB_ARGS_REQ(6));
   mrb_define_method      (mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
   mrb_define_method      (mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
@@ -157,41 +155,6 @@ mrb_value siren_topalgo_interpolate(mrb_state* mrb, mrb_value self)
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a curve. Incorrect points specified.");
   }
   return mrb_nil_value();
-}
-
-mrb_value siren_topalgo_wire(mrb_state* mrb, mrb_value self)
-{
-  mrb_value objs;
-  mrb_float tol;
-  int argc = mrb_get_args(mrb, "A|f", &objs, &tol);
-  ShapeFix_Wire sfw;
-  opencascade::handle<ShapeExtend_WireData> wd = new ShapeExtend_WireData();
-  BRepBuilderAPI_MakeWire mw;
-  ShapeFix_ShapeTolerance FTol;
-  int osize = mrb_ary_len(mrb, objs);
-  for (int i = 0; i < osize ; i++) {
-    mrb_value obj = mrb_ary_ref(mrb, objs, i);
-    TopoDS_Shape* s = siren_shape_get(mrb, obj);
-    if (s->IsNull()) {
-      continue;
-    }
-    TopExp_Explorer exp(*s, TopAbs_EDGE);
-    for (; exp.More(); exp.Next()) {
-      wd->Add(TopoDS::Edge(exp.Current()));
-    }
-  }
-  if (wd->NbEdges() == 0) {
-    return mrb_nil_value();
-  }
-  sfw.Load(wd);
-  sfw.Perform();
-  for (int i = 1; i <= sfw.NbEdges(); i ++) {
-    TopoDS_Edge e = sfw.WireData()->Edge(i);
-    FTol.SetTolerance(e, argc == 1 ? 0.01 : tol, TopAbs_VERTEX);
-    mw.Add(e);
-  }
-
-  return siren_shape_new(mrb, mw.Shape());
 }
 
 mrb_value siren_topalgo_arc(mrb_state* mrb, mrb_value self)

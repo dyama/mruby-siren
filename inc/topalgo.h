@@ -20,11 +20,7 @@
 #include <gp_Ax3.hxx> // plane
 #include <gp_Pln.hxx>
 
-#include <ShapeFix_Wire.hxx> // wire
 #include <TopExp_Explorer.hxx>
-#include <ShapeExtend_WireData.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <ShapeFix_ShapeTolerance.hxx>
 
 // copy
 #include <BRepBuilderAPI_Copy.hxx>
@@ -58,7 +54,6 @@ mrb_value siren_topalgo_line       (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_infline    (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_polyline   (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_interpolate(mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_wire       (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_arc        (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_arc3p      (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_circle     (mrb_state* mrb, mrb_value self);
