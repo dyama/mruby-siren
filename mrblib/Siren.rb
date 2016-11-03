@@ -105,11 +105,19 @@ module Siren
   end
 
   def self.sew(*args)
-    Siren::Shell.sew *args
+    Siren::Shell.make *args
   end
 
   def sew(*args)
     Siren.sew *args
+  end
+
+  def self.wire(*args)
+    Siren::Wire.make *args
+  end
+
+  def wire(*args)
+    Siren.wire *args
   end
 
 end
