@@ -59,9 +59,9 @@ module Siren
   def self.bscurve(*args)
     c = nil
     if args.size == 4
-      c = BSCurve.new *args
+      c = BSCurve.new(*args)
     else
-      c = BSCurve.new *(args[0..4])
+      c = BSCurve.new(*(args[0..4]))
     end
     if args.size == 7 # with limit paramters
       Edge.new c, args[5], args[6]
@@ -71,15 +71,15 @@ module Siren
   end
 
   def bscurve(*args)
-    Siren.bscurve *args
+    Siren.bscurve(*args)
   end
 
   def self.bzcurve(*args)
     c = nil
     if args.size <= 2
-      c = BzCurve.new *args
+      c = BzCurve.new(*args)
     else
-      c = BzCurve.new *(args[0..1])
+      c = BzCurve.new(*(args[0..1]))
     end
     if args.size == 4 # with limit parameters
       Edge.new c, args[-2], args[-1]
@@ -89,35 +89,35 @@ module Siren
   end
 
   def bzcurve(*args)
-    Siren.bzcurve *args
+    Siren.bzcurve(*args)
   end
 
   def self.vertex(*args)
     if args.size == 0
       Siren::Vertex.new
     else
-      Siren::Vertex.new *args
+      Siren::Vertex.new(*args)
     end
   end
 
   def vertex(*args)
-    Siren.vertex *args
+    Siren.vertex(*args)
   end
 
   def self.sew(*args)
-    Siren::Shell.make *args
+    Siren::Shell.make(*args)
   end
 
   def sew(*args)
-    Siren.sew *args
+    Siren.sew(*args)
   end
 
   def self.wire(*args)
-    Siren::Wire.make *args
+    Siren::Wire.make(*args)
   end
 
   def wire(*args)
-    Siren.wire *args
+    Siren.wire(*args)
   end
 
 end
