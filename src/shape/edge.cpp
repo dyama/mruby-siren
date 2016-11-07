@@ -30,7 +30,7 @@ bool siren_edge_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method(mrb, cls_edge, "initialize", siren_edge_init,      MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_edge, "sp",         siren_edge_sp,        MRB_ARGS_NONE());
   mrb_define_method(mrb, cls_edge, "tp",         siren_edge_tp,        MRB_ARGS_NONE());
-  mrb_define_method(mrb, cls_edge, "to_pts",     siren_edge_to_pts,    MRB_ARGS_OPT(1));
+  mrb_define_method(mrb, cls_edge, "to_pts",     siren_edge_to_pts,    MRB_ARGS_OPT(2));
   mrb_define_method(mrb, cls_edge, "param",      siren_edge_param,     MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method(mrb, cls_edge, "to_xyz",     siren_edge_to_xyz,    MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cls_edge, "curvature",  siren_edge_curvature, MRB_ARGS_REQ(1));
@@ -100,11 +100,9 @@ mrb_value siren_edge_tp(mrb_state* mrb, mrb_value self)
 
 mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
 {
-  mrb_float deflect;
-  int argc = mrb_get_args(mrb, "|f", &deflect);
-  if (argc != 1) {
-    deflect = 1.0e-1;
-  }
+  mrb_float deflect = 1.0e-7;
+  mrb_float lintol = 1.0e-7;
+  int argc = mrb_get_args(mrb, "|ff", &deflect, &lintol);
   TopoDS_Edge edge = siren_edge_get(mrb, self);
   BRepAdaptor_Curve adaptor(edge);
   double first_param, last_param;
@@ -122,7 +120,7 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
 
     for (int i=1; i<=unidef.NbPoints(); i++) {
       p = unidef.Value(i);
-      if (prev.IsEqual(p, 1.0e-7)) {
+      if (prev.IsEqual(p, lintol)) {
         continue;
       }
       mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
@@ -130,7 +128,7 @@ mrb_value siren_edge_to_pts(mrb_state* mrb, mrb_value self)
     }
     // last point
     p = adaptor.Value(last_param);
-    if (!prev.IsEqual(p, 1.0e-7)) {
+    if (!prev.IsEqual(p, lintol)) {
       mrb_ary_push(mrb, line, siren_pnt_to_ary(mrb, p));
     }
   }
