@@ -97,7 +97,8 @@ class Test4VecClass < MTest::Unit::TestCase
   end
 
   def test_method
-
+    assert_equal [1, 0, 0], Vec.new(100, 0, 0).normal.to_a
+    # assert_equal [Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0], Vec.new(100, 100, 0).normal.to_a
   end
 
 end

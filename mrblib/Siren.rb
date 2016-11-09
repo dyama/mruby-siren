@@ -120,5 +120,36 @@ module Siren
     Siren.wire(*args)
   end
 
+  {
+    # Siren::Wire => {
+    #   :make => :wire
+    # },
+    Siren::Solid => {
+      :box        => :box,
+      :box2p      => :box2p,
+      :boxax      => :boxax,
+      :sphere     => :sphere,
+      :cylinder   => :cylinder,
+      :cone       => :cone,
+      :torus      => :torus,
+      :halfspace  => :halfspace,
+      :prism      => :prism,
+      :revol      => :revol,
+      :revolution => :revolution,
+      :wedge      => :wedge,
+    }
+  }.each do |c, ms|
+    ms.each do |mo, m|
+      self.define_singleton_method(m) do |*args|
+        c.send(mo, *args)
+      end
+      self.class_eval do
+        self.define_method(m) do |*args|
+          c.send(mo, *args)
+        end
+      end
+    end
+  end
+
 end
 

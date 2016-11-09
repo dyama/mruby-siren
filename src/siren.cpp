@@ -6,7 +6,6 @@
 #include "topalgo.h"
 #include "brep.h"
 #include "trans.h"
-#include "prim.h"
 #include "bndbox.h"
 #include "filler.h"
 
@@ -57,7 +56,6 @@ extern "C" {
     // Method
     siren_topalgo_install(mrb, mod_siren);
     siren_brep_install   (mrb, mod_siren);
-    siren_prim_install   (mrb, mod_siren);
 #ifdef SIREN_ENABLE_OFFSET
     siren_offset_install (mrb, mod_siren);
 #endif

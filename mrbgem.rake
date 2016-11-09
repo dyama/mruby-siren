@@ -61,7 +61,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
   spec.cxx.flags << "-Wno-unused-function"
   spec.cxx.flags << "-Wno-unused-variable"
   spec.cxx.flags << "-Wno-unknown-pragmas"
-  spec.cxx.flags << "-std=c++11"
+  spec.cxx.flags << "-std=c++1y"
   spec.cxx.include_paths << occt_incpaths
   spec.cxx.include_paths << siren_incpaths
   spec.objs << Dir.glob("#{dir}/src/*.{c,cpp}").map { |f| objfile(f.relative_path_from(dir).pathmap("#{build_dir}/%X")) }
