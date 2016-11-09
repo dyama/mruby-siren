@@ -92,38 +92,18 @@ module Siren
     Siren.bzcurve(*args)
   end
 
-  def self.vertex(*args)
-    if args.size == 0
-      Siren::Vertex.new
-    else
-      Siren::Vertex.new(*args)
-    end
-  end
-
-  def vertex(*args)
-    Siren.vertex(*args)
-  end
-
-  def self.sew(*args)
-    Siren::Shell.make(*args)
-  end
-
-  def sew(*args)
-    Siren.sew(*args)
-  end
-
-  def self.wire(*args)
-    Siren::Wire.make(*args)
-  end
-
-  def wire(*args)
-    Siren.wire(*args)
-  end
-
+  # Alias
   {
-    # Siren::Wire => {
-    #   :make => :wire
-    # },
+    Siren::Vertex => {
+      :vertex     => :new
+    },
+    Siren::Wire => {
+      :wire       => :make,
+    },
+    Siren::Shell => {
+      :sew        => :make,
+      :shell      => :make,
+    },
     Siren::Solid => {
       :box        => :box,
       :box2p      => :box2p,
@@ -139,12 +119,15 @@ module Siren
       :wedge      => :wedge,
     }
   }.each do |c, ms|
-    ms.each do |mo, m|
-      self.define_singleton_method(m) do |*args|
+    ms.each do |ma, mo|
+      # ma = Alias method name
+      # mo = Original method name
+      # puts "Export #{c}.#{mo} as Siren.#{ma}"
+      self.define_singleton_method(ma) do |*args|
         c.send(mo, *args)
       end
       self.class_eval do
-        self.define_method(m) do |*args|
+        self.define_method(ma) do |*args|
           c.send(mo, *args)
         end
       end
