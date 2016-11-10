@@ -54,10 +54,8 @@ mrb_value siren_topalgo_arc3p      (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_circle     (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_circle3p   (mrb_state* mrb, mrb_value self);
 
-// mrb_value siren_topalgo_rectangle(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_solid(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_cog(mrb_state* mrb, mrb_value self);
