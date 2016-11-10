@@ -24,11 +24,9 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
 
   struct RClass* cls_shape = siren_shape_rclass(mrb);
-  mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
-  struct RClass* cls_face = siren_face_rclass(mrb);
-  mrb_define_method      (mrb, cls_face, "area",    siren_topalgo_area,        MRB_ARGS_NONE());
-  struct RClass* cls_solid = siren_solid_rclass(mrb);
-  mrb_define_method      (mrb, cls_solid, "volume",  siren_topalgo_volume,     MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "cog",    siren_topalgo_cog,    MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "area",   siren_topalgo_area,   MRB_ARGS_NONE());
+  mrb_define_method(mrb, cls_shape, "volume", siren_topalgo_volume, MRB_ARGS_NONE());
   return true;
 }
 
