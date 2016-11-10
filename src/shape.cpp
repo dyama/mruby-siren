@@ -16,13 +16,14 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
 {
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   switch (shape.ShapeType()) {
-    case TopAbs_VERTEX:   return siren_vertex_new(mrb, &shape);   break;
-    case TopAbs_EDGE:     return siren_edge_new(mrb, &shape);     break;
-    case TopAbs_WIRE:     return siren_wire_new(mrb, &shape);     break;
-    case TopAbs_FACE:     return siren_face_new(mrb, &shape);     break;
-    case TopAbs_SHELL:    return siren_shell_new(mrb, &shape);    break;
-    case TopAbs_SOLID:    return siren_solid_new(mrb, &shape);    break;
-    case TopAbs_COMPOUND: return siren_compound_new(mrb, &shape); break;
+    case TopAbs_VERTEX:    return siren_vertex_new(mrb, &shape);   break;
+    case TopAbs_EDGE:      return siren_edge_new(mrb, &shape);     break;
+    case TopAbs_WIRE:      return siren_wire_new(mrb, &shape);     break;
+    case TopAbs_FACE:      return siren_face_new(mrb, &shape);     break;
+    case TopAbs_SHELL:     return siren_shell_new(mrb, &shape);    break;
+    case TopAbs_SOLID:     return siren_solid_new(mrb, &shape);    break;
+    case TopAbs_COMPSOLID: return siren_chunk_new(mrb, &shape);    break;
+    case TopAbs_COMPOUND:  return siren_compound_new(mrb, &shape); break;
     default: break;
   }
   mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make Shape object.");
@@ -114,6 +115,7 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
   siren_face_install(mrb, mod_siren);
   siren_shell_install(mrb, mod_siren);
   siren_solid_install(mrb, mod_siren);
+  siren_chunk_install(mrb, mod_siren);
   siren_compound_install(mrb, mod_siren);
 
   return true;

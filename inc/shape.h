@@ -19,6 +19,7 @@ static struct mrb_data_type siren_shape_type = { "Shape", siren_shape_final };
 #include "shape/face.h"
 #include "shape/shell.h"
 #include "shape/solid.h"
+#include "shape/chunk.h"
 #include "shape/compound.h"
 
 #include <gp_Ax1.hxx>
