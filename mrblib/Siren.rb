@@ -105,6 +105,8 @@ module Siren
       :face       => :face,
       :infplane   => :infplane,
       :polygon    => :polygon,
+      :bzsurf     => :bzsurf,
+      :bssurf     => :bssurf,
     },
     Siren::Shell => {
       :sew        => :make,

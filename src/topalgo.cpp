@@ -12,8 +12,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, mod_siren, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_class_method(mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
   // For mix-in
   mrb_define_method      (mrb, mod_siren, "copy",       siren_topalgo_copy,       MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "line",       siren_topalgo_line,       MRB_ARGS_REQ(2));
@@ -24,8 +22,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
   mrb_define_method      (mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
   mrb_define_method      (mrb, mod_siren, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
-  mrb_define_method      (mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
 
   struct RClass* cls_shape = siren_shape_rclass(mrb);
   mrb_define_method      (mrb, cls_shape, "cog",     siren_topalgo_cog,        MRB_ARGS_NONE());
@@ -219,127 +215,6 @@ mrb_value siren_topalgo_circle3p(mrb_state* mrb, mrb_value self)
     TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
     return siren_shape_new(mrb, E);
   }
-}
-
-mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self)
-{
-  mrb_value ptary, wtary;
-  int argc = mrb_get_args(mrb, "A|A", &ptary, &wtary);
-
-  int rlen = mrb_ary_len(mrb, ptary);
-  int clen = mrb_ary_len(mrb, mrb_ary_ref(mrb, ptary, 0));
-
-  TColgp_Array2OfPnt poles(0, rlen-1, 0, clen-1);
-
-  for (int r=0; r<rlen; r++) {
-    mrb_value ar = mrb_ary_ref(mrb, ptary, r);
-    for (int c=0; c<clen; c++) {
-      poles.SetValue(r, c, siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, ar, c)));
-    }
-  }
-
-  opencascade::handle<Geom_BezierSurface> s = nullptr;
-
-  if (argc == 2) {
-    TColStd_Array2OfReal weights(0, rlen-1, 0, clen-1);
-    for (int r=0; r<rlen; r++) {
-      mrb_value ar = mrb_ary_ref(mrb, wtary, r);
-      for (int c=0; c<clen; c++) {
-        mrb_value val = mrb_ary_ref(mrb, ar, c);
-        weights.SetValue(r, c, mrb_float(val));
-      }
-    }
-    s = new Geom_BezierSurface(poles, weights);
-  }
-  else {
-    s = new Geom_BezierSurface(poles);
-  }
-
-  return siren_shape_new(mrb, BRepBuilderAPI_MakeFace(s, 1.0e-7));
-}
-
-mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self)
-{
-  mrb_int _udeg, _vdeg;
-  mrb_value _ar_ukm, _ar_vkm;
-  mrb_value _pol;
-  mrb_value _wire;
-  int argc = mrb_get_args(mrb, "iAiAA|o", &_udeg, &_ar_ukm, &_vdeg, &_ar_vkm, &_pol, &_wire);
-
-  bool has_contour = argc == 6;
-
-  Standard_Integer udeg = _udeg;
-  Standard_Integer nbuknots = mrb_ary_len(mrb, _ar_ukm);
-  Standard_Integer nbuknots_pure = 0;
-  TColStd_Array1OfReal uknots(1, nbuknots);
-  TColStd_Array1OfInteger umults(1, nbuknots);
-  for (int i=1; i<=nbuknots; i++) {
-    mrb_value item = mrb_ary_ref(mrb, _ar_ukm, i - 1);
-    mrb_value knot = mrb_ary_ref(mrb, item, 0);
-    mrb_value mult = mrb_ary_ref(mrb, item, 1);
-    uknots(i) = mrb_float(knot);
-    umults(i) = mrb_fixnum(mult);
-    nbuknots_pure += umults(i);
-  }
-  Standard_Integer nbupoles = nbuknots_pure - udeg - 1;
-
-  Standard_Integer vdeg = _vdeg;
-  Standard_Integer nbvknots = mrb_ary_len(mrb, _ar_vkm);
-  Standard_Integer nbvknots_pure = 0;
-  TColStd_Array1OfReal vknots(1, nbvknots);
-  TColStd_Array1OfInteger vmults(1, nbvknots);
-  for (int i=1; i<=nbvknots; i++) {
-    mrb_value item = mrb_ary_ref(mrb, _ar_vkm, i - 1);
-    mrb_value knot = mrb_ary_ref(mrb, item, 0);
-    mrb_value mult = mrb_ary_ref(mrb, item, 1);
-    vknots(i) = mrb_float(knot);
-    vmults(i) = mrb_fixnum(mult);
-    nbvknots_pure += vmults(i);
-  }
-  Standard_Integer nbvpoles = nbvknots_pure - vdeg - 1;
-
-  TColgp_Array2OfPnt   poles  (1, nbupoles, 1, nbvpoles);
-  TColStd_Array2OfReal weights(1, nbupoles, 1, nbvpoles);
-
-  for (int v=1; v <= nbvpoles; v++) {
-    mrb_value vitem = mrb_ary_ref(mrb, _pol, v - 1);
-    for (int u=1; u <= nbupoles; u++) {
-      mrb_value uitem = mrb_ary_ref(mrb, vitem, u - 1);
-      poles.SetValue(u, v, siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, uitem, 0)));
-      weights.SetValue(u, v, mrb_float(mrb_ary_ref(mrb, uitem, 1)));
-    }
-  }
-
-  opencascade::handle<Geom_BSplineSurface> hg_bssurf = new Geom_BSplineSurface(poles, weights, uknots, vknots, umults, vmults, udeg, vdeg);
-  TopoDS_Shape shape;
-  if (has_contour) {
-    TopoDS_Shape* s = siren_shape_get(mrb, _wire);
-    TopoDS_Wire w = TopoDS::Wire(*s);
-    shape = BRepBuilderAPI_MakeFace(hg_bssurf, w, Standard_True);
-    // Fix a face
-    opencascade::handle<ShapeFix_Shape> sfs = new ShapeFix_Shape();
-    sfs->Init(shape);
-    sfs->FixFaceTool()->FixAddNaturalBoundMode() = 1;
-    sfs->FixFaceTool()->FixIntersectingWiresMode() = 1;
-    sfs->FixFaceTool()->FixLoopWiresMode() = 1;
-    sfs->FixFaceTool()->FixOrientationMode() = 1;
-    sfs->FixFaceTool()->FixPeriodicDegeneratedMode() = 1;
-    sfs->FixFaceTool()->FixSmallAreaWireMode() = 1;
-    sfs->FixFaceTool()->FixSplitFaceMode() = 1;
-    sfs->FixFaceTool()->FixWireMode() = 1;
-    sfs->SetPrecision(1.0);
-    sfs->SetMinTolerance(1.0e-1);
-    sfs->SetMaxTolerance(1.0);
-    sfs->Perform();
-    shape = sfs->Shape();
-    // End of fix
-  }
-  else {
-    Standard_Real toldegen = 1.0e-1;
-    shape = BRepBuilderAPI_MakeFace(hg_bssurf, toldegen);
-  }
-
-  return siren_shape_new(mrb, shape);
 }
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self)

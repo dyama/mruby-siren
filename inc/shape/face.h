@@ -18,6 +18,13 @@
 #include <BRepBuilderAPI_MakeFace.hxx>
 #include <BRepBuilderAPI_MakePolygon.hxx>
 
+#include <Geom_BezierSurface.hxx>
+#include <TColgp_Array2OfPnt.hxx>
+#include <TColStd_Array2OfReal.hxx>
+
+#include <Geom_BSplineSurface.hxx>
+#include <ShapeFix_Shape.hxx>
+
 // to_bezier
 #include <TopoDS_Compound.hxx>
 #include <BRep_Tool.hxx>
@@ -47,6 +54,8 @@ mrb_value siren_face_plane(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_face(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_infplane(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_polygon(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_bzsurf(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_bssurf(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_face_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self);

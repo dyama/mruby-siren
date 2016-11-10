@@ -25,15 +25,6 @@
 #include <TColStd_Array1OfInteger.hxx>
 #include <Geom_BSplineCurve.hxx>
 
-// Bezier surface
-#include <Geom_BezierSurface.hxx>
-#include <TColgp_Array2OfPnt.hxx>
-#include <TColStd_Array2OfReal.hxx>
-
-// NURBS surface
-#include <Geom_BSplineSurface.hxx>
-#include <ShapeFix_Shape.hxx>
-
 #include <GProp_GProps.hxx>
 #include <BRepGProp.hxx>
 
@@ -53,9 +44,6 @@ mrb_value siren_topalgo_arc        (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_arc3p      (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_circle     (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_circle3p   (mrb_state* mrb, mrb_value self);
-
-mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_nurbssurf(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_topalgo_volume(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_cog(mrb_state* mrb, mrb_value self);
