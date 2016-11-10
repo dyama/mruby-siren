@@ -5,12 +5,18 @@
 #include "shape.h"
 #include "vec.h"
 
+#include <gp_Ax3.hxx>
+#include <gp_Pln.hxx>
+
 #include <TopoDS.hxx>
 #include <TopoDS_Wire.hxx>
 #include <TopoDS_Face.hxx>
 
 #include <BRepTools.hxx>
 #include <GeomLProp_SLProps.hxx>
+
+#include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepBuilderAPI_MakePolygon.hxx>
 
 // to_bezier
 #include <TopoDS_Compound.hxx>
@@ -36,6 +42,11 @@ TopoDS_Face siren_face_get(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_new(mrb_state* mrb, const TopoDS_Shape* src);
 mrb_value siren_face_obj(mrb_state* mrb);
 struct RClass* siren_face_rclass(mrb_state* mrb);
+
+mrb_value siren_face_plane(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_face(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_infplane(mrb_state* mrb, mrb_value self);
+mrb_value siren_face_polygon(mrb_state* mrb, mrb_value self);
 
 mrb_value siren_face_normal(mrb_state* mrb, mrb_value self);
 mrb_value siren_face_to_bezier(mrb_state* mrb, mrb_value self);

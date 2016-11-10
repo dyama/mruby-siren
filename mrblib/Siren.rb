@@ -100,6 +100,12 @@ module Siren
     Siren::Wire => {
       :wire       => :make,
     },
+    Siren::Face => {
+      :plane      => :plane,
+      :face       => :face,
+      :infplane   => :infplane,
+      :polygon    => :polygon,
+    },
     Siren::Shell => {
       :sew        => :make,
       :shell      => :make,

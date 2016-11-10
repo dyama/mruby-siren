@@ -12,10 +12,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_class_method(mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
   mrb_define_class_method(mrb, mod_siren, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_class_method(mrb, mod_siren, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
-  mrb_define_class_method(mrb, mod_siren, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, mod_siren, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
-  mrb_define_class_method(mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_class_method(mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
   // For mix-in
@@ -28,10 +24,6 @@ bool siren_topalgo_install(mrb_state* mrb, struct RClass* mod_siren)
   mrb_define_method      (mrb, mod_siren, "arc3p",      siren_topalgo_arc3p,      MRB_ARGS_REQ(3));
   mrb_define_method      (mrb, mod_siren, "circle",     siren_topalgo_circle,     MRB_ARGS_REQ(3));
   mrb_define_method      (mrb, mod_siren, "circle3p",   siren_topalgo_circle3p,   MRB_ARGS_REQ(3));
-  mrb_define_method      (mrb, mod_siren, "plane",      siren_topalgo_plane,      MRB_ARGS_REQ(7));
-  mrb_define_method      (mrb, mod_siren, "face",       siren_topalgo_face,       MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, mod_siren, "infplane",   siren_topalgo_infplane,   MRB_ARGS_REQ(2));
-  mrb_define_method      (mrb, mod_siren, "polygon",    siren_topalgo_polygon,    MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "beziersurf", siren_topalgo_beziersurf, MRB_ARGS_REQ(1) | MRB_ARGS_OPT(1));
   mrb_define_method      (mrb, mod_siren, "nurbssurf",  siren_topalgo_nurbssurf,  MRB_ARGS_REQ(5) | MRB_ARGS_OPT(1));
 
@@ -227,69 +219,6 @@ mrb_value siren_topalgo_circle3p(mrb_state* mrb, mrb_value self)
     TopoDS_Edge E = BRepBuilderAPI_MakeEdge(gc);
     return siren_shape_new(mrb, E);
   }
-}
-
-mrb_value siren_topalgo_plane(mrb_state* mrb, mrb_value self)
-{
-  mrb_value pos, norm, vx;
-  mrb_float umin, umax, vmin, vmax;
-  int argc = mrb_get_args(mrb, "AAAffff", &pos, &norm, &vx, &umin, &umax, &vmin, &vmax);
-  try {
-    gp_Pln _pln(siren_ary_to_ax2(mrb, pos, norm, vx));
-    BRepBuilderAPI_MakeFace face(_pln, umin, umax, vmin, vmax);
-    return siren_shape_new(mrb, face.Shape());
-  }
-  catch (...) {
-    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a plane. "
-        "vx has same value with the normal vector.");
-    return mrb_nil_value();
-  }
-}
-
-mrb_value siren_topalgo_face(mrb_state* mrb, mrb_value self)
-{
-  mrb_value wire;
-  mrb_bool force_plane;
-  int argc = mrb_get_args(mrb, "ob", &wire, &force_plane);
-  TopoDS_Shape* s = siren_shape_get(mrb, wire);
-  TopoDS_Wire w = TopoDS::Wire(*s);
-  if (w.IsNull()) {
-    mrb_raise(mrb, E_ARGUMENT_ERROR, "Specified shape type is not wire.");
-  }
-  TopoDS_Face face = BRepBuilderAPI_MakeFace(w, (Standard_Boolean)force_plane);
-  return siren_shape_new(mrb, face);
-}
-
-mrb_value siren_topalgo_infplane(mrb_state* mrb, mrb_value self)
-{
-  mrb_value orig, dir;
-  int argc = mrb_get_args(mrb, "AA", &orig, &dir);
-  gp_Pln pln(siren_ary_to_pnt(mrb, orig), siren_ary_to_dir(mrb, dir));
-  TopoDS_Face face = BRepBuilderAPI_MakeFace(pln);
-  return siren_shape_new(mrb, face);
-}
-
-mrb_value siren_topalgo_polygon(mrb_state* mrb, mrb_value self)
-{
-  mrb_value pts;
-  mrb_bool force_plane = (mrb_bool)Standard_True;
-  int argc = mrb_get_args(mrb, "A|b", &pts, &force_plane);
-
-  BRepBuilderAPI_MakePolygon mp;
-
-  for (int i=0; i<mrb_ary_len(mrb, pts); i++) {
-    mp.Add(siren_ary_to_pnt(mrb, mrb_ary_ref(mrb, pts, i)));
-  }
-
-  mp.Close();
-  BRepBuilderAPI_MakeFace mf(mp.Wire(), force_plane);
-  mf.Build();
-
-  if (!mf.IsDone()) {
-    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to make a polygon.");
-  }
-
-  return siren_shape_new(mrb, mf.Shape());
 }
 
 mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self)

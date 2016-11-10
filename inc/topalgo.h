@@ -8,17 +8,12 @@
 #include <BRepBuilderAPI.hxx>
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <BRepBuilderAPI_MakePolygon.hxx>
 #include <BRepBuilderAPI_MakeSolid.hxx>
 
 #include <GeomAPI_Interpolate.hxx> // curve
 #include <TColgp_Array1OfVec.hxx>
 #include <TColgp_HArray1OfPnt.hxx>
 #include <TColStd_HArray1OfBoolean.hxx>
-
-#include <gp_Ax3.hxx> // plane
-#include <gp_Pln.hxx>
 
 #include <TopExp_Explorer.hxx>
 
@@ -58,10 +53,6 @@ mrb_value siren_topalgo_arc        (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_arc3p      (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_circle     (mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_circle3p   (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_plane      (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_face       (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_infplane   (mrb_state* mrb, mrb_value self);
-mrb_value siren_topalgo_polygon    (mrb_state* mrb, mrb_value self);
 
 // mrb_value siren_topalgo_rectangle(mrb_state* mrb, mrb_value self);
 mrb_value siren_topalgo_beziersurf(mrb_state* mrb, mrb_value self);
