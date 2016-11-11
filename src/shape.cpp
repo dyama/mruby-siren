@@ -22,7 +22,9 @@ mrb_value siren_shape_new(mrb_state* mrb, const TopoDS_Shape& shape)
     case TopAbs_FACE:      return siren_face_new(mrb, &shape);     break;
     case TopAbs_SHELL:     return siren_shell_new(mrb, &shape);    break;
     case TopAbs_SOLID:     return siren_solid_new(mrb, &shape);    break;
+#ifdef SIREN_ENABLE_CHUNK
     case TopAbs_COMPSOLID: return siren_chunk_new(mrb, &shape);    break;
+#endif
     case TopAbs_COMPOUND:  return siren_compound_new(mrb, &shape); break;
     default: break;
   }
@@ -115,7 +117,9 @@ bool siren_shape_install(mrb_state* mrb, struct RClass* mod_siren)
   siren_face_install(mrb, mod_siren);
   siren_shell_install(mrb, mod_siren);
   siren_solid_install(mrb, mod_siren);
+#ifdef SIREN_ENABLE_CHUNK
   siren_chunk_install(mrb, mod_siren);
+#endif
   siren_compound_install(mrb, mod_siren);
 
   return true;

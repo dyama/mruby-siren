@@ -10,6 +10,8 @@
 #define SIREN_ENABLE_IGES
 #define SIREN_ENABLE_STEP
 
+// #define SIREN_ENABLE_CHUNK
+
 // C++ libraries
 #include <iostream>
 #include <stdlib.h>
