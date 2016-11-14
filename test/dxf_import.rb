@@ -22,30 +22,42 @@ module DxfRange
   end
 end
 
-class DxfValue < Array
-  def initialize(code, value)
-    self[0] = code.to_i
-    self[1] = value
-  end
-  def code; self.first end
-  def value; self.last end
-  def code=(val); self[0] = val.to_i end
-  def value=(val); self[1] = val end
-  def eq?(code, value = nil)
-    if value
-      self.code == code && self.value == value
+module DxfPosition
+  def x; self[10] || 0.0 end
+  def y; self[20] || 0.0 end
+  def z; self[30] || 0.0 end
+  def x=(val); self[10] = val.to_f end
+  def y=(val); self[20] = val.to_f end
+  def z=(val); self[30] = val.to_f end
+  def pos;    [self.x, self.y, self.z] end
+  def pos=(*a)
+    case a.size
+    when 1
+      if a.first.is_a?(Array)
+        self.x = a.first[0]
+        self.y = a.first[1]
+        self.z = a.first[2]
+      else
+        raise ""
+      end
+    when 3
+      self.x = a[0]
+      self.y = a[1]
+      self.z = a[2]
     else
-      self.code == code
+      raise ""
     end
   end
 end
 
 class DxfEntity < Hash
   def initialize(ary = [])
-    ary.each{ |n| self[n.first] = n.last }
+    ary.each{ |n| self[n.keys.first] = n.values.first }
   end
+  def type; self[0] end
   def layer; self[ 8] end
   def color; self[62] end
+  def type=(val);  self[ 0] = val.to_s end
   def layer=(val); self[ 8] = val.to_s end
   def color=(val); self[62] = val.to_i end
 end
@@ -53,31 +65,30 @@ end
 class DxfPolyline < DxfEntity
   attr_accessor :vertices
   def initialize(ary = [])
-    ary.extend(DxfRange)
-    ply = ary.range(->(a,b){a.eq?0,'POLYLINE'},->(a,b){b.eq?0})
-    super ply.first
-    @vertices = ary.range(->(a,b){a.eq?0,'VERTEX'},->(a,b){b.eq?0}).map do |n|
-      DxfEntity.new n
-    end
+    super ary.shift
+    @vertices = ary.map{|n| DxfVertex.new n}
   end
 end
 
+class DxfVertex < DxfEntity
+  include DxfPosition
+end
+
 class DxfText < DxfEntity
-  def pos; [self.x, self.y, self.z] end
-  def x; self[10] || 0.0 end
-  def y; self[20] || 0.0 end
-  def z; self[30] || 0.0 end
+  include DxfPosition
   def height; self[40] || 1.0 end
-  def angle; self[50] || 0.0 end
+  def angle;  self[50] || 0.0 end
   def itaric; self[51] || 0.0 end
-  def style; self[7] || "STANDARD" end
-  def align; self[72] || 0 end
+  def style;  self[7] || "STANDARD" end
+  def align;  self[72] || 0 end
   def valign; self[73] || 0 end
 end
 
-class Dxf < Array
+class Dxf
 
   include DxfRange
+
+  attr_accessor :entities
 
   def initialize(path = nil)
     self.load(path) if path
@@ -88,40 +99,34 @@ class Dxf < Array
   end
 
   def parse(lines = [])
-    lines.map(&:strip).each_slice(2) do |code, value|
-      self.push(DxfValue.new(code, value))
+    values = []
+    lines.map(&:strip).each_slice(2) do |c, v|
+      values.push({c.to_i => v})
     end
-  end
+    values.extend(DxfRange)
 
-  def entity_section
-    r = self.range(->(a,b){a.eq?2,'ENTITIES'},->(a,b){a.eq?0,'ENDSEC'})
-    if r.size > 0
-      r.first
-    else
-      raise "DXF object has no entity section."
-    end
-  end
+    secs = values.range(->(a,b){a[0]=='SECTION'},->(a,b){a[0]=='ENDSEC'})
+    # entsec = secs.select{|n|n[1][0]=='ENTITIES'}
+    entsec = secs.first
 
-  def polylines
-    ary = []
-    ents = self.entity_section
-    ents.extend(DxfRange)
-    ents.range(->(a,b){a.eq?0,'POLYLINE'},->(a,b){b.eq?0,'SEQEND'}).each do |t|
-      textobj = DxfPolyline.new(t)
-      ary.push(textobj)
+    entsec.extend(DxfRange)
+    ents = entsec.range(->(a,b){a[0]},->(a,b){b[0]})
+    @entities = []
+    con = false
+    stk = []
+    ents.each do |e|
+      h = e.first
+      if h[0] == 'TEXT'
+        @entities << DxfText.new(e)
+      elsif h[0] == 'POLYLINE'
+        con = true
+      elsif con && h[0] == 'SEQEND'
+        con = false
+        @entities << DxfPolyline.new(stk)
+        stk.clear
+      end
+      stk << e if con
     end
-    ary
-  end
-
-  def texts
-    ary = []
-    ents = self.entity_section
-    ents.extend(DxfRange)
-    ents.range(->(a,b){a.eq?0,'TEXT'},->(a,b){b.eq?0}).each do |t|
-      textobj = DxfText.new(t)
-      ary.push(textobj)
-    end
-    ary
   end
 
 end
@@ -132,8 +137,10 @@ Dir.open(dir).each do |file|
   next if Dir.exist? file
   dxf = Dxf.new
   dxf.load("#{dir}/#{file}")
-  dxf.polylines.each do |t|
-    pp t.vertices
-  end
+  pp dxf.entities.select{|n|n.class == DxfPolyline}.map{|n|n.vertices}
+  # dxf.polylines.each do |t|
+  #   pp t.vertices
+  # end
+  break
 end
 
