@@ -1,42 +1,6 @@
 #!mruby
 # coding: utf-8
 
-module DxfRange
-  def range(s, t)
-    # mruby not supported the syntax : if exp1 .. exp2
-    ary = []
-    item = []
-    flag = false
-    (self.dup << self.last).each_cons(2) do |a, b|
-      flag = true if !flag && s.call(a, b)
-      if flag
-        item.push(a)
-        if t.call(a, b)
-          ary.push(item) if item.size > 0
-          flag = false
-          item = []
-        end
-      end
-    end
-    ary.push(item) if item.size > 0
-    ary
-  end
-  # def yrangef(s, t)
-  #   flag = false
-  #   Enumerator.new do |y|
-  #     ([nil, *self.dup, nil]).each_cons(3) do |a, b, c|
-  #       flag = true if !flag && s.call(a, b, c)
-  #       if flag
-  #         y << a
-  #         if t.call(a, b, c)
-  #           break
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
-end
-
 module DxfPosition
   def x; self[10] || 0.0 end
   def y; self[20] || 0.0 end
@@ -95,8 +59,7 @@ class DxfEntity < Hash
   def initialize(ary = [])
     @scm = false
     ary.each do |n|
-      key = n.keys.first
-      val = n.values.first
+      key, val = n.to_a
       if key == 100
         @scm = true
       else
@@ -231,85 +194,107 @@ class DxfText < DxfEntity
   end
 end
 
-class Dxf
+class RangeCondition
+  def initialize(s, t)
+    @s = s
+    @t = t
+    @f = @s ? -1 : 0
+  end
+  def init
+    @f = @s ? -1 : 0
+  end
+  def test(*args)
+    case @f
+    when -1 # yet
+      if @s.call(*args)
+        @f = 0
+        true
+      else
+        false
+      end
+    when 0 # now
+      if @t && @t.call(*args)
+        @f = 1
+      end
+      true
+    else # done
+      false
+    end
+  end
+end
 
-  include DxfRange
-
-  attr_accessor :entities
+class DxfDocument
 
   def initialize(path = nil)
     self.load(path) if path
   end
 
-  def load(path)
-    self.parse Enumerator.new { |y|
-      File.open(path, "r") do |f|
-        f.each_line do |line|
-          y << line
-        end
-      end
-    }
-  end
+  def parse(path)
 
-  def parse(lines = [])
-    # {key: value} のハッシュ列に変換
-    values = []
-    lines.map(&:strip).each_slice(2) do |c, v|
-      values.push({c.to_i => v})
-    end
-    values.extend(DxfRange)
+    @src = []
+    @header = []
+    @clss   = []
+    @tables = []
+    @blocks = []
+    @ents   = []
+    @objs   = []
+    @thumb  = []
 
-    # セクション分割
-    secs = values.range(->(a,b){a[0]=='SECTION'},->(a,b){a[0]=='ENDSEC'})
+    cnd_header = RangeCondition.new(->(c){c[2]=='HEADER'},  ->(c){c[0]=='ENDSEC'})
+    cnd_clss   = RangeCondition.new(->(c){c[2]=='CLASSES'}, ->(c){c[0]=='ENDSEC'})
+    cnd_tables = RangeCondition.new(->(c){c[2]=='TABLES'},  ->(c){c[0]=='ENDSEC'})
+    cnd_blocks = RangeCondition.new(->(c){c[2]=='BLOCKS'},  ->(c){c[0]=='ENDSEC'})
+    cnd_ents   = RangeCondition.new(->(c){c[2]=='ENTITIES'},->(c){c[0]=='ENDSEC'})
+    cnd_objs   = RangeCondition.new(->(c){c[2]=='OBJECTS'}, ->(c){c[0]=='ENDSEC'})
+    cnd_thumb  = RangeCondition.new(->(c){c[2]=='THUMBNAILIMAGE'},->(c){c[0]=='ENDSEC'})
 
-    # HEADER セクション
-    @header = secs.select{|n| n[1][2]=='HEADER' }&.first
-
-    # CLASSES セクション
-    @classes = secs.select{|n| n[1][2]=='CLASSES' }&.first
-
-    # TABLES セクション
-    @tables = secs.select{|n| n[1][2]=='TABLES' }&.first
-
-    # BLOCKS セクション
-    @blocks = secs.select{|n| n[1][2]=='BLOCKS' }&.first
-
-    # ENTITIES セクション
-    entsec = secs.select{|n| n[1][2]=='ENTITIES' }&.first
-    if entsec
-      entsec.extend(DxfRange)
-      ents = entsec.range(->(a,b){a[0]},->(a,b){b[0]})
-      @entities = []
-      con = false
-      stk = []
-      ents.shift # [{0 => 'SECTION'}, ...]
-      ents.each do |e|
-        h = e.first
-        if h[0] == 'TEXT'
-          @entities << DxfText.new(e)
-        elsif h[0] == 'LINE'
-          @entities << DxfLine.new(e)
-        elsif h[0] == 'POLYLINE'
-          con = true
-        elsif con && h[0] == 'SEQEND'
-          stk << e
-          @entities << DxfPolyline.new(stk)
-          con = false
-          stk.clear
-        elsif h[0] == 'VIEWPORT'
-          # not supported.
-        elsif !con
-          @entities << DxfEntity.new(e)
-        end
-        stk << e if con
+    File.open(path, "r") do |f|
+      while code = f.gets
+        break unless code
+        code = code.to_i
+        val = f.gets.strip
+        @src << [code, val]
+        # @header << [code, val] if cnd_header.test({code => val})
+        # @clss   << [code, val] if cnd_clss.test({code => val})
+        # @tables << [code, val] if cnd_tables.test({code => val})
+        # @blocks << [code, val] if cnd_blocks.test({code => val})
+        # @ents   << [code, val] if cnd_ents.test({code => val})
+        # @objs   << [code, val] if cnd_objs.test({code => val})
+        # @thumb  << [code, val] if cnd_thumb.test({code => val})
       end
     end
 
-    # OBJECTS セクション
-    @objects = secs.select{|n| n[1][2]=='OBJECTS' }&.first
+    # con = false
+    # stk = []
+    # @es = []
 
-    # THUMBNAILIMAGE セクション
-    @thumbnailimage = secs.select{|n| n[1][2]=='THUMBNAILIMAGE' }&.first
+    # Enumerator.new { |y|
+    #   ee = []
+    #   @ents.each do |e|
+    #     if e.first == 0
+    #       y << ee.dup if ee.size > 0 && ee.first.first == 0
+    #       ee.clear
+    #     end
+    #     ee << e
+    #   end
+    #   y << ee.dup if ee.size > 0 && ee.first.last != 'ENDSEC'
+    # }.each { |e|
+    #   case e[0][1]
+    #   when 'TEXT'
+    #     @es << DxfText.new(e)
+    #   when 'POLYLINE'
+    #     con = true
+    #   end
+    #   if con
+    #     stk << e
+    #     if e[0][1] == 'SEQEND'
+    #       @es << DxfPolyline.new(stk)
+    #       con = false
+    #       stk.clear
+    #     end
+    #   end
+    # }
+
   end
 
   def serial
@@ -337,17 +322,18 @@ class Dxf
 
 end
 
-dxf = Dxf.new("/tmp/dxf/s/PR_SUPP_IB.1.dxf")
+#dxf = DxfDocument.new("/tmp/dxf/s/PR_SUPP_IB.1.dxf")
+dxf = DxfDocument.new
+dxf.parse("/tmp/dxf/1.dxf")
 # File.open("/tmp/dxf/s/PR_SUPP_IB.1-2.dxf", "w") do |f|
 #   f.write(dxf.serial)
 # end
 
 # dir = "sample"
 # # dir = "/tmp/dxf"
-# 
 # Dir.open(dir).each do |file|
 #   next if Dir.exist? file
-#   dxf = Dxf.new
+#   dxf = DxfDocument.new
 #   dxf.load("#{dir}/#{file}")
 #   s = dxf.serial
 #   File.open("/tmp/dxf/a/#{file}", "w") do |f|
