@@ -1,13 +1,9 @@
-#!siren
+#!mruby
 # coding: utf-8
-
-# respond_to?(:load) || def load path
-#   eval File.read(path)
-# end
-# load "lib.rb"
 
 module DxfRange
   def range(s, t)
+    # mruby not supported the syntax : if exp1 .. exp2
     ary = []
     item = []
     flag = false
@@ -25,6 +21,20 @@ module DxfRange
     ary.push(item) if item.size > 0
     ary
   end
+  # def yrangef(s, t)
+  #   flag = false
+  #   Enumerator.new do |y|
+  #     ([nil, *self.dup, nil]).each_cons(3) do |a, b, c|
+  #       flag = true if !flag && s.call(a, b, c)
+  #       if flag
+  #         y << a
+  #         if t.call(a, b, c)
+  #           break
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 end
 
 module DxfPosition
@@ -232,7 +242,13 @@ class Dxf
   end
 
   def load(path)
-    self.parse(File.read(path).lines)
+    self.parse Enumerator.new { |y|
+      File.open(path, "r") do |f|
+        f.each_line do |line|
+          y << line
+        end
+      end
+    }
   end
 
   def parse(lines = [])
@@ -266,6 +282,7 @@ class Dxf
       @entities = []
       con = false
       stk = []
+      ents.shift # [{0 => 'SECTION'}, ...]
       ents.each do |e|
         h = e.first
         if h[0] == 'TEXT'
@@ -279,6 +296,10 @@ class Dxf
           @entities << DxfPolyline.new(stk)
           con = false
           stk.clear
+        elsif h[0] == 'VIEWPORT'
+          # not supported.
+        elsif !con
+          @entities << DxfEntity.new(e)
         end
         stk << e if con
       end
@@ -316,22 +337,21 @@ class Dxf
 
 end
 
-# dxf = Dxf.new "/tmp/dxf/2.dxf"
-# s = dxf.serial
-# File.open("/tmp/2-2.dxf", "w") do |f|
-#   f.write s
+dxf = Dxf.new("/tmp/dxf/s/PR_SUPP_IB.1.dxf")
+# File.open("/tmp/dxf/s/PR_SUPP_IB.1-2.dxf", "w") do |f|
+#   f.write(dxf.serial)
 # end
 
-dir = "sample"
-# dir = "/tmp/dxf"
-
-Dir.open(dir).each do |file|
-  next if Dir.exist? file
-  dxf = Dxf.new
-  dxf.load("#{dir}/#{file}")
-  s = dxf.serial
-  File.open("/tmp/dxf/a/#{file}", "w") do |f|
-    f.write s
-  end
-end
+# dir = "sample"
+# # dir = "/tmp/dxf"
+# 
+# Dir.open(dir).each do |file|
+#   next if Dir.exist? file
+#   dxf = Dxf.new
+#   dxf.load("#{dir}/#{file}")
+#   s = dxf.serial
+#   File.open("/tmp/dxf/a/#{file}", "w") do |f|
+#     f.write s
+#   end
+# end
 
