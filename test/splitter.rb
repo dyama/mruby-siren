@@ -1,36 +1,46 @@
 #!siren
 
-w, h = gets.chomp.split(/ *, */).collect{ |s| s.to_f }
+include Siren
 
-plane = Build.plane(
-  Vec.new(0, 0, 0),
-  Vec.new(1, 0, 0),
-  Vec.new(0, 1, 0),
-  0, w, 0, h);
+$f = plane Vec.o, Vec.x, Vec.y, 0, 3, 0, 3
 
-edges = []
-while line = gets
-  break if line == nil || line.chomp == ""
-  next if line =~ /^ *#/
-  sy, sz, ty, tz = line.chomp.split(/ *, */).collect{ |s| s.to_f }
-  sp = Vec.new 0, sy, sz
-  tp = Vec.new 0, ty, tz
-  edges.push(Build.line sp, tp)
+class Test4FaceSplitter < MTest::Unit::TestCase
+
+  def test1
+    es = []
+    es << line([1, 0], [1, 2])
+    es << line([1, 1], [3, 1])
+    es << line([2, 1], [2, 3])
+    es << line([2, 2], [0, 2])
+    w = wire es, 0.1
+    p $f.split(w)
+  end
+
+  def test2
+    es = []
+    es << line([1, 0], [1, 1])
+    es << line([1, 1], [1, 2])
+    es << line([1, 1], [2, 1])
+    es << line([2, 1], [3, 1])
+    es << line([2, 1], [2, 2])
+    es << line([2, 2], [2, 3])
+    es << line([2, 2], [1, 2])
+    es << line([1, 2], [0, 2])
+    w = wire es, 0.1
+    p $f.split(w)
+  end
+
+  def test3
+    w = polyline [[1, 1], [2, 1], [2, 2], [1, 2], [1, 1]]
+    p $f.split(w)
+  end
+
+  def test4
+    w = line([0, 1], [3, 3])
+    p $f.split(w)
+  end
+
 end
-ecomp = Build.compound edges
 
-p "split"
-
-#E = Build.line(Vec.new(0, 0, h/2), Vec.new(0, w, h/2))
-E = Build.polyline [
-  Vec.new(0, 0, h/2),
-  Vec.new(0, w/2, h/2),
-  Vec.new(0, w/2, h),
-]
-
-p ShapeType::to_s(E.shapetype)
-# pls = Feat.splitEF ecomp, plane
-pls = Feat.splitEF E, plane
-
-BRepIO.save pls, "hoge.brep"
+MTest::Unit.new.run
 

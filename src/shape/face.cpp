@@ -111,9 +111,14 @@ mrb_value siren_face_split(mrb_state* mrb, mrb_value self)
   default:
     mrb_raise(mrb, E_ARGUMENT_ERROR, "Incorrect argument specified.");
   }
-  splitter.Build();
+  try {
+    splitter.Build();
+  }
+  catch (...) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to split the face.");
+  }
   if (!splitter.IsDone()) {
-    mrb_raise(mrb, E_ARGUMENT_ERROR, "Failed to split the face.");
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Failed to split the face.");
   }
   return siren_shape_new(mrb, splitter.Shape());
 }
