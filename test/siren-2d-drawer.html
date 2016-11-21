@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>siren 2d drawer</title>
+    <style>
+      body {
+        margin: 0px;
+      }
+      #canvas {
+        background: #000000;
+        cursor: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <br>
+    <textarea id='log' cols=80 rows=12 style='witdh:800px;height:100px;'></textarea>
+    <script>
+
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext('2d');
+
+      function Entity() {
+        return {
+          type: "Polyline",
+          closed: false,
+          style: '#ffffff',
+          lineWidth: 1.0,
+          pts: []
+        };
+      }
+
+      var hash = new Entity();
+      var lines = [];
+
+      canvas.addEventListener('click', (e) => {
+        var x = e.clientX - canvas.offsetLeft;
+        var y = e.clientY - canvas.offsetTop;
+        hash.pts.push([x, y]);
+        var txt = window.JSON.stringify(hash);
+        document.getElementById('log').innerHTML = txt;
+      });
+
+      canvas.addEventListener('mousemove', (e) => {
+
+        var x = e.clientX - canvas.offsetLeft;
+        var y = e.clientY - canvas.offsetTop;
+
+        redraw();
+
+        if (hash.pts.length > 0) {
+          var ary = hash.pts;
+          var ary2 = ary.concat([[x, y]]);
+          context.setLineDash = [3, 1];
+          context.lineWidth = 1.0;
+          context.strokeStyle = 'yellow';
+          context.beginPath();
+          ary2.forEach((e,i,a) => {
+            context.lineTo(e[0], e[1]);
+          });
+          context.stroke();
+        }
+
+        draw_cursor(x, y);
+
+      }, false);
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.keyCode == 32 || e.keyCode == 13) && hash.pts.length >= 2) {
+          lines.push(hash.pts);
+          hash = new Entity();
+          redraw();
+        }
+      }, false);
+
+      function draw_cursor(x, y)
+      {
+        context.lineWidth = 1.0;
+        context.strokeStyle = 'white';
+        context.beginPath();
+        context.lineTo(x - 16, y);
+        context.lineTo(x + 16, y);
+        context.stroke();
+        context.beginPath();
+        context.lineTo(x, y - 16);
+        context.lineTo(x, y + 16);
+        context.stroke();
+      }
+
+      function redraw()
+      {
+        context.fillStyle = '#3f3f3f';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        lines.forEach((line,i,a) => {
+          context.lineWidth = line.lineWidth;
+          context.strokeStyle = line.style;
+          context.beginPath();
+          line.forEach((e,i,a) => {
+            context.lineTo(e[0], e[1]);
+          });
+          context.stroke();
+        });
+      }
+
+      redraw();
+    </script>
+  </body>
+</html>
