@@ -33,7 +33,7 @@
   #include "io/step.h"
 #endif
 
-extern "C" {
+MRB_BEGIN_DECL
 
   struct RClass* mod_siren;
 
@@ -81,4 +81,4 @@ extern "C" {
     return;
   }
 
-}
+MRB_END_DECL
