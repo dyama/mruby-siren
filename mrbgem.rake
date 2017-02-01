@@ -6,7 +6,7 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
 
   # General spec
   spec.author  = 'dyama'
-  spec.summary = 'Lightweight 3D operation environment.'
+  spec.summary = 'Lightweight 3D operation environment. See http://siren.xyz/'
   spec.license = 'MIT license'
 
   # siren configuration
@@ -26,8 +26,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
     os = RbConfig::CONFIG['host_os'].downcase
     case os
     when /linux|solaris|bsd/
-      occt_libpaths = [ '/opt/occ/700/lin64/gcc/lib' ]
-      occt_incpaths = [ '/opt/occ/700/inc' ]
+      occt_libpaths = [ '/opt/occ/710/lin64/gcc/lib' ]
+      occt_incpaths = [ '/opt/occ/710/inc' ]
     when /darwin|mac os/
       occt_libpaths = [ '/usr/local/opt/opencascade/lib' ]
       occt_incpaths = [ '/usr/local/opt/opencascade/include/opencascade' ]
