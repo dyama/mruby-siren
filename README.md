@@ -31,8 +31,6 @@ Example
       p face.area
     end
 
-![Preview](http://siren.xyz/wp-content/uploads/2016/01/twoboxes.jpg)
-
 You can find more examples code at the Github page.
 
 https://github.com/dyama/mruby-siren/wiki/Example
@@ -52,7 +50,7 @@ Dependencies
   * Source code: https://github.com/mruby/mruby
   * License: https://github.com/mruby/mruby/blob/master/MITL
 
-* Open CASCADE Technorogy 7.0.0
+* Open CASCADE Technorogy 7.1.0
   * Official page: http://www.opencascade.org/
   * Source code: http://www.opencascade.com/content/latest-release
   * License: http://www.opencascade.com/content/licensing
@@ -67,9 +65,9 @@ How to build
 If your OCCT installed path is not `/opt/occ<version no>`, you should change mrbgem.rake file in build/mrbgems/mruby-siren.
 Default install path is;
 
-  * /opt/occ/700 ... for Linux
+  * /opt/occ/710 ... for Linux
   * /usr/local/opt/opencascade ... for Mac OS X
-  * \\occ\\700 .. for MinGW32
+  * \\occ\\710 .. for MinGW64
 
 Usage
 -----
@@ -86,8 +84,8 @@ Usage
 
 * To specify the library path
 
-    $ LD_LIBRARY_PATH=/opt/occ/700/lin64/gcc/lib ./mirb
-    $ LD_LIBRARY_PATH=/opt/occ/700/lin64/gcc/lib ./mruby script.rb
+    $ LD_LIBRARY_PATH=/opt/occ/710/lin64/gcc/lib ./mirb
+    $ LD_LIBRARY_PATH=/opt/occ/710/lin64/gcc/lib ./mruby script.rb
 
 Or add the library path to /etc/ld.so.conf.
 
