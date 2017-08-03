@@ -32,8 +32,8 @@ MRuby::Gem::Specification.new('mruby-siren') do |spec|
       occt_libpaths = [ '/usr/local/opt/opencascade/lib' ]
       occt_incpaths = [ '/usr/local/opt/opencascade/include/opencascade' ]
     when /mswin|mingw/
-      occt_libpaths = [ '\occ\700\mingw32\gcc\lib' ]
-      occt_incpaths = [ '\occ\700\inc' ]
+      occt_libpaths = [ '\occ\710\win64\gcc\lib' ]
+      occt_incpaths = [ '\occ\710\inc' ]
       spec.cxx.flags << '-D_USE_MATH_DEFINES'
       spec.cxx.flags << '-D__NO_INLINE__'
     end
